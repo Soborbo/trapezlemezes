@@ -3222,6 +3222,28 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
         }
       });
     }
+
+    // CRITICAL: Save contact fields to state on input (autofill workaround)
+    // This ensures values are captured even if .value is not updated at submit time
+    const contactInputs = form.querySelectorAll('#email, #phone, #first_name, #last_name, #company, #postcode, #city, #street');
+    contactInputs.forEach(input => {
+      const htmlInput = input as HTMLInputElement;
+      // Save on input
+      htmlInput.addEventListener('input', () => {
+        state.answers[htmlInput.name] = htmlInput.value;
+        saveState();
+      });
+      // Also save on change (for autofill)
+      htmlInput.addEventListener('change', () => {
+        state.answers[htmlInput.name] = htmlInput.value;
+        saveState();
+      });
+      // Also save on blur (last resort)
+      htmlInput.addEventListener('blur', () => {
+        state.answers[htmlInput.name] = htmlInput.value;
+        saveState();
+      });
+    });
   }
 
   // Validate all contact fields
@@ -3328,10 +3350,11 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
         // Collect all data
         const formData = new FormData(form);
 
-        // CRITICAL: Manually set email and phone from DOM to handle autofill issues
-        // Some password managers don't properly update form values
-        const emailVal = emailInput?.value?.trim() || '';
-        const phoneVal = phoneInput?.value?.trim() || '';
+        // CRITICAL: Use state.answers for email/phone (autofill workaround)
+        // The input.value property may not be updated by browser autofill
+        // We capture values on input/change/blur events and store in state.answers
+        const emailVal = (state.answers.email as string)?.trim() || emailInput?.value?.trim() || '';
+        const phoneVal = (state.answers.phone as string)?.trim() || phoneInput?.value?.trim() || '';
 
         // Delete any existing values and set fresh ones
         formData.delete('email');
@@ -3339,8 +3362,9 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
         formData.set('email', emailVal);
         formData.set('phone', phoneVal);
 
-        console.log('[FormData] Setting email:', emailVal);
-        console.log('[FormData] Setting phone:', phoneVal);
+        console.log('[FormData] Setting email from state:', emailVal);
+        console.log('[FormData] Setting phone from state:', phoneVal);
+        console.log('[FormData] state.answers:', JSON.stringify(state.answers));
 
         // Add state answers
         Object.entries(state.answers).forEach(([key, value]) => {
