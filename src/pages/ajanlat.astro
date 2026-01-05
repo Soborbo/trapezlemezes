@@ -2,8 +2,25 @@
 import Layout from '../layouts/Layout.astro';
 import { TinyImage } from '../components/images';
 import rolandImg from '../assets/images/farkas-roland.jpg';
+import { decodeQuoteHash } from '../lib/quote-hash';
 
 export const prerender = false;
+
+// Decode quote hash on SERVER side (where env vars are available)
+const url = new URL(Astro.request.url);
+const quoteHash = url.searchParams.get('q');
+let serverDecodedData: Record<string, unknown> | null = null;
+
+if (quoteHash) {
+  try {
+    const decoded = decodeQuoteHash(quoteHash);
+    if (decoded) {
+      serverDecodedData = decoded as Record<string, unknown>;
+    }
+  } catch (e) {
+    console.error('Error decoding quote hash on server:', e);
+  }
+}
 ---
 
 <Layout title="Árajánlat - Trapezlemezes.hu" noindex hideHeader>
@@ -119,6 +136,11 @@ export const prerender = false;
       </form>
     </div>
   </div>
+
+  <!-- Server-decoded quote data (passed to client) -->
+  <script is:inline define:vars={{ serverDecodedData }}>
+    window.__SERVER_QUOTE_DATA__ = serverDecodedData;
+  </script>
 </Layout>
 
 <style>
@@ -420,15 +442,17 @@ export const prerender = false;
 
 <script>
   import { formatPrice, calculateQuote, colors, type SizeEntry } from '../calculator';
-  import { decodeQuoteHash } from '../lib/quote-hash';
+
+  // Declare global type for server-decoded data
+  declare global {
+    interface Window {
+      __SERVER_QUOTE_DATA__?: Record<string, unknown>;
+    }
+  }
 
   // Color labels
   const COLOR_LABELS: Record<string, string> = {};
   colors.forEach(c => { COLOR_LABELS[c.id] = c.label; });
-
-  // Get quote data from URL
-  const params = new URLSearchParams(window.location.search);
-  const quoteHash = params.get('q');
 
   interface QuoteData {
     first_name?: string;
@@ -448,25 +472,42 @@ export const prerender = false;
 
   let quoteData: QuoteData = {};
 
-  // Try to decode from URL hash
-  if (quoteHash) {
-    const decoded = decodeQuoteHash(quoteHash);
-    if (decoded) {
-      quoteData = decoded as QuoteData;
-    }
+  // Use server-decoded data (avoids env var issues on client side)
+  if (window.__SERVER_QUOTE_DATA__) {
+    quoteData = window.__SERVER_QUOTE_DATA__ as QuoteData;
   }
 
   // Also try localStorage for size data - with safe JSON parsing
+  // Note: localStorage has structure { currentStep, answers: {...}, startedAt }
+  // We need to extract the 'answers' object, not merge the entire state
   try {
     const storedData = localStorage.getItem('trapez_calculator');
     if (storedData) {
       const parsed = JSON.parse(storedData);
-      if (parsed && typeof parsed === 'object') {
-        if (parsed.sizes) {
-          quoteData.sizes = parsed.sizes;
+      if (parsed && typeof parsed === 'object' && parsed.answers) {
+        // Extract answers object (the actual form data)
+        const answers = parsed.answers as Record<string, unknown>;
+
+        // If we don't have sizes from URL, try to build from localStorage answers
+        if (!quoteData.sizes || quoteData.sizes.length === 0) {
+          const sizes: SizeEntry[] = [];
+
+          // Try numbered format (length_1, quantity_1, etc.)
+          for (let i = 1; i <= 10; i++) {
+            const length = parseInt(answers[`length_${i}`] as string, 10);
+            const quantity = parseInt(answers[`quantity_${i}`] as string, 10);
+            if (length > 0 && quantity > 0) {
+              sizes.push({ length, quantity });
+            }
+          }
+
+          if (sizes.length > 0) {
+            quoteData.sizes = sizes;
+          }
         }
-        // Merge stored data with URL data
-        quoteData = { ...parsed, ...quoteData };
+
+        // Merge answers with URL data (URL data takes precedence)
+        quoteData = { ...answers, ...quoteData } as QuoteData;
       }
     }
   } catch (e) {
