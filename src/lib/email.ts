@@ -2,11 +2,9 @@
  * Email Service
  *
  * Supports both Resend and Brevo for transactional emails.
- * Brevo is the primary provider, Resend is fallback.
+ * Uses fetch API for Cloudflare Workers compatibility.
  */
 
-import { Resend } from 'resend';
-import * as Brevo from '@getbrevo/brevo';
 import type { CalculatorFormData } from './validation';
 
 // Helper to get env vars (works in both Node.js and Cloudflare)
@@ -23,32 +21,6 @@ function getEnv(key: string): string | undefined {
   return undefined;
 }
 
-// Lazy initialization for Resend and Brevo
-let resend: Resend | null = null;
-let brevoClient: Brevo.TransactionalEmailsApi | null = null;
-
-function getResend(): Resend | null {
-  if (resend) return resend;
-  const apiKey = getEnv('RESEND_API_KEY');
-  if (apiKey) {
-    resend = new Resend(apiKey);
-  }
-  return resend;
-}
-
-function getBrevoClient(): Brevo.TransactionalEmailsApi | null {
-  if (brevoClient) return brevoClient;
-  const apiKey = getEnv('BREVO_API_KEY');
-  if (apiKey) {
-    brevoClient = new Brevo.TransactionalEmailsApi();
-    brevoClient.setApiKey(
-      Brevo.TransactionalEmailsApiApiKeys.apiKey,
-      apiKey
-    );
-  }
-  return brevoClient;
-}
-
 interface EmailOptions {
   to: string;
   subject: string;
@@ -58,29 +30,42 @@ interface EmailOptions {
 }
 
 /**
- * Send email via Brevo (primary)
+ * Send email via Brevo (primary) using fetch API
+ * Cloudflare Workers compatible
  */
 async function sendViaBrevo(options: EmailOptions): Promise<boolean> {
-  const client = getBrevoClient();
-  if (!client) {
+  const apiKey = getEnv('BREVO_API_KEY');
+  if (!apiKey) {
     console.warn('Brevo API key not configured');
     return false;
   }
 
   try {
-    const sendSmtpEmail = new Brevo.SendSmtpEmail();
-    sendSmtpEmail.subject = options.subject;
-    sendSmtpEmail.htmlContent = options.html;
-    sendSmtpEmail.sender = {
-      name: 'Trapezlemezes.hu',
-      email: options.from || 'ajanlat@trapezlemezes.hu'
-    };
-    sendSmtpEmail.to = [{ email: options.to }];
-    if (options.replyTo) {
-      sendSmtpEmail.replyTo = { email: options.replyTo };
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': apiKey,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        sender: {
+          name: 'Trapezlemezes.hu',
+          email: options.from?.match(/<(.+)>/)?.[1] || options.from || 'ajanlat@trapezlemezes.hu',
+        },
+        to: [{ email: options.to }],
+        subject: options.subject,
+        htmlContent: options.html,
+        ...(options.replyTo && { replyTo: { email: options.replyTo } }),
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('Brevo email error:', response.status, error);
+      return false;
     }
 
-    await client.sendTransacEmail(sendSmtpEmail);
     console.log('Email sent via Brevo to:', options.to);
     return true;
   } catch (error) {
@@ -90,26 +75,35 @@ async function sendViaBrevo(options: EmailOptions): Promise<boolean> {
 }
 
 /**
- * Send email via Resend (fallback)
+ * Send email via Resend (fallback) using fetch API
+ * Cloudflare Workers compatible
  */
 async function sendViaResend(options: EmailOptions): Promise<boolean> {
-  const client = getResend();
-  if (!client) {
+  const apiKey = getEnv('RESEND_API_KEY');
+  if (!apiKey) {
     console.warn('Resend API key not configured');
     return false;
   }
 
   try {
-    const { error } = await client.emails.send({
-      from: options.from || 'Trapezlemezes.hu <ajanlat@trapezlemezes.hu>',
-      to: options.to,
-      subject: options.subject,
-      html: options.html,
-      replyTo: options.replyTo,
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: options.from || 'Trapezlemezes.hu <ajanlat@trapezlemezes.hu>',
+        to: options.to,
+        subject: options.subject,
+        html: options.html,
+        ...(options.replyTo && { reply_to: options.replyTo }),
+      }),
     });
 
-    if (error) {
-      console.error('Resend email error:', error);
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('Resend email error:', response.status, error);
       return false;
     }
 

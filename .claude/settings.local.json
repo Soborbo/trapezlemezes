@@ -31,7 +31,8 @@
       "Bash(git pull:*)",
       "Bash(copy \"d:\\\\dev\\\\trapezlemezes.hu\\\\_reference\\\\uploads\\\\2024\\\\07\\\\lindab-lemez.jpg\" \"d:\\\\dev\\\\trapezlemezes.hu\\\\src\\\\assets\\\\images\\\\lindab-lemez.jpg\")",
       "Bash(copy:*)",
-      "Bash(node -p:*)"
+      "Bash(node -p:*)",
+      "Bash(gh auth:*)"
     ]
   }
 }
