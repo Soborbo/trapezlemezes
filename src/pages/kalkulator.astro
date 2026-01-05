@@ -3291,6 +3291,25 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
       e.preventDefault();
       hideFormErrors();
 
+      // Force browser to flush autofill values to input.value
+      // Some password managers/autofill don't update .value until blur
+      const inputs = form.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.blur();
+        input.focus();
+        // Trigger input event to force value update
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+      // Small delay to let autofill values propagate
+      await new Promise(resolve => setTimeout(resolve, 50));
+
+      // Get actual values from DOM (autofill workaround)
+      const emailInput = form.querySelector('[name="email"]') as HTMLInputElement;
+      const phoneInput = form.querySelector('[name="phone"]') as HTMLInputElement;
+
+      console.log('[Form Submit] Email value:', emailInput?.value);
+      console.log('[Form Submit] Phone value:', phoneInput?.value);
+
       // Validate all fields
       const { valid, errors } = validateAllContactFields();
       if (!valid) {
