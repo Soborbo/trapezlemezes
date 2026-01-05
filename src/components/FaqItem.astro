@@ -1,0 +1,68 @@
+---
+/**
+ * FaqItem - Accordion FAQ elem
+ */
+interface Props {
+  question: string;
+  answer: string;
+  open?: boolean;
+}
+
+const { question, answer, open = false } = Astro.props;
+---
+
+<details class="faq-item" open={open}>
+  <summary class="faq-question">
+    <span>{question}</span>
+    <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </summary>
+  <div class="faq-answer">
+    <p set:html={answer} />
+  </div>
+</details>
+
+<style>
+  .faq-item {
+    border: 1px solid var(--color-bg-dark);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    overflow: hidden;
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-weight: 600;
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    background: var(--color-bg-light);
+    list-style: none;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    transition: transform var(--transition-base);
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-white);
+  }
+
+  .faq-answer p {
+    margin: 0;
+    color: var(--color-text-light);
+  }
+</style>

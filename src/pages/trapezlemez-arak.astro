@@ -1,0 +1,636 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { ContentImage } from '../components/images';
+
+// Images
+import heroImage from '../assets/images/trapezlemez-teto-haz.jpg';
+import lindabLemez from '../assets/images/lindab-lemez.jpg';
+import aluminiumTrapez from '../assets/images/aluminium-trapezlemez.jpg';
+import pvcTrapez from '../assets/images/pvc-trapezlemez.webp';
+import szigeteltTrapez from '../assets/images/szigetelt-trapezlemez.jpg';
+import feszerTrapez from '../assets/images/feszer-trapézlemez.jpg';
+import csarnokTrapez from '../assets/images/csarnok-trapezlemez-fal.png';
+import ipariTrapez from '../assets/images/ipari-trapezlemez.jpg';
+import farkasRoland from '../assets/images/farkas-roland.jpg';
+---
+
+<Layout
+  title="Milyen trapézlemezt válasszak? Mitől függ a trapézlemez ára? | Trapezlemezes.hu"
+  description="Útmutató a trapézlemez kiválasztásához: anyag, vastagság és bevonat típusok részletes bemutatása. Segítünk megtalálni a projektjéhez legmegfelelőbb trapézlemezt."
+  ogImage={heroImage.src}
+>
+  <article class="article">
+    <div class="container">
+      <header class="article-header">
+        <h1>Milyen trapézlemezt válasszak? Mitől függ a trapézlemez ára? Elmagyarázzuk!</h1>
+        <p class="article-intro">
+          A trapézlemez egy rendkívül sokoldalú és hálás építési anyag, amivel gyorsan lehet haladni és tartós kivitelt biztosít - de ez csak akkor igaz, ha a megfelelő lemeztípust választjuk a projektünkhöz. Az alábbiakban segítséget adunk az Önnek egyedileg legmegfelelőbb anyag kiválasztásához.
+        </p>
+      </header>
+
+      <!-- Section 1: Anyag minősége -->
+      <section class="article-section">
+        <h2>1. A trapézlemez anyagának minősége</h2>
+        <p>Az anyag, amelyből a trapézlemez készül, jelentős hatással van az árfekvésre. Az alábbiakban bemutatjuk a leggyakoribb anyagokat és azok jellemzőit.</p>
+
+        <div class="material-card">
+          <div class="material-content">
+            <h3>Acél</h3>
+            <p>Az acél trapézlemezek a legelterjedtebbek és általában a legolcsóbbak. Az acél erős és tartós, de nehezebb, mint az alumínium. Az acél lemezek korrózióállóságát cinkbevonattal (horganyzással) növelik, ami megakadályozza a rozsdásodást. Az acél trapézlemezek különböző vastagságokban és bevonatokkal kaphatók, így széles körű felhasználási lehetőségeket kínálnak az építőiparban.</p>
+          </div>
+          <figure class="material-image">
+            <ContentImage src={lindabLemez} alt="Acél trapézlemez" />
+            <figcaption>Acél trapézlemez</figcaption>
+          </figure>
+        </div>
+
+        <div class="material-card reverse">
+          <div class="material-content">
+            <h3>Alumínium</h3>
+            <p>Az alumínium trapézlemezek könnyebbek és ellenállóbbak a korrózióval szemben, mint az acélból készült társaik. Az alumínium nem rozsdásodik, ezért különösen alkalmas párás, sós levegőjű környezetekben való használatra, például tengerparti építkezéseknél, de gyengébb, mint az acél. Ráadásul az alumínium trapézlemez ára is jelentősen magasabb, mert drágább az alapanyag.</p>
+          </div>
+          <figure class="material-image">
+            <ContentImage src={aluminiumTrapez} alt="Alumínium trapézlemez" />
+            <figcaption>Alumínium trapézlemez</figcaption>
+          </figure>
+        </div>
+
+        <div class="material-card">
+          <div class="material-content">
+            <h3>Műanyag / PVC</h3>
+            <p>Bár ritkább, műanyag trapézlemezek is léteznek. Ezek az anyagok könnyűek és ellenállnak a vegyi anyagoknak, de általában kevésbé tartósak, mint a fémlemezek. Műanyag trapézlemezeket gyakran használnak ideiglenes építményeknél vagy kisebb építési projektekben, ahol nem szükséges a nagy teherbírás és tartósság.</p>
+          </div>
+          <figure class="material-image">
+            <ContentImage src={pvcTrapez} alt="PVC trapézlemez" />
+            <figcaption>PVC trapézlemez</figcaption>
+          </figure>
+        </div>
+
+        <div class="material-card reverse">
+          <div class="material-content">
+            <h3>Kompozit anyagok</h3>
+            <p>Az újabb fejlesztések során kompozit anyagokat is használnak trapézlemezek gyártásához. Ezek a lemezek kombinálhatják a különböző anyagok előnyeit, például hőszigetelést adhatnak az acél trapézlemezekhez (lásd a képen). A kompozit anyagok ára változó lehet, attól függően, hogy milyen összetevőket használnak.</p>
+          </div>
+          <figure class="material-image">
+            <ContentImage src={szigeteltTrapez} alt="Hőszigetelt trapézlemez" />
+            <figcaption>Hőszigetelt (kompozit) trapézlemez</figcaption>
+          </figure>
+        </div>
+
+        <div class="expert-advice">
+          <h4>Melyiket válasszam?</h4>
+          <p>Az anyag kiválasztásakor mindig fontos figyelembe venni a projekt specifikus igényeit és környezeti feltételeit. Egy jól megválasztott anyag hosszú távon költséghatékonyabb lehet, mivel kevesebb karbantartást és cserét igényel.</p>
+          <p><strong>Mi kiváló minőségű, de a viszonteladói piaci árakhoz képest mégis jelentősen olcsóbb acél trapézlemezeket készítünk és szabunk méretre.</strong> A saját tapasztalataink szerint ez a legáltalánosabban használható és a legolcsóbb megoldás.</p>
+        </div>
+      </section>
+
+      <!-- Section 2: Vastagság -->
+      <section class="article-section">
+        <h2>2. A trapézlemez vastagsága</h2>
+        <p>A trapézlemezek különböző vastagságban kaphatók, és mindegyik vastagság különböző alkalmazási területekre ajánlott. Az alábbiakban bemutatjuk a leggyakoribb vastagságokat és azok ajánlott felhasználási módjait.</p>
+
+        <div class="thickness-card">
+          <div class="thickness-content">
+            <h3>0,3 mm - 0,5 mm</h3>
+            <ul>
+              <li><strong>Könnyű szerkezetek:</strong> Kerti tárolók, garázsok, melléképületek, és könnyű szerkezetek fedése. Az igazán vékony lemezek könnyűek és könnyen kezelhetők, de nem alkalmasak nagy terhelésű alkalmazásokhoz.</li>
+              <li><strong>Belső burkolatok:</strong> Beltéri falak. Ezek a lemezek elegendő szilárdságot biztosítanak belső használatra, ahol nincs kitéve nagy mechanikai terhelésnek vagy időjárási hatásoknak.</li>
+            </ul>
+          </div>
+          <figure class="thickness-image">
+            <ContentImage src={feszerTrapez} alt="Fészer trapézlemezzel" />
+            <figcaption>Fészer trapézlemez fedéssel</figcaption>
+          </figure>
+        </div>
+
+        <div class="thickness-card">
+          <div class="thickness-content">
+            <h3>0,5 mm - 0,7 mm</h3>
+            <ul>
+              <li><strong>Lakóépületek:</strong> Lakóépületek tetői, kisebb raktárak, mezőgazdasági épületek. Ezek a vastagságok már nagyobb teherbírást és tartósságot kínálnak, miközben még mindig viszonylag könnyűek.</li>
+              <li><strong>Homlokzatok:</strong> Külső homlokzatburkolatok, ahol a lemezek tartóssága és esztétikai megjelenése is fontos szempont.</li>
+            </ul>
+          </div>
+          <figure class="thickness-image">
+            <ContentImage src={heroImage} alt="Lakóház trapézlemez tetővel" />
+            <figcaption>Lakóház trapézlemez tetővel</figcaption>
+          </figure>
+        </div>
+
+        <div class="thickness-card">
+          <div class="thickness-content">
+            <h3>0,7 mm - 1,0 mm</h3>
+            <ul>
+              <li><strong>Ipari létesítmények:</strong> Ipari csarnokok, nagyobb raktárak, logisztikai központok. Ezek a lemezek már jelentős teherbírással rendelkeznek, és ellenállnak a nehezebb környezeti hatásoknak is.</li>
+              <li><strong>Tetők és falak:</strong> Nagyobb méretű tetők és falak burkolására, ahol a szerkezeti integritás és hosszú élettartam elengedhetetlen.</li>
+            </ul>
+          </div>
+          <figure class="thickness-image">
+            <ContentImage src={csarnokTrapez} alt="Csarnok trapézlemez fallal" />
+            <figcaption>Csarnok trapézlemez burkolattal</figcaption>
+          </figure>
+        </div>
+
+        <div class="thickness-card">
+          <div class="thickness-content">
+            <h3>1,0 mm és felette</h3>
+            <ul>
+              <li><strong>Nagy terhelésű építmények:</strong> Nagy teherbírású ipari építmények, ahol extrém mechanikai igénybevétel és környezeti hatások (például erős szél, jégeső) vannak jelen. Ezek a vastag lemezek biztosítják a szükséges szilárdságot és tartósságot.</li>
+              <li><strong>Különleges projektek:</strong> Speciális építési projektek, mint például hídépítések, nagy fesztávú tetők, ahol a maximális szilárdság és tartósság a fő szempont.</li>
+            </ul>
+          </div>
+          <figure class="thickness-image">
+            <ContentImage src={ipariTrapez} alt="Ipari épület trapézlemez burkolattal" />
+            <figcaption>Ipari épület trapézlemez burkolattal</figcaption>
+          </figure>
+        </div>
+
+        <div class="expert-advice">
+          <h4>Melyiket válasszam?</h4>
+          <p>A megfelelő trapézlemez vastagság kiválasztása kritikus a projekt sikeréhez. Fontos figyelembe venni az építési projekt típusát, a várható mechanikai terhelést és a környezeti hatásokat. A vékonyabb lemezek alkalmasak könnyű és belső szerkezetekhez, míg a vastagabb lemezeket nehezebb, nagyobb terhelésű alkalmazásokhoz és ipari létesítményekhez ajánljuk.</p>
+          <p><strong>Mi kizárólag 0.5 mm vastag lemezeket forgalmazunk</strong>, mert úgy találtuk, ez a legmegfelelőbb vastagság, amely még elég könnyű, de már elég erős, ami a lakosságitól egészen a könnyű iparig felhasználható, tartós és mégis jó áron áll rendelkezésre.</p>
+        </div>
+      </section>
+
+      <!-- Section 3: Bevonat típusa -->
+      <section class="article-section">
+        <h2>3. A bevonat típusa</h2>
+        <p>Elsőre zavarbaejtő lehet a rengeteg különböző trapézlemez-bevonat között eligazodni, de valójában ezek viszonylag egyszerűen négy csoportra bonthatók.</p>
+
+        <div class="coating-grid">
+          <div class="coating-card">
+            <h3>Horganyzott</h3>
+            <ul>
+              <li><strong>Korrózióvédelem:</strong> A horganyzás az egyik leggyakoribb módszer a trapézlemezek korrózió elleni védelmére. A horganyzás során egy vékony cinkréteget visznek fel az acél felületére, amely megakadályozza a rozsdásodást.</li>
+              <li><strong>Költséghatékonyság:</strong> A cinkbevonat viszonylag olcsó és hosszú távú védelmet nyújt, ezért széles körben alkalmazzák mind lakossági, mind ipari építkezéseknél.</li>
+              <li><strong>Tartósság:</strong> A cinkréteg tartóssága és ellenálló képessége függ a vastagságától. Minél vastagabb a cinkréteg, annál hosszabb ideig védi a lemezt a korróziótól.</li>
+            </ul>
+          </div>
+
+          <div class="coating-card">
+            <h3>Alucink bevonat</h3>
+            <ul>
+              <li><strong>Korrózióállóság:</strong> Az alucink bevonat különleges tulajdonsága, hogy a cink és alumínium kombinációja egyfajta galvanikus védelmet nyújt. Ha a bevonat megsérül, a cink reakcióba lép a környezeti nedvességgel és oxigénnel, ami cink-oxid és cink-karbonát képződéséhez vezet. Ezek az anyagok megvédik a sérült felületet a további korróziótól.</li>
+              <li><strong>Esztétika:</strong> Az alucink bevonat fényesebb és esztétikailag vonzóbb, ami javíthatja az épület megjelenését.</li>
+            </ul>
+          </div>
+
+          <div class="coating-card">
+            <h3>Festékbevonat</h3>
+            <ul>
+              <li><strong>Színválaszték:</strong> A festékbevonat lehetőséget nyújt különböző színek és felületek választására, ami lehetővé teszi az épület esztétikai megjelenésének testreszabását.</li>
+              <li><strong>További védelem:</strong> A festék nemcsak esztétikai célt szolgál, hanem további védelmet nyújt a korrózió és az időjárási hatások ellen is. A festékréteg védi a lemezt a nedvességtől és az UV-sugárzástól.</li>
+              <li><strong>Karbantartás:</strong> A festett lemezek esetén idővel szükség lehet újrafestésre, hogy fenntartsák a védelmet és a szép megjelenést.</li>
+            </ul>
+          </div>
+
+          <div class="coating-card">
+            <h3>Poliészter bevonat</h3>
+            <ul>
+              <li><strong>Korrózióvédelem:</strong> A poliészter bevonat kiváló korrózióvédelmet nyújt, és hosszú élettartamú. A poliészter bevonatú lemezek különösen ellenállnak az időjárási hatásoknak, mint például az eső, a hó és az UV-sugárzás.</li>
+              <li><strong>Rugalmas bevonat:</strong> A poliészter bevonat rugalmas és ellenáll a mechanikai sérüléseknek, így kevésbé hajlamos a repedésre és a hámlásra.</li>
+              <li><strong>Magasabb ár:</strong> Bár a poliészter bevonatú lemezek hosszabb élettartamot és jobb védelmet nyújtanak, ez az árukon is meglátszik. A használatuk nem minden esetben kifizetődő.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="expert-advice">
+          <h4>Melyiket válasszam?</h4>
+          <p>A bevonat típusát egyértelműen a felhasználás módja határozza meg: egy prémium lakóházra sokkal több értelme van drága, speciális bevonattal kezelt poliészter trapézlemezeket szerelni, mint egy kerítésre vagy egy ipari épületre.</p>
+          <p><strong>Mi a horganyzott és festett trapézlemezek mellett tettük le a voksunkat</strong>, mert úgy találtuk, a "hétköznapi" felhasználás során ezek messze a legjobb ár-érték arányúak. Ebben szerepet játszik az is, hogy az általunk forgalmazott 0.5 mm vastag lindab lemezekre több horganyzás tud felkerülni, mint a vékonyabbakra, így magasabb szintű védelmet tudunk biztosítani az alacsonyabb árkategóriában is.</p>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta-section">
+        <div class="cta-grid">
+          <div class="cta-person">
+            <div class="cta-image">
+              <ContentImage src={farkasRoland} alt="Farkas Roland" />
+            </div>
+            <p class="cta-name">Farkas Roland</p>
+            <p class="cta-title">ügyvezető igazgató</p>
+          </div>
+          <div class="cta-content">
+            <h2>Kérdése van? Örömmel segítünk!</h2>
+            <p>Ha trapézlemezt szeretne vásárolni, de akkor is, ha még csak a lehetőségeit mérlegeli: <strong>ingyenes tanácsadással</strong> állunk rendelkezésére.</p>
+            <p>Cégünk trapézlemez gyártással foglalkozik, <strong>nagykereskedelmi árakon</strong> rendelhet tőlünk lakossági ügyfélként is.</p>
+            <p>Hívjon bennünket most vagy tekintse meg kínálatunkat az alábbi gombra kattintva!</p>
+            <div class="cta-buttons">
+              <a href="tel:+3613009206" class="cta-phone">+36 1 300-92-06</a>
+              <a href="/kalkulator" class="cta-btn">Trapézlemez kínálatunk</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .article {
+    padding: 60px 0;
+    background: #fff;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .article-header {
+    margin-bottom: 50px;
+    text-align: center;
+  }
+
+  .article-header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: #1a3d5c;
+    margin-bottom: 24px;
+    line-height: 1.3;
+  }
+
+  .article-intro {
+    font-size: 1.15rem;
+    color: #475569;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .article-section {
+    margin-bottom: 60px;
+  }
+
+  .article-section h2 {
+    font-size: 1.8rem;
+    color: #1a3d5c;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #12b1b8;
+  }
+
+  .article-section > p {
+    font-size: 1.05rem;
+    color: #475569;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+
+  /* Material Cards */
+  .material-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 30px;
+  }
+
+  .material-card.reverse {
+    direction: rtl;
+  }
+
+  .material-card.reverse > * {
+    direction: ltr;
+  }
+
+  @media (max-width: 768px) {
+    .material-card,
+    .material-card.reverse {
+      grid-template-columns: 1fr;
+      direction: ltr;
+      padding: 24px;
+      gap: 24px;
+    }
+  }
+
+  .material-content h3 {
+    font-size: 1.5rem;
+    color: #1a3d5c;
+    margin-bottom: 16px;
+  }
+
+  .material-content p {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .material-image {
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  .material-image :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .material-image figcaption {
+    font-size: 0.85rem;
+    color: #64748b;
+    text-align: center;
+    padding: 12px;
+    background: #f1f5f9;
+  }
+
+  .article-image {
+    margin: 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .article-image :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .article-image figcaption {
+    font-size: 0.85rem;
+    color: #64748b;
+    text-align: center;
+    padding: 12px;
+    background: #f1f5f9;
+  }
+
+  /* Thickness Cards */
+  .thickness-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: center;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+
+  .thickness-card:nth-child(odd) {
+    direction: rtl;
+  }
+
+  .thickness-card:nth-child(odd) > * {
+    direction: ltr;
+  }
+
+  @media (max-width: 768px) {
+    .thickness-card {
+      grid-template-columns: 1fr;
+    }
+
+    .thickness-card:nth-child(odd) {
+      direction: ltr;
+    }
+  }
+
+  .thickness-content h3 {
+    font-size: 1.4rem;
+    color: #1a3d5c;
+    margin-bottom: 16px;
+  }
+
+  .thickness-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .thickness-content li {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.7;
+    margin-bottom: 12px;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .thickness-content li::before {
+    content: "";
+    color: #12b1b8;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+  }
+
+  .thickness-image {
+    margin: 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .thickness-image :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .thickness-image figcaption {
+    font-size: 0.85rem;
+    color: #64748b;
+    text-align: center;
+    padding: 12px;
+    background: #f1f5f9;
+  }
+
+  /* Coating Grid */
+  .coating-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 30px;
+  }
+
+  @media (max-width: 768px) {
+    .coating-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .coating-card {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .coating-card h3 {
+    font-size: 1.2rem;
+    color: #1a3d5c;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .coating-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .coating-card li {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .coating-card li::before {
+    content: "";
+    color: #12b1b8;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+  }
+
+  /* Expert Advice */
+  .expert-advice {
+    background: linear-gradient(135deg, #e8f4f8 0%, #d0eef5 100%);
+    border-radius: 12px;
+    padding: 30px;
+    border-left: 4px solid #12b1b8;
+    margin-top: 30px;
+  }
+
+  .expert-advice h4 {
+    font-size: 1.3rem;
+    color: #1a3d5c;
+    margin-bottom: 16px;
+  }
+
+  .expert-advice p {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .expert-advice p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(135deg, #1a3d5c 0%, #0e2a42 100%);
+    border-radius: 16px;
+    padding: 50px;
+    margin-top: 60px;
+  }
+
+  .cta-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 50px;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .cta-section {
+      padding: 30px;
+    }
+
+    .cta-grid {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      text-align: center;
+    }
+  }
+
+  .cta-person {
+    text-align: center;
+  }
+
+  .cta-image {
+    width: 180px;
+    height: 220px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 auto 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+
+  .cta-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .cta-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .cta-title {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .cta-content h2 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .cta-content p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .cta-buttons {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .cta-buttons {
+      justify-content: center;
+    }
+  }
+
+  .cta-phone {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fbbf24;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .cta-phone:hover {
+    color: #fcd34d;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: #27ae60;
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+  }
+
+  .cta-btn:hover {
+    background: #219a52;
+    transform: translateY(-2px);
+  }
+</style>

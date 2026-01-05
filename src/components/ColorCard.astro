@@ -1,0 +1,38 @@
+---
+/**
+ * ColorCard - Trapézlemez szín kártya
+ */
+import { CardImage } from './images';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  name: string;
+}
+
+const { src, name } = Astro.props;
+---
+
+<div class="color-card">
+  <CardImage src={src} alt={`${name} trapézlemez`} class="color-img" />
+  <p class="color-name">{name}</p>
+</div>
+
+<style>
+  .color-card {
+    text-align: center;
+  }
+
+  .color-img {
+    border-radius: var(--radius-md);
+    aspect-ratio: 3/2;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .color-name {
+    margin: var(--spacing-sm) 0 0;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+</style>

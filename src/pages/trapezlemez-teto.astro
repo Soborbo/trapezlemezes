@@ -1,0 +1,594 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { ContentImage } from '../components/images';
+
+// Images
+import heroImage from '../assets/images/trapezlemez-esztetikus.jpg';
+import olcsoTeto from '../assets/images/olcso-trapezlemez-teto.jpg';
+import tartosTeto from '../assets/images/tartos-trapezlemez-teto.jpg';
+import tetoKishaz from '../assets/images/trapezlemez-teto-kishaz.jpg';
+import tetoSzereles from '../assets/images/trapezlemez-teto-szereles.jpg';
+import trapezTeto from '../assets/images/trapezlemez-teto-haz.jpg';
+import trapezMeretek from '../assets/images/trapezlemez-meretek.png';
+import trapezFacsavar from '../assets/images/trapezlemez-facsavar.jpg';
+import farkasRoland from '../assets/images/farkas-roland.jpg';
+---
+
+<Layout
+  title="Trapézlemez tető - Minden, amit a trapézlemez tető építéséről tudni kell | Trapezlemezes.hu"
+  description="Teljes útmutató a trapézlemez tető építéséhez: előnyök, lemezválasztás, szerelési tippek és gyakori hibák elkerülése. Szakértői tanácsadás a trapezlemezes.hu-tól."
+  ogImage={heroImage.src}
+>
+  <article class="article">
+    <div class="container">
+      <header class="article-header">
+        <h1>Trapézlemez tető - Teljes útmutató</h1>
+        <p class="article-intro">
+          A trapézlemez tető kiváló választás azok számára, akik könnyű, tartós és gazdaságos megoldást keresnek. A trapézlemez tetőket elsősorban melléképületek, műhelyek, irodák és gazdasági épületek tetején szoktuk látni, de a technológia fejlődésével egyre terjed a lakossági használat is.
+        </p>
+      </header>
+
+      <figure class="hero-image">
+        <ContentImage src={heroImage} alt="Esztétikus trapézlemez tető" />
+      </figure>
+
+      <!-- Section 1: Előnyök -->
+      <section class="article-section">
+        <h2>1. Mik a trapézlemez tető előnyei?</h2>
+
+        <div class="benefit-row">
+          <div class="benefit-content">
+            <h3>Olcsó</h3>
+            <p>A trapézlemez tető jelentősen olcsóbb megoldás, mint a hagyományos cserép vagy pala tetőfedés. A könnyű acéllemezek gyártási költségei alacsonyabbak, és a telepítésük is gyorsabb és egyszerűbb, ami tovább csökkenti a munkadíjakat. Ezen kívül a trapézlemez kevesebb karbantartást igényel, és hosszabb élettartamot biztosít, így a teljes élettartamra vetített összes költség is jelentősen alacsonyabb lehet, mint más megoldások esetében.</p>
+          </div>
+          <figure class="benefit-image">
+            <ContentImage src={olcsoTeto} alt="Olcsó trapézlemez tető" />
+            <figcaption>Kedvező árú megoldás</figcaption>
+          </figure>
+        </div>
+
+        <div class="benefit-row reverse">
+          <div class="benefit-content">
+            <h3>Tartós</h3>
+            <p>Egy acél trapézlemez tető erős, nagy teherbírású, és kiválóan ellenáll az időjárási viszontagságoknak. Ezt tovább fokozza a horganyzott bevonat, amely megvédi a lemezt a rozsdásodástól és korróziótól. A trapézlemez formája is hozzájárul a tartóssághoz, mivel a bordázat megnöveli a szerkezeti szilárdságot. A színes bevonatok pedig további védelmet nyújtanak a napsugárzás és UV-sugárzás ellen, így a trapézlemez tető hosszú távon is megőrzi esztétikai és funkcionális minőségét.</p>
+          </div>
+          <figure class="benefit-image">
+            <ContentImage src={tartosTeto} alt="Tartós trapézlemez szerkezet" />
+            <figcaption>Erős, tartós szerkezet</figcaption>
+          </figure>
+        </div>
+
+        <div class="benefit-row">
+          <div class="benefit-content">
+            <h3>Gondozásmentes</h3>
+            <p>Az trapézlemez tetők acél alapanyaga nagyon ellenálló a mechanikai sérülésekkel szemben, a horganyzott felület pedig megakadályozza a rozsdásodást. A trapézlemez tető nem igényel festést vagy más felületkezelést, strapabíró anyaga ellenáll az UV-sugárzásnak és a hőmérséklet-ingadozásnak, ezért nem vetemedik vagy repedezik, mint a fa. A trapézlemez nem szívja magába a nedvességet, így nem kell aggódni a gombásodás vagy a rothadás miatt, tisztítása pedig rendkívül egyszerű, általában egy vizes mosás elegendő. Várható élettartama is hosszú, nem esnek le belőle darabok, mint a cserép tető esetén, így ha egyszer felszerelte évekre el is felejtheti.</p>
+          </div>
+          <figure class="benefit-image">
+            <ContentImage src={tetoKishaz} alt="Kisház trapézlemez tetővel" />
+            <figcaption>Hosszú élettartam, minimális karbantartás</figcaption>
+          </figure>
+        </div>
+
+        <div class="benefit-row reverse">
+          <div class="benefit-content">
+            <h3>Gyors vele dolgozni</h3>
+            <p>A trapézlemezből készült tető rendkívül gyorsan telepíthető, mivel a lemezek méretre vágva, nagy lapokban érkeznek, így kevesebb darabból áll össze a teljes fedés, csökkentve a munkaidőt. A trapézlemez tető könnyű, ezért felszereléskor is könnyebb vele dolgozni és nem igényel nagy teherbírású szerkezetet sem. A rögzítési folyamat is kifejezetten gyors, mivel a lemezeket csavarokkal könnyedén a tetőszerkezethez lehet rögzíteni.</p>
+          </div>
+          <figure class="benefit-image">
+            <ContentImage src={tetoSzereles} alt="Trapézlemez tető szerelés" />
+            <figcaption>Gyors és egyszerű telepítés</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Section 2: Lemezválasztás -->
+      <section class="article-section">
+        <h2>2. Milyen trapézlemezt válasszak?</h2>
+        <p>A különböző trapézlemez-típusokról és arról, melyiket hol érdemes használni, bővebben írtunk már ebben a cikkünkben: <a href="/trapezlemez-arak">Milyen trapézlemezt válasszak? Mitől függ a trapézlemez ára?</a></p>
+
+        <div class="thickness-list">
+          <div class="thickness-item warning">
+            <span class="thickness-value">0,2–0,3 mm</span>
+            <span class="thickness-desc">Ezek papírvékony lemezek, <strong>nem igazán ajánljuk</strong> a használatukat.</span>
+          </div>
+          <div class="thickness-item">
+            <span class="thickness-value">0,5–0,7 mm</span>
+            <span class="thickness-desc">Lakóépületek tetői, homlokzatok, kisebb raktárak és mezőgazdasági épületek.</span>
+          </div>
+          <div class="thickness-item">
+            <span class="thickness-value">0,7–1,0 mm</span>
+            <span class="thickness-desc">Ipari létesítmények, nagyobb raktárak, logisztikai központok, nagyobb tetők és falak.</span>
+          </div>
+          <div class="thickness-item">
+            <span class="thickness-value">1,0 mm felett</span>
+            <span class="thickness-desc">Nagy teherbírású ipari építmények és extrém igénybevétel esetén.</span>
+          </div>
+        </div>
+
+        <div class="expert-advice">
+          <h4>Legtöbbször a 0,5 mm vastag trapézlemezt ajánljuk</h4>
+          <p>Mi általában a 0,5 mm vastag trapézlemezt ajánljuk lakóépületek, kisebb raktárak és mezőgazdasági épületek tetőfedésére. Ez a vastagság már megfelelő teherbírást biztosít, miközben megőrzi a lemez könnyűségét, így a szerkezetet nem terheli túl. Tartós, időjárásálló, és ellenáll a mechanikai hatásoknak, így hosszú élettartamot garantál. Ezen felül a 0,5 mm-es lemez könnyen kezelhető és telepíthető, ideális választás, ha gyorsan, megbízható és költséghatékony megoldást keres.</p>
+        </div>
+      </section>
+
+      <!-- Section 3: Tető építése -->
+      <section class="article-section">
+        <h2>3. Trapézlemez tető építése</h2>
+        <p>A hagyományos cserép-, zsindely- vagy palatetőkhöz képest a trapézlemezzel sokkal egyszerűbb, gyorsabb és könnyebb dolgozni - de azért adódhatnak problémák. Az alábbiakban igyekszünk segítséget adni a trapézlemez tető építéshez!</p>
+
+        <figure class="section-image">
+          <ContentImage src={trapezTeto} alt="Háztető trapézlemezből" />
+          <figcaption>Trapézlemez tető családi házon</figcaption>
+        </figure>
+
+        <h3>Mérés és tervezés</h3>
+        <p>A trapézlemez tető tervezése során először ellenőrizze a tetőszerkezet állapotát, hogy elbírja-e a trapézlemez tető súlyát, és szükség esetén végezzen megerősítést. A jó hír, hogy a legtöbb más tetőhöz képest a trapézlemez általában könnyebb szokott lenni, tehát ez ritkán probléma.</p>
+        <p>Ezután pontosan mérje fel a tető méreteit, figyelembe véve a lejtésszöget és az eresz túlnyúlását. Ne felejtse el lemezek közötti átfedést is belekalkulálni: a mi trapézlemezeink például bár 116 centiméter szélesek, de 6-6 centimétert mindkét oldalon le kell ebből vonnia, hogy a lemezek egymás fölé kerüljenek és megfelelő szigetelést biztosítsanak az illesztéseknél.</p>
+
+        <div class="info-box">
+          <p><strong>Például</strong> ha Ön 3 méter felületet szeretne lefedni, Önnek három darab lemezre lesz szüksége, amiből az első két, egyenként 116 cm széles lemez együtt csak 220 cm-t fog lefedni, hogy meglegyen a megfelelő szigetelés, és a harmadik lemezből a maradék 80+6 cm-es részt fogja használni.</p>
+        </div>
+
+        <figure class="section-image">
+          <ContentImage src={trapezMeretek} alt="Trapézlemez méretek" />
+          <figcaption>T18 trapézlemez méretezése</figcaption>
+        </figure>
+
+        <h3>Vízszigetelés és alátétfólia</h3>
+        <p>Felhasználási területtől függően érdemes lehet a trapézlemez tető alá alátétfóliát alkalmazni, amely hatékonyan meggátolja a páralecsapódást, és védi a tetőszerkezetet. Fontos, hogy a fóliát feszesen helyezze el, ügyelve arra, hogy ne legyen rajta szakadás vagy gyűrődés, mivel ezek csökkenthetik a vízzáró képességet.</p>
+        <p>Az alátétfólia felhelyezésekor hagyjon elegendő átfedést az egyes sávok között, hogy biztosítsa a teljes vízszigetelést. Az illesztéseknél használjon speciális fóliarögzítő szalagot vagy ragasztót, amely segít a fólia stabil rögzítésében és megakadályozza a víz bejutását. Az alátétfólia nemcsak a szerkezet élettartamát növeli meg, hanem a beltér hőszigetelésében is közvetett szerepet játszik.</p>
+
+        <h3>A lemezek rögzítése</h3>
+        <p>A trapézlemezek tetőre rögzítése során fontos, hogy megfelelő típusú és hosszúságú csavarokat használjon, amelyek biztosítják a stabil és tartós rögzítést. A csavarokat a lemez hullámvölgyeinek alján kell elhelyezni, hogy minimalizálja a víz beszivárgásának esélyét.</p>
+        <p>Ügyeljen arra, hogy a csavarokat egyenletes távolságban rögzítse - ökölszabályként érdemes 10 csavarral számolnia négyzetméterenként, amiből érdemes színazonost vásárolnia, hacsak nem szeretné, hogy a csavarok messziről világítsanak a tetőn.</p>
+
+        <figure class="section-image small">
+          <ContentImage src={trapezFacsavar} alt="Trapézlemez facsavar" />
+          <figcaption>Színazonos trapézlemez rögzítő csavarok</figcaption>
+        </figure>
+
+        <h3>Ellenőrzés és karbantartás</h3>
+        <p>A telepítés után érdemes átvizsgálni a rögzítési pontokat és az átfedéseket, hogy mindenhol tökéletesen illeszkedjenek. Hosszú távon a trapézlemez tető minimális karbantartást igényel, de időnként érdemes ellenőrizni a csavarokat és a lemezek állapotát.</p>
+
+        <div class="warning-box">
+          <h4>Egy gyakori tévhit: ne a gerincre tegye a csavart!</h4>
+          <p>A trapézlemez rögzítésekor a csavarokat a <strong>hullámvölgybe</strong> kell elhelyezni, nem pedig a gerincre. Ennek több oka van:</p>
+          <ul>
+            <li>A hullámvölgybe rögzített csavaroknál a gumitömítés és a lemez közötti kapcsolat szorosabb, így kevésbé valószínű, hogy a víz beszivárog. A hullámgerincen elhelyezett csavaroknál a víz könnyebben átfolyhat a tömítésnél, különösen intenzív esőzéskor.</li>
+            <li>A hullámvölgyekben a lemez közvetlenül érintkezik az alátámasztással, így a rögzítési pont stabilabb. A hullámgerincnél a lemez „szabadon áll," és a csavar túlfeszítése akár a lemezt is eldeformálhatja.</li>
+            <li>A hullámvölgyekben rögzített csavarok csökkentik a korrózió esélyét, mivel a gumitömítés és a csavar szorosabban illeszkedik.</li>
+          </ul>
+          <p>Tehát, bár logikusnak tűnhet, hogy a víz a gerincről lefolyik, a megfelelő rögzítés helye a <strong>hullámvölgy</strong>, mivel ott érhető el a legjobb vízzárás és stabilitás.</p>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta-section">
+        <div class="cta-grid">
+          <div class="cta-person">
+            <div class="cta-image">
+              <ContentImage src={farkasRoland} alt="Farkas Roland" />
+            </div>
+            <p class="cta-name">Farkas Roland</p>
+            <p class="cta-title">ügyvezető igazgató</p>
+          </div>
+          <div class="cta-content">
+            <h2>Kérdése van? Örömmel segítünk!</h2>
+            <p>Ha trapézlemezt szeretne vásárolni, de akkor is, ha még csak a lehetőségeit mérlegeli: <strong>ingyenes tanácsadással</strong> állunk rendelkezésére.</p>
+            <p>Cégünk trapézlemez gyártással foglalkozik, <strong>nagykereskedelmi árakon</strong> rendelhet tőlünk lakossági ügyfélként is.</p>
+            <p>Hívjon bennünket most vagy tekintse meg kínálatunkat az alábbi gombra kattintva!</p>
+            <div class="cta-buttons">
+              <a href="tel:+3613009206" class="cta-phone">+36 1 300-92-06</a>
+              <a href="/kalkulator" class="cta-btn">Trapézlemez kínálatunk</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .article {
+    padding: 60px 0;
+    background: #fff;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .article-header {
+    margin-bottom: 50px;
+    text-align: center;
+  }
+
+  .article-header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: #1a3d5c;
+    margin-bottom: 24px;
+    line-height: 1.3;
+  }
+
+  .article-intro {
+    font-size: 1.15rem;
+    color: #475569;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-image {
+    margin: 0 0 50px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+
+  .hero-image :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .article-section {
+    margin-bottom: 60px;
+  }
+
+  .article-section h2 {
+    font-size: 1.8rem;
+    color: #1a3d5c;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #12b1b8;
+  }
+
+  .article-section > p {
+    font-size: 1.05rem;
+    color: #475569;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .article-section h3 {
+    font-size: 1.3rem;
+    color: #1a3d5c;
+    margin: 40px 0 16px;
+  }
+
+  .article-section a {
+    color: #12b1b8;
+    font-weight: 500;
+  }
+
+  .article-section a:hover {
+    text-decoration: underline;
+  }
+
+  /* Benefit Rows */
+  .benefit-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 50px;
+    padding: 30px;
+    background: #f8fafc;
+    border-radius: 16px;
+  }
+
+  .benefit-row.reverse {
+    grid-template-columns: 1fr 1.2fr;
+    direction: rtl;
+  }
+
+  .benefit-row.reverse > * {
+    direction: ltr;
+  }
+
+  @media (max-width: 768px) {
+    .benefit-row,
+    .benefit-row.reverse {
+      grid-template-columns: 1fr;
+      direction: ltr;
+    }
+  }
+
+  .benefit-content h3 {
+    font-size: 1.5rem;
+    color: #1a3d5c;
+    margin: 0 0 16px;
+  }
+
+  .benefit-content p {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .benefit-image {
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  .benefit-image :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .benefit-image figcaption {
+    font-size: 0.85rem;
+    color: #64748b;
+    text-align: center;
+    padding: 12px;
+    background: #f1f5f9;
+  }
+
+  /* Thickness List */
+  .thickness-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 30px 0;
+  }
+
+  .thickness-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border-left: 4px solid #12b1b8;
+  }
+
+  .thickness-item.warning {
+    border-left-color: #ef4444;
+    background: #fef2f2;
+  }
+
+  .thickness-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1a3d5c;
+    min-width: 120px;
+  }
+
+  .thickness-desc {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
+    .thickness-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  }
+
+  /* Expert Advice */
+  .expert-advice {
+    background: linear-gradient(135deg, #e8f4f8 0%, #d0eef5 100%);
+    border-radius: 12px;
+    padding: 30px;
+    border-left: 4px solid #12b1b8;
+    margin: 30px 0;
+  }
+
+  .expert-advice h4 {
+    font-size: 1.3rem;
+    color: #1a3d5c;
+    margin-bottom: 16px;
+  }
+
+  .expert-advice p {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* Section Image */
+  .section-image {
+    margin: 30px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  .section-image.small {
+    max-width: 400px;
+  }
+
+  .section-image :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .section-image figcaption {
+    font-size: 0.85rem;
+    color: #64748b;
+    text-align: center;
+    padding: 12px;
+    background: #f1f5f9;
+  }
+
+  /* Info Box */
+  .info-box {
+    background: #f0f9ff;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+    border-left: 4px solid #0ea5e9;
+  }
+
+  .info-box p {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* Warning Box */
+  .warning-box {
+    background: #fffbeb;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 40px 0;
+    border-left: 4px solid #f59e0b;
+  }
+
+  .warning-box h4 {
+    font-size: 1.2rem;
+    color: #92400e;
+    margin-bottom: 16px;
+  }
+
+  .warning-box p {
+    font-size: 1rem;
+    color: #78350f;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .warning-box p:last-child {
+    margin-bottom: 0;
+  }
+
+  .warning-box ul {
+    margin: 16px 0;
+    padding-left: 20px;
+  }
+
+  .warning-box li {
+    font-size: 0.95rem;
+    color: #78350f;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(135deg, #1a3d5c 0%, #0e2a42 100%);
+    border-radius: 16px;
+    padding: 50px;
+    margin-top: 60px;
+  }
+
+  .cta-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 50px;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .cta-section {
+      padding: 30px;
+    }
+
+    .cta-grid {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      text-align: center;
+    }
+  }
+
+  .cta-person {
+    text-align: center;
+  }
+
+  .cta-image {
+    width: 180px;
+    height: 220px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 auto 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+
+  .cta-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .cta-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .cta-title {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .cta-content h2 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .cta-content p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .cta-buttons {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .cta-buttons {
+      justify-content: center;
+    }
+  }
+
+  .cta-phone {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fbbf24;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .cta-phone:hover {
+    color: #fcd34d;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: #27ae60;
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+  }
+
+  .cta-btn:hover {
+    background: #219a52;
+    transform: translateY(-2px);
+  }
+</style>

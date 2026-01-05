@@ -1,0 +1,746 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { TinyImage } from '../components/images';
+import rolandImg from '../assets/images/farkas-roland.jpg';
+
+export const prerender = false;
+---
+
+<Layout title="Árajánlat - Trapezlemezes.hu" noindex hideHeader>
+  <div class="quote-page">
+    <div class="quote-container">
+      <!-- Left column: Quote summary -->
+      <div class="quote-card">
+        <div class="quote-header">
+          <span class="quote-label">Becsült végösszeg</span>
+          <span class="quote-total" id="quote-total">Nem kiszámítható</span>
+        </div>
+
+        <div class="quote-details">
+          <div class="detail-row">
+            <span class="detail-label">Terület:</span>
+            <span class="detail-value" id="total-sqm">Számítási hiba m²</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Alapár:</span>
+            <span class="detail-value" id="base-price">0 Ft</span>
+          </div>
+          <div class="detail-row" id="discount-row" style="display: none;">
+            <span class="detail-label">Kedvezmény:</span>
+            <span class="detail-value detail-value-green" id="discount-amount">0 Ft</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Szín:</span>
+            <span class="detail-value" id="color-value">Nem adott meg színt</span>
+          </div>
+          <div class="detail-row" id="screws-row">
+            <span class="detail-label">Csavar:</span>
+            <span class="detail-value" id="screws-cost">Nem kért csavart</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Szállítás:</span>
+            <span class="detail-value" id="shipping-cost">Nem kért szállítást</span>
+          </div>
+          <div class="detail-row" id="address-row" style="display: none;">
+            <span class="detail-label">Szállítási cím:</span>
+            <span class="detail-value" id="address-value">-</span>
+          </div>
+          <div class="detail-row" id="sizes-row" style="display: none;">
+            <span class="detail-label">Lemez méretek:</span>
+            <span class="detail-value" id="sizes-value">-</span>
+          </div>
+        </div>
+
+        <div class="quote-disclaimer">
+          <p>A fenti ár automatikus becslés, nem minősül ajánlattételnek, a végső ár az egyedi feltételek függvényében változhat.</p>
+        </div>
+      </div>
+
+      <!-- Right column: Contact card -->
+      <div class="contact-card">
+        <div class="contact-photo">
+          <TinyImage src={rolandImg} alt="Farkas Roland" />
+        </div>
+        <h2 class="contact-name">Farkas Roland</h2>
+        <p class="contact-title">ügyvezető</p>
+
+        <p class="contact-text">
+          Hívjon most a <a href="tel:+3613009206" class="phone-link">+36 1 300‑92‑06</a> számon vagy kérjen visszahívást, hogy egyeztessük a gyártás és szállítás részleteit!
+        </p>
+
+        <button type="button" class="btn btn-callback" id="callback-btn">
+          VISSZAHÍVÁST KÉREK
+        </button>
+
+        <a href="tel:+3613009206" class="btn btn-call">
+          HÍVOM MOST
+        </a>
+      </div>
+    </div>
+
+    <!-- Back to homepage -->
+    <div class="back-link-container">
+      <a href="/" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        VISSZA A FŐOLDALRA
+      </a>
+    </div>
+  </div>
+
+  <!-- Callback Modal -->
+  <div class="modal-overlay" id="callback-modal" style="display: none;">
+    <div class="modal-content">
+      <button type="button" class="modal-close" id="modal-close" aria-label="Ablak bezárása"><span aria-hidden="true">&times;</span></button>
+      <h2>Visszahívást kérek</h2>
+      <p>Adja meg elérhetőségét és hamarosan visszahívjuk!</p>
+
+      <form id="callback-form">
+        <div class="input-group">
+          <label for="callback-name">Név *</label>
+          <input type="text" id="callback-name" name="name" required />
+        </div>
+        <div class="input-group">
+          <label for="callback-phone">Telefonszám *</label>
+          <input type="tel" id="callback-phone" name="phone" required value="+36 " />
+        </div>
+        <div class="input-group">
+          <label for="callback-email">E-mail (opcionális)</label>
+          <input type="email" id="callback-email" name="email" />
+        </div>
+        <input type="hidden" id="callback-quote-id" name="quote_id" />
+        <input type="hidden" id="callback-quote-data" name="quote_data" />
+
+        <button type="submit" class="btn btn-callback-submit" id="callback-submit">
+          <span class="btn-text">Visszahívást kérek</span>
+          <span class="btn-loading" style="display: none;">Küldés...</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .quote-page {
+    min-height: calc(100vh - 80px);
+    background: #e5e7eb;
+    padding: var(--spacing-xl) var(--spacing-md);
+    padding-bottom: var(--spacing-2xl);
+  }
+
+  .quote-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .quote-container {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+  }
+
+  /* Quote Card */
+  .quote-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+  }
+
+  .quote-header {
+    text-align: center;
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-bg-light);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .quote-label {
+    display: block;
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .quote-total {
+    display: block;
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: #259bd7;
+  }
+
+  .quote-details {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-bg-light);
+  }
+
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+
+  .detail-label {
+    color: var(--color-text-light);
+  }
+
+  .detail-value {
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: right;
+  }
+
+  .detail-value-green {
+    color: #16a34a;
+  }
+
+  .quote-disclaimer {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+  }
+
+  .quote-disclaimer p {
+    margin: 0;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  /* Contact Card */
+  .contact-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+  }
+
+  .contact-photo {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto var(--spacing-md);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 3px solid var(--color-bg-light);
+  }
+
+  .contact-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .contact-name {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--color-text);
+  }
+
+  .contact-title {
+    color: var(--color-text-light);
+    margin: 0 0 var(--spacing-lg) 0;
+  }
+
+  .contact-text {
+    color: var(--color-text-light);
+    margin: 0 0 var(--spacing-lg) 0;
+    line-height: 1.6;
+  }
+
+  .phone-link {
+    color: #259bd7;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .phone-link:hover {
+    text-decoration: underline;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+
+  .btn-callback {
+    background: #16a34a;
+    color: white;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .btn-callback:hover {
+    background: #15803d;
+  }
+
+  .btn-call {
+    background: #259bd7;
+    color: white;
+  }
+
+  .btn-call:hover {
+    background: #1e7fb3;
+  }
+
+  /* Back link */
+  .back-link-container {
+    max-width: 1000px;
+    margin: var(--spacing-xl) auto 0;
+    text-align: center;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    transition: all 0.2s;
+  }
+
+  .back-link:hover {
+    background: var(--color-bg-light);
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--spacing-md);
+  }
+
+  .modal-content {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    line-height: 1;
+  }
+
+  .modal-close:hover {
+    color: var(--color-text);
+  }
+
+  .modal-content h2 {
+    margin: 0 0 var(--spacing-sm) 0;
+    font-size: var(--font-size-xl);
+  }
+
+  .modal-content > p {
+    margin: 0 0 var(--spacing-lg) 0;
+    color: var(--color-text-light);
+  }
+
+  .input-group {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .input-group label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+  }
+
+  .input-group input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+  }
+
+  .input-group input:focus {
+    outline: none;
+    border-color: #259bd7;
+  }
+
+  .btn-callback-submit {
+    background: #16a34a;
+    color: white;
+    margin-top: var(--spacing-md);
+  }
+
+  .btn-callback-submit:hover {
+    background: #15803d;
+  }
+
+  .btn-callback-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+</style>
+
+<script>
+  import { formatPrice, calculateQuote, colors, type SizeEntry } from '../calculator';
+  import { decodeQuoteHash } from '../lib/quote-hash';
+
+  // Color labels
+  const COLOR_LABELS: Record<string, string> = {};
+  colors.forEach(c => { COLOR_LABELS[c.id] = c.label; });
+
+  // Get quote data from URL
+  const params = new URLSearchParams(window.location.search);
+  const quoteHash = params.get('q');
+
+  interface QuoteData {
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    phone?: string;
+    postcode?: string;
+    city?: string;
+    street?: string;
+    color?: string;
+    shipping?: string;
+    screws?: string;
+    quote_id?: string;
+    sizes?: SizeEntry[];
+    timestamp?: string;
+  }
+
+  let quoteData: QuoteData = {};
+
+  // Try to decode from URL hash
+  if (quoteHash) {
+    const decoded = decodeQuoteHash(quoteHash);
+    if (decoded) {
+      quoteData = decoded as QuoteData;
+    }
+  }
+
+  // Also try localStorage for size data - with safe JSON parsing
+  try {
+    const storedData = localStorage.getItem('trapez_calculator');
+    if (storedData) {
+      const parsed = JSON.parse(storedData);
+      if (parsed && typeof parsed === 'object') {
+        if (parsed.sizes) {
+          quoteData.sizes = parsed.sizes;
+        }
+        // Merge stored data with URL data
+        quoteData = { ...parsed, ...quoteData };
+      }
+    }
+  } catch (e) {
+    console.error('Error parsing stored data:', e);
+    // Continue with URL data only
+  }
+
+  // Calculate and display quote
+  function displayQuote() {
+    const sizes = quoteData.sizes || [];
+    const colorId = quoteData.color || '';
+    const shippingType = quoteData.shipping as 'gazdasagos' | 'expressz' | 'sajat' | undefined;
+    const postcode = quoteData.postcode || '';
+    const screwType = quoteData.screws;
+    const includeScrews = screwType && screwType !== 'nem';
+
+    // Color display - with null checks
+    const colorEl = document.getElementById('color-value');
+    if (colorEl) {
+      if (colorId && COLOR_LABELS[colorId]) {
+        colorEl.textContent = COLOR_LABELS[colorId];
+      } else if (colorId) {
+        colorEl.textContent = colorId;
+      } else {
+        colorEl.textContent = 'Nem adott meg színt';
+      }
+    }
+
+    // Screws display - with null checks
+    const screwsEl = document.getElementById('screws-cost');
+    if (screwsEl && (!screwType || screwType === 'nem')) {
+      screwsEl.textContent = 'Nem kért csavart';
+    }
+
+    // Shipping display - with null checks
+    const shippingEl = document.getElementById('shipping-cost');
+    const addressRow = document.getElementById('address-row');
+    const addressEl = document.getElementById('address-value');
+
+    if (!shippingType || shippingType === 'sajat') {
+      if (shippingEl) shippingEl.textContent = 'Átvétel a telephelyen';
+      if (addressRow) addressRow.style.display = 'none';
+    } else {
+      // Show address row only if shipping is selected
+      if (addressRow) addressRow.style.display = 'flex';
+
+      // Build address string
+      const addressParts: string[] = [];
+      if (quoteData.street) addressParts.push(quoteData.street);
+      if (quoteData.postcode || quoteData.city) {
+        addressParts.push(`${quoteData.postcode || 'Irányítószám nem ismert'} ${quoteData.city || 'Város nem ismert'}`);
+      }
+
+      if (addressEl) {
+        if (addressParts.length > 0) {
+          // Safe DOM manipulation - avoid innerHTML
+          addressEl.textContent = '';
+          addressParts.forEach((part, index) => {
+            if (index > 0) {
+              addressEl.appendChild(document.createElement('br'));
+            }
+            addressEl.appendChild(document.createTextNode(part));
+          });
+        } else {
+          addressEl.textContent = 'Cím nem ismert';
+        }
+      }
+    }
+
+    // If no sizes, show fallback values - with null checks
+    if (sizes.length === 0) {
+      const quoteTotalEl = document.getElementById('quote-total');
+      const totalSqmEl = document.getElementById('total-sqm');
+      const basePriceEl = document.getElementById('base-price');
+      if (quoteTotalEl) quoteTotalEl.textContent = 'Nem kiszámítható';
+      if (totalSqmEl) totalSqmEl.textContent = 'Számítási hiba m²';
+      if (basePriceEl) basePriceEl.textContent = '0 Ft';
+      return;
+    }
+
+    // Calculate quote
+    const quote = calculateQuote({
+      sizes,
+      colorId: colorId || 'antracit',
+      shippingType: shippingType || 'sajat',
+      postcode,
+      includeScrews: !!includeScrews,
+    });
+
+    // Update display with calculated values - with null checks
+    const quoteTotalEl = document.getElementById('quote-total');
+    const totalSqmEl = document.getElementById('total-sqm');
+    const basePriceEl = document.getElementById('base-price');
+    if (quoteTotalEl) quoteTotalEl.textContent = formatPrice(quote.total);
+    if (totalSqmEl) totalSqmEl.textContent = `${quote.sheets.totalSqm} m²`;
+    if (basePriceEl) basePriceEl.textContent = formatPrice(quote.sheetPrice);
+
+    // Discount
+    if (quote.discountAmount > 0) {
+      const discountRow = document.getElementById('discount-row');
+      const discountAmount = document.getElementById('discount-amount');
+      if (discountRow) discountRow.style.display = 'flex';
+      if (discountAmount) discountAmount.textContent = `-${formatPrice(quote.discountAmount)}`;
+    }
+
+    // Shipping cost
+    if (shippingType && shippingType !== 'sajat' && shippingEl) {
+      if (quote.shippingCost === 0) {
+        shippingEl.textContent = 'Ingyenes szállítás';
+      } else {
+        shippingEl.textContent = formatPrice(quote.shippingCost);
+      }
+    }
+
+    // Screws cost
+    if (quote.screws && includeScrews && screwsEl) {
+      screwsEl.textContent = `${formatPrice(quote.screws.price)} (${quote.screws.boxes} doboz)`;
+    }
+
+    // Display sizes
+    if (sizes.length > 0) {
+      const sizesRow = document.getElementById('sizes-row');
+      const sizesEl = document.getElementById('sizes-value');
+      if (sizesRow) sizesRow.style.display = 'flex';
+
+      // Format sizes: "150 cm × 5 db, 200 cm × 3 db" etc. - safe DOM manipulation
+      if (sizesEl) {
+        sizesEl.textContent = '';
+        sizes.forEach((s, index) => {
+          if (index > 0) {
+            sizesEl.appendChild(document.createElement('br'));
+          }
+          sizesEl.appendChild(document.createTextNode(`${s.length} cm × ${s.quantity} db`));
+        });
+      }
+    }
+  }
+
+  displayQuote();
+
+  // Callback modal
+  const callbackBtn = document.getElementById('callback-btn');
+  const callbackModal = document.getElementById('callback-modal');
+  const modalClose = document.getElementById('modal-close');
+  const callbackForm = document.getElementById('callback-form') as HTMLFormElement;
+
+  // Pre-fill callback form with stored data
+  if (quoteData.first_name && quoteData.last_name) {
+    (document.getElementById('callback-name') as HTMLInputElement).value =
+      `${quoteData.first_name} ${quoteData.last_name}`;
+  }
+  if (quoteData.phone) {
+    (document.getElementById('callback-phone') as HTMLInputElement).value = quoteData.phone;
+  }
+  if (quoteData.email) {
+    (document.getElementById('callback-email') as HTMLInputElement).value = quoteData.email;
+  }
+  if (quoteData.quote_id) {
+    (document.getElementById('callback-quote-id') as HTMLInputElement).value = quoteData.quote_id;
+  }
+  (document.getElementById('callback-quote-data') as HTMLInputElement).value = JSON.stringify(quoteData);
+
+  callbackBtn?.addEventListener('click', () => {
+    if (callbackModal) callbackModal.style.display = 'flex';
+  });
+
+  modalClose?.addEventListener('click', () => {
+    if (callbackModal) callbackModal.style.display = 'none';
+  });
+
+  callbackModal?.addEventListener('click', (e) => {
+    if (e.target === callbackModal) {
+      callbackModal.style.display = 'none';
+    }
+  });
+
+  // Handle callback form submission
+  callbackForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const submitBtn = document.getElementById('callback-submit') as HTMLButtonElement;
+    const btnText = submitBtn.querySelector('.btn-text') as HTMLElement;
+    const btnLoading = submitBtn.querySelector('.btn-loading') as HTMLElement;
+
+    submitBtn.disabled = true;
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'inline';
+
+    try {
+      const formData = new FormData(callbackForm);
+
+      const response = await fetch('/api/callback', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        // Mark callback as requested
+        sessionStorage.setItem('callback_requested', 'true');
+        // Redirect to thank you page
+        window.location.href = '/koszonjuk-az-erdeklodest';
+      } else {
+        const data = await response.json();
+        alert(data.error || 'Hiba történt. Kérjük, próbálja újra.');
+        submitBtn.disabled = false;
+        btnText.style.display = 'inline';
+        btnLoading.style.display = 'none';
+      }
+    } catch (error) {
+      console.error('Callback submission error:', error);
+      alert('Hiba történt. Kérjük, próbálja újra.');
+      submitBtn.disabled = false;
+      btnText.style.display = 'inline';
+      btnLoading.style.display = 'none';
+    }
+  });
+
+  // Quote expiration check (7 days)
+  const QUOTE_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+  const quoteTimestamp = quoteData.timestamp ? new Date(quoteData.timestamp as string).getTime() : null;
+  if (quoteTimestamp && Date.now() - quoteTimestamp > QUOTE_EXPIRY_MS) {
+    // Quote expired - show message and redirect
+    const quoteTotalEl = document.getElementById('quote-total');
+    if (quoteTotalEl) {
+      quoteTotalEl.textContent = 'Lejárt ajánlat';
+      quoteTotalEl.style.color = '#dc2626';
+    }
+    // Show expired message
+    const quoteCard = document.querySelector('.quote-card');
+    if (quoteCard) {
+      const expiredMsg = document.createElement('div');
+      expiredMsg.className = 'quote-expired-message';
+      expiredMsg.style.cssText = 'background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 16px; margin-top: 16px; text-align: center;';
+      expiredMsg.innerHTML = '<p style="color: #dc2626; font-weight: 600; margin: 0 0 8px 0;">Ez az árajánlat lejárt</p><p style="color: #6b7280; margin: 0;">Kérjük, készítsen új árajánlatot a <a href="/kalkulator" style="color: #2563eb;">kalkulátorunkkal</a>.</p>';
+      quoteCard.appendChild(expiredMsg);
+    }
+  }
+
+  // Track that user viewed the quote page (for delayed admin notification)
+  const viewedAt = Date.now();
+  sessionStorage.setItem('quote_viewed_at', viewedAt.toString());
+  sessionStorage.setItem('quote_data', JSON.stringify(quoteData));
+
+  // Send user notification email async (if not already sent)
+  const emailSent = sessionStorage.getItem(`email_sent_${quoteData.quote_id}`);
+  if (!emailSent && quoteData.email && quoteData.quote_id) {
+    fetch('/api/send-user-notification', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: quoteData.email,
+        quote_id: quoteData.quote_id,
+        quote_url: window.location.href,
+        name: `${quoteData.first_name || ''} ${quoteData.last_name || ''}`.trim(),
+      }),
+    }).then(() => {
+      sessionStorage.setItem(`email_sent_${quoteData.quote_id}`, 'true');
+    }).catch(console.error);
+  }
+
+  // Schedule delayed admin notification (5 min) if user doesn't request callback
+  setTimeout(async () => {
+    const callbackRequested = sessionStorage.getItem('callback_requested');
+    if (!callbackRequested && quoteData.quote_id) {
+      // Send admin notification
+      await fetch('/api/send-admin-notification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          quote_id: quoteData.quote_id,
+          quote_data: quoteData,
+          delay_reason: 'no_callback_after_5min',
+        }),
+      }).catch(console.error);
+    }
+  }, 5 * 60 * 1000); // 5 minutes
+</script>

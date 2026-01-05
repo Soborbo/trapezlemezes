@@ -1,0 +1,3457 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { TinyImage } from '../components/images';
+
+// Images for radio cards
+import tudomImg from '../assets/images/kalk-tudom.jpg';
+import kalkulacioImg from '../assets/images/kalk-szamolas.jpg';
+import tetoImg from '../assets/images/teto.png';
+import keritesImg from '../assets/images/kerites.png';
+import kishazImg from '../assets/images/kishaz.png';
+import nyeregImg from '../assets/images/duplateto.png';
+import felnyeregImg from '../assets/images/felteto.png';
+
+// Color images
+import kekTrapez from '../assets/images/kek-trapezlemez.jpg';
+import feherTrapez from '../assets/images/feher-trapezlemez.jpg';
+import feketeTrapez from '../assets/images/fekete-trapezlemez.jpg';
+import barnaTrapez from '../assets/images/barna-trapezlemez.jpg';
+import vorosTrapez from '../assets/images/voros-trapezlemez.jpg';
+import antracitTrapez from '../assets/images/antracit-trapezlemez.jpg';
+import horganyzottTrapez from '../assets/images/horganyzott-trapezlemez.jpg';
+import famintasTrapez from '../assets/images/famintas-trapezlemez.jpg';
+import narancsTrapez from '../assets/images/narancssarga-trapezlemez.jpg';
+
+// Shipping images
+import gazdasagosImg from '../assets/images/gazdasagos-szallitas.jpg';
+import expresszImg from '../assets/images/expressz-szallitas.jpg';
+import sajatImg from '../assets/images/sajat-szallitas.jpg';
+
+// Screw images
+import facsavarImg from '../assets/images/trapezlemez-facsavar.jpg';
+import femcsavarImg from '../assets/images/trapezlemez-femcsavar.jpg';
+import csavarImg from '../assets/images/trapezlemez-csavar.jpg';
+import nemkellImg from '../assets/images/nemkell.jpg';
+
+// Help widget
+import rolandImg from '../assets/images/farkas-roland.jpg';
+
+// Secondhand images
+import kishibasIgenImg from '../assets/images/kishibas-igen.jpg';
+import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
+
+// Calculator config for shipping prices
+import { shippingZones, formatPrice } from '../calculator';
+
+// Get minimum shipping prices (Budapest zone)
+const minEconomyPrice = Math.min(...shippingZones.map(z => z.economyPrice));
+const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
+---
+
+<Layout title="Trapézlemez árajánlat kalkulátor - Olcsó, méretre gyártott trapézlemez Budapesten" hideHeader>
+  <div class="calculator-page">
+    <!-- Progress Bar -->
+    <div class="progress-wrapper">
+      <div class="progress-container" id="progress-container">
+        <button type="button" class="progress-step completed" data-target="1">
+          <span class="step-number">1</span>
+          <span class="step-name">Méretek</span>
+        </button>
+        <div class="progress-line"></div>
+        <button type="button" class="progress-step" data-target="3" disabled>
+          <span class="step-number">2</span>
+          <span class="step-name">Szín</span>
+        </button>
+        <div class="progress-line"></div>
+        <button type="button" class="progress-step" data-target="4" disabled>
+          <span class="step-number">3</span>
+          <span class="step-name">Szállítás</span>
+        </button>
+        <div class="progress-line"></div>
+        <button type="button" class="progress-step" data-target="5" disabled>
+          <span class="step-number">4</span>
+          <span class="step-name">Csavar</span>
+        </button>
+        <div class="progress-line"></div>
+        <button type="button" class="progress-step" data-target="6a" disabled>
+          <span class="step-number">5</span>
+          <span class="step-name">Név</span>
+        </button>
+        <div class="progress-line"></div>
+        <button type="button" class="progress-step" data-target="6b" disabled>
+          <span class="step-number">6</span>
+          <span class="step-name">Elérhetőség</span>
+        </button>
+        <div class="progress-line"></div>
+        <button type="button" class="progress-step" data-target="6c" disabled>
+          <span class="step-number">7</span>
+          <span class="step-name">Cím</span>
+        </button>
+      </div>
+    </div>
+
+    <form id="calculator-form" class="calculator-form" novalidate autocomplete="on">
+      <!-- Step: Tudja a méreteket? -->
+      <div class="step" data-step="knows-sizes">
+        <h2>Tudja a szükséges trapézlemezek méreteit?</h2>
+        <div class="radio-grid cols-2">
+          <label class="radio-card" data-auto-advance>
+            <input type="radio" name="knows_sizes" value="yes" required />
+            <div class="card-image">
+              <TinyImage src={tudomImg} alt="Igen, már kiszámoltam" />
+            </div>
+            <span class="card-label">Igen, már kiszámoltam</span>
+          </label>
+          <label class="radio-card" data-auto-advance>
+            <input type="radio" name="knows_sizes" value="no" />
+            <div class="card-image">
+              <TinyImage src={kalkulacioImg} alt="Segítséget kérek" />
+            </div>
+            <span class="card-label">Segítséget kérek a számoláshoz</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step: Méretek megadása (ha tudja) -->
+      <div class="step hidden" data-step="manual-sizes">
+        <h2>Adja meg a lemezek méreteit</h2>
+        <div class="info-box">
+          <p>A lemezek maximális hossza 800 cm. Minden lemezünk <strong>116 cm széles</strong> és <strong>110 cm-t fed</strong> (6 cm az átfedés).</p>
+        </div>
+
+        <div class="size-inputs" id="size-inputs">
+          <div class="size-row">
+            <div class="input-group">
+              <label for="length_1">Hossz (cm)</label>
+              <input type="number" id="length_1" name="length_1" min="10" max="800" required />
+            </div>
+            <div class="input-group">
+              <label for="quantity_1">Darabszám</label>
+              <input type="number" id="quantity_1" name="quantity_1" min="1" required />
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn-add-size" id="add-size-btn">+ Másik méret hozzáadása</button>
+
+        <div class="step-nav">
+          <button type="button" class="btn btn-secondary" data-prev>Előző</button>
+          <button type="button" class="btn btn-primary" data-next>Következő</button>
+        </div>
+      </div>
+
+      <!-- Step: Mire használná? (ha segítség kell) -->
+      <div class="step hidden" data-step="usage">
+        <h2>Mire szeretné használni?</h2>
+        <div class="radio-grid cols-3">
+          <label class="radio-card" data-auto-advance>
+            <input type="radio" name="usage" value="kerites" />
+            <div class="card-image">
+              <TinyImage src={keritesImg} alt="Kerítés / Oldalfal" />
+            </div>
+            <span class="card-label">Kerítés / Oldalfal</span>
+          </label>
+          <label class="radio-card" data-auto-advance>
+            <input type="radio" name="usage" value="teto" />
+            <div class="card-image">
+              <TinyImage src={tetoImg} alt="Tető" />
+            </div>
+            <span class="card-label">Tető</span>
+          </label>
+          <label class="radio-card" data-auto-advance>
+            <input type="radio" name="usage" value="teto_es_oldalfal" />
+            <div class="card-image">
+              <TinyImage src={kishazImg} alt="Tető és oldalfal" />
+            </div>
+            <span class="card-label">Tető és oldalfal</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step: Tető típusa -->
+      <div class="step hidden" data-step="roof-type">
+        <h2>Milyen típusú a tető?</h2>
+        <div class="roof-type-grid">
+          <label class="radio-card roof-type-card" data-auto-advance>
+            <input type="radio" name="roof_type" value="nyereg" />
+            <div class="card-image">
+              <TinyImage src={nyeregImg} alt="Nyeregtető" />
+            </div>
+            <span class="card-label">Nyeregtető</span>
+            <span class="card-desc">Két lejtős oldal</span>
+          </label>
+          <label class="radio-card roof-type-card" data-auto-advance>
+            <input type="radio" name="roof_type" value="felteto" />
+            <div class="card-image">
+              <TinyImage src={felnyeregImg} alt="Féltető" />
+            </div>
+            <span class="card-label">Féltető</span>
+            <span class="card-desc">Egy lejtős oldal</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step: Tető méretek -->
+      <div class="step hidden" data-step="roof-sizes">
+        <h2>Adja meg a tető méreteit</h2>
+
+        <div class="roofs-container" id="roofs-container">
+          <!-- Roof 1 -->
+          <div class="roof-entry" data-roof-index="1">
+            <div class="roof-entry-header">
+              <span class="roof-entry-title">1. tető</span>
+            </div>
+            <div class="roof-entry-content roof-entry-horizontal">
+              <div class="roof-diagram">
+                <div class="roof-type-image" data-roof-type="nyereg">
+                  <TinyImage src={nyeregImg} alt="Nyeregtető" />
+                  <p class="roof-type-label">Nyeregtető</p>
+                </div>
+                <div class="roof-type-image hidden" data-roof-type="felteto">
+                  <TinyImage src={felnyeregImg} alt="Féltető" />
+                  <p class="roof-type-label">Féltető</p>
+                </div>
+              </div>
+              <div class="roof-inputs">
+                <div class="input-group">
+                  <label>A oldal (cm) *</label>
+                  <input type="number" name="roof_1_a" min="10" class="roof-input-a" required />
+                </div>
+                <div class="input-group">
+                  <label>B oldal (cm) *</label>
+                  <input type="number" name="roof_1_b" min="10" class="roof-input-b" required />
+                </div>
+                <div class="input-group roof-cd-input hidden">
+                  <label>C oldal (cm)</label>
+                  <input type="number" name="roof_1_c" min="10" class="roof-input-c" />
+                </div>
+                <div class="input-group roof-cd-input hidden">
+                  <label>D oldal (cm)</label>
+                  <input type="number" name="roof_1_d" min="10" class="roof-input-d" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn-add-size" id="add-roof-btn">+ Másik tető hozzáadása</button>
+
+        <div class="step-nav">
+          <button type="button" class="btn btn-secondary" data-prev>Előző</button>
+          <button type="button" class="btn btn-primary" data-next>Következő</button>
+        </div>
+      </div>
+
+      <!-- Step: Kerítés méretek -->
+      <div class="step hidden" data-step="fence-sizes">
+        <h2>Adja meg a kerítés/oldalfal méreteit</h2>
+
+        <!-- Input mode selection -->
+        <div class="fence-mode-toggle">
+          <button type="button" class="mode-btn active" data-fence-mode="simple">Összhossz megadása</button>
+          <button type="button" class="mode-btn" data-fence-mode="sides">Oldalanként adom meg</button>
+        </div>
+
+        <!-- Simple mode: total length -->
+        <div class="fence-simple-mode" id="fence-simple-mode">
+          <div class="fence-inputs">
+            <div class="input-group">
+              <label for="fence_length">Kerítés összhossza (cm) *</label>
+              <input type="number" id="fence_length" name="fence_length" min="10" required />
+            </div>
+            <div class="input-group">
+              <label for="fence_height">Kerítés magassága (cm) *</label>
+              <input type="number" id="fence_height" name="fence_height" min="10" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- Sides mode: per-side input with individual heights -->
+        <div class="fence-sides-mode hidden" id="fence-sides-mode">
+          <div class="info-box">
+            <p>Adja meg az egyes oldalak hosszát és magasságát.</p>
+          </div>
+          <div class="fence-sides-list" id="fence-sides-list">
+            <div class="fence-side-row">
+              <div class="fence-side-inputs">
+                <div class="input-group">
+                  <label>1. oldal hossza (cm) *</label>
+                  <input type="number" name="fence_side_1_length" min="10" class="fence-side-input" />
+                </div>
+                <div class="input-group">
+                  <label>Magassága (cm) *</label>
+                  <input type="number" name="fence_side_1_height" min="10" class="fence-height-input" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn-add-size" id="add-fence-side-btn">+ Újabb oldal hozzáadása</button>
+          <div class="fence-total" id="fence-total">
+            <strong>Összes felület:</strong> <span id="fence-total-area">0</span> m²
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn btn-secondary" data-prev>Előző</button>
+          <button type="button" class="btn btn-primary" data-next>Következő</button>
+        </div>
+      </div>
+
+      <!-- Step: Szín választás -->
+      <div class="step hidden" data-step="color">
+        <h2>Milyen színű trapézlemezt szeretne?</h2>
+        <div class="radio-grid cols-3">
+          <label class="radio-card color-card" data-auto-advance>
+            <input type="radio" name="color" value="antracit" required />
+            <div class="card-image">
+              <TinyImage src={antracitTrapez} alt="Antracit" />
+            </div>
+            <span class="card-label">Antracit</span>
+            <span class="card-ral">RAL 7016</span>
+          </label>
+          <label class="radio-card color-card" data-auto-advance>
+            <input type="radio" name="color" value="barna" />
+            <div class="card-image">
+              <TinyImage src={barnaTrapez} alt="Barna" />
+            </div>
+            <span class="card-label">Barna</span>
+            <span class="card-ral">RAL 8017</span>
+          </label>
+          <label class="radio-card color-card" data-auto-advance>
+            <input type="radio" name="color" value="voros" />
+            <div class="card-image">
+              <TinyImage src={vorosTrapez} alt="Vörös" />
+            </div>
+            <span class="card-label">Vörös</span>
+            <span class="card-ral">RAL 3011</span>
+          </label>
+          <label class="radio-card color-card" data-auto-advance>
+            <input type="radio" name="color" value="kek" />
+            <div class="card-image">
+              <TinyImage src={kekTrapez} alt="Kék" />
+            </div>
+            <span class="card-label">Kék</span>
+            <span class="card-ral">RAL 5010</span>
+          </label>
+          <label class="radio-card color-card" data-auto-advance>
+            <input type="radio" name="color" value="feher" />
+            <div class="card-image">
+              <TinyImage src={feherTrapez} alt="Fehér" />
+            </div>
+            <span class="card-label">Fehér</span>
+            <span class="card-ral">RAL 9002</span>
+          </label>
+          <label class="radio-card color-card" data-auto-advance>
+            <input type="radio" name="color" value="fekete" />
+            <div class="card-image">
+              <TinyImage src={feketeTrapez} alt="Fekete" />
+            </div>
+            <span class="card-label">Fekete</span>
+            <span class="card-ral">RAL 9005</span>
+          </label>
+          <label class="radio-card color-card" data-auto-advance>
+            <input type="radio" name="color" value="narancs" />
+            <div class="card-image">
+              <TinyImage src={narancsTrapez} alt="Narancssárga" />
+            </div>
+            <span class="card-label">Narancssárga</span>
+            <span class="card-ral">RAL 2004</span>
+          </label>
+          <label class="radio-card color-card" data-auto-advance>
+            <input type="radio" name="color" value="famintas" />
+            <div class="card-image">
+              <TinyImage src={famintasTrapez} alt="Famintás" />
+            </div>
+            <span class="card-label">Famintás</span>
+            <span class="card-ral">&nbsp;</span>
+          </label>
+          <label class="radio-card color-card" data-auto-advance>
+            <input type="radio" name="color" value="horganyzott" />
+            <div class="card-image">
+              <TinyImage src={horganyzottTrapez} alt="Horganyzott" />
+            </div>
+            <span class="card-label">Horganyzott</span>
+            <span class="card-ral">natúr</span>
+          </label>
+          <label class="radio-card color-card color-card-other" id="color-other-card">
+            <input type="radio" name="color" value="egyeb" />
+            <div class="card-icon card-icon-question">?</div>
+            <span class="card-label">Egyéb szín</span>
+            <span class="card-ral">&nbsp;</span>
+          </label>
+        </div>
+        <div class="other-color-input hidden" id="other-color-input">
+          <div class="input-group">
+            <label for="color_other_text">Milyen színt szeretne?</label>
+            <input type="text" id="color_other_text" name="color_other_text" placeholder="Pl. RAL 6005 (mohazöld)" />
+          </div>
+        </div>
+        <div class="step-nav color-step-nav hidden" id="color-step-nav">
+          <button type="button" class="btn btn-secondary" data-prev>Előző</button>
+          <button type="button" class="btn btn-primary" data-next>Következő</button>
+        </div>
+      </div>
+
+      <!-- Step: Szállítás -->
+      <div class="step hidden" data-step="shipping">
+        <h2>Szállítást igényel?</h2>
+        <div class="radio-grid cols-3">
+          <label class="radio-card" data-auto-advance>
+            <input type="radio" name="shipping" value="gazdasagos" required />
+            <div class="card-image">
+              <TinyImage src={gazdasagosImg} alt="Gazdaságos szállítás" />
+            </div>
+            <span class="card-label">Gazdaságos szállítás</span>
+            <span class="card-desc">3-5 munkanap</span>
+            <span class="card-price">{formatPrice(minEconomyPrice)}-tól</span>
+          </label>
+          <label class="radio-card" data-auto-advance>
+            <input type="radio" name="shipping" value="expressz" />
+            <div class="card-image">
+              <TinyImage src={expresszImg} alt="Expressz szállítás" />
+            </div>
+            <span class="card-label">Expressz szállítás</span>
+            <span class="card-desc">1-2 munkanap</span>
+            <span class="card-price">{formatPrice(minExpressPrice)}-tól</span>
+          </label>
+          <label class="radio-card" data-auto-advance>
+            <input type="radio" name="shipping" value="sajat" />
+            <div class="card-image">
+              <TinyImage src={sajatImg} alt="Saját szállítás" />
+            </div>
+            <span class="card-label">Magam viszem el</span>
+            <span class="card-desc">Személyes átvétel</span>
+            <span class="card-price">Ingyenes</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step: Csavar -->
+      <div class="step hidden" data-step="screws">
+        <h2>Milyen csavart szeretne a rendeléshez?</h2>
+        <p class="step-desc">Ajánljuk trapézlemez rögzítéséhez alkalmas, speciális gumis alátétes csavarjainkat. 1 doboz (250 db) elegendő kb. 25 m² fedéséhez.</p>
+
+        <!-- Screw type options - 4 in a row -->
+        <div class="radio-grid cols-4 screw-options-grid">
+          <label class="radio-card screw-type-card" id="screw-fa">
+            <input type="radio" name="screws" value="fa" required checked />
+            <div class="card-image">
+              <TinyImage src={facsavarImg} alt="Fához való csavar" />
+            </div>
+            <span class="card-label">Fához való</span>
+            <span class="card-desc">Fa alépítményhez</span>
+          </label>
+          <label class="radio-card screw-type-card" id="screw-fem">
+            <input type="radio" name="screws" value="fem" />
+            <div class="card-image">
+              <TinyImage src={femcsavarImg} alt="Fémhez való csavar" />
+            </div>
+            <span class="card-label">Fémhez való</span>
+            <span class="card-desc">Fém alépítményhez</span>
+          </label>
+          <label class="radio-card screw-type-card" id="screw-vegyes">
+            <input type="radio" name="screws" value="vegyes" />
+            <div class="card-image">
+              <TinyImage src={csavarImg} alt="Vegyes csavar" />
+            </div>
+            <span class="card-label">Vegyesen kérek</span>
+            <span class="card-desc">Fa és fém egyaránt</span>
+          </label>
+          <label class="radio-card screw-type-card" id="screw-nem">
+            <input type="radio" name="screws" value="nem" />
+            <div class="card-image">
+              <TinyImage src={nemkellImg} alt="Nem kérek csavart" />
+            </div>
+            <span class="card-label">Nem kérek</span>
+            <span class="card-desc">Már van csavarom</span>
+          </label>
+        </div>
+
+        <!-- Screw quantity calculator - below options -->
+        <div class="screw-quantity-section" id="screw-quantity-section">
+          <div class="screw-calculation">
+            <div class="screw-calc-row">
+              <span class="screw-calc-label">Becsült szükséglet:</span>
+              <span class="screw-calc-value" id="screw-recommended">1 doboz (25 m²-hez)</span>
+            </div>
+            <div class="screw-quantity-input">
+              <label for="screw_quantity">Hány doboz csavart szeretne?</label>
+              <div class="quantity-controls">
+                <button type="button" class="qty-btn" id="screw-qty-minus">−</button>
+                <input type="number" id="screw_quantity" name="screw_quantity" value="1" min="0" max="20" />
+                <button type="button" class="qty-btn" id="screw-qty-plus">+</button>
+              </div>
+            </div>
+            <div class="screw-price-row">
+              <span class="screw-price-label">Csavar összesen:</span>
+              <span class="screw-price-value" id="screw-price">5 990 Ft</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn btn-secondary" data-prev>Előző</button>
+          <button type="button" class="btn btn-primary" data-next>Következő</button>
+        </div>
+      </div>
+
+      <!-- Step: Másodosztályú lemez érdeklődés -->
+      <div class="step hidden" data-step="secondhand">
+        <h2>Érdekelné másodosztályú, kishibás trapézlemez is?</h2>
+        <p class="step-desc">Ezek a lemezek apró esztétikai hibával rendelkeznek (kis karcolás, színeltérés), de funkcionálisan tökéletesek és jelentősen olcsóbbak!</p>
+        <div class="radio-grid cols-2">
+          <label class="radio-card" data-auto-advance>
+            <input type="radio" name="secondhand" value="yes" required />
+            <div class="card-image">
+              <TinyImage src={kishibasIgenImg} alt="Igen, érdekel" />
+            </div>
+            <span class="card-label">Igen, érdekel</span>
+            <span class="card-desc">Mutassák az elérhető készletet</span>
+          </label>
+          <label class="radio-card" data-auto-advance>
+            <input type="radio" name="secondhand" value="no" />
+            <div class="card-image">
+              <TinyImage src={kishibasNemImg} alt="Nem, csak elsőosztályú" />
+            </div>
+            <span class="card-label">Nem, csak elsőosztályú</span>
+            <span class="card-desc">Csak hibátlan lemezekből kérek</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step: Név -->
+      <div class="step hidden" data-step="name">
+        <h2>Ki az ajánlatkérő?</h2>
+        <p class="step-desc">Adja meg a nevét az árajánlathoz.</p>
+
+        <div class="contact-form" id="name-form">
+          <div class="input-row">
+            <div class="input-group">
+              <label for="first_name">Vezetéknév *</label>
+              <input
+                type="text"
+                id="first_name"
+                name="first_name"
+                required
+                autocomplete="family-name"
+                minlength="2"
+                data-validate
+              />
+            </div>
+            <div class="input-group">
+              <label for="last_name">Keresztnév *</label>
+              <input
+                type="text"
+                id="last_name"
+                name="last_name"
+                required
+                autocomplete="given-name"
+                minlength="2"
+                data-validate
+              />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="company">Cégnév (opcionális)</label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              autocomplete="organization"
+            />
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn btn-secondary" data-prev>Előző</button>
+          <button type="button" class="btn btn-primary" data-next>Következő</button>
+        </div>
+      </div>
+
+      <!-- Step: Elérhetőség -->
+      <div class="step hidden" data-step="contact">
+        <h2>Hol érjük el?</h2>
+        <p class="step-desc">Erre küldjük az árajánlatot és itt keressük szükség esetén.</p>
+
+        <div class="contact-form" id="contact-form">
+          <div class="input-group">
+            <label for="email">E-mail cím *</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              autocomplete="email"
+              data-validate
+              data-email-fix
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="phone">Telefonszám *</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              required
+              autocomplete="tel"
+              value="+36 "
+              data-validate
+              data-phone
+            />
+            <span class="phone-error-message" id="phone-error" style="display: none;"></span>
+          </div>
+        </div>
+
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" name="gdpr" id="gdpr" required />
+            <span>Elfogadom az <a href="/adatkezelesi-tajekoztato" target="_blank">adatkezelési tájékoztatót</a> *</span>
+          </label>
+        </div>
+
+        <!-- Error summary for validation errors -->
+        <div class="form-error-summary" id="form-error-summary" style="display: none;">
+          <h4>Kérjük, javítsa a következő hibákat:</h4>
+          <ul id="error-list"></ul>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn btn-secondary" data-prev>Előző</button>
+          <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">
+            <span class="btn-text">Árajánlatot kérek</span>
+            <span class="btn-loading" style="display: none;">
+              <svg class="spinner" viewBox="0 0 24 24" width="20" height="20">
+                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="30 70" />
+              </svg>
+              Küldés...
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step: Szállítási cím (csak ha szállítást választottak, közvetlenül a szállítás után) -->
+      <div class="step hidden" data-step="address">
+        <h2>Hova szállítsunk?</h2>
+        <p class="step-desc">Adja meg a szállítási címet a pontos árajánlathoz.</p>
+
+        <div class="contact-form" id="address-form">
+          <div class="address-inputs-vertical">
+            <div class="input-row">
+              <div class="input-group postcode-group">
+                <label for="postcode">Irányítószám *</label>
+                <input
+                  type="text"
+                  id="postcode"
+                  name="postcode"
+                  required
+                  autocomplete="postal-code"
+                  maxlength="4"
+                  pattern="[0-9]{4}"
+                  inputmode="numeric"
+                  placeholder="1234"
+                  data-validate
+                />
+              </div>
+              <div class="input-group city-group">
+                <label for="city">Település *</label>
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  required
+                  autocomplete="address-level2"
+                  placeholder="(automatikusan kitöltjük)"
+                  readonly
+                />
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="street">Utca, házszám *</label>
+              <input
+                type="text"
+                id="street"
+                name="street"
+                required
+                autocomplete="street-address"
+                placeholder="pl. Fő utca 12."
+                minlength="5"
+                data-validate
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn btn-secondary" data-prev>Előző</button>
+          <button type="button" class="btn btn-primary" data-next>Következő</button>
+        </div>
+      </div>
+
+    </form>
+
+    <!-- Social proof -->
+    <div class="social-proof">
+      <p>Több mint <strong>5000+ elégedett ügyfél</strong> választotta már trapézlemezeinket</p>
+    </div>
+
+    <!-- Help widget - hidden initially, shows after 10s -->
+    <div class="help-widget help-widget-hidden" id="help-widget">
+      <a href="tel:+36309386050" class="help-widget-btn">
+        <img src={rolandImg.src} alt="Farkas Roland" class="help-avatar" />
+        <div class="help-text">
+          <span class="help-label">Elakadt? Segítünk!</span>
+          <span class="help-phone">+36 30 938 6050</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* Calculator-specific color overrides */
+  .calculator-page {
+    --color-primary: #259bd7;
+    --color-primary-dark: #1e7fb3;
+    --color-primary-light: #4db5e8;
+    --color-border: #d1d5db;
+    --color-border-focus: #259bd7;
+    --color-error: #dc2626;
+    --color-error-light: #fef2f2;
+    --color-success: #16a34a;
+    --color-success-light: #f0fdf4;
+  }
+
+  .calculator-page {
+    min-height: calc(100vh - 80px);
+    background: var(--color-bg-light);
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  @media (max-width: 640px) {
+    .calculator-page {
+      padding: var(--spacing-md) 20px;
+      background: var(--color-white);
+    }
+  }
+
+  /* Progress */
+  .progress-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: var(--spacing-xl);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .progress-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: max-content;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    gap: 0;
+  }
+
+  .progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    min-width: 80px;
+  }
+
+  .progress-step:disabled {
+    cursor: not-allowed;
+  }
+
+  .progress-step:not(:disabled):hover {
+    opacity: 0.8;
+  }
+
+  .progress-step.completed {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .progress-step.active {
+    opacity: 1;
+  }
+
+  .step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--color-border);
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    transition: all 0.2s ease;
+  }
+
+  .progress-step.completed .step-number,
+  .progress-step.active .step-number {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .progress-step.completed .step-number {
+    background: var(--color-primary);
+  }
+
+  .progress-step.active .step-number {
+    box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.2);
+  }
+
+  .step-name {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    transition: color 0.2s ease;
+  }
+
+  .progress-step.completed .step-name,
+  .progress-step.active .step-name {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .progress-line {
+    width: 40px;
+    height: 2px;
+    background: var(--color-border);
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+  }
+
+  .progress-line.completed {
+    background: var(--color-primary);
+  }
+
+  @media (max-width: 640px) {
+    .progress-container {
+      justify-content: flex-start;
+      padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .progress-step {
+      min-width: 70px;
+      padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+    }
+
+    .progress-line {
+      width: 24px;
+    }
+  }
+
+  /* Form */
+  .calculator-form {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .step {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+  }
+
+  @media (max-width: 640px) {
+    .step {
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+  }
+
+  .step.hidden {
+    display: none;
+  }
+
+  .step h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-xl);
+  }
+
+  .step-desc {
+    text-align: center;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  /* Radio Grid */
+  .radio-grid {
+    display: grid;
+    gap: var(--spacing-md);
+  }
+
+  .radio-grid.cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .radio-grid.cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 640px) {
+    .radio-grid.cols-2,
+    .radio-grid.cols-3 {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-sm);
+    }
+
+    .radio-grid .radio-card {
+      padding: var(--spacing-sm);
+    }
+  }
+
+  /* Roof type grid - stacked vertically */
+  .roof-type-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .roof-type-card {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+
+  .roof-type-card .card-image {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 0;
+  }
+
+  .roof-type-card .card-label,
+  .roof-type-card .card-desc {
+    text-align: left;
+  }
+
+  @media (max-width: 640px) {
+    .roof-type-grid {
+      max-width: 100%;
+    }
+
+    .roof-type-card {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .roof-type-card .card-label,
+    .roof-type-card .card-desc {
+      text-align: center;
+    }
+  }
+
+  /* Phone error message inline */
+  .phone-error-message {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-sm);
+    color: var(--color-error);
+    margin-top: 4px;
+  }
+
+  .phone-error-message::before {
+    content: '⚠';
+    font-size: 14px;
+  }
+
+  /* Radio Card */
+  .radio-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-md);
+    background: var(--color-bg-light);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+
+  .radio-card:hover {
+    border-color: var(--color-primary);
+    background: rgba(46, 125, 50, 0.05);
+  }
+
+  .radio-card:has(input:checked) {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .radio-card input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .card-image {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-sm);
+    font-size: 40px;
+    border-radius: var(--radius-full);
+  }
+
+  .card-icon-yes {
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+  }
+
+  .card-icon-no {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+
+  .radio-card:has(input:checked) .card-icon-yes {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--color-white);
+  }
+
+  .radio-card:has(input:checked) .card-icon-no {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--color-white);
+  }
+
+  /* Screw step layout - 4 options in a row, calculator below */
+  .radio-grid.cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .screw-options-grid {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .screw-options-grid .screw-type-card {
+    padding: var(--spacing-sm);
+  }
+
+  .screw-options-grid .card-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  @media (max-width: 768px) {
+    .radio-grid.cols-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Screw quantity section - centered below options */
+  .screw-quantity-section {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .screw-calculation {
+    background: var(--color-bg-light);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .screw-calc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .screw-calc-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .screw-calc-value {
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .screw-quantity-input {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .screw-quantity-input label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+  }
+
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    max-width: 200px;
+  }
+
+  .qty-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qty-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .quantity-controls input {
+    width: 60px;
+    text-align: center;
+    padding: var(--spacing-sm);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+  }
+
+  .quantity-controls input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  .screw-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .screw-price-label {
+    font-weight: 600;
+  }
+
+  .screw-price-value {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .card-label {
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+  }
+
+  .card-desc {
+    font-size: var(--font-size-xs);
+    opacity: 0.8;
+    margin-top: var(--spacing-xs);
+  }
+
+  .card-price {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-top: var(--spacing-xs);
+  }
+
+  .radio-card:has(input:checked) .card-price {
+    color: white;
+  }
+
+  /* Color cards - bigger images, compact height */
+  .color-card {
+    padding: var(--spacing-sm);
+    gap: 0;
+  }
+
+  .color-card .card-image {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .color-card .card-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .color-card .card-ral {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-top: 2px;
+    line-height: 1.2;
+  }
+
+  .radio-card:has(input:checked) .card-ral {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  /* Egyéb color card with question mark */
+  .color-card-other .card-icon-question {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-light);
+    border: 2px dashed var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    transition: all 0.2s;
+  }
+
+  .color-card-other:hover .card-icon-question {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .color-card-other:has(input:checked) .card-icon-question {
+    background: rgba(255,255,255,0.2);
+    border-color: var(--color-white);
+    color: var(--color-white);
+  }
+
+  /* Other color text input */
+  .other-color-input {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+  }
+
+  .other-color-input.hidden {
+    display: none;
+  }
+
+  /* Color step nav - shown only when "Egyéb" is selected */
+  .color-step-nav.hidden {
+    display: none;
+  }
+
+  /* 5 columns for color grid on desktop */
+  .step[data-step="color"] .radio-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  @media (max-width: 768px) {
+    .step[data-step="color"] .radio-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .color-card .card-image,
+    .color-card-other .card-icon-question {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .step[data-step="color"] .radio-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Info Box */
+  .info-box {
+    background: rgba(46, 125, 50, 0.1);
+    border-left: 4px solid var(--color-primary);
+    padding: var(--spacing-md);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .info-box p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+  }
+
+  /* Size inputs */
+  .size-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* Size rows - use :global for dynamically added elements */
+  :global(.size-row) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+  }
+
+  :global(.size-row .input-group) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  :global(.size-row .input-group label) {
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+  }
+
+  :global(.size-row .input-group input) {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    transition: border-color 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  :global(.size-row .input-group input:focus) {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  /* Input groups - Best practice form styling */
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .input-group label {
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+  }
+
+  .input-group input,
+  .input-group select,
+  .input-group textarea {
+    padding: 14px 16px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    background: var(--color-white);
+    color: var(--color-text);
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+    width: 100%;
+  }
+
+  .input-group input::placeholder,
+  .input-group textarea::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .input-group input:hover,
+  .input-group select:hover,
+  .input-group textarea:hover {
+    border-color: #9ca3af;
+  }
+
+  .input-group input:focus,
+  .input-group select:focus,
+  .input-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 155, 215, 0.15);
+  }
+
+  /* Validation states */
+  .input-group input.error,
+  .input-group select.error,
+  .input-group textarea.error {
+    border-color: var(--color-error);
+    background-color: var(--color-error-light);
+  }
+
+  .input-group input.error:focus,
+  .input-group select.error:focus {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+  }
+
+  .input-group input.valid,
+  .input-group select.valid {
+    border-color: var(--color-success);
+  }
+
+  /* Error message styling */
+  .input-group .error-message {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-sm);
+    color: var(--color-error);
+    margin-top: 4px;
+  }
+
+  .input-group .error-message::before {
+    content: '⚠';
+    font-size: 14px;
+  }
+
+  /* Readonly field styling */
+  .input-group input[readonly] {
+    background-color: var(--color-bg-light);
+    cursor: default;
+  }
+
+  .input-group input[readonly]:hover {
+    border-color: var(--color-border);
+  }
+
+  /* Autofill flash animation */
+  .input-group input.autofill-flash {
+    animation: greenFlash 1s ease-out;
+  }
+
+  @keyframes greenFlash {
+    0% { background-color: rgba(22, 163, 74, 0.2); }
+    100% { background-color: var(--color-white); }
+  }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+  }
+
+  @media (max-width: 480px) {
+    .input-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Roof inputs */
+  .roof-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  .roof-diagram {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm);
+  }
+
+  .roof-type-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  .roof-type-image img {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .roof-type-label {
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0;
+    font-size: var(--font-size-sm);
+  }
+
+  .roof-type-image.hidden {
+    display: none;
+  }
+
+  /* Multiple roofs */
+  .roofs-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  /* Roof entries - use :global for dynamically added elements */
+  :global(.roof-entry) {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  :global(.roof-entry-header) {
+    background: var(--color-bg-light);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  :global(.roof-entry-title) {
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  :global(.roof-entry-content) {
+    padding: var(--spacing-md);
+  }
+
+  /* Horizontal layout: image left, inputs right */
+  :global(.roof-entry-horizontal) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+  }
+
+  :global(.roof-entry-horizontal .roof-diagram) {
+    margin-bottom: 0;
+    min-width: 150px;
+  }
+
+  :global(.roof-entry-horizontal .roof-inputs) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  @media (max-width: 640px) {
+    :global(.roof-entry-horizontal) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Roof type selector for additional roofs */
+  :global(.roof-type-selector) {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  :global(.roof-type-option) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+    max-width: 150px;
+  }
+
+  :global(.roof-type-option:hover) {
+    border-color: var(--color-primary);
+  }
+
+  :global(.roof-type-option:has(input:checked)) {
+    border-color: var(--color-primary);
+    background: rgba(37, 155, 215, 0.1);
+  }
+
+  :global(.roof-type-option input) {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  :global(.roof-type-option img) {
+    width: 80px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  :global(.roof-type-option span) {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  :global(.roof-cd-input.hidden) {
+    display: none;
+  }
+
+  :global(.btn-remove-roof) {
+    background: transparent;
+    border: none;
+    color: #dc2626;
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+  }
+
+  :global(.btn-remove-roof:hover) {
+    color: #b91c1c;
+  }
+
+  /* Dynamically added roof inputs */
+  :global(.roof-entry .roof-diagram) {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm);
+  }
+
+  :global(.roof-entry .roof-type-image) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  :global(.roof-entry .roof-type-image img) {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  :global(.roof-entry .roof-type-label) {
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0;
+    font-size: var(--font-size-sm);
+  }
+
+  :global(.roof-entry .roof-type-image.hidden) {
+    display: none;
+  }
+
+  :global(.roof-entry .roof-inputs) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  :global(.roof-entry .roof-inputs .input-group) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  :global(.roof-entry .roof-inputs .input-group label) {
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+  }
+
+  :global(.roof-entry .roof-inputs .input-group input) {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  :global(.roof-entry .roof-inputs .input-group input:focus) {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  /* Fence inputs */
+  .fence-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  /* Fence mode toggle */
+  .fence-mode-toggle {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .mode-btn {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--color-bg-light);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .mode-btn:hover {
+    border-color: var(--color-primary);
+  }
+
+  .mode-btn.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .fence-simple-mode.hidden,
+  .fence-sides-mode.hidden {
+    display: none;
+  }
+
+  .fence-sides-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  :global(.fence-side-row) {
+    background: var(--color-bg-light);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+  }
+
+  :global(.fence-side-inputs) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+  }
+
+  @media (max-width: 480px) {
+    :global(.fence-side-inputs) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  :global(.fence-side-row .input-group) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  :global(.fence-side-row .input-group label) {
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+  }
+
+  :global(.fence-side-row .input-group input) {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  :global(.fence-side-row .input-group input:focus) {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  .fence-total {
+    background: rgba(46, 125, 50, 0.1);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    text-align: center;
+    margin-top: var(--spacing-md);
+  }
+
+  .fence-total span {
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+  }
+
+  /* Add size button */
+  .btn-add-size {
+    width: 100%;
+    padding: var(--spacing-sm);
+    background: transparent;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-light);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-add-size:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  /* Contact form - Professional styling */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--color-white);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .contact-form .input-row {
+    gap: var(--spacing-lg);
+  }
+
+  .address-inputs {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .address-inputs input:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .address-inputs-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .address-inputs-vertical .input-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  @media (max-width: 640px) {
+    .contact-form {
+      padding: 0;
+      margin: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    .address-inputs-vertical .input-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .postcode-group input {
+    text-align: center;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  .city-group input {
+    background: var(--color-bg-light);
+  }
+
+  .city-group input:not([readonly]) {
+    background: var(--color-white);
+  }
+
+  /* Checkbox styling */
+  .checkbox-group {
+    margin-top: var(--spacing-lg);
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    color: var(--color-text-light);
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: var(--color-primary);
+    cursor: pointer;
+  }
+
+  .checkbox-label a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .checkbox-label a:hover {
+    color: var(--color-primary-dark);
+  }
+
+  /* Form error summary */
+  .form-error-summary {
+    background: var(--color-error-light);
+    border: 1px solid var(--color-error);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .form-error-summary h4 {
+    color: var(--color-error);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    margin: 0 0 var(--spacing-xs) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  .form-error-summary h4::before {
+    content: '⚠';
+  }
+
+  .form-error-summary ul {
+    margin: 0;
+    padding-left: var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    color: var(--color-error);
+  }
+
+  .form-error-summary li {
+    margin-bottom: 2px;
+  }
+
+  .input-small {
+    max-width: 120px;
+  }
+
+  /* Checkbox */
+  .checkbox-group {
+    margin-top: var(--spacing-sm);
+  }
+
+  .checkbox-label {
+    display: flex;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+  }
+
+  .checkbox-label input {
+    margin-top: 2px;
+  }
+
+  .checkbox-label a {
+    color: var(--color-primary);
+  }
+
+  /* Step navigation */
+  .step-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-xl);
+    gap: var(--spacing-md);
+  }
+
+  .step-nav .btn {
+    flex: 1;
+    max-width: 200px;
+  }
+
+  /* Social proof */
+  .social-proof {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+    color: var(--color-text-muted);
+  }
+
+  .social-proof strong {
+    color: var(--color-primary);
+  }
+
+  /* Help widget - fixed bottom right */
+  .help-widget {
+    position: fixed;
+    bottom: var(--spacing-lg);
+    right: var(--spacing-lg);
+    z-index: 100;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .help-widget-hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+  }
+
+  .help-widget-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background: var(--color-white);
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) var(--spacing-sm);
+    border-radius: var(--radius-full);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: all 0.2s ease;
+  }
+
+  .help-widget-btn:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .help-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    border: 2px solid var(--color-primary);
+  }
+
+  .help-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .help-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+
+  .help-phone {
+    font-weight: 700;
+    color: var(--color-primary);
+    font-size: var(--font-size-sm);
+  }
+
+  @media (max-width: 640px) {
+    .help-widget {
+      bottom: var(--spacing-md);
+      right: var(--spacing-md);
+    }
+
+    .help-widget-btn {
+      padding: var(--spacing-xs);
+    }
+
+    .help-text {
+      display: none;
+    }
+
+    .help-avatar {
+      width: 56px;
+      height: 56px;
+    }
+  }
+
+  /* Centimeter warning */
+  .cm-warning {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    margin-top: 8px;
+    font-size: var(--font-size-sm);
+  }
+
+  .cm-warning-icon {
+    flex-shrink: 0;
+  }
+
+  .cm-warning-text {
+    color: #856404;
+  }
+
+  /* Roof type selector hidden by default for first roof */
+  .roof-entry:first-child .roof-type-selector {
+    display: none;
+  }
+
+  .roof-type-selector.hidden {
+    display: none !important;
+  }
+</style>
+
+<script>
+  // Calculator state
+  interface CalculatorState {
+    currentStep: string;
+    answers: Record<string, unknown>;
+    startedAt: number;
+  }
+
+  const STORAGE_KEY = 'trapez_calculator';
+
+  let state: CalculatorState = {
+    currentStep: 'knows-sizes',
+    answers: {},
+    startedAt: Date.now()
+  };
+
+  // DOM elements
+  const form = document.getElementById('calculator-form') as HTMLFormElement;
+  const progressContainer = document.getElementById('progress-container') as HTMLElement;
+  const progressWrapper = document.querySelector('.progress-wrapper') as HTMLElement;
+  const sizeInputs = document.getElementById('size-inputs') as HTMLElement;
+  const addSizeBtn = document.getElementById('add-size-btn') as HTMLButtonElement;
+  let sizeCount = 1;
+
+  // Step to progress mapping (which progress button corresponds to which steps)
+  // Order: sizes(1) → color(2) → shipping/address(3) → screws(4) → name(5) → contact(6)
+  const stepToProgressMap: Record<string, number> = {
+    'knows-sizes': 1, 'manual-sizes': 1, 'usage': 1, 'roof-type': 1, 'roof-sizes': 1, 'fence-sizes': 1,
+    'color': 2,
+    'shipping': 3, 'address': 3,
+    'screws': 4, 'secondhand': 4,
+    'name': 5,
+    'contact': 6
+  };
+
+  // Postcode to city lookup cache
+  let postcodeCache: Record<string, string> | null = null;
+
+  // Track completed main steps
+  const completedMainSteps = new Set<number>();
+
+  // Load state from localStorage
+  function loadState(): void {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        state = JSON.parse(saved);
+        // Rebuild completed steps based on answers
+        rebuildCompletedSteps();
+        navigateToStep(state.currentStep, false);
+      } catch (e) {
+        console.error('Failed to load state:', e);
+      }
+    }
+  }
+
+  // Rebuild completed steps from state
+  function rebuildCompletedSteps(): void {
+    completedMainSteps.clear();
+    // Check which steps have been completed based on answers
+    if (state.answers.knows_sizes) completedMainSteps.add(1);
+    if (state.answers.color) completedMainSteps.add(2);
+    if (state.answers.shipping) completedMainSteps.add(3);
+    if (state.answers.screws) completedMainSteps.add(4);
+  }
+
+  // Save state to localStorage
+  function saveState(): void {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  // Update progress bar UI
+  function updateProgress(stepId: string): void {
+    const currentMainStep = stepToProgressMap[stepId] || 1;
+
+    // Mark current step as completed when we move past it
+    const progressSteps = progressContainer.querySelectorAll('.progress-step');
+    const progressLines = progressContainer.querySelectorAll('.progress-line');
+
+    progressSteps.forEach((step, index) => {
+      const stepNum = index + 1;
+      step.classList.remove('active', 'completed');
+      (step as HTMLButtonElement).disabled = true;
+
+      if (stepNum === currentMainStep) {
+        step.classList.add('active');
+        (step as HTMLButtonElement).disabled = false;
+      } else if (completedMainSteps.has(stepNum) || stepNum < currentMainStep) {
+        step.classList.add('completed');
+        (step as HTMLButtonElement).disabled = false;
+        completedMainSteps.add(stepNum);
+      }
+    });
+
+    // Update progress lines
+    progressLines.forEach((line, index) => {
+      const lineNum = index + 1;
+      if (completedMainSteps.has(lineNum) || lineNum < currentMainStep) {
+        line.classList.add('completed');
+      } else {
+        line.classList.remove('completed');
+      }
+    });
+
+    // Scroll to center the active step on mobile
+    scrollProgressToCenter(currentMainStep);
+  }
+
+  // Scroll progress bar to center active step
+  function scrollProgressToCenter(stepNum: number): void {
+    const activeStep = progressContainer.querySelector(`.progress-step:nth-child(${stepNum * 2 - 1})`) as HTMLElement;
+    if (activeStep && progressWrapper) {
+      const wrapperWidth = progressWrapper.offsetWidth;
+      const stepLeft = activeStep.offsetLeft;
+      const stepWidth = activeStep.offsetWidth;
+      const scrollPos = stepLeft - (wrapperWidth / 2) + (stepWidth / 2);
+
+      progressWrapper.scrollTo({
+        left: Math.max(0, scrollPos),
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  // Navigate to step
+  function navigateToStep(stepId: string, pushState = true): void {
+    // Hide all steps
+    document.querySelectorAll('.step').forEach(step => {
+      step.classList.add('hidden');
+    });
+
+    // Show target step
+    const targetStep = document.querySelector(`[data-step="${stepId}"]`);
+    if (targetStep) {
+      targetStep.classList.remove('hidden');
+      state.currentStep = stepId;
+      updateProgress(stepId);
+      saveState();
+
+      if (pushState) {
+        history.pushState({ step: stepId }, '', `#step-${stepId}`);
+      }
+
+      // Update roof type image on roof-sizes step
+      if (stepId === 'roof-sizes') {
+        updateRoofTypeImage();
+      }
+
+      // Focus first input
+      const firstInput = targetStep.querySelector('input:not([type="radio"]):not([type="checkbox"])') as HTMLInputElement;
+      if (firstInput) {
+        setTimeout(() => firstInput.focus(), 100);
+      }
+
+      // Track step view
+      trackEvent('calculator_step', { step: stepId });
+    }
+  }
+
+  // Get next step based on current answers
+  // Order: sizes → color → shipping → [address if needed] → screws → secondhand → name → contact
+  function getNextStep(currentStep: string): string {
+    switch (currentStep) {
+      case 'knows-sizes':
+        return state.answers.knows_sizes === 'yes' ? 'manual-sizes' : 'usage';
+      case 'manual-sizes':
+        return 'color';
+      case 'usage':
+        // Kerítés → fence-sizes, Tető → roof-type, Tető és oldalfal → roof-type
+        if (state.answers.usage === 'kerites') return 'fence-sizes';
+        return 'roof-type'; // teto or teto_es_oldalfal
+      case 'roof-type':
+        return 'roof-sizes';
+      case 'roof-sizes':
+        // Tető → color, Tető és oldalfal → fence-sizes
+        if (state.answers.usage === 'teto_es_oldalfal') return 'fence-sizes';
+        return 'color';
+      case 'fence-sizes':
+        return 'color';
+      case 'color':
+        return 'shipping';
+      case 'shipping':
+        // Ha szállítást kértek → address, különben screws
+        if (state.answers.shipping && state.answers.shipping !== 'sajat') {
+          return 'address';
+        }
+        return 'screws';
+      case 'address':
+        return 'screws';
+      case 'screws':
+        return 'secondhand';
+      case 'secondhand':
+        return 'name';
+      case 'name':
+        return 'contact';
+      case 'contact':
+        return 'contact'; // Final step - form submission happens here
+      default:
+        return 'contact';
+    }
+  }
+
+  // Get previous step
+  function getPrevStep(currentStep: string): string {
+    switch (currentStep) {
+      case 'manual-sizes':
+        return 'knows-sizes';
+      case 'usage':
+        return 'knows-sizes';
+      case 'roof-type':
+        return 'usage';
+      case 'roof-sizes':
+        return 'roof-type';
+      case 'fence-sizes':
+        // Kerítés → usage, Tető és oldalfal → roof-sizes
+        if (state.answers.usage === 'teto_es_oldalfal') return 'roof-sizes';
+        return 'usage';
+      case 'color':
+        if (state.answers.knows_sizes === 'yes') return 'manual-sizes';
+        // Kerítés vagy Tető és oldalfal → fence-sizes, Tető → roof-sizes
+        if (state.answers.usage === 'kerites' || state.answers.usage === 'teto_es_oldalfal') return 'fence-sizes';
+        return 'roof-sizes';
+      case 'shipping':
+        return 'color';
+      case 'address':
+        return 'shipping';
+      case 'screws':
+        // Ha szállítást kértek → address, különben shipping
+        if (state.answers.shipping && state.answers.shipping !== 'sajat') {
+          return 'address';
+        }
+        return 'shipping';
+      case 'secondhand':
+        return 'screws';
+      case 'name':
+        return 'secondhand';
+      case 'contact':
+        return 'name';
+      default:
+        return 'knows-sizes';
+    }
+  }
+
+  // Track GTM event
+  function trackEvent(event: string, data: Record<string, unknown> = {}): void {
+    if (typeof window !== 'undefined' && (window as any).dataLayer) {
+      (window as any).dataLayer.push({ event, ...data });
+    }
+  }
+
+  // Auto-advance for radio cards
+  function initAutoAdvance(): void {
+    document.querySelectorAll('[data-auto-advance]').forEach(card => {
+      const radio = card.querySelector('input[type="radio"]') as HTMLInputElement;
+      if (radio) {
+        radio.addEventListener('change', () => {
+          // Save answer
+          state.answers[radio.name] = radio.value;
+          saveState();
+
+          // Track selection
+          trackEvent('calculator_option', { field: radio.name, value: radio.value });
+
+          // Auto-advance after delay
+          setTimeout(() => {
+            navigateToStep(getNextStep(state.currentStep));
+          }, 200);
+        });
+      }
+    });
+  }
+
+  // Handle "Egyéb" color selection (no auto-advance, show text input)
+  function initColorOtherOption(): void {
+    const colorOtherCard = document.getElementById('color-other-card');
+    const colorOtherInput = document.getElementById('other-color-input');
+    const colorOtherText = document.getElementById('color_other_text') as HTMLInputElement;
+    const colorStepNav = document.getElementById('color-step-nav');
+    const colorRadio = colorOtherCard?.querySelector('input[type="radio"]') as HTMLInputElement;
+
+    if (!colorOtherCard || !colorOtherInput || !colorStepNav || !colorRadio) return;
+
+    // When "Egyéb" is selected, show text input and manual nav
+    colorRadio.addEventListener('change', () => {
+      if (colorRadio.checked) {
+        colorOtherInput.classList.remove('hidden');
+        colorStepNav.classList.remove('hidden');
+        state.answers.color = 'egyeb';
+        saveState();
+
+        // Focus the text input
+        setTimeout(() => colorOtherText?.focus(), 100);
+      }
+    });
+
+    // When any other color is selected, hide the text input
+    document.querySelectorAll('input[name="color"]').forEach(radio => {
+      if (radio !== colorRadio) {
+        radio.addEventListener('change', () => {
+          colorOtherInput.classList.add('hidden');
+          colorStepNav.classList.add('hidden');
+        });
+      }
+    });
+  }
+
+  // Navigation buttons
+  function initNavButtons(): void {
+    document.querySelectorAll('[data-next]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Validate current step
+        const currentStepEl = document.querySelector(`[data-step="${state.currentStep}"]`);
+        if (currentStepEl) {
+          const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
+          let valid = true;
+
+          inputs.forEach(input => {
+            if (!(input as HTMLInputElement).checkValidity()) {
+              valid = false;
+              (input as HTMLInputElement).reportValidity();
+            }
+          });
+
+          if (valid) {
+            // Save form data
+            const formData = new FormData(form);
+            formData.forEach((value, key) => {
+              state.answers[key] = value;
+            });
+            saveState();
+
+            navigateToStep(getNextStep(state.currentStep));
+          }
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-prev]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        navigateToStep(getPrevStep(state.currentStep));
+      });
+    });
+  }
+
+  // Progress step click handlers
+  function initProgressStepClicks(): void {
+    progressContainer.querySelectorAll('.progress-step').forEach(step => {
+      step.addEventListener('click', (e) => {
+        const btn = e.currentTarget as HTMLButtonElement;
+
+        // Only allow clicking on completed or active steps
+        if (btn.disabled) return;
+
+        const targetStep = btn.dataset.target;
+        if (targetStep) {
+          // Map progress target to actual step
+          // Target 1 -> step 1 (or 2a/2b based on previous path)
+          // Target 3-6 -> steps 3-6
+          let actualStep = targetStep;
+
+          if (targetStep === '1') {
+            // Go back to start of size entry
+            actualStep = '1';
+          }
+
+          navigateToStep(actualStep);
+        }
+      });
+    });
+  }
+
+  // Add size row - safe DOM manipulation
+  function addSizeRow(): void {
+    if (sizeCount >= 8) {
+      addSizeBtn.style.display = 'none';
+      return;
+    }
+
+    sizeCount++;
+    const row = document.createElement('div');
+    row.className = 'size-row';
+
+    // Build DOM elements safely without innerHTML
+    const group1 = document.createElement('div');
+    group1.className = 'input-group';
+    const label1 = document.createElement('label');
+    label1.setAttribute('for', `length_${sizeCount}`);
+    label1.textContent = `${sizeCount}. méret hossza (cm)`;
+    const input1 = document.createElement('input');
+    input1.type = 'number';
+    input1.id = `length_${sizeCount}`;
+    input1.name = `length_${sizeCount}`;
+    input1.min = '10';
+    input1.max = '800';
+    group1.appendChild(label1);
+    group1.appendChild(input1);
+
+    const group2 = document.createElement('div');
+    group2.className = 'input-group';
+    const label2 = document.createElement('label');
+    label2.setAttribute('for', `quantity_${sizeCount}`);
+    label2.textContent = 'Darabszám';
+    const input2 = document.createElement('input');
+    input2.type = 'number';
+    input2.id = `quantity_${sizeCount}`;
+    input2.name = `quantity_${sizeCount}`;
+    input2.min = '1';
+    group2.appendChild(label2);
+    group2.appendChild(input2);
+
+    row.appendChild(group1);
+    row.appendChild(group2);
+    sizeInputs.appendChild(row);
+
+    if (sizeCount >= 8) {
+      addSizeBtn.style.display = 'none';
+    }
+  }
+
+  // Handle shipping selection change - update state
+  function initShippingChangeHandler(): void {
+    const shippingRadios = document.querySelectorAll('input[name="shipping"]');
+
+    shippingRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        state.answers.shipping = (radio as HTMLInputElement).value;
+        saveState();
+      });
+    });
+  }
+
+  // ==========================================
+  // POSTCODE TO CITY LOOKUP
+  // ==========================================
+  async function loadPostcodeCache(): Promise<void> {
+    if (postcodeCache) return;
+    try {
+      const response = await fetch('/postcodes.json');
+      postcodeCache = await response.json();
+    } catch (e) {
+      console.warn('Could not load postcode database:', e);
+      postcodeCache = {};
+    }
+  }
+
+  function initPostcodeLookup(): void {
+    const postcodeInput = document.getElementById('postcode') as HTMLInputElement;
+    const cityInput = document.getElementById('city') as HTMLInputElement;
+
+    if (!postcodeInput || !cityInput) return;
+
+    // Load cache on first interaction
+    postcodeInput.addEventListener('focus', () => loadPostcodeCache(), { once: true });
+
+    // Lookup city when postcode changes
+    postcodeInput.addEventListener('input', async () => {
+      const postcode = postcodeInput.value.trim();
+
+      // Only lookup when we have 4 digits
+      if (postcode.length !== 4 || !/^\d{4}$/.test(postcode)) {
+        cityInput.value = '';
+        cityInput.readOnly = true;
+        return;
+      }
+
+      await loadPostcodeCache();
+
+      if (postcodeCache && postcodeCache[postcode]) {
+        cityInput.value = postcodeCache[postcode];
+        cityInput.readOnly = true;
+      } else {
+        // Unknown postcode - allow manual entry
+        cityInput.value = '';
+        cityInput.readOnly = false;
+        cityInput.placeholder = 'Ismeretlen irányítószám - írja be';
+      }
+    });
+  }
+
+  // ==========================================
+  // FENCE MULTI-SIDE INPUT
+  // ==========================================
+  let fenceSideCount = 1;
+
+  function initFenceModeToggle(): void {
+    const modeButtons = document.querySelectorAll('[data-fence-mode]');
+    const simpleMode = document.getElementById('fence-simple-mode');
+    const sidesMode = document.getElementById('fence-sides-mode');
+    const addSideBtn = document.getElementById('add-fence-side-btn');
+    const sidesList = document.getElementById('fence-sides-list');
+
+    modeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = (btn as HTMLElement).dataset.fenceMode;
+
+        // Update active state
+        modeButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Toggle modes
+        if (mode === 'simple') {
+          simpleMode?.classList.remove('hidden');
+          sidesMode?.classList.add('hidden');
+        } else {
+          simpleMode?.classList.add('hidden');
+          sidesMode?.classList.remove('hidden');
+        }
+
+        state.answers.fence_mode = mode;
+        saveState();
+      });
+    });
+
+    // Add fence side - safe DOM manipulation
+    addSideBtn?.addEventListener('click', () => {
+      if (fenceSideCount >= 8) return;
+
+      fenceSideCount++;
+      const row = document.createElement('div');
+      row.className = 'fence-side-row';
+
+      // Build DOM elements safely without innerHTML
+      const sideInputs = document.createElement('div');
+      sideInputs.className = 'fence-side-inputs';
+
+      const group1 = document.createElement('div');
+      group1.className = 'input-group';
+      const label1 = document.createElement('label');
+      label1.textContent = `${fenceSideCount}. oldal hossza (cm)`;
+      const input1 = document.createElement('input');
+      input1.type = 'number';
+      input1.name = `fence_side_${fenceSideCount}_length`;
+      input1.min = '10';
+      input1.className = 'fence-side-input';
+      group1.appendChild(label1);
+      group1.appendChild(input1);
+
+      const group2 = document.createElement('div');
+      group2.className = 'input-group';
+      const label2 = document.createElement('label');
+      label2.textContent = 'Magassága (cm)';
+      const input2 = document.createElement('input');
+      input2.type = 'number';
+      input2.name = `fence_side_${fenceSideCount}_height`;
+      input2.min = '10';
+      input2.className = 'fence-height-input';
+      group2.appendChild(label2);
+      group2.appendChild(input2);
+
+      sideInputs.appendChild(group1);
+      sideInputs.appendChild(group2);
+      row.appendChild(sideInputs);
+      sidesList?.appendChild(row);
+
+      // Add event listeners for total calculation
+      input1.addEventListener('input', updateFenceTotal);
+      input2.addEventListener('input', updateFenceTotal);
+
+      if (fenceSideCount >= 8) {
+        addSideBtn.style.display = 'none';
+      }
+    });
+
+    // Initial event listeners for total calculation
+    document.querySelectorAll('.fence-side-input, .fence-height-input').forEach(input => {
+      input.addEventListener('input', updateFenceTotal);
+    });
+  }
+
+  function updateFenceTotal(): void {
+    const sideRows = document.querySelectorAll('.fence-side-row');
+    let totalArea = 0;
+
+    sideRows.forEach(row => {
+      const lengthInput = row.querySelector('.fence-side-input') as HTMLInputElement;
+      const heightInput = row.querySelector('.fence-height-input') as HTMLInputElement;
+      const length = parseInt(lengthInput?.value, 10) || 0;
+      const height = parseInt(heightInput?.value, 10) || 0;
+      if (length > 0 && height > 0) {
+        totalArea += (length / 100) * (height / 100); // Convert to m²
+      }
+    });
+
+    const totalEl = document.getElementById('fence-total-area');
+    if (totalEl) {
+      totalEl.textContent = totalArea.toFixed(2);
+    }
+
+    // Also update hidden field for form submission
+    state.answers.fence_total_area = totalArea;
+  }
+
+  // ==========================================
+  // SCREW QUANTITY CALCULATOR
+  // ==========================================
+  const SCREW_PRICE_PER_BOX = 5990;
+  const SQM_PER_BOX = 25;
+
+  function initScrewCalculator(): void {
+    const screwTypeCards = document.querySelectorAll('.screw-type-card');
+    const quantitySection = document.getElementById('screw-quantity-section');
+    const quantityInput = document.getElementById('screw_quantity') as HTMLInputElement;
+    const recommendedEl = document.getElementById('screw-recommended');
+    const priceEl = document.getElementById('screw-price');
+    const minusBtn = document.getElementById('screw-qty-minus');
+    const plusBtn = document.getElementById('screw-qty-plus');
+
+    if (!quantitySection || !quantityInput) return;
+
+    // Calculate recommended boxes based on total m²
+    function getRecommendedBoxes(): number {
+      let totalSqm = 0;
+
+      // Try to get from saved answers (sizes from step 2a)
+      for (let i = 1; i <= 8; i++) {
+        const length = parseFloat(state.answers[`length_${i}`] as string) || 0;
+        const qty = parseFloat(state.answers[`quantity_${i}`] as string) || 0;
+        if (length && qty) {
+          // Length in cm, width 110cm (cover width)
+          totalSqm += (length / 100) * 1.1 * qty;
+        }
+      }
+
+      // Also check roof dimensions
+      for (let i = 1; i <= 4; i++) {
+        const a = parseFloat(state.answers[`roof_${i}_a`] as string) || 0;
+        const b = parseFloat(state.answers[`roof_${i}_b`] as string) || 0;
+        if (a && b) {
+          totalSqm += (a / 100) * (b / 100);
+        }
+      }
+
+      // Check fence dimensions
+      const fenceLength = parseFloat(state.answers.fence_length as string) || 0;
+      const fenceHeight = parseFloat(state.answers.fence_height as string) || 0;
+      if (fenceLength && fenceHeight) {
+        totalSqm += (fenceLength / 100) * (fenceHeight / 100);
+      }
+
+      if (totalSqm <= 0) totalSqm = 25; // Default to 1 box if unknown
+
+      return Math.max(1, Math.ceil(totalSqm / SQM_PER_BOX));
+    }
+
+    function updateScrewPrice(): void {
+      const qty = parseInt(quantityInput.value, 10) || 1;
+      const price = qty * SCREW_PRICE_PER_BOX;
+      if (priceEl) {
+        priceEl.textContent = new Intl.NumberFormat('hu-HU').format(price) + ' Ft';
+      }
+      state.answers.screw_quantity = qty;
+      state.answers.screw_price = price;
+      saveState();
+    }
+
+    function showQuantitySection(): void {
+      const recommended = getRecommendedBoxes();
+      if (recommendedEl) {
+        recommendedEl.textContent = `${recommended} doboz (${recommended * SQM_PER_BOX} m²-hez)`;
+      }
+      quantityInput.value = recommended.toString();
+      updateScrewPrice();
+      quantitySection?.classList.remove('hidden');
+    }
+
+    // When a screw type is selected, update quantity section
+    screwTypeCards.forEach(card => {
+      const radio = card.querySelector('input[type="radio"]') as HTMLInputElement;
+      if (radio) {
+        radio.addEventListener('change', () => {
+          state.answers.screws = radio.value;
+          if (radio.value === 'nem') {
+            // Set quantity to 0 when "no screws" selected and auto-advance
+            quantityInput.value = '0';
+            updateScrewPrice();
+            // Auto-advance to next step
+            setTimeout(() => {
+              navigateToStep(getNextStep(state.currentStep));
+            }, 200);
+          } else {
+            // Show recommended quantity
+            showQuantitySection();
+          }
+          saveState();
+        });
+      }
+    });
+
+    // Initialize with recommended boxes on step load
+    showQuantitySection();
+
+    // Quantity controls
+    minusBtn?.addEventListener('click', () => {
+      const current = parseInt(quantityInput.value, 10) || 0;
+      if (current > 0) {
+        quantityInput.value = (current - 1).toString();
+        updateScrewPrice();
+      }
+    });
+
+    plusBtn?.addEventListener('click', () => {
+      const current = parseInt(quantityInput.value, 10) || 1;
+      if (current < 20) {
+        quantityInput.value = (current + 1).toString();
+        updateScrewPrice();
+      }
+    });
+
+    quantityInput.addEventListener('change', () => {
+      let val = parseInt(quantityInput.value, 10) || 0;
+      if (val < 0) val = 0;
+      if (val > 20) val = 20;
+      quantityInput.value = val.toString();
+      updateScrewPrice();
+    });
+  }
+
+  // ==========================================
+  // MULTIPLE ROOFS
+  // ==========================================
+  let roofCount = 1;
+
+  function initMultipleRoofs(): void {
+    const addRoofBtn = document.getElementById('add-roof-btn');
+    const roofsContainer = document.getElementById('roofs-container');
+
+    // Get image URLs from the first roof's diagram
+    const nyeregImgUrl = document.querySelector('[data-roof-type="nyereg"] img')?.getAttribute('src') || '';
+    const feltetoImgUrl = document.querySelector('[data-roof-type="felteto"] img')?.getAttribute('src') || '';
+
+    addRoofBtn?.addEventListener('click', () => {
+      if (roofCount >= 4) return; // Max 4 tetők
+
+      roofCount++;
+
+      const roofEntry = document.createElement('div');
+      roofEntry.className = 'roof-entry';
+      roofEntry.dataset.roofIndex = roofCount.toString();
+      roofEntry.innerHTML = `
+        <div class="roof-entry-header">
+          <span class="roof-entry-title">${roofCount}. tető</span>
+          <button type="button" class="btn-remove-roof" data-remove-roof="${roofCount}">✕ Törlés</button>
+        </div>
+        <div class="roof-entry-content roof-entry-horizontal">
+          <div class="roof-diagram">
+            <div class="roof-type-image" data-roof-type="nyereg">
+              <img src="${nyeregImgUrl}" alt="Nyeregtető" />
+              <p class="roof-type-label">Nyeregtető</p>
+            </div>
+            <div class="roof-type-image hidden" data-roof-type="felteto">
+              <img src="${feltetoImgUrl}" alt="Féltető" />
+              <p class="roof-type-label">Féltető</p>
+            </div>
+            <div class="roof-type-selector">
+              <label class="roof-type-option">
+                <input type="radio" name="roof_${roofCount}_type" value="nyereg" checked />
+                <span>Nyeregtető</span>
+              </label>
+              <label class="roof-type-option">
+                <input type="radio" name="roof_${roofCount}_type" value="felteto" />
+                <span>Féltető</span>
+              </label>
+            </div>
+          </div>
+          <div class="roof-inputs">
+            <div class="input-group">
+              <label>A oldal (cm) *</label>
+              <input type="number" name="roof_${roofCount}_a" min="10" class="roof-input-a" placeholder="Szélesség" required />
+            </div>
+            <div class="input-group">
+              <label>B oldal (cm) *</label>
+              <input type="number" name="roof_${roofCount}_b" min="10" class="roof-input-b" placeholder="Lejtő hossza" required />
+            </div>
+            <div class="input-group roof-cd-input hidden">
+              <label>C oldal (cm)</label>
+              <input type="number" name="roof_${roofCount}_c" min="10" class="roof-input-c" placeholder="Másik szélesség" />
+            </div>
+            <div class="input-group roof-cd-input hidden">
+              <label>D oldal (cm)</label>
+              <input type="number" name="roof_${roofCount}_d" min="10" class="roof-input-d" placeholder="Másik lejtő" />
+            </div>
+          </div>
+        </div>
+      `;
+
+      roofsContainer?.appendChild(roofEntry);
+
+      // Add roof type change handler for this new roof
+      const typeRadios = roofEntry.querySelectorAll(`input[name="roof_${roofCount}_type"]`);
+      typeRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          const selectedType = (radio as HTMLInputElement).value;
+          const nyeregImg = roofEntry.querySelector('[data-roof-type="nyereg"]');
+          const feltetoImg = roofEntry.querySelector('[data-roof-type="felteto"]');
+          const cdInputs = roofEntry.querySelectorAll('.roof-cd-input');
+
+          if (selectedType === 'felteto') {
+            nyeregImg?.classList.add('hidden');
+            feltetoImg?.classList.remove('hidden');
+            cdInputs.forEach(input => input.classList.add('hidden'));
+          } else {
+            nyeregImg?.classList.remove('hidden');
+            feltetoImg?.classList.add('hidden');
+            cdInputs.forEach(input => input.classList.remove('hidden'));
+          }
+        });
+      });
+
+      // Add remove handler
+      const removeBtn = roofEntry.querySelector('.btn-remove-roof');
+      removeBtn?.addEventListener('click', () => {
+        roofEntry.remove();
+        updateRoofNumbers();
+      });
+
+      if (roofCount >= 4) {
+        addRoofBtn.style.display = 'none';
+      }
+    });
+  }
+
+  function updateRoofNumbers(): void {
+    const entries = document.querySelectorAll('.roof-entry');
+    entries.forEach((entry, index) => {
+      const title = entry.querySelector('.roof-entry-title');
+      if (title) {
+        title.textContent = `${index + 1}. tető`;
+      }
+    });
+    roofCount = entries.length;
+
+    const addRoofBtn = document.getElementById('add-roof-btn');
+    if (addRoofBtn && roofCount < 4) {
+      addRoofBtn.style.display = '';
+    }
+  }
+
+  // Update roof type image display for all roofs
+  // First roof follows main selection, additional roofs can have their own type
+  function updateRoofTypeImage(): void {
+    const mainRoofType = state.answers.roof_type as string;
+    const isFelteto = mainRoofType === 'felteto';
+
+    document.querySelectorAll('.roof-entry').forEach((entry, index) => {
+      const nyeregImg = entry.querySelector('[data-roof-type="nyereg"]');
+      const feltetoImg = entry.querySelector('[data-roof-type="felteto"]');
+      const cdInputs = entry.querySelectorAll('.roof-cd-input') as NodeListOf<HTMLElement>;
+      const typeSelector = entry.querySelector('.roof-type-selector');
+
+      // First roof uses main selection, no type selector
+      if (index === 0) {
+        if (typeSelector) typeSelector.classList.add('hidden');
+
+        if (nyeregImg && feltetoImg) {
+          if (isFelteto) {
+            nyeregImg.classList.add('hidden');
+            feltetoImg.classList.remove('hidden');
+            // Hide C/D inputs for felteto - set display none directly
+            cdInputs.forEach(input => {
+              input.classList.add('hidden');
+              input.style.display = 'none';
+            });
+          } else {
+            nyeregImg.classList.remove('hidden');
+            feltetoImg.classList.add('hidden');
+            // Show C/D inputs for nyereg
+            cdInputs.forEach(input => {
+              input.classList.remove('hidden');
+              input.style.display = '';
+            });
+          }
+        }
+      } else {
+        // Additional roofs can select their own type
+        if (typeSelector) typeSelector.classList.remove('hidden');
+        // Type is controlled by radio buttons, handled in initMultipleRoofs
+      }
+    });
+  }
+
+  // Centimeter warning check
+  function checkCentimeterWarning(input: HTMLInputElement): void {
+    const value = parseFloat(input.value);
+    const warningId = `cm-warning-${input.name}`;
+    const existingWarning = document.getElementById(warningId);
+
+    // Remove existing warning
+    if (existingWarning) existingWarning.remove();
+
+    // Show warning for values under 50 (likely meters instead of cm)
+    if (value > 0 && value < 50) {
+      const warning = document.createElement('div');
+      warning.id = warningId;
+      warning.className = 'cm-warning';
+
+      // Safe DOM manipulation - no innerHTML with dynamic values
+      const iconSpan = document.createElement('span');
+      iconSpan.className = 'cm-warning-icon';
+      iconSpan.textContent = '⚠️';
+      const textSpan = document.createElement('span');
+      textSpan.className = 'cm-warning-text';
+      textSpan.textContent = `Biztos, hogy centiméterben adta meg? (${value} cm = ${(value / 100).toFixed(2)} méter)`;
+      warning.appendChild(iconSpan);
+      warning.appendChild(textSpan);
+
+      input.parentElement?.appendChild(warning);
+    }
+  }
+
+  // Initialize centimeter warnings for size inputs
+  function initCentimeterWarnings(): void {
+    // Watch all dimension inputs
+    const dimensionInputs = document.querySelectorAll(
+      'input[name^="length_"], input[name^="roof_"][name$="_a"], input[name^="roof_"][name$="_b"], ' +
+      'input[name^="roof_"][name$="_c"], input[name^="roof_"][name$="_d"], ' +
+      'input[name="fence_length"], input[name="fence_height"], input[name="fence_height_sides"], ' +
+      'input[name^="fence_side_"]'
+    );
+
+    dimensionInputs.forEach(input => {
+      input.addEventListener('blur', (e) => {
+        checkCentimeterWarning(e.target as HTMLInputElement);
+      });
+    });
+
+    // Also watch dynamically added inputs
+    document.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target.type === 'number' && (
+        target.name.startsWith('length_') ||
+        target.name.startsWith('roof_') ||
+        target.name.startsWith('fence_')
+      )) {
+        // Debounce the check
+        clearTimeout((target as any)._cmTimeout);
+        (target as any)._cmTimeout = setTimeout(() => checkCentimeterWarning(target), 500);
+      }
+    });
+  }
+
+  // Email typo corrections
+  const EMAIL_TYPO_CORRECTIONS: Record<string, string> = {
+    'gmail.hu': 'gmail.com',
+    'gmial.com': 'gmail.com',
+    'gmai.com': 'gmail.com',
+    'gmail.co': 'gmail.com',
+    'gamil.com': 'gmail.com',
+    'gnail.com': 'gmail.com',
+    'hotmail.hu': 'hotmail.com',
+    'hotmal.com': 'hotmail.com',
+    'yahoo.hu': 'yahoo.com',
+    'yaho.com': 'yahoo.com',
+    'outlok.com': 'outlook.com',
+    'freemail.huu': 'freemail.hu',
+    'fremail.hu': 'freemail.hu',
+    'citromail.huu': 'citromail.hu',
+  };
+
+  function correctEmailTypo(email: string): string {
+    if (!email) return email;
+    const [localPart, domain] = email.toLowerCase().trim().split('@');
+    if (!domain) return email;
+    const correctedDomain = EMAIL_TYPO_CORRECTIONS[domain] || domain;
+    return `${localPart}@${correctedDomain}`;
+  }
+
+  // Hungarian validation messages - human-friendly
+  const VALIDATION_MESSAGES: Record<string, string> = {
+    first_name: 'Kérjük, adja meg a vezetéknevét',
+    last_name: 'Kérjük, adja meg a keresztnevét',
+    email: 'Kérjük, adjon meg egy érvényes e-mail címet',
+    phone: 'Kérjük, adjon meg egy érvényes telefonszámot',
+    postcode: 'Kérjük, adjon meg egy 4 számjegyű irányítószámot',
+    city: 'Kérjük, adja meg a települést',
+    street: 'Kérjük, adja meg az utcát és házszámot',
+    gdpr: 'Az adatkezelési tájékoztató elfogadása szükséges a továbblépéshez',
+  };
+
+  // Phone validation regex - accepts +36, 06, or just 30/20/70 etc.
+  // Hungarian phone regex - matches mobile and landline formats
+  // Accepts: +36301234567, +36 30 123 4567, 06-30-123-4567, etc.
+  const PHONE_REGEX = /^(\+36|06)[\s\-]?(1|20|30|31|50|70|[2-9]\d)[\s\-]?\d{2,3}[\s\-]?\d{2,4}[\s\-]?\d{0,4}$/;
+
+  // Client-side validation
+  function validateField(input: HTMLInputElement): boolean {
+    const field = input.name;
+    const value = input.value.trim();
+    const inputGroup = input.closest('.input-group') || input.closest('.checkbox-group');
+
+    // Remove existing error
+    inputGroup?.querySelector('.error-message')?.remove();
+    input.classList.remove('error', 'valid');
+
+    // For phone field, also clear inline error
+    if (field === 'phone') {
+      const phoneError = document.getElementById('phone-error');
+      if (phoneError) {
+        phoneError.style.display = 'none';
+        phoneError.textContent = '';
+      }
+    }
+
+    // Check validity
+    let isValid = true;
+    let errorMessage = '';
+
+    if (input.required && !value && input.type !== 'checkbox') {
+      isValid = false;
+      errorMessage = VALIDATION_MESSAGES[field] || 'Kérjük, töltse ki ezt a mezőt';
+    } else if (input.type === 'checkbox' && input.required && !input.checked) {
+      isValid = false;
+      errorMessage = VALIDATION_MESSAGES[field] || 'Kérjük, jelölje be ezt a mezőt';
+    } else if (input.minLength && value.length < input.minLength) {
+      isValid = false;
+      errorMessage = VALIDATION_MESSAGES[field] || `Kérjük, adjon meg legalább ${input.minLength} karaktert`;
+    } else if (input.hasAttribute('data-phone') && value) {
+      // Phone validation - normalize and check
+      const normalizedPhone = value.replace(/[\s\-]/g, '');
+      if (!PHONE_REGEX.test(value) && !/^(\+36|06|36)?\d{9}$/.test(normalizedPhone)) {
+        isValid = false;
+        errorMessage = VALIDATION_MESSAGES.phone;
+      }
+    } else if (input.type === 'email' && value) {
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        isValid = false;
+        errorMessage = VALIDATION_MESSAGES.email;
+      }
+    } else if (field === 'postcode' && value && !/^\d{4}$/.test(value)) {
+      isValid = false;
+      errorMessage = VALIDATION_MESSAGES.postcode;
+    }
+
+    // Show error for phone field inline
+    if (!isValid && field === 'phone') {
+      input.classList.add('error');
+      const phoneError = document.getElementById('phone-error');
+      if (phoneError) {
+        phoneError.textContent = errorMessage;
+        phoneError.style.display = 'flex';
+      }
+    } else if (!isValid && inputGroup) {
+      input.classList.add('error');
+      const errorEl = document.createElement('span');
+      errorEl.className = 'error-message';
+      errorEl.textContent = errorMessage;
+      inputGroup.appendChild(errorEl);
+    } else if (value) {
+      input.classList.add('valid');
+    }
+
+    return isValid;
+  }
+
+  // Initialize field validation
+  function initFieldValidation(): void {
+    const validateInputs = form.querySelectorAll('[data-validate]');
+
+    validateInputs.forEach(input => {
+      input.addEventListener('blur', (e) => {
+        validateField(e.target as HTMLInputElement);
+      });
+
+      input.addEventListener('input', (e) => {
+        const target = e.target as HTMLInputElement;
+        if (target.classList.contains('error')) {
+          validateField(target);
+        }
+      });
+    });
+
+    // Email correction
+    const emailInput = form.querySelector('[data-email-fix]') as HTMLInputElement;
+    if (emailInput) {
+      emailInput.addEventListener('blur', () => {
+        const corrected = correctEmailTypo(emailInput.value);
+        if (corrected !== emailInput.value) {
+          emailInput.value = corrected;
+          emailInput.classList.add('autofill-flash');
+          setTimeout(() => emailInput.classList.remove('autofill-flash'), 1000);
+        }
+      });
+    }
+  }
+
+  // Validate all contact fields
+  function validateAllContactFields(): { valid: boolean; errors: string[] } {
+    const errors: string[] = [];
+
+    // Core required fields
+    const requiredFields = ['first_name', 'last_name', 'email', 'phone'];
+
+    // Address fields are only required if shipping is not 'sajat'
+    const shippingValue = state.answers.shipping;
+    if (shippingValue && shippingValue !== 'sajat') {
+      requiredFields.push('postcode', 'city', 'street');
+    }
+
+    for (const field of requiredFields) {
+      const input = form.querySelector(`[name="${field}"]`) as HTMLInputElement;
+      if (input && !validateField(input)) {
+        const label = input.closest('.input-group')?.querySelector('label')?.textContent?.replace(' *', '');
+        errors.push(label || field);
+      }
+    }
+
+    // GDPR checkbox
+    const gdpr = form.querySelector('[name="gdpr"]') as HTMLInputElement;
+    if (gdpr && !gdpr.checked) {
+      errors.push('Adatkezelési tájékoztató elfogadása');
+    }
+
+    console.log('[validateAllContactFields] Errors:', errors);
+    return { valid: errors.length === 0, errors };
+  }
+
+  // Show form errors - safe DOM manipulation (no innerHTML with user data)
+  function showFormErrors(errors: string[]): void {
+    const summary = document.getElementById('form-error-summary');
+    const errorList = document.getElementById('error-list');
+
+    if (summary && errorList) {
+      // Safe: clear and rebuild list items without innerHTML
+      errorList.textContent = '';
+      errors.forEach(error => {
+        const li = document.createElement('li');
+        li.textContent = error;
+        errorList.appendChild(li);
+      });
+      summary.style.display = 'block';
+      summary.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  // Hide form errors
+  function hideFormErrors(): void {
+    const summary = document.getElementById('form-error-summary');
+    if (summary) {
+      summary.style.display = 'none';
+    }
+  }
+
+  // Form submission
+  function initFormSubmit(): void {
+    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+    const btnText = submitBtn?.querySelector('.btn-text');
+    const btnLoading = submitBtn?.querySelector('.btn-loading');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideFormErrors();
+
+      // Validate all fields
+      const { valid, errors } = validateAllContactFields();
+      if (!valid) {
+        showFormErrors(errors);
+        return;
+      }
+
+      // Show loading state
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        if (btnText) (btnText as HTMLElement).style.display = 'none';
+        if (btnLoading) (btnLoading as HTMLElement).style.display = 'inline-flex';
+      }
+
+      try {
+        // Collect all data
+        const formData = new FormData(form);
+
+        // Add state answers
+        Object.entries(state.answers).forEach(([key, value]) => {
+          if (typeof value === 'string') {
+            formData.append(key, value);
+          }
+        });
+
+        formData.append('source_page', window.location.href);
+
+        // Submit to API
+        const response = await fetch('/api/quote', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          // Track submission
+          trackEvent('calculator_submit', { quote_id: result.quoteId });
+
+          // Clear state
+          localStorage.removeItem(STORAGE_KEY);
+
+          // Redirect to ajanlat (quote result) page
+          window.location.href = result.quoteUrl || ('/ajanlat?quote=' + result.quoteId);
+        } else {
+          // Show server-side validation errors
+          if (result.errors) {
+            const errorMessages = Object.values(result.errors) as string[];
+            showFormErrors(errorMessages);
+          } else {
+            showFormErrors([result.error || 'Hiba történt. Kérjük próbálja újra.']);
+          }
+
+          // Reset button
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            if (btnText) (btnText as HTMLElement).style.display = 'inline';
+            if (btnLoading) (btnLoading as HTMLElement).style.display = 'none';
+          }
+        }
+      } catch (error) {
+        console.error('Submission error:', error);
+        showFormErrors(['Hiba történt a küldés során. Kérjük próbálja újra később.']);
+
+        // Reset button
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          if (btnText) (btnText as HTMLElement).style.display = 'inline';
+          if (btnLoading) (btnLoading as HTMLElement).style.display = 'none';
+        }
+      }
+    });
+  }
+
+  // Browser back button
+  function initBackHandler(): void {
+    window.addEventListener('popstate', (e) => {
+      if (e.state?.step) {
+        navigateToStep(e.state.step, false);
+      }
+    });
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    initAutoAdvance();
+    initColorOtherOption();
+    initNavButtons();
+    initProgressStepClicks();
+    initBackHandler();
+    initFormSubmit();
+    initFieldValidation();
+    initShippingChangeHandler();
+    initFenceModeToggle();
+    initMultipleRoofs();
+    initPostcodeLookup();
+    initScrewCalculator();
+    initCentimeterWarnings();
+
+    addSizeBtn?.addEventListener('click', addSizeRow);
+
+    // Load saved state or start fresh
+    loadState();
+
+    // Initial progress update
+    updateProgress(state.currentStep);
+
+    // Track calculator start
+    trackEvent('calculator_start', { calculator: 'trapezlemez' });
+
+    // Show help widget after 10 seconds
+    setTimeout(() => {
+      const helpWidget = document.getElementById('help-widget');
+      helpWidget?.classList.remove('help-widget-hidden');
+    }, 10000);
+
+    // Load quote from URL hash if present
+    const urlParams = new URLSearchParams(window.location.search);
+    const quoteHash = urlParams.get('q');
+    if (quoteHash) {
+      loadQuoteFromHash(quoteHash);
+    }
+  });
+
+  // Load quote from URL hash
+  function loadQuoteFromHash(hash: string): void {
+    try {
+      // Decode the hash
+      const [encoded, checksum] = hash.split('.');
+      if (!encoded || !checksum) return;
+
+      const json = atob(encoded.replace(/-/g, '+').replace(/_/g, '/'));
+      const data = JSON.parse(json);
+
+      // Fill form fields
+      const fieldMap: Record<string, string> = {
+        fn: 'first_name',
+        ln: 'last_name',
+        co: 'company',
+        em: 'email',
+        ph: 'phone',
+        pc: 'postcode',
+        ci: 'city',
+        st: 'street',
+      };
+
+      for (const [short, long] of Object.entries(fieldMap)) {
+        if (data[short]) {
+          const input = form.querySelector(`[name="${long}"]`) as HTMLInputElement;
+          if (input) {
+            input.value = data[short];
+            if (long === 'city') input.readOnly = false;
+          }
+        }
+      }
+
+      // Restore calculator state
+      if (data.ks) state.answers.knows_sizes = data.ks;
+      if (data.pu) state.answers.purpose = data.pu;
+      if (data.rt) state.answers.roof_type = data.rt;
+      if (data.cl) state.answers.color = data.cl;
+      if (data.sh) state.answers.shipping = data.sh;
+      if (data.sc) state.answers.screws = data.sc;
+      if (data.se) state.answers.secondhand = data.se;
+
+      // Navigate to last step
+      navigateToStep('6a');
+
+      console.log('Quote loaded from URL:', data.qi);
+    } catch (error) {
+      console.warn('Could not load quote from URL:', error);
+    }
+  }
+</script>

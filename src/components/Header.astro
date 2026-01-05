@@ -1,0 +1,225 @@
+---
+import { Logo } from './images';
+import logo from '../assets/images/logo.png';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+---
+
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a href="/" class="logo-link">
+        <Logo src={logo} alt="Trapezlemezes.hu" width={106} height={49} priority />
+      </a>
+
+      <div class="nav-center hide-mobile">
+        <a href="tel:+3613009206" class="phone-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <span>+36 1 300-92-06</span>
+        </a>
+      </div>
+
+      <div class="nav-right">
+        <a href="/kalkulator" class="btn btn-primary btn-cta">
+          Online árkalkulátor
+        </a>
+
+        <button class="mobile-menu-btn hide-desktop" aria-label="Menü" id="mobile-menu-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="mobile-menu-content">
+      <a href="/" class={currentPath === '/' ? 'active' : ''}>Főoldal</a>
+      <a href="/trapezlemez-arak" class={currentPath === '/trapezlemez-arak' ? 'active' : ''}>Trapézlemez árak</a>
+      <a href="/trapezlemez-teto" class={currentPath === '/trapezlemez-teto' ? 'active' : ''}>Trapézlemez tető</a>
+      <a href="/kalkulator" class="btn btn-primary">Online árkalkulátor</a>
+      <a href="tel:+3613009206" class="phone-link mobile-phone">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        +36 1 300-92-06
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--color-white);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* Mobile: initially hidden until scrolled */
+  @media (max-width: 768px) {
+    .header {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+
+    .header.scrolled {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    gap: var(--spacing-md);
+  }
+
+  .logo-link {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .phone-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--color-accent);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    transition: color var(--transition-fast);
+  }
+
+  .phone-link:hover {
+    color: var(--color-accent-light);
+  }
+
+  .phone-link svg {
+    flex-shrink: 0;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .btn-cta {
+    white-space: nowrap;
+  }
+
+  .mobile-menu-btn {
+    background: none;
+    border: none;
+    padding: var(--spacing-sm);
+    cursor: pointer;
+    color: var(--color-text);
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-white);
+    z-index: 99;
+    overflow-y: auto;
+  }
+
+  .mobile-menu.open {
+    display: block;
+  }
+
+  .mobile-menu-content {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-lg);
+    gap: var(--spacing-md);
+  }
+
+  .mobile-menu-content a {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-bg-light);
+  }
+
+  .mobile-menu-content a.active {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .mobile-menu-content .btn {
+    margin-top: var(--spacing-md);
+    text-align: center;
+  }
+
+  .mobile-phone {
+    justify-content: center;
+    border-bottom: none !important;
+    margin-top: var(--spacing-md);
+  }
+
+  @media (max-width: 640px) {
+    .btn-cta {
+      padding: var(--spacing-sm) var(--spacing-md);
+      font-size: var(--font-size-sm);
+    }
+  }
+</style>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const header = document.querySelector('.header');
+
+  menuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('open');
+    document.body.style.overflow = mobileMenu?.classList.contains('open') ? 'hidden' : '';
+  });
+
+  // Mobile: show header only after scrolling one full viewport
+  function handleScroll() {
+    if (window.innerWidth <= 768) {
+      const scrollThreshold = window.innerHeight;
+      if (window.scrollY >= scrollThreshold) {
+        header?.classList.add('scrolled');
+      } else {
+        header?.classList.remove('scrolled');
+      }
+    } else {
+      // On desktop, always show
+      header?.classList.add('scrolled');
+    }
+  }
+
+  // Initial check
+  handleScroll();
+
+  // Listen for scroll
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('resize', handleScroll, { passive: true });
+</script>

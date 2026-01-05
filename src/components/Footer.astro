@@ -1,0 +1,41 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <p class="copyright">
+        Copyright &copy; {currentYear} Trapezlemezes.hu |
+        <a href="/adatkezelesi-tajekoztato">Adatkezelési Tájékoztató</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-bg-light);
+    padding: var(--spacing-lg) 0;
+    margin-top: auto;
+  }
+
+  .footer-content {
+    text-align: center;
+  }
+
+  .copyright {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+  }
+
+  .copyright a {
+    color: var(--color-text-light);
+    text-decoration: underline;
+  }
+
+  .copyright a:hover {
+    color: var(--color-primary);
+  }
+</style>

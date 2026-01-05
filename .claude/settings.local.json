@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create astro:*)",
+      "Bash(npm install)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(cat:*)",
+      "Bash(python:*)",
+      "Bash(powershell -Command \"$j = Get-Content gravityforms-export-2026-01-03.json | ConvertFrom-Json; $j.''0''.fields | Where-Object {$_type -notin ''page'',''html''} | ForEach-Object { ''{0,3} | {1,10} | {2}'' -f $_id, $_type, $_label.Substring\\(0, [Math]::Min\\(60, $_label.Length\\)\\) }\")",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(powershell -Command \"$j = Get-Content gravityforms-export-2026-01-03.json | ConvertFrom-Json; $j.''0''.fields | ForEach-Object { ''{0,3} | {1,10} | {2}'' -f $_id, $_type, $_label.Substring\\(0, [Math]::Min\\(60, $_label.Length\\)\\) }\")",
+      "Bash(node -e:*)",
+      "Bash(copy \"d:\\\\dev\\\\trapezlemezes.hu\\\\_reference\\\\uploads\\\\2024\\\\07\\\\kishaz.png\" \"d:\\\\dev\\\\trapezlemezes.hu\\\\src\\\\assets\\\\images\\\\kishaz.png\")",
+      "Bash(npx astro check:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(curl:*)",
+      "Bash(copy \"d:\\\\dev\\\\trapezlemezes.hu\\\\_reference\\\\uploads\\\\2024\\\\07\\\\roland-150x150.jpg\" \"d:\\\\dev\\\\trapezlemezes.hu\\\\src\\\\assets\\\\images\\\\farkas-roland.jpg\")",
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(copy \"d:\\\\dev\\\\trapezlemezes.hu\\\\_reference\\\\uploads\\\\2024\\\\07\\\\lindab-lemez.jpg\" \"d:\\\\dev\\\\trapezlemezes.hu\\\\src\\\\assets\\\\images\\\\lindab-lemez.jpg\")",
+      "Bash(copy:*)",
+      "Bash(node -p:*)"
+    ]
+  }
+}

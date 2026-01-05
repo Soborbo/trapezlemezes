@@ -1,0 +1,2302 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { HeroImage, ContentImage, SmallImage, LargeImage } from '../components/images';
+
+// Images
+import heroImg from '../assets/images/trapezlemez-fo.jpg';
+import trapezEsztetikus from '../assets/images/trapezlemez-esztetikus.jpg';
+import trapezKerites from '../assets/images/trapezlemez-kerites.jpg';
+import trapezGyarto from '../assets/images/trapezlemez-gyarto.jpg';
+import kalkulatorImg from '../assets/images/trapezlemez-kalkulator.jpg';
+import farkasRoland from '../assets/images/farkas-roland.jpg';
+import trapezMeretek from '../assets/images/trapezlemez-meretek.png';
+import narancsTrapez from '../assets/images/narancssarga-trapezlemez.jpg';
+
+// Color images
+import antracitTrapez from '../assets/images/antracit-trapezlemez.jpg';
+import vorosTrapez from '../assets/images/voros-trapezlemez.jpg';
+import barnaTrapez from '../assets/images/barna-trapezlemez.jpg';
+import feketeTrapez from '../assets/images/fekete-trapezlemez.jpg';
+import feherTrapez from '../assets/images/feher-trapezlemez.jpg';
+import kekTrapez from '../assets/images/kek-trapezlemez.jpg';
+import famintasTrapez from '../assets/images/famintas-trapezlemez.jpg';
+import horganyzottTrapez from '../assets/images/horganyzott-trapezlemez.jpg';
+
+
+// Guide images
+import trapezTetoHaz from '../assets/images/trapezlemez-teto-haz.jpg';
+import trapezTetoSzereles from '../assets/images/trapezlemez-teto-szereles.jpg';
+import logo from '../assets/images/logo.png';
+import gyartosorBg from '../assets/images/trapezlemez-gyartosor.jpg';
+
+// Colors data with prices
+const colors = [
+  { src: antracitTrapez, name: 'Antracit szürke', ral: 'RAL 7016', price: '2 640 Ft/nm' },
+  { src: vorosTrapez, name: 'Bordó', ral: 'RAL 3011', price: '2 640 Ft/nm' },
+  { src: barnaTrapez, name: 'Csokoládébarna', ral: 'RAL 8017', price: '2 640 Ft/nm' },
+  { src: feketeTrapez, name: 'Fekete', ral: 'RAL 9005', price: '2 640 Ft/nm' },
+  { src: feherTrapez, name: 'Fehér', ral: 'RAL 9010', price: '2 640 Ft/nm' },
+  { src: kekTrapez, name: 'Kék', ral: 'RAL 5010', price: '2 640 Ft/nm' },
+  { src: famintasTrapez, name: 'Famintás', ral: null, price: '2 840 Ft/nm' },
+  { src: horganyzottTrapez, name: 'Horganyzott', ral: 'natúr', price: '2 240 Ft/nm' },
+];
+
+// FAQ data
+const faqs = [
+  {
+    question: 'Miért ennyire olcsó nálunk a trapézlemez?',
+    answer: 'Minden termék, így a trapézlemez ára is a kiskereskedő haszonkulcsa miatt ugrik nagyot. Mi magunk importáljuk a különleges minőségű acélt, magunk gyártjuk a saját gépeinken, és magunk is forgalmazzuk a kész terméket.'
+  },
+  {
+    question: 'Miért rozsdásodik be sok trapézlemez?',
+    answer: 'A vékonyabb trapézlemezek horganyzása sokszor egyszerűen az anyag tulajdonságai miatt nem tökéletes, hamar rozsdásodásnak indulhat az anyag. Mi ezért használunk kizárólag 0.5 milliméteres lemezeket.'
+  },
+  {
+    question: 'Hogyan tudunk ilyen gyorsan gyártani?',
+    answer: 'Egyrészt mert már maga a nyersanyag színre festett és horganyzott. Másrészt nálunk Ön egyenesen a gyártótól vásárol, nincsen várakozási idő.'
+  },
+  {
+    question: 'Mennyire tartós?',
+    answer: 'Mi robosztus, 0,5 mm-es anyagból készítünk trapézlemezt, mert a tapasztalataink szerint ez az a vastagság, amely még nem túl nehéz, de már kellően erős és szilárd.'
+  }
+];
+---
+
+<Layout
+  title="T18 trapézlemez (0,5 mm) most csak 2240 Ft / nm áron a gyártótól"
+  description="Ne fizesse ki a kiskereskedő hasznát: vásároljon vastagabb (0,5 mm) és erősebb trapézlemezt alacsonyabb áron. 48 óra szállítás, 20 év garancia."
+>
+  <!-- Hero Section - Text left centered, image right edge-to-edge -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>TRAPÉZLEMEZ KÖZVETLEN<br />A GYÁRTÓTÓL</h1>
+      <p class="hero-subtitle">
+        Ne fizesse ki a kiskereskedő hasznát: vásároljon vastagabb (0,5 mm) és erősebb trapézlemezt alacsonyabb áron.
+      </p>
+
+      <div class="hero-cta-group">
+        <p class="cta-label">Hívjon most:</p>
+        <a href="tel:+3613009206" class="phone-number">+36 1 300-92-06</a>
+        <span class="cta-or">vagy</span>
+        <a href="/kalkulator" class="btn-cta">
+          <span class="btn-cta-main">SZÁMOLD KI A KÖLTSÉGEIMET!</span>
+          <span class="btn-cta-sub">azonnali árajánlat kalkulátor</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <HeroImage src={heroImg} alt="T18 trapézlemez 0,5 mm vastagságban, többféle színben - antracit, vörös, barna, fehér, kék" priority />
+      <div class="hero-price-badge">
+        <span class="badge-top">0,5 mm</span>
+        <span class="badge-middle">horganyzott</span>
+        <span class="badge-price">2240 Ft</span>
+        <span class="badge-bottom">(bruttó, nm)</span>
+      </div>
+    </div>
+
+    <!-- 4 USPs at the bottom of the fold -->
+    <div class="hero-usps">
+      <div class="usp-item">
+        <div class="usp-icon usp-blue">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        </div>
+        <div class="usp-text">
+          <strong>AKÁR INGYENES</strong>
+          <span>országos házhozszállítás</span>
+        </div>
+      </div>
+      <div class="usp-item">
+        <div class="usp-icon usp-green">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </div>
+        <div class="usp-text">
+          <strong>48 óra</strong>
+          <span>szállítási határidő</span>
+        </div>
+      </div>
+      <div class="usp-item">
+        <div class="usp-icon usp-purple">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <div class="usp-text">
+          <strong>20 év</strong>
+          <span>garancia</span>
+        </div>
+      </div>
+      <div class="usp-item">
+        <div class="usp-icon usp-orange">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle><circle cx="5" cy="12" r="1"></circle><circle cx="7" cy="7" r="1"></circle><circle cx="17" cy="7" r="1"></circle><circle cx="17" cy="17" r="1"></circle><circle cx="7" cy="17" r="1"></circle></svg>
+        </div>
+        <div class="usp-text">
+          <strong>10+</strong>
+          <span>szín és mintázat</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promo Section with Orange Product -->
+  <section class="promo-section">
+    <div class="container">
+      <div class="promo-grid">
+        <div class="promo-image">
+          <ContentImage src={narancsTrapez} alt="Narancssárga trapézlemez" />
+        </div>
+        <div class="promo-content">
+          <div class="promo-badge">AKCIÓ!</div>
+          <p class="promo-text">
+            0.6mm-es új, narancssárga (RAL2000) trapézlemez most csak
+          </p>
+          <p class="promo-price">2249 Ft /nm!</p>
+          <p class="promo-urgency">Amíg a készlet tart!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Section - Video 40% left, Text 60% right -->
+  <section class="problem-section">
+    <div class="problem-grid">
+      <div class="problem-video">
+        <iframe
+          src="https://www.youtube.com/embed/U_hP1vBoitg"
+          title="Hogyan rontják el sokan"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="problem-content">
+        <h2>Hogyan rontják el sokan</h2>
+        <p>Sokaknak van rossz tapasztalata a trapézlemezből készült kerítésekkel, oldalfalakkal és tetőkkel, mert könnyen törnek, hamar rozsdásodnak, és elhajolhatnak egy komolyabb szélviharban. <strong>Miért van ez így? Mert nem jó lemezt vesznek.</strong></p>
+        <p>A vékonyabb trapézlemezekben egyszerűen nincsen "elég anyag", nem áll meg rajtuk a rozsdamentesítésért felelős horganyzó anyag, és nem tudnak elég merevséget biztosítani, ezért, törnek, szakadnak, hajlanak. Sokan próbálnak spórolni a vékonyabb anyaggal, de végül rosszabbul járnak...</p>
+        <p class="solution-text">A jó hír, hogy mi az erősebb, vastagabb, ellenállóbb <strong>0,5 milliméteres</strong> lemezt adjuk sokkal olcsóbban, mint az megszokott. Ez már elég erős ahhoz, hogy jó szívvel tudjunk rá <strong>20 év garanciát</strong> vállalni - miközben árban sokszor még olcsóbb is, mint a vékonyabb versenytársai.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- USP Checker Section - 3 alternating image/text rows -->
+  <section class="checker-section">
+    <!-- Row 1: Image left, text right -->
+    <div class="checker-row">
+      <div class="checker-image">
+        <LargeImage src={trapezEsztetikus} alt="Esztétikus trapézlemez" />
+      </div>
+      <div class="checker-content">
+        <h3>Szeretni fog ránézni sok éven át</h3>
+        <p>Minőségi trapézlemezzel nem csak tartós, de szép is lesz az építménye. Több, mint 10 féle szín és minta közül választhat az Ön vagy ügyfele igényei szerint.</p>
+      </div>
+    </div>
+
+    <!-- Row 2: Text left, image right -->
+    <div class="checker-row checker-row-reverse">
+      <div class="checker-image">
+        <LargeImage src={trapezKerites} alt="Trapézlemez kerítés" />
+      </div>
+      <div class="checker-content">
+        <h3>Építkezzen gyorsan és egyszerűen</h3>
+        <p>A lemezeket az Ön igényeinek megfelelően előre méretre vágjuk, így már csak fel kell szerelnie a kész paneleket. Ráadásul a lemezek könnyűek és ellenállóak (nem törékenyek, mint például a cserép vagy a pala), így egyszerű velük dolgozni.</p>
+      </div>
+    </div>
+
+    <!-- Row 3: Image left, text right -->
+    <div class="checker-row">
+      <div class="checker-image">
+        <LargeImage src={trapezGyarto} alt="Trapézlemez gyártó" />
+      </div>
+      <div class="checker-content">
+        <h3>Spóroljon kompromisszumok nélkül</h3>
+        <p>Spórolja meg a kiskereskedői árrést és vásároljon egyenesen a gyártótól. Takarítson meg súlyos tíz- vagy százezreket minőségi kompromisszumok nélkül!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shipping Section -->
+  <section class="shipping-section">
+    <div class="container">
+      <h2 class="shipping-title">Akár <em>ingyen</em> házhozszállítjuk</h2>
+      <p class="shipping-desc">A kész trapézlemezeket <strong>önköltségi áron szállítjuk ki</strong>. Miért?<br />
+      Mert nem fuvarozók vagyunk, hanem trapézlemez gyártók, <strong>nem akarunk a szállításon pénzt keresni</strong>.</p>
+      <p class="shipping-note">A kész, méretre vágott trapézlemez <strong>személyesen is átvehető</strong> a Budapest 18. kerületében található telephelyünkön.</p>
+
+      <div class="shipping-options">
+        <div class="shipping-card">
+          <h3>Gazdaságos kiszállítás</h3>
+          <p><strong>Ha spórolni szeretne a kiszállításon</strong>, összevárhatjuk a rendelését más, környékbeli rendelésekkel, így a kiszállítás díja eloszlik több vevő között. Ha ezt választja, 500e Ft feletti rendeléseknél <strong>a szállítás akár ingyenes is lehet</strong>!</p>
+          <div class="shipping-prices">
+            <div class="shipping-prices-header economy">A gazdaságos kiszállítás költsége</div>
+            <div class="shipping-price-row">
+              <span>250 négyzetméter alatt</span>
+              <span class="price">19 990 Ft</span>
+            </div>
+            <div class="shipping-price-row free">
+              <span>250 négyzetméter felett</span>
+              <span class="price">INGYENES</span>
+            </div>
+          </div>
+        </div>
+        <div class="shipping-card">
+          <h3>Soronkívüli kiszállítás</h3>
+          <p><strong>Ha sürgősen van szüksége a trapézlemezre</strong>, kisebb felárért soron kívül elvisszük Önnek a kész, méretre vágott terméket. Ha ezt az opciót választja, <strong>akár még aznap</strong> megérkezhet Önhöz a rendelése.</p>
+          <div class="shipping-prices">
+            <div class="shipping-prices-header">A soronkívüli kiszállítás költsége</div>
+            <div class="shipping-price-row">
+              <span>250 négyzetméter alatt</span>
+              <span class="price">39 990 Ft</span>
+            </div>
+            <div class="shipping-price-row free">
+              <span>250 négyzetméter felett</span>
+              <span class="price">INGYENES</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="shipping-cta">
+        <p><strong>Küldje el megrendelését</strong> vagy töltse ki a villámgyors árkalkulátorunkat alább és <strong>kérjen visszahívást</strong>, hogy kollégáink tájékoztathassák a pontos szállítási költségről!</p>
+        <a href="/kalkulator" class="btn-shipping-cta">SZÁMOLJA KI A KÖLTSÉGEIT MOST!</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="process-section">
+    <div class="container">
+      <h2 class="process-title">A megrendelés menete</h2>
+
+      <div class="process-steps">
+        <div class="process-card">
+          <div class="process-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+              <line x1="9" y1="6" x2="15" y2="6"></line>
+              <line x1="9" y1="10" x2="15" y2="10"></line>
+              <line x1="9" y1="14" x2="12" y2="14"></line>
+              <path d="M9 18l2 2 4-4"></path>
+            </svg>
+          </div>
+          <p class="process-card-text">Töltse ki a megrendelő űrlapot vagy kérjen visszahívást az árkalkuláció végén.</p>
+        </div>
+        <div class="process-card">
+          <div class="process-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="10" r="3"></circle>
+              <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path>
+              <path d="M16 4.5c1.5 1.5 2 3 2 5"></path>
+              <path d="M19 3c2 2 2.5 4 2.5 6.5"></path>
+            </svg>
+          </div>
+          <p class="process-card-text">A munkatársunk telefonon véglegesíti a megrendelés részleteit Önnel.</p>
+        </div>
+        <div class="process-card">
+          <div class="process-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <p class="process-card-text">Akár még aznap, de legkésőbb 48 órán belül legyártjuk a lemezeket.</p>
+        </div>
+        <div class="process-card">
+          <div class="process-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+          </div>
+          <p class="process-card-text">A telephelyünkön átadjuk vagy kiszállítjuk Önnek a trapézlemezt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator CTA Section -->
+  <section class="calculator-section">
+    <div class="container">
+      <h2 class="section-title">Árkalkulátor</h2>
+      <div class="calculator-content">
+        <div class="calculator-image">
+          <ContentImage src={kalkulatorImg} alt="Trapézlemez árkalkulátor" />
+        </div>
+        <div class="calculator-text">
+          <p>Számítsa ki, mennyi trapézlemezre lesz szüksége és mennyibe fog kerülni kevesebb, mint egy perc alatt!</p>
+          <a href="/kalkulator" class="btn-cta-blue">Számolja ki a költségeit most!</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partner Section (Működjünk együtt) -->
+  <section class="partner-section">
+    <div class="container">
+      <div class="partner-grid">
+        <div class="partner-person">
+          <div class="partner-image">
+            <ContentImage src={farkasRoland} alt="Farkas Roland" />
+          </div>
+          <p class="partner-name">Farkas Roland</p>
+          <p class="partner-title">ügyvezető igazgató</p>
+        </div>
+        <div class="partner-content">
+          <h2 class="partner-heading">Működjünk együtt!</h2>
+          <p class="partner-text">Hosszú távra tervezünk. Szeretnénk, ha egy nap a trapézlemez vásárlás egyet jelentene az trapezlemezes.hu-val, és tudjuk, hogy ez csak úgy érhező el, ha nem csak a termékünk, de az ügyfélkezelésünk is kifogástalan.</p>
+          <p class="partner-highlight">Számunkra az ügyfél mindig <em>partner.</em></p>
+          <p class="partner-text">Hívjon bennünket bizalommal, az ajánlatunk része az is, hogy a vonal túloldalán mindig segítőkész és barátságos hang fogja megszólalni.</p>
+          <div class="partner-cta">
+            <a href="tel:+3613009206" class="partner-phone">+36 1 300-92-06</a>
+            <a href="/kalkulator" class="partner-btn">ONLINE ÁRKALKULÁTOR</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section (Nincs kockázat) -->
+  <section class="benefits-section">
+    <div class="container">
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <path d="M9 12l2 2 4-4"></path>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Nincs kockázat</h3>
+          <p class="benefit-text">Tisztában vagyunk az általunk gyártott trapézlemez minőségével és tartósságával, ezért büszkén vállalunk rá <strong>két évtized minőségi garanciát</strong>.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 10"></polyline>
+              <path d="M4.93 4.93l14.14 14.14"></path>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Villámgyors gyártás</h3>
+          <p class="benefit-text">Mi a gyakori egy hetes és tíz napos gyártási és szállítási időkkel szemben <strong>két munkanapos határidővel</strong> vállaljuk a méretre vágott trapézlemezek elkészítését.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Egyedi méretre vágva</h3>
+          <p class="benefit-text">A trapézlemezeket további költség nélkül, <strong>ingyenesen méretre szabjuk</strong>, így Önhöz már a beépítésre kész panelek érkeznek, már csak fel kell szerelnie azokat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Specs Section -->
+  <section class="specs-section">
+    <div class="container">
+      <h2 class="section-title">T18 Trapézlemez specifikáció</h2>
+
+      <div class="specs-grid">
+        <div class="specs-image">
+          <ContentImage src={trapezMeretek} alt="Trapézlemez méretek" />
+          <p class="specs-caption">A trapézlemez keresztmetszeti képe (a méretek milliméterben értendők)</p>
+        </div>
+        <div class="specs-info">
+          <ul class="specs-list">
+            <li><strong>Maximális szélesség:</strong> 116 cm</li>
+            <li><strong>Maximális hossz:</strong> 8 m</li>
+            <li><strong>Vastagság:</strong> 0,5 mm</li>
+            <li><strong>Profil típus:</strong> T18</li>
+          </ul>
+          <div class="specs-warning">
+            <strong>Fontos:</strong> a tervezéskor mindig vegye figyelembe a barázdák (folyás)irányát!
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Colors Section -->
+  <section class="colors-section">
+    <div class="container">
+      <h2 class="section-title">Széles szín- és mintázatválaszték</h2>
+
+      <div class="pricing-boxes">
+        <div class="pricing-box">
+          <span class="pricing-label">Natúr horganyzott trapézlemez</span>
+          <span class="pricing-price">2 240 Ft/nm</span>
+        </div>
+        <div class="pricing-box">
+          <span class="pricing-label">Színes trapézlemezek</span>
+          <span class="pricing-price">2 640 Ft/nm</span>
+        </div>
+        <div class="pricing-box">
+          <span class="pricing-label">Famintás trapézlemez</span>
+          <span class="pricing-price">2 840 Ft/nm</span>
+        </div>
+      </div>
+
+      <div class="colors-grid">
+        {colors.map((color) => (
+          <div class="color-card">
+            <div class="color-image">
+              <SmallImage src={color.src} alt={color.name} />
+            </div>
+            <p class="color-name">{color.name}</p>
+            {color.ral && <p class="color-ral">{color.ral}</p>}
+            <p class="color-price">{color.price}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="colors-cta">
+        <a href="/kalkulator" class="btn-cta-blue">Online árkalkulátor</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title">Gyakran ismételt kérdések</h2>
+
+      <div class="faq-list">
+        {faqs.map((faq, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary class="faq-question">{faq.question}</summary>
+            <div class="faq-answer">{faq.answer}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Guides Section -->
+  <section class="guides-section">
+    <div class="container">
+      <h2 class="section-title">Útmutatók</h2>
+
+      <div class="guides-grid">
+        <div class="guide-card">
+          <div class="guide-image-wrapper">
+            <ContentImage src={trapezTetoHaz} alt="Trapézlemez tető családi házon" />
+          </div>
+          <div class="guide-content">
+            <h3>Milyen trapézlemezt válasszak és mi befolyásolja az árat? Elmagyarázzuk!</h3>
+            <p>A trapézlemez egy rendkívül sokoldalú és hálás építési anyag, amivel gyorsan lehet haladni és tartós kivitelt biztosít - de ez csak akkor igaz, ha <em>a megfelelő lemeztípust</em> választjuk a projektünkhöz. Ebben az útmutatóban segítséget adunk az Önnek egyedileg legmegfelelőbb anyag kiválasztásához.</p>
+            <a href="/trapezlemez-arak" class="guide-btn">Tovább az útmutatóra</a>
+          </div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-image-wrapper">
+            <ContentImage src={trapezTetoSzereles} alt="Trapézlemez tető szerelés" />
+          </div>
+          <div class="guide-content">
+            <h3>Minden, amit a trapézlemez tető építéséről tudni kell</h3>
+            <p>A <strong>trapézlemez tető</strong> egyre népszerűbb választás, mivel tartós, könnyen telepíthető, és kedvező ár-érték arányt kínál. Ez a tetőfedési forma különösen ellenálló az időjárás viszontagságaival szemben, legyen szó erős szélről, esőről vagy hóról.</p>
+            <a href="/trapezlemez-teto" class="guide-btn">Tovább az útmutatóra</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section" style={`--bg-image: url(${gyartosorBg.src})`}>
+    <div class="container">
+      <div class="contact-layout">
+        <!-- Left: Main contact info -->
+        <div class="contact-main">
+          <div class="contact-primary">
+            <a href="tel:+3613009206" class="contact-phone-block">
+              <div class="contact-phone-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </div>
+              <div class="contact-phone-info">
+                <span class="contact-phone-label">Hívjon minket</span>
+                <span class="contact-phone-number">+36 1 300 9206</span>
+              </div>
+            </a>
+
+            <a href="#" class="contact-email-block" data-email="hello" data-domain="trapezlemezes.hu" onclick="window.location.href='mailto:'+this.dataset.email+'@'+this.dataset.domain;return false;">
+              <div class="contact-email-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <span class="email-text">hello<span class="at">&#64;</span>trapezlemezes<span class="dot">.</span>hu</span>
+            </a>
+          </div>
+
+          <div class="contact-address">
+            <div class="contact-address-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div>
+              <span class="contact-address-label">Telephely és átvétel</span>
+              <span class="contact-address-text">1182 Budapest, Királyhágó utca 30.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Company details -->
+        <div class="contact-details">
+          <div class="contact-details-logo">
+            <img src={logo.src} alt="Trapezlemezes.hu" class="contact-logo" />
+          </div>
+
+          <h3 class="contact-details-title">Cégadatok</h3>
+
+          <div class="contact-detail-grid">
+            <div class="contact-detail-item">
+              <span class="contact-detail-label">Ügyvezető</span>
+              <span class="contact-detail-value">Farkas Roland</span>
+            </div>
+            <div class="contact-detail-item">
+              <span class="contact-detail-label">Adószám</span>
+              <span class="contact-detail-value">32249833-2-43</span>
+            </div>
+            <div class="contact-detail-item">
+              <span class="contact-detail-label">Cégjegyzékszám</span>
+              <span class="contact-detail-value">01-09-414203</span>
+            </div>
+          </div>
+
+          <div class="contact-cta">
+            <a href="/kalkulator" class="contact-cta-btn">
+              <span>Online árkalkulátor</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Mobile CTA -->
+  <div class="sticky-cta">
+    <a href="tel:+3613009206" class="sticky-btn sticky-phone">HÍVJON MOST</a>
+    <a href="/kalkulator" class="sticky-btn sticky-calc">ÁRKALKULÁTOR</a>
+  </div>
+</Layout>
+
+<style>
+  /* ===================================
+     VARIABLES
+     =================================== */
+  :root {
+    --primary-blue: #1a5276;
+    --primary-dark: #082645;
+    --cta-teal: #12b1b8;
+    --cta-teal-hover: #0e9a9f;
+    --accent-orange: #f39c12;
+    --accent-green: #27ae60;
+    --accent-purple: #9b59b6;
+    --text-dark: #334155;
+    --text-light: #64748b;
+    --bg-light: #f8fafc;
+    --white: #ffffff;
+    --border: #e2e8f0;
+  }
+
+  /* ===================================
+     HERO SECTION - Text left centered, image right edge-to-edge
+     =================================== */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr auto;
+    height: calc(100dvh - 70px);
+    min-height: 500px;
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+      grid-template-rows: 40dvh auto auto;
+      height: auto;
+      min-height: auto;
+    }
+  }
+
+  .hero-content {
+    background: #edebf0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+  }
+
+  @media (max-width: 900px) {
+    .hero-content {
+      padding: 40px 20px;
+      order: 1;
+      grid-row: auto;
+      grid-column: auto;
+    }
+  }
+
+  .hero h1 {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #1a3d5c;
+    margin-bottom: 20px;
+    line-height: 1.15;
+    text-transform: uppercase;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+    color: #334155;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    max-width: 500px;
+  }
+
+  .hero-cta-group {
+    text-align: center;
+  }
+
+  .cta-label {
+    font-size: 1rem;
+    font-style: italic;
+    color: #c0392b;
+    margin-bottom: 8px;
+  }
+
+  .phone-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a5276;
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .phone-number:hover {
+    color: #0e3d5c;
+    transform: scale(1.02);
+  }
+
+  .cta-or {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 16px;
+  }
+
+  .btn-cta {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--cta-teal);
+    color: var(--white);
+    padding: 16px 36px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(18, 177, 184, 0.4);
+  }
+
+  .btn-cta:hover {
+    background: var(--cta-teal-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(18, 177, 184, 0.5);
+  }
+
+  .btn-cta:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(18, 177, 184, 0.4);
+  }
+
+  .btn-cta-main {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .btn-cta-sub {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    text-transform: lowercase;
+  }
+
+  /* Hero image - right side, edge-to-edge, no padding */
+  .hero-image {
+    position: relative;
+    overflow: hidden;
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+  }
+
+  @media (max-width: 900px) {
+    .hero-image {
+      order: 0;
+      min-height: 300px;
+      grid-row: auto;
+      grid-column: auto;
+    }
+  }
+
+  .hero-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /* Starburst price badge - positioned in bottom left of image */
+  .hero-price-badge {
+    position: absolute;
+    left: 30px;
+    bottom: 30px;
+    width: 210px;
+    height: 210px;
+    background: #17a2b8;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    /* Starburst effect */
+    clip-path: polygon(
+      50% 0%, 61% 11%, 75% 5%, 80% 20%, 95% 25%, 90% 40%,
+      100% 50%, 90% 60%, 95% 75%, 80% 80%, 75% 95%, 61% 89%,
+      50% 100%, 39% 89%, 25% 95%, 20% 80%, 5% 75%, 10% 60%,
+      0% 50%, 10% 40%, 5% 25%, 20% 20%, 25% 5%, 39% 11%
+    );
+    padding: 30px;
+    z-index: 10;
+  }
+
+  @media (max-width: 900px) {
+    .hero-price-badge {
+      width: 160px;
+      height: 160px;
+      left: 15px;
+      bottom: 15px;
+      padding: 20px;
+    }
+  }
+
+  .badge-top {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .badge-middle {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .badge-price {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #ffd700;
+  }
+
+  @media (max-width: 900px) {
+    .badge-price {
+      font-size: 1.6rem;
+    }
+    .badge-top {
+      font-size: 0.9rem;
+    }
+    .badge-middle {
+      font-size: 0.8rem;
+    }
+  }
+
+  .badge-bottom {
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+
+  /* USPs at the bottom of the fold */
+  .hero-usps {
+    grid-column: 1 / -1;
+    grid-row: 2 / 3;
+    background: var(--white);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 24px 40px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  }
+
+  @media (max-width: 768px) {
+    .hero-usps {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 20px;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-usps {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 16px;
+      gap: 12px;
+    }
+  }
+
+  .usp-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .usp-item {
+      justify-content: flex-start;
+      gap: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .usp-item {
+      flex-direction: column;
+      text-align: center;
+      gap: 6px;
+    }
+  }
+
+  .usp-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 480px) {
+    .usp-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .usp-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .usp-blue { background: #3498db; }
+  .usp-green { background: var(--accent-green); }
+  .usp-purple { background: var(--accent-purple); }
+  .usp-orange { background: var(--accent-orange); }
+
+  .usp-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .usp-text strong {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+  }
+
+  .usp-text span {
+    font-size: 0.8rem;
+    color: var(--text-light);
+  }
+
+  /* ===================================
+     PROBLEM SECTION - 40/60 Video/Text
+     =================================== */
+  .problem-section {
+    padding: 80px 20px;
+    background: var(--bg-light);
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .problem-grid {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+  }
+
+  .problem-video {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+
+  .problem-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .problem-content h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--text-dark);
+    margin-bottom: 24px;
+  }
+
+  .problem-content p {
+    color: var(--text-dark);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .solution-text {
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.1) 0%, rgba(39, 174, 96, 0.05) 100%);
+    border-left: 4px solid var(--accent-green);
+    padding: 20px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 24px;
+  }
+
+  /* ===================================
+     CHECKER SECTION - Alternating rows
+     =================================== */
+  .checker-section {
+    background: var(--white);
+  }
+
+  .checker-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 400px;
+    max-width: 1195px;
+    margin: 0 auto;
+  }
+
+  .checker-row-reverse {
+    direction: rtl;
+  }
+
+  .checker-row-reverse > * {
+    direction: ltr;
+  }
+
+  @media (max-width: 768px) {
+    .checker-row,
+    .checker-row-reverse {
+      grid-template-columns: 1fr;
+      direction: ltr;
+    }
+  }
+
+  .checker-image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .checker-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .checker-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+    background: var(--bg-light);
+  }
+
+  .checker-row:nth-child(odd) .checker-content {
+    background: var(--white);
+  }
+
+  @media (max-width: 768px) {
+    .checker-content {
+      padding: 40px 20px;
+    }
+  }
+
+  .checker-content h3 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+  }
+
+  .checker-content p {
+    color: var(--text-light);
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+
+  /* ===================================
+     PROMO SECTION
+     =================================== */
+  .promo-section {
+    padding: 60px 20px;
+    background: linear-gradient(135deg, var(--accent-orange) 0%, #e67e22 100%);
+  }
+
+  .promo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .promo-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+  }
+
+  .promo-image :global(img) {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  }
+
+  .promo-badge {
+    display: inline-block;
+    background: var(--white);
+    color: var(--accent-orange);
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+
+  .promo-text {
+    font-size: 1.2rem;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .promo-price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .promo-urgency {
+    font-size: 1rem;
+    color: var(--white);
+    opacity: 0.9;
+  }
+
+  /* ===================================
+     SHIPPING SECTION
+     =================================== */
+  .shipping-section {
+    padding: 80px 20px;
+    background: #e8f4f8;
+    text-align: center;
+  }
+
+  .shipping-title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+
+  .shipping-title em {
+    color: #c2185b; /* Improved contrast for WCAG AA compliance */
+    font-style: italic;
+  }
+
+  .shipping-desc {
+    max-width: 800px;
+    margin: 0 auto 16px;
+    color: var(--text-dark);
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+
+  .shipping-note {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 50px;
+  }
+
+  .shipping-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .shipping-options {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .shipping-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: left;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .shipping-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  }
+
+  .shipping-card h3 {
+    font-size: 1.4rem;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .shipping-card > p {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    line-height: 1.6;
+    text-align: justify;
+  }
+
+  .shipping-prices {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .shipping-prices-header {
+    background: var(--cta-teal);
+    color: white;
+    padding: 12px 16px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .shipping-prices-header.economy {
+    background: #17a2b8;
+  }
+
+  .shipping-price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+    background: white;
+  }
+
+  .shipping-price-row:not(:last-child) {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .shipping-price-row.free {
+    background: rgba(39, 174, 96, 0.08);
+  }
+
+  .shipping-price-row .price {
+    font-weight: 700;
+    color: var(--text-dark);
+  }
+
+  .shipping-price-row.free .price {
+    color: var(--accent-green);
+    font-weight: 700;
+  }
+
+  .shipping-cta {
+    margin-top: 50px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .shipping-cta p {
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .btn-shipping-cta {
+    display: inline-block;
+    background: var(--accent-green);
+    color: white;
+    padding: 16px 40px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+  }
+
+  .btn-shipping-cta:hover {
+    background: #219a52;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+  }
+
+  .btn-shipping-cta:active {
+    transform: translateY(-1px);
+  }
+
+  /* ===================================
+     PROCESS SECTION
+     =================================== */
+  .process-section {
+    padding: 80px 20px;
+    background: #a855a8;
+  }
+
+  .process-title {
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--white);
+    margin-bottom: 50px;
+    font-weight: 700;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--text-dark);
+    margin-bottom: 40px;
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    .process-steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 500px) {
+    .process-steps {
+      grid-template-columns: 1fr;
+      max-width: 320px;
+    }
+  }
+
+  .process-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 30px 24px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .process-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+
+  .process-card-icon {
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, #e3f5f9 0%, #d0eef5 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: #0891b2;
+  }
+
+  .process-card-icon svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .process-card-text {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    line-height: 1.6;
+  }
+
+  /* ===================================
+     CALCULATOR SECTION
+     =================================== */
+  .calculator-section {
+    padding: 60px 20px;
+    background: var(--bg-light);
+  }
+
+  .calculator-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .calculator-content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .calculator-image :global(img) {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  }
+
+  .calculator-text p {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .btn-cta-blue {
+    display: inline-block;
+    background: var(--cta-teal);
+    color: var(--white);
+    padding: 14px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(18, 177, 184, 0.3);
+  }
+
+  .btn-cta-blue:hover {
+    background: var(--cta-teal-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(18, 177, 184, 0.4);
+  }
+
+  .btn-cta-blue:active {
+    transform: translateY(0);
+  }
+
+  /* ===================================
+     PARTNER SECTION (Működjünk együtt)
+     =================================== */
+  .partner-section {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #e8ecf1 0%, #dde3ea 100%);
+  }
+
+  .partner-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    .partner-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      text-align: center;
+    }
+  }
+
+  .partner-person {
+    text-align: center;
+  }
+
+  .partner-image {
+    width: 280px;
+    height: 350px;
+    overflow: hidden;
+    margin: 0 auto 20px;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+
+  @media (max-width: 900px) {
+    .partner-image {
+      width: 220px;
+      height: 280px;
+    }
+  }
+
+  .partner-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .partner-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+
+  .partner-title {
+    color: var(--text-light);
+    font-size: 0.95rem;
+  }
+
+  .partner-content {
+    text-align: left;
+  }
+
+  @media (max-width: 900px) {
+    .partner-content {
+      text-align: center;
+    }
+  }
+
+  .partner-heading {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: #1a3d5c;
+    margin-bottom: 24px;
+    font-style: normal;
+  }
+
+  .partner-text {
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    text-align: justify;
+  }
+
+  @media (max-width: 900px) {
+    .partner-text {
+      text-align: center;
+    }
+  }
+
+  .partner-highlight {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1a3d5c;
+    margin: 30px 0;
+    text-align: center;
+  }
+
+  .partner-highlight em {
+    font-style: italic;
+  }
+
+  .partner-cta {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 900px) {
+    .partner-cta {
+      justify-content: center;
+    }
+  }
+
+  .partner-phone {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #c0392b;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .partner-phone:hover {
+    color: #a93226;
+  }
+
+  .partner-btn {
+    display: inline-block;
+    background: var(--accent-green);
+    color: white;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+  }
+
+  .partner-btn:hover {
+    background: #219a52;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+  }
+
+  .partner-btn:active {
+    transform: translateY(-1px);
+  }
+
+  /* ===================================
+     BENEFITS SECTION
+     =================================== */
+  .benefits-section {
+    padding: 80px 20px;
+    background: var(--white);
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    .benefits-grid {
+      grid-template-columns: 1fr;
+      max-width: 500px;
+      gap: 30px;
+    }
+  }
+
+  .benefit-card {
+    text-align: center;
+    padding: 30px 20px;
+  }
+
+  .benefit-icon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #e8f4f8 0%, #d0eef5 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    color: #0891b2;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .benefit-card:hover .benefit-icon {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(8, 145, 178, 0.2);
+  }
+
+  .benefit-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 16px;
+  }
+
+  .benefit-text {
+    font-size: 1rem;
+    color: var(--text-dark);
+    line-height: 1.7;
+  }
+
+  .benefit-text strong {
+    color: var(--primary-blue);
+  }
+
+  /* ===================================
+     SPECS SECTION
+     =================================== */
+  .specs-section {
+    padding: 60px 20px;
+    background: var(--white);
+  }
+
+  .specs-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .specs-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .specs-image :global(img) {
+    width: 100%;
+  }
+
+  .specs-caption {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  .specs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+  }
+
+  .specs-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dark);
+  }
+
+  .specs-warning {
+    background: #fff3cd;
+    border-left: 4px solid var(--accent-orange);
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+  }
+
+  /* ===================================
+     COLORS SECTION
+     =================================== */
+  .colors-section {
+    padding: 60px 20px;
+    background: var(--bg-light);
+  }
+
+  .pricing-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .pricing-box {
+    background: var(--white);
+    padding: 16px 24px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  .pricing-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 4px;
+  }
+
+  .pricing-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+  }
+
+  .colors-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 800px;
+    margin: 0 auto 40px;
+  }
+
+  @media (max-width: 768px) {
+    .colors-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .color-card {
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .color-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .color-image {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .color-card:hover .color-image {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+
+  .color-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .color-card:hover .color-image :global(img) {
+    transform: scale(1.05);
+  }
+
+  .color-name {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+  }
+
+  .color-ral {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-bottom: 4px;
+  }
+
+  .color-price {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+  }
+
+  .colors-cta {
+    text-align: center;
+  }
+
+  /* ===================================
+     FAQ SECTION
+     =================================== */
+  .faq-section {
+    padding: 60px 20px;
+    background: var(--white);
+  }
+
+  .faq-list {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background: var(--bg-light);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .faq-item:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  }
+
+  .faq-question {
+    padding: 18px 24px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-dark);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.2s ease;
+  }
+
+  .faq-question:hover {
+    color: var(--primary-blue);
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 1.4rem;
+    color: var(--primary-blue);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-item[open] .faq-question::after {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    padding: 0 24px 18px;
+    color: var(--text-light);
+    line-height: 1.6;
+    animation: faqSlideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes faqSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ===================================
+     GUIDES SECTION
+     =================================== */
+  .guides-section {
+    padding: 80px 20px;
+    background: var(--bg-light);
+  }
+
+  .guides-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    .guides-grid {
+      grid-template-columns: 1fr;
+      max-width: 600px;
+    }
+  }
+
+  .guide-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .guide-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+
+  .guide-image-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .guide-image-wrapper :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .guide-card:hover .guide-image-wrapper :global(img) {
+    transform: scale(1.05);
+  }
+
+  .guide-content {
+    padding: 28px 30px 32px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .guide-content h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+
+  .guide-content p {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    text-align: justify;
+    flex: 1;
+  }
+
+  .guide-content p em {
+    font-style: italic;
+  }
+
+  .guide-btn {
+    display: inline-block;
+    background: var(--primary-blue);
+    color: var(--white);
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    transition: background 0.2s, transform 0.2s;
+    align-self: flex-start;
+    margin-top: auto;
+  }
+
+  .guide-btn:hover {
+    background: #0e3d5c;
+    transform: translateY(-2px);
+  }
+
+  /* ===================================
+     CONTACT SECTION - Modern 2026 Design
+     =================================== */
+  .contact-section {
+    padding: 100px 20px;
+    background: var(--bg-image) center/cover no-repeat;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    align-items: stretch;
+  }
+
+  @media (max-width: 900px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  /* Left side - Main contact */
+  .contact-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+    border-radius: 24px;
+    padding: 40px;
+  }
+
+  @media (max-width: 500px) {
+    .contact-main {
+      padding: 28px 24px;
+    }
+  }
+
+  .contact-primary {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-phone-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.15) 0%, rgba(39, 174, 96, 0.05) 100%);
+    border: 1px solid rgba(39, 174, 96, 0.3);
+    border-radius: 16px;
+    padding: 24px 28px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .contact-phone-block:hover {
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.25) 0%, rgba(39, 174, 96, 0.1) 100%);
+    border-color: rgba(39, 174, 96, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .contact-phone-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .contact-phone-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .contact-phone-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .contact-phone-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+
+  @media (max-width: 500px) {
+    .contact-phone-number {
+      font-size: 1.4rem;
+    }
+    .contact-phone-icon {
+      width: 52px;
+      height: 52px;
+    }
+    .contact-phone-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .contact-email-block {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--white);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+  }
+
+  .contact-email-block:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .contact-email-icon {
+    color: var(--cta-teal);
+  }
+
+  .contact-address {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .contact-address-icon {
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 2px;
+  }
+
+  .contact-address-label {
+    display: block;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .contact-address-text {
+    display: block;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+  }
+
+  /* Right side - Company details */
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+    border-radius: 24px;
+    padding: 40px;
+  }
+
+  @media (max-width: 500px) {
+    .contact-details {
+      padding: 28px 24px;
+    }
+  }
+
+  .contact-details-logo {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .contact-details-logo .contact-logo {
+    max-width: 160px;
+    height: auto;
+    filter: brightness(0) invert(1);
+  }
+
+  .contact-details-title {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .contact-detail-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .contact-detail-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .contact-detail-value {
+    font-size: 1rem;
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .contact-cta {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .contact-cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    padding: 18px 24px;
+    background: var(--cta-teal);
+    color: var(--white);
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .contact-cta-btn:hover {
+    background: var(--cta-teal-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(18, 177, 184, 0.4);
+  }
+
+  .contact-cta-btn svg {
+    transition: transform 0.3s ease;
+  }
+
+  .contact-cta-btn:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* ===================================
+     STICKY CTA
+     =================================== */
+  .sticky-cta {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+    padding: 12px;
+    gap: 12px;
+    z-index: 1000;
+  }
+
+  @media (max-width: 768px) {
+    .sticky-cta {
+      display: flex;
+    }
+
+    body {
+      padding-bottom: 70px;
+    }
+  }
+
+  .sticky-btn {
+    flex: 1;
+    padding: 14px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+
+  .sticky-phone {
+    background: var(--accent-green);
+    color: var(--white);
+  }
+
+  .sticky-calc {
+    background: var(--accent-orange);
+    color: var(--white);
+  }
+
+  /* ===================================
+     CONTAINER UTILITY
+     =================================== */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+</style>

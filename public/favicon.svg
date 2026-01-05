@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#1a5276"/>
+
+  <!-- Trapézlemez profile - 3 waves -->
+  <path d="M4 20 L7 12 L10 20 L13 12 L16 20 L19 12 L22 20 L25 12 L28 20"
+        fill="none"
+        stroke="#12b1b8"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+  <!-- Base line -->
+  <line x1="4" y1="24" x2="28" y2="24" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+</svg>
