@@ -3328,6 +3328,20 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
         // Collect all data
         const formData = new FormData(form);
 
+        // CRITICAL: Manually set email and phone from DOM to handle autofill issues
+        // Some password managers don't properly update form values
+        const emailVal = emailInput?.value?.trim() || '';
+        const phoneVal = phoneInput?.value?.trim() || '';
+
+        // Delete any existing values and set fresh ones
+        formData.delete('email');
+        formData.delete('phone');
+        formData.set('email', emailVal);
+        formData.set('phone', phoneVal);
+
+        console.log('[FormData] Setting email:', emailVal);
+        console.log('[FormData] Setting phone:', phoneVal);
+
         // Add state answers
         Object.entries(state.answers).forEach(([key, value]) => {
           if (typeof value === 'string') {
