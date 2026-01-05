@@ -6,11 +6,12 @@
  */
 
 import type { CalculatorFormData } from './validation';
+import { getEnvVar } from '../config/site';
 
 // JWT creation for Google Service Account authentication
 async function createJWT(): Promise<string | null> {
-  const clientEmail = (import.meta.env.GOOGLE_SHEETS_CLIENT_EMAIL || process.env.GOOGLE_SHEETS_CLIENT_EMAIL) as string | undefined;
-  const privateKey = (import.meta.env.GOOGLE_SHEETS_PRIVATE_KEY || process.env.GOOGLE_SHEETS_PRIVATE_KEY) as string | undefined;
+  const clientEmail = getEnvVar('GOOGLE_SHEETS_CLIENT_EMAIL');
+  const privateKey = getEnvVar('GOOGLE_SHEETS_PRIVATE_KEY');
 
   if (!clientEmail || !privateKey) {
     console.warn('Google Sheets credentials not configured');
@@ -127,7 +128,7 @@ export async function appendToSheet(
     quoteUrl: string;
   }
 ): Promise<boolean> {
-  const spreadsheetId = (import.meta.env.GOOGLE_SHEETS_SPREADSHEET_ID || process.env.GOOGLE_SHEETS_SPREADSHEET_ID) as string | undefined;
+  const spreadsheetId = getEnvVar('GOOGLE_SHEETS_SPREADSHEET_ID');
   if (!spreadsheetId) {
     console.warn('Google Sheets spreadsheet ID not configured');
     return false;
@@ -195,7 +196,7 @@ export async function appendToSheet(
  * Create header row if sheet is empty
  */
 export async function ensureSheetHeaders(): Promise<boolean> {
-  const spreadsheetId = (import.meta.env.GOOGLE_SHEETS_SPREADSHEET_ID || process.env.GOOGLE_SHEETS_SPREADSHEET_ID) as string | undefined;
+  const spreadsheetId = getEnvVar('GOOGLE_SHEETS_SPREADSHEET_ID');
   if (!spreadsheetId) return false;
 
   const accessToken = await getAccessToken();

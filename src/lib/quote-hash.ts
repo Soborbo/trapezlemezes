@@ -3,17 +3,51 @@
  *
  * Creates hashed URLs to reload saved quotes.
  * Uses base64 encoding with a simple obfuscation.
+ * Cloudflare Workers compatible (no Node.js Buffer).
  */
 
 import type { CalculatorFormData } from './validation';
+import { getEnvVar } from '../config/site';
 
-// Simple secret for hash verification (in production, use env variable)
-const HASH_SECRET = process.env.QUOTE_HASH_SECRET || 'trapezlemez-secret-2024';
+/**
+ * Base64url encode (Cloudflare Workers compatible)
+ */
+function base64urlEncode(str: string): string {
+  // Use btoa for base64 encoding, then convert to base64url
+  const base64 = btoa(unescape(encodeURIComponent(str)));
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+/**
+ * Base64url decode (Cloudflare Workers compatible)
+ */
+function base64urlDecode(str: string): string {
+  // Convert base64url to base64
+  let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+  // Add padding if needed
+  while (base64.length % 4) {
+    base64 += '=';
+  }
+  return decodeURIComponent(escape(atob(base64)));
+}
+
+/**
+ * Simple hash function (djb2 algorithm)
+ */
+function simpleHash(str: string): string {
+  let hash = 5381;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) + hash) + str.charCodeAt(i);
+  }
+  return Math.abs(hash).toString(36);
+}
 
 /**
  * Creates a hash from quote data
  */
 export function createQuoteHash(data: Partial<CalculatorFormData> & { sizes?: Array<{ length: number; quantity: number }> }): string {
+  const secret = getEnvVar('QUOTE_HASH_SECRET') || 'trapezlemez-secret-2024';
+
   // Select only the fields we want to save
   const saveData = {
     fn: data.first_name,
@@ -38,10 +72,10 @@ export function createQuoteHash(data: Partial<CalculatorFormData> & { sizes?: Ar
 
   // Create JSON and encode
   const json = JSON.stringify(saveData);
-  const encoded = Buffer.from(json).toString('base64url');
+  const encoded = base64urlEncode(json);
 
   // Add simple checksum (first 8 chars of hash)
-  const checksum = simpleHash(encoded + HASH_SECRET).slice(0, 8);
+  const checksum = simpleHash(encoded + secret).slice(0, 8);
 
   return `${encoded}.${checksum}`;
 }
@@ -50,6 +84,8 @@ export function createQuoteHash(data: Partial<CalculatorFormData> & { sizes?: Ar
  * Decodes a quote hash back to data
  */
 export function decodeQuoteHash(hash: string): Partial<CalculatorFormData> | null {
+  const secret = getEnvVar('QUOTE_HASH_SECRET') || 'trapezlemez-secret-2024';
+
   try {
     const [encoded, checksum] = hash.split('.');
 
@@ -58,14 +94,14 @@ export function decodeQuoteHash(hash: string): Partial<CalculatorFormData> | nul
     }
 
     // Verify checksum
-    const expectedChecksum = simpleHash(encoded + HASH_SECRET).slice(0, 8);
+    const expectedChecksum = simpleHash(encoded + secret).slice(0, 8);
     if (checksum !== expectedChecksum) {
       console.warn('Invalid quote hash checksum');
       return null;
     }
 
     // Decode
-    const json = Buffer.from(encoded, 'base64url').toString('utf-8');
+    const json = base64urlDecode(encoded);
     const saveData = JSON.parse(json);
 
     // Map back to full field names
@@ -93,17 +129,6 @@ export function decodeQuoteHash(hash: string): Partial<CalculatorFormData> | nul
     console.error('Error decoding quote hash:', error);
     return null;
   }
-}
-
-/**
- * Simple hash function (djb2 algorithm)
- */
-function simpleHash(str: string): string {
-  let hash = 5381;
-  for (let i = 0; i < str.length; i++) {
-    hash = ((hash << 5) + hash) + str.charCodeAt(i);
-  }
-  return Math.abs(hash).toString(36);
 }
 
 /**
