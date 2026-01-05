@@ -101,6 +101,10 @@ export const POST: APIRoute = async ({ request }) => {
       totalSheets: 0,
       totalPrice: 0,
       quoteUrl: '',
+      sizesFormatted: '',
+      screwBoxes: 0,
+      screwPrice: 0,
+      gclid: (data.gclid as string) || '',
     };
 
     // Parse sizes from form data
@@ -193,12 +197,21 @@ export const POST: APIRoute = async ({ request }) => {
         includeScrews: validatedData.screws !== 'nem',
       });
 
+      // Format sizes for sheet (e.g., "200cm x 5db, 300cm x 10db")
+      const sizesFormatted = sizes
+        .map(s => `${s.length}cm x ${s.quantity}db`)
+        .join(', ');
+
       breakdown = quote.breakdown;
       calculatedData = {
         totalSqm: quote.sheets.totalSqm,
         totalSheets: quote.sheets.totalSheets,
         totalPrice: quote.total,
         quoteUrl: '',
+        sizesFormatted,
+        screwBoxes: quote.screws?.boxes || 0,
+        screwPrice: quote.screws?.price || 0,
+        gclid: (data.gclid as string) || '',
       };
     }
 
