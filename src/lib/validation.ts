@@ -44,12 +44,12 @@ export function correctEmailTypos(email: string): string {
   return `${localPart}@${correctedDomain}`;
 }
 
-// Hungarian phone regex - flexible format
-// Accepts: +36301234567, +36 30 123 4567, 06-30-123-4567, 36301234567, etc.
+// Hungarian phone regex for NORMALIZED format (no spaces/dashes)
+// After normalizePhone(), format is: +36XXXXXXXXX or 06XXXXXXXXX
 // Mobile: 20/30/31/50/70 + 7 digits
 // Landline Budapest: 1 + 7 digits
-// Landline other: 2-9X + 6-7 digits
-const PHONE_REGEX = /^(\+?36|06)[\s\-]?(1|20|30|31|50|70|[2-9]\d)[\s\-]?\d{2,3}[\s\-]?\d{2,4}[\s\-]?\d{0,4}$/;
+// Landline other: 2-9X + 6 digits
+const PHONE_REGEX = /^(\+36|06)(1\d{7}|20\d{7}|30\d{7}|31\d{7}|50\d{7}|70\d{7}|[2-9]\d{7,8})$/;
 
 /**
  * Normalizes a phone number by removing whitespace and normalizing prefix
