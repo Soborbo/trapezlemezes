@@ -117,16 +117,17 @@ async function sendViaResend(options: EmailOptions): Promise<boolean> {
 
 /**
  * Send email with fallback
- * Tries Brevo first, falls back to Resend
+ * Tries Resend first, falls back to Brevo
  */
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
-  // Try Brevo first
-  const brevoSuccess = await sendViaBrevo(options);
-  if (brevoSuccess) return true;
-
-  // Fallback to Resend
+  // Try Resend first
   const resendSuccess = await sendViaResend(options);
-  return resendSuccess;
+  if (resendSuccess) return true;
+
+  // Fallback to Brevo
+  console.log('Resend failed, trying Brevo fallback...');
+  const brevoSuccess = await sendViaBrevo(options);
+  return brevoSuccess;
 }
 
 /**

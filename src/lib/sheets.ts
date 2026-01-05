@@ -118,6 +118,7 @@ async function getAccessToken(): Promise<string | null> {
 
 /**
  * Append a row to the Google Sheet
+ * Columns: Dátum | Telefonszám | Email | Vezetéknév | Keresztnév | Cégnév | Város | Irányítószám | Utca házszám | Tételek | Szín | Szállítás | Csavar mennyiség | Csavar ára | Kishibás | Netes rendelés | Végösszeg | Ajánlat ID | Megjegyzés | GCLID | Forrás oldal
  */
 export async function appendToSheet(
   data: CalculatorFormData,
@@ -126,6 +127,10 @@ export async function appendToSheet(
     totalSheets: number;
     totalPrice: number;
     quoteUrl: string;
+    sizesFormatted?: string;
+    screwBoxes?: number;
+    screwPrice?: number;
+    gclid?: string;
   }
 ): Promise<boolean> {
   const spreadsheetId = getEnvVar('GOOGLE_SHEETS_SPREADSHEET_ID');
@@ -138,33 +143,42 @@ export async function appendToSheet(
   if (!accessToken) return false;
 
   try {
-    // Prepare row data
+    // Format date in Hungarian format
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('hu-HU', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    // Prepare row data matching user's column structure (A-U)
     const row = [
-      new Date().toISOString(), // Timestamp
-      data.quote_id || '', // Quote ID
-      data.first_name,
-      data.last_name,
-      data.company || '',
-      data.email,
-      data.phone,
-      data.postcode,
-      data.city,
-      data.street,
-      data.knows_sizes || '',
-      data.usage || '',
-      data.roof_type || '',
-      data.color || '',
-      data.shipping || '',
-      data.screws || '',
-      data.secondhand || '',
-      calculatedData.totalSqm,
-      calculatedData.totalSheets,
-      calculatedData.totalPrice,
-      calculatedData.quoteUrl,
-      data.source_page || '',
+      dateStr,                                    // A: Dátum
+      data.phone,                                 // B: Telefonszám
+      data.email,                                 // C: Email
+      data.last_name,                             // D: Vezetéknév
+      data.first_name,                            // E: Keresztnév
+      data.company || '',                         // F: Cégnév
+      data.city,                                  // G: Város
+      data.postcode,                              // H: Irányítószám
+      data.street,                                // I: Utca házszám
+      calculatedData.sizesFormatted || '',        // J: Tételek
+      data.color || '',                           // K: Szín
+      data.shipping || '',                        // L: Szállítás
+      calculatedData.screwBoxes || '',            // M: Csavar mennyiség (doboz)
+      calculatedData.screwPrice || '',            // N: Csavar ára
+      data.secondhand || '',                      // O: Kishibás
+      'Igen',                                     // P: Netes rendelés (always yes from website)
+      calculatedData.totalPrice,                  // Q: Végösszeg
+      data.quote_id || '',                        // R: Ajánlat ID
+      '',                                         // S: Megjegyzés
+      calculatedData.gclid || '',                 // T: GCLID
+      data.source_page || '',                     // U: Forrás oldal
     ];
 
-    const range = encodeURIComponent('Ajánlatkérések!A:V');
+    const range = encodeURIComponent('Trapez mind!A:U');
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
 
     const response = await fetch(url, {
@@ -193,82 +207,10 @@ export async function appendToSheet(
 }
 
 /**
- * Create header row if sheet is empty
+ * Check if sheet headers exist (user already has headers, this is just a check)
  */
 export async function ensureSheetHeaders(): Promise<boolean> {
-  const spreadsheetId = getEnvVar('GOOGLE_SHEETS_SPREADSHEET_ID');
-  if (!spreadsheetId) return false;
-
-  const accessToken = await getAccessToken();
-  if (!accessToken) return false;
-
-  try {
-    // Check if headers exist
-    const range = encodeURIComponent('Ajánlatkérések!A1:V1');
-    const getUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`;
-
-    const getResponse = await fetch(getUrl, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
-
-    if (getResponse.ok) {
-      const data = await getResponse.json();
-      if (data.values && data.values.length > 0) {
-        return true; // Headers already exist
-      }
-    }
-
-    // Add headers
-    const headers = [
-      'Időpont',
-      'Ajánlat ID',
-      'Vezetéknév',
-      'Keresztnév',
-      'Cégnév',
-      'E-mail',
-      'Telefon',
-      'Irányítószám',
-      'Település',
-      'Utca, házszám',
-      'Tudja méreteket',
-      'Felhasználás',
-      'Tető típus',
-      'Szín',
-      'Szállítás',
-      'Csavar',
-      'Kishibás',
-      'Összes m²',
-      'Lemezszám',
-      'Végösszeg',
-      'Ajánlat URL',
-      'Forrás oldal',
-    ];
-
-    const updateUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=USER_ENTERED`;
-
-    const updateResponse = await fetch(updateUrl, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        values: [headers],
-      }),
-    });
-
-    if (!updateResponse.ok) {
-      const error = await updateResponse.text();
-      console.error('Google Sheets header update error:', error);
-      return false;
-    }
-
-    console.log('Sheet headers created');
-    return true;
-  } catch (error) {
-    console.error('Google Sheets header error:', error);
-    return false;
-  }
+  // User already has headers configured in "Trapez mind" sheet
+  // This function is kept for compatibility but does nothing
+  return true;
 }

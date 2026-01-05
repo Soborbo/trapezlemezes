@@ -49,7 +49,15 @@ export function correctEmailTypos(email: string): string {
 // Mobile: 20/30/31/50/70 + 7 digits
 // Landline Budapest: 1 + 7 digits
 // Landline other: 2-9X + 6 digits
-const PHONE_REGEX = /^(\+36|06)(1\d{7}|20\d{7}|30\d{7}|31\d{7}|50\d{7}|70\d{7}|[2-9]\d{7,8})$/;
+const HU_PHONE_REGEX = /^(\+36|06)(1\d{7}|20\d{7}|30\d{7}|31\d{7}|50\d{7}|70\d{7}|[2-9]\d{7,8})$/;
+
+// International phone regex - accepts + followed by country code and 7-14 digits
+const INTL_PHONE_REGEX = /^\+\d{7,15}$/;
+
+// Combined validator function
+function isValidPhone(phone: string): boolean {
+  return HU_PHONE_REGEX.test(phone) || INTL_PHONE_REGEX.test(phone);
+}
 
 /**
  * Normalizes a phone number by removing whitespace and normalizing prefix
@@ -91,7 +99,7 @@ export const calculatorFormSchema = z.object({
 
   phone: z.string()
     .transform(normalizePhone)
-    .refine((val) => PHONE_REGEX.test(val), 'Érvényes magyar telefonszámot adjon meg (pl. +36 30 123 4567)'),
+    .refine((val) => isValidPhone(val), 'Érvényes telefonszámot adjon meg (pl. +36 30 123 4567 vagy +44 7985 505061)'),
 
   // Address (optional - only required when shipping is selected)
   postcode: z.string()
@@ -175,7 +183,7 @@ export function validateField(field: string, value: string): string | null {
     first_name: z.string().min(2, 'Legalább 2 karakter'),
     last_name: z.string().min(2, 'Legalább 2 karakter'),
     email: z.string().email('Érvényes e-mail címet adjon meg'),
-    phone: z.string().regex(PHONE_REGEX, 'Érvényes telefonszámot adjon meg'),
+    phone: z.string().refine((val) => isValidPhone(normalizePhone(val)), 'Érvényes telefonszámot adjon meg'),
     postcode: z.string().regex(POSTCODE_REGEX, '4 számjegy'),
     city: z.string().min(2, 'Legalább 2 karakter'),
     street: z.string().min(5, 'Legalább 5 karakter'),

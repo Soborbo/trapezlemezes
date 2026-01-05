@@ -48,7 +48,7 @@ const minEconomyPrice = Math.min(...shippingZones.map(z => z.economyPrice));
 const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 ---
 
-<Layout title="Trapézlemez árajánlat kalkulátor - Olcsó, méretre gyártott trapézlemez Budapesten" hideHeader>
+<Layout title="Trapézlemez árajánlat kalkulátor - Olcsó, méretre gyártott trapézlemez Budapesten" hideHeader hideNotifications>
   <div class="calculator-page">
     <!-- Progress Bar -->
     <div class="progress-wrapper">
@@ -602,13 +602,13 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
             />
             <span class="phone-error-message" id="phone-error" style="display: none;"></span>
           </div>
-        </div>
 
-        <div class="checkbox-group">
-          <label class="checkbox-label">
-            <input type="checkbox" name="gdpr" id="gdpr" required />
-            <span>Elfogadom az <a href="/adatkezelesi-tajekoztato" target="_blank">adatkezelési tájékoztatót</a> *</span>
-          </label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="gdpr" id="gdpr" required />
+              <span>Elfogadom az <a href="/adatkezelesi-tajekoztato" target="_blank">adatkezelési tájékoztatót</a> *</span>
+            </label>
+          </div>
         </div>
 
         <!-- Error summary for validation errors -->
@@ -663,7 +663,6 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
                   required
                   autocomplete="address-level2"
                   placeholder="(automatikusan kitöltjük)"
-                  readonly
                 />
               </div>
             </div>
@@ -930,47 +929,37 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     }
   }
 
-  /* Roof type grid - stacked vertically */
+  /* Roof type grid - side by side */
   .roof-type-grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-    max-width: 400px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+    max-width: 500px;
     margin: 0 auto;
   }
 
   .roof-type-card {
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: var(--spacing-md);
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
     padding: var(--spacing-md);
   }
 
   .roof-type-card .card-image {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 0;
+    width: 100px;
+    height: 100px;
+    margin-bottom: var(--spacing-sm);
   }
 
   .roof-type-card .card-label,
   .roof-type-card .card-desc {
-    text-align: left;
+    text-align: center;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 480px) {
     .roof-type-grid {
-      max-width: 100%;
-    }
-
-    .roof-type-card {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .roof-type-card .card-label,
-    .roof-type-card .card-desc {
-      text-align: center;
+      grid-template-columns: 1fr;
+      max-width: 280px;
     }
   }
 
@@ -1123,6 +1112,7 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
   .screw-quantity-input {
     margin-bottom: var(--spacing-md);
+    text-align: center;
   }
 
   .screw-quantity-input label {
@@ -1135,8 +1125,10 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   .quantity-controls {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
     max-width: 200px;
+    margin: 0 auto;
   }
 
   .qty-btn {
@@ -1223,9 +1215,20 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   .color-card .card-image {
     width: 100px;
     height: 100px;
+    min-height: 100px;
+    max-height: 100px;
     border-radius: var(--radius-md);
     overflow: hidden;
     margin-bottom: 20px;
+    flex-shrink: 0;
+  }
+
+  .color-card .card-image picture,
+  .color-card .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .color-card .card-label {
@@ -1294,6 +1297,13 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   .step[data-step="color"] .radio-grid {
     grid-template-columns: repeat(5, 1fr);
     gap: var(--spacing-md);
+    align-items: start;
+  }
+
+  /* Color cards - don't stretch, stay compact */
+  .color-card {
+    height: auto !important;
+    min-height: 0;
   }
 
   @media (max-width: 768px) {
@@ -1581,25 +1591,24 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     }
   }
 
-  /* Roof type selector for additional roofs */
+  /* Roof type selector for additional roofs - stacked vertically */
   :global(.roof-type-selector) {
     display: flex;
-    gap: var(--spacing-md);
+    flex-direction: column;
+    gap: var(--spacing-sm);
     margin-bottom: var(--spacing-md);
   }
 
   :global(.roof-type-option) {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     border: 2px solid var(--color-border);
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: all 0.2s;
-    flex: 1;
-    max-width: 150px;
   }
 
   :global(.roof-type-option:hover) {
@@ -1618,13 +1627,13 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   }
 
   :global(.roof-type-option img) {
-    width: 80px;
-    height: auto;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
   }
 
   :global(.roof-type-option span) {
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
     font-weight: 500;
     color: var(--color-text);
   }
@@ -2474,6 +2483,17 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
   // Progress step click handlers
   function initProgressStepClicks(): void {
+    // Map data-target values to actual step IDs
+    const progressTargetToStep: Record<string, string> = {
+      '1': 'knows-sizes',
+      '3': 'color',
+      '4': 'shipping',
+      '5': 'screws',
+      '6a': 'name',
+      '6b': 'contact',
+      '6c': 'address'
+    };
+
     progressContainer.querySelectorAll('.progress-step').forEach(step => {
       step.addEventListener('click', (e) => {
         const btn = e.currentTarget as HTMLButtonElement;
@@ -2483,16 +2503,7 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
         const targetStep = btn.dataset.target;
         if (targetStep) {
-          // Map progress target to actual step
-          // Target 1 -> step 1 (or 2a/2b based on previous path)
-          // Target 3-6 -> steps 3-6
-          let actualStep = targetStep;
-
-          if (targetStep === '1') {
-            // Go back to start of size entry
-            actualStep = '1';
-          }
-
+          const actualStep = progressTargetToStep[targetStep] || 'knows-sizes';
           navigateToStep(actualStep);
         }
       });
@@ -2588,8 +2599,10 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
       // Only lookup when we have 4 digits
       if (postcode.length !== 4 || !/^\d{4}$/.test(postcode)) {
-        cityInput.value = '';
-        cityInput.readOnly = true;
+        // Clear only if user is still typing postcode
+        if (postcode.length < 4) {
+          cityInput.value = '';
+        }
         return;
       }
 
@@ -2597,11 +2610,11 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
       if (postcodeCache && postcodeCache[postcode]) {
         cityInput.value = postcodeCache[postcode];
-        cityInput.readOnly = true;
+        // City is editable - just auto-filled
+        cityInput.placeholder = 'Település';
       } else {
         // Unknown postcode - allow manual entry
         cityInput.value = '';
-        cityInput.readOnly = false;
         cityInput.placeholder = 'Ismeretlen irányítószám - írja be';
       }
     });
@@ -2627,13 +2640,32 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
         modeButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // Toggle modes
+        // Toggle modes and required attributes
         if (mode === 'simple') {
           simpleMode?.classList.remove('hidden');
           sidesMode?.classList.add('hidden');
+          // Set required on simple mode inputs
+          const fenceLength = document.getElementById('fence_length') as HTMLInputElement;
+          const fenceHeight = document.getElementById('fence_height') as HTMLInputElement;
+          if (fenceLength) fenceLength.required = true;
+          if (fenceHeight) fenceHeight.required = true;
+          // Remove required from sides mode inputs
+          document.querySelectorAll('.fence-side-input, .fence-height-input').forEach(input => {
+            (input as HTMLInputElement).required = false;
+          });
         } else {
           simpleMode?.classList.add('hidden');
           sidesMode?.classList.remove('hidden');
+          // Remove required from simple mode inputs
+          const fenceLength = document.getElementById('fence_length') as HTMLInputElement;
+          const fenceHeight = document.getElementById('fence_height') as HTMLInputElement;
+          if (fenceLength) fenceLength.required = false;
+          if (fenceHeight) fenceHeight.required = false;
+          // Set required on first side inputs (at minimum)
+          const firstSideLength = document.querySelector('input[name="fence_side_1_length"]') as HTMLInputElement;
+          const firstSideHeight = document.querySelector('input[name="fence_side_1_height"]') as HTMLInputElement;
+          if (firstSideLength) firstSideLength.required = true;
+          if (firstSideHeight) firstSideHeight.required = true;
         }
 
         state.answers.fence_mode = mode;
@@ -2927,11 +2959,19 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
           if (selectedType === 'felteto') {
             nyeregImg?.classList.add('hidden');
             feltetoImg?.classList.remove('hidden');
-            cdInputs.forEach(input => input.classList.add('hidden'));
+            // Hide C/D inputs for féltető
+            cdInputs.forEach(input => {
+              input.classList.add('hidden');
+              (input as HTMLElement).style.display = 'none';
+            });
           } else {
             nyeregImg?.classList.remove('hidden');
             feltetoImg?.classList.add('hidden');
-            cdInputs.forEach(input => input.classList.remove('hidden'));
+            // Show C/D inputs for nyeregtető
+            cdInputs.forEach(input => {
+              input.classList.remove('hidden');
+              (input as HTMLElement).style.display = '';
+            });
           }
         });
       });
@@ -3106,10 +3146,11 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     gdpr: 'Az adatkezelési tájékoztató elfogadása szükséges a továbblépéshez',
   };
 
-  // Phone validation regex - accepts +36, 06, or just 30/20/70 etc.
-  // Hungarian phone regex - matches mobile and landline formats
-  // Accepts: +36301234567, +36 30 123 4567, 06-30-123-4567, etc.
-  const PHONE_REGEX = /^(\+36|06)[\s\-]?(1|20|30|31|50|70|[2-9]\d)[\s\-]?\d{2,3}[\s\-]?\d{2,4}[\s\-]?\d{0,4}$/;
+  // Phone validation regex - accepts Hungarian and international numbers
+  // Hungarian: +36301234567, +36 30 123 4567, 06-30-123-4567, etc.
+  // International: +44 7985 505061, +1 555 123 4567, etc.
+  const HU_PHONE_REGEX = /^(\+36|06)[\s\-]?(1|20|30|31|50|70|[2-9]\d)[\s\-]?\d{2,3}[\s\-]?\d{2,4}[\s\-]?\d{0,4}$/;
+  const INTL_PHONE_REGEX = /^\+\d{1,4}[\s\-]?\d{2,14}$/; // International: + country code + 7-14 digits
 
   // Client-side validation
   function validateField(input: HTMLInputElement): boolean {
@@ -3146,14 +3187,19 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     } else if (input.hasAttribute('data-phone')) {
       // Phone validation - normalize and check
       const normalizedPhone = value.replace(/[\s\-]/g, '');
-      // Check if it's just the prefix (empty phone) - must have actual digits after prefix
-      const digitsOnly = normalizedPhone.replace(/^\+?36|^06/, '');
-      if (!value || !digitsOnly || digitsOnly.length < 8) {
+      // Check minimum length (at least 7 digits after prefix)
+      const digitsOnly = normalizedPhone.replace(/[^\d]/g, '');
+      if (!value || digitsOnly.length < 7) {
         isValid = false;
         errorMessage = VALIDATION_MESSAGES.phone || 'Kérjük, adja meg a telefonszámát';
-      } else if (!PHONE_REGEX.test(value) && !/^(\+36|06|36)?\d{9}$/.test(normalizedPhone)) {
-        isValid = false;
-        errorMessage = VALIDATION_MESSAGES.phone;
+      } else {
+        // Check Hungarian or International format
+        const isHungarian = HU_PHONE_REGEX.test(value) || /^(\+36|06|36)?\d{9}$/.test(normalizedPhone);
+        const isInternational = INTL_PHONE_REGEX.test(normalizedPhone) || /^\+\d{7,15}$/.test(normalizedPhone);
+        if (!isHungarian && !isInternational) {
+          isValid = false;
+          errorMessage = VALIDATION_MESSAGES.phone;
+        }
       }
     } else if (input.type === 'email' || field === 'email') {
       // Email validation - check for empty or invalid format
@@ -3222,6 +3268,28 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
         }
       });
     }
+
+    // CRITICAL: Save contact fields to state on input (autofill workaround)
+    // This ensures values are captured even if .value is not updated at submit time
+    const contactInputs = form.querySelectorAll('#email, #phone, #first_name, #last_name, #company, #postcode, #city, #street');
+    contactInputs.forEach(input => {
+      const htmlInput = input as HTMLInputElement;
+      // Save on input
+      htmlInput.addEventListener('input', () => {
+        state.answers[htmlInput.name] = htmlInput.value;
+        saveState();
+      });
+      // Also save on change (for autofill)
+      htmlInput.addEventListener('change', () => {
+        state.answers[htmlInput.name] = htmlInput.value;
+        saveState();
+      });
+      // Also save on blur (last resort)
+      htmlInput.addEventListener('blur', () => {
+        state.answers[htmlInput.name] = htmlInput.value;
+        saveState();
+      });
+    });
   }
 
   // Validate all contact fields
@@ -3328,10 +3396,11 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
         // Collect all data
         const formData = new FormData(form);
 
-        // CRITICAL: Manually set email and phone from DOM to handle autofill issues
-        // Some password managers don't properly update form values
-        const emailVal = emailInput?.value?.trim() || '';
-        const phoneVal = phoneInput?.value?.trim() || '';
+        // CRITICAL: Use state.answers for email/phone (autofill workaround)
+        // The input.value property may not be updated by browser autofill
+        // We capture values on input/change/blur events and store in state.answers
+        const emailVal = (state.answers.email as string)?.trim() || emailInput?.value?.trim() || '';
+        const phoneVal = (state.answers.phone as string)?.trim() || phoneInput?.value?.trim() || '';
 
         // Delete any existing values and set fresh ones
         formData.delete('email');
@@ -3339,8 +3408,9 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
         formData.set('email', emailVal);
         formData.set('phone', phoneVal);
 
-        console.log('[FormData] Setting email:', emailVal);
-        console.log('[FormData] Setting phone:', phoneVal);
+        console.log('[FormData] Setting email from state:', emailVal);
+        console.log('[FormData] Setting phone from state:', phoneVal);
+        console.log('[FormData] state.answers:', JSON.stringify(state.answers));
 
         // Add state answers
         Object.entries(state.answers).forEach(([key, value]) => {
@@ -3357,7 +3427,31 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
           body: formData,
         });
 
-        const result = await response.json();
+        // Check if response is JSON before parsing
+        const contentType = response.headers.get('content-type') || '';
+        let result;
+
+        if (!contentType.includes('application/json')) {
+          // API returned non-JSON (likely HTML 404/500 error page)
+          const text = await response.text();
+          console.error('[Quote API] Non-JSON response:', response.status, text.slice(0, 800));
+          showFormErrors([
+            `A szerver nem JSON választ adott (${response.status}). Az /api/quote endpoint nem elérhető.`,
+          ]);
+          // Reset button state
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            if (btnText) (btnText as HTMLElement).style.display = 'inline';
+            if (btnLoading) (btnLoading as HTMLElement).style.display = 'none';
+          }
+          return;
+        }
+
+        result = await response.json();
+
+        if (!response.ok) {
+          console.error('[Quote API] Error response:', response.status, result);
+        }
 
         if (result.success) {
           // Track submission

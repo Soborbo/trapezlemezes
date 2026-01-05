@@ -2,11 +2,28 @@
 import Layout from '../layouts/Layout.astro';
 import { TinyImage } from '../components/images';
 import rolandImg from '../assets/images/farkas-roland.jpg';
+import { decodeQuoteHash } from '../lib/quote-hash';
 
 export const prerender = false;
+
+// Decode quote hash on SERVER side (where env vars are available)
+const url = new URL(Astro.request.url);
+const quoteHash = url.searchParams.get('q');
+let serverDecodedData: Record<string, unknown> | null = null;
+
+if (quoteHash) {
+  try {
+    const decoded = decodeQuoteHash(quoteHash);
+    if (decoded) {
+      serverDecodedData = decoded as Record<string, unknown>;
+    }
+  } catch (e) {
+    console.error('Error decoding quote hash on server:', e);
+  }
+}
 ---
 
-<Layout title="Árajánlat - Trapezlemezes.hu" noindex hideHeader>
+<Layout title="Árajánlat - Trapezlemezes.hu" noindex hideHeader hideNotifications>
   <div class="quote-page">
     <div class="quote-container">
       <!-- Left column: Quote summary -->
@@ -69,7 +86,8 @@ export const prerender = false;
         </p>
 
         <button type="button" class="btn btn-callback" id="callback-btn">
-          VISSZAHÍVÁST KÉREK
+          <span class="btn-text">VISSZAHÍVÁST KÉREK</span>
+          <span class="btn-loading" style="display: none;">Küldés...</span>
         </button>
 
         <a href="tel:+3613009206" class="btn btn-call">
@@ -119,14 +137,19 @@ export const prerender = false;
       </form>
     </div>
   </div>
+
+  <!-- Server-decoded quote data (passed to client) -->
+  <script is:inline define:vars={{ serverDecodedData }}>
+    window.__SERVER_QUOTE_DATA__ = serverDecodedData;
+  </script>
 </Layout>
 
 <style>
   .quote-page {
     min-height: calc(100vh - 80px);
     background: #e5e7eb;
-    padding: var(--spacing-xl) var(--spacing-md);
-    padding-bottom: var(--spacing-2xl);
+    padding: var(--spacing-lg) var(--spacing-md);
+    padding-bottom: var(--spacing-lg);
   }
 
   .quote-container {
@@ -134,8 +157,8 @@ export const prerender = false;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-xl);
-    align-items: start;
+    gap: var(--spacing-lg);
+    align-items: stretch;
   }
 
   @media (max-width: 768px) {
@@ -150,7 +173,9 @@ export const prerender = false;
     background: var(--color-white);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
   }
 
   .quote-header {
@@ -222,17 +247,20 @@ export const prerender = false;
     background: var(--color-white);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .contact-photo {
-    width: 140px;
-    height: 140px;
+    width: 250px;
+    height: 250px;
     margin: 0 auto var(--spacing-md);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    border: 3px solid var(--color-bg-light);
+    border: 4px solid var(--color-bg-light);
   }
 
   .contact-photo img {
@@ -420,15 +448,17 @@ export const prerender = false;
 
 <script>
   import { formatPrice, calculateQuote, colors, type SizeEntry } from '../calculator';
-  import { decodeQuoteHash } from '../lib/quote-hash';
+
+  // Declare global type for server-decoded data
+  declare global {
+    interface Window {
+      __SERVER_QUOTE_DATA__?: Record<string, unknown>;
+    }
+  }
 
   // Color labels
   const COLOR_LABELS: Record<string, string> = {};
   colors.forEach(c => { COLOR_LABELS[c.id] = c.label; });
-
-  // Get quote data from URL
-  const params = new URLSearchParams(window.location.search);
-  const quoteHash = params.get('q');
 
   interface QuoteData {
     first_name?: string;
@@ -448,25 +478,42 @@ export const prerender = false;
 
   let quoteData: QuoteData = {};
 
-  // Try to decode from URL hash
-  if (quoteHash) {
-    const decoded = decodeQuoteHash(quoteHash);
-    if (decoded) {
-      quoteData = decoded as QuoteData;
-    }
+  // Use server-decoded data (avoids env var issues on client side)
+  if (window.__SERVER_QUOTE_DATA__) {
+    quoteData = window.__SERVER_QUOTE_DATA__ as QuoteData;
   }
 
   // Also try localStorage for size data - with safe JSON parsing
+  // Note: localStorage has structure { currentStep, answers: {...}, startedAt }
+  // We need to extract the 'answers' object, not merge the entire state
   try {
     const storedData = localStorage.getItem('trapez_calculator');
     if (storedData) {
       const parsed = JSON.parse(storedData);
-      if (parsed && typeof parsed === 'object') {
-        if (parsed.sizes) {
-          quoteData.sizes = parsed.sizes;
+      if (parsed && typeof parsed === 'object' && parsed.answers) {
+        // Extract answers object (the actual form data)
+        const answers = parsed.answers as Record<string, unknown>;
+
+        // If we don't have sizes from URL, try to build from localStorage answers
+        if (!quoteData.sizes || quoteData.sizes.length === 0) {
+          const sizes: SizeEntry[] = [];
+
+          // Try numbered format (length_1, quantity_1, etc.)
+          for (let i = 1; i <= 10; i++) {
+            const length = parseInt(answers[`length_${i}`] as string, 10);
+            const quantity = parseInt(answers[`quantity_${i}`] as string, 10);
+            if (length > 0 && quantity > 0) {
+              sizes.push({ length, quantity });
+            }
+          }
+
+          if (sizes.length > 0) {
+            quoteData.sizes = sizes;
+          }
         }
-        // Merge stored data with URL data
-        quoteData = { ...parsed, ...quoteData };
+
+        // Merge answers with URL data (URL data takes precedence)
+        quoteData = { ...answers, ...quoteData } as QuoteData;
       }
     }
   } catch (e) {
@@ -513,12 +560,12 @@ export const prerender = false;
       // Show address row only if shipping is selected
       if (addressRow) addressRow.style.display = 'flex';
 
-      // Build address string
+      // Build address string - postcode/city first, then street
       const addressParts: string[] = [];
-      if (quoteData.street) addressParts.push(quoteData.street);
       if (quoteData.postcode || quoteData.city) {
-        addressParts.push(`${quoteData.postcode || 'Irányítószám nem ismert'} ${quoteData.city || 'Város nem ismert'}`);
+        addressParts.push(`${quoteData.postcode || ''} ${quoteData.city || ''}`.trim());
       }
+      if (quoteData.street) addressParts.push(quoteData.street);
 
       if (addressEl) {
         if (addressParts.length > 0) {
@@ -629,34 +676,24 @@ export const prerender = false;
   }
   (document.getElementById('callback-quote-data') as HTMLInputElement).value = JSON.stringify(quoteData);
 
-  callbackBtn?.addEventListener('click', () => {
-    if (callbackModal) callbackModal.style.display = 'flex';
-  });
+  // Direct callback submission - no modal, one click
+  callbackBtn?.addEventListener('click', async () => {
+    const btn = callbackBtn as HTMLButtonElement;
+    const btnText = btn.querySelector('.btn-text') as HTMLElement;
+    const btnLoading = btn.querySelector('.btn-loading') as HTMLElement;
 
-  modalClose?.addEventListener('click', () => {
-    if (callbackModal) callbackModal.style.display = 'none';
-  });
-
-  callbackModal?.addEventListener('click', (e) => {
-    if (e.target === callbackModal) {
-      callbackModal.style.display = 'none';
-    }
-  });
-
-  // Handle callback form submission
-  callbackForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const submitBtn = document.getElementById('callback-submit') as HTMLButtonElement;
-    const btnText = submitBtn.querySelector('.btn-text') as HTMLElement;
-    const btnLoading = submitBtn.querySelector('.btn-loading') as HTMLElement;
-
-    submitBtn.disabled = true;
-    btnText.style.display = 'none';
-    btnLoading.style.display = 'inline';
+    btn.disabled = true;
+    if (btnText) btnText.style.display = 'none';
+    if (btnLoading) btnLoading.style.display = 'inline';
 
     try {
-      const formData = new FormData(callbackForm);
+      // Build form data from existing quote data
+      const formData = new FormData();
+      formData.append('name', `${quoteData.first_name || ''} ${quoteData.last_name || ''}`.trim());
+      formData.append('phone', quoteData.phone || '');
+      formData.append('email', quoteData.email || '');
+      formData.append('quote_id', quoteData.quote_id || '');
+      formData.append('quote_data', JSON.stringify(quoteData));
 
       const response = await fetch('/api/callback', {
         method: 'POST',
@@ -671,16 +708,16 @@ export const prerender = false;
       } else {
         const data = await response.json();
         alert(data.error || 'Hiba történt. Kérjük, próbálja újra.');
-        submitBtn.disabled = false;
-        btnText.style.display = 'inline';
-        btnLoading.style.display = 'none';
+        btn.disabled = false;
+        if (btnText) btnText.style.display = 'inline';
+        if (btnLoading) btnLoading.style.display = 'none';
       }
     } catch (error) {
       console.error('Callback submission error:', error);
       alert('Hiba történt. Kérjük, próbálja újra.');
-      submitBtn.disabled = false;
-      btnText.style.display = 'inline';
-      btnLoading.style.display = 'none';
+      btn.disabled = false;
+      if (btnText) btnText.style.display = 'inline';
+      if (btnLoading) btnLoading.style.display = 'none';
     }
   });
 

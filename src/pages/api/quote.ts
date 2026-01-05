@@ -7,17 +7,20 @@
 import type { APIRoute } from 'astro';
 import { validateForm, correctEmailTypos } from '../../lib/validation';
 import { sendQuoteConfirmation, sendAdminNotification } from '../../lib/email';
-import { appendToSheet, ensureSheetHeaders } from '../../lib/sheets';
+import { appendToSheet } from '../../lib/sheets';
 import { generateQuoteId, generateQuoteUrl } from '../../lib/quote-hash';
 import { calculateQuote, calculateRoofSheets, calculateFenceSheets, type SizeEntry } from '../../calculator';
 import { validateCsrfFromRequest } from '../../lib/csrf';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   // CSRF validation
   const csrfError = validateCsrfFromRequest(request);
   if (csrfError) return csrfError;
+
+  // Get Cloudflare runtime for background tasks
+  const runtime = (locals as { runtime?: { waitUntil: (promise: Promise<unknown>) => void } }).runtime;
 
   try {
     // Parse form data
@@ -101,6 +104,10 @@ export const POST: APIRoute = async ({ request }) => {
       totalSheets: 0,
       totalPrice: 0,
       quoteUrl: '',
+      sizesFormatted: '',
+      screwBoxes: 0,
+      screwPrice: 0,
+      gclid: (data.gclid as string) || '',
     };
 
     // Parse sizes from form data
@@ -193,12 +200,21 @@ export const POST: APIRoute = async ({ request }) => {
         includeScrews: validatedData.screws !== 'nem',
       });
 
+      // Format sizes for sheet (e.g., "200cm x 5db, 300cm x 10db")
+      const sizesFormatted = sizes
+        .map(s => `${s.length}cm x ${s.quantity}db`)
+        .join(', ');
+
       breakdown = quote.breakdown;
       calculatedData = {
         totalSqm: quote.sheets.totalSqm,
         totalSheets: quote.sheets.totalSheets,
         totalPrice: quote.total,
         quoteUrl: '',
+        sizesFormatted,
+        screwBoxes: quote.screws?.boxes || 0,
+        screwPrice: quote.screws?.price || 0,
+        gclid: (data.gclid as string) || '',
       };
     }
 
@@ -208,45 +224,50 @@ export const POST: APIRoute = async ({ request }) => {
     const quoteUrl = generateQuoteUrl(quoteDataWithSizes, baseUrl);
     calculatedData.quoteUrl = quoteUrl;
 
-    // Send emails and save to sheets - don't fail if these fail
-    let customerEmailSent = false;
-    let adminEmailSent = false;
-    let sheetsSaved = false;
+    // Send emails and save to sheets in background (non-blocking)
+    const backgroundTask = async () => {
+      try {
+        const [customerEmailSent, adminEmailSent, sheetsSaved] = await Promise.all([
+          sendQuoteConfirmation(validatedData, quoteUrl, breakdown).catch((e) => {
+            console.error('Customer email error:', e);
+            return false;
+          }),
+          sendAdminNotification(validatedData, quoteUrl).catch((e) => {
+            console.error('Admin email error:', e);
+            return false;
+          }),
+          appendToSheet(validatedData, calculatedData).catch((e) => {
+            console.error('Sheets error:', e);
+            return false;
+          }),
+        ]);
 
-    try {
-      // Send emails in parallel
-      const emailPromises = [
-        sendQuoteConfirmation(validatedData, quoteUrl, breakdown).catch(() => false),
-        sendAdminNotification(validatedData, quoteUrl).catch(() => false),
-      ];
+        console.log('Quote submission background tasks completed:', {
+          quoteId: validatedData.quote_id,
+          customerEmailSent,
+          adminEmailSent,
+          sheetsSaved,
+        });
+      } catch (error) {
+        console.error('Background task error:', error);
+      }
+    };
 
-      // Save to Google Sheets
-      await ensureSheetHeaders().catch(() => {});
-      const sheetsPromise = appendToSheet(validatedData, calculatedData).catch(() => false);
-
-      // Wait for all operations
-      [customerEmailSent, adminEmailSent, sheetsSaved] = await Promise.all([
-        ...emailPromises,
-        sheetsPromise,
-      ]);
-    } catch (serviceError) {
-      console.error('Service error (non-fatal):', serviceError);
-      // Continue - we still want to return success to the user
+    // Use waitUntil for Cloudflare Workers (keeps worker alive after response)
+    // Falls back to fire-and-forget if not available
+    if (runtime?.waitUntil) {
+      runtime.waitUntil(backgroundTask());
+    } else {
+      // Fallback: fire and forget (may not complete in serverless)
+      backgroundTask();
     }
 
-    console.log('Quote submission result:', {
-      quoteId: validatedData.quote_id,
-      customerEmailSent,
-      adminEmailSent,
-      sheetsSaved,
-    });
-
+    // Return immediately - don't wait for emails/sheets
     return new Response(
       JSON.stringify({
         success: true,
         quoteId: validatedData.quote_id,
         quoteUrl,
-        emailSent: customerEmailSent,
       }),
       {
         status: 200,

@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Köszönjük az érdeklődést - Trapezlemezes.hu" noindex>
+<Layout title="Köszönjük az érdeklődést - Trapezlemezes.hu" noindex hideNotifications>
   <div class="thank-you-page">
     <div class="thank-you-card">
       <div class="success-icon">
@@ -24,35 +24,28 @@ import Layout from '../layouts/Layout.astro';
             <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <p>Várható visszahívás: <strong>30 percen belül</strong></p>
-        <p class="small-text">Munkaidőn kívül a következő munkanapon hívjuk.</p>
+        <p>Várható visszahívás: <strong>hétfőtől péntekig 9 és 17 óra között</strong></p>
       </div>
 
       <div class="next-steps">
         <h2>Mire számíthat?</h2>
-        <ol>
-          <li>
+        <div class="steps-grid">
+          <div class="step-item">
             <span class="step-number">1</span>
-            <div>
-              <strong>Visszahívás</strong>
-              <p>Munkatársunk hamarosan felhívja Önt a megadott számon.</p>
-            </div>
-          </li>
-          <li>
+            <strong>Visszahívás</strong>
+            <p>Felhívjuk a megadott számon.</p>
+          </div>
+          <div class="step-item">
             <span class="step-number">2</span>
-            <div>
-              <strong>Egyeztetés</strong>
-              <p>Megbeszéljük a pontos igényeket és a szállítás részleteit.</p>
-            </div>
-          </li>
-          <li>
+            <strong>Egyeztetés</strong>
+            <p>Megbeszéljük az igényeket.</p>
+          </div>
+          <div class="step-item">
             <span class="step-number">3</span>
-            <div>
-              <strong>Végleges árajánlat</strong>
-              <p>E-mailben elküldjük a végleges, személyre szabott árajánlatot.</p>
-            </div>
-          </li>
-        </ol>
+            <strong>Végleges árajánlat</strong>
+            <p>E-mailben elküldjük.</p>
+          </div>
+        </div>
       </div>
 
       <div class="contact-info">
@@ -72,11 +65,11 @@ import Layout from '../layouts/Layout.astro';
 
 <style>
   .thank-you-page {
-    min-height: calc(100vh - 200px);
+    min-height: calc(100vh - 80px);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    padding: var(--spacing-xl) var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md);
     background: var(--color-bg-light);
   }
 
@@ -84,117 +77,114 @@ import Layout from '../layouts/Layout.astro';
     background: var(--color-white);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
-    padding: var(--spacing-2xl);
-    max-width: 600px;
+    padding: var(--spacing-lg) var(--spacing-xl);
+    max-width: 700px;
     text-align: center;
   }
 
   .success-icon {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   h1 {
     color: var(--color-text);
-    font-size: var(--font-size-2xl);
-    margin: 0 0 var(--spacing-md) 0;
+    font-size: var(--font-size-xl);
+    margin: 0 0 var(--spacing-sm) 0;
   }
 
   .lead {
     color: var(--color-text-light);
-    font-size: var(--font-size-lg);
-    margin: 0 0 var(--spacing-lg) 0;
+    font-size: var(--font-size-base);
+    margin: 0 0 var(--spacing-md) 0;
   }
 
   .callback-info {
     background: #f0fdf4;
     border: 1px solid #bbf7d0;
     border-radius: var(--radius-md);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
   }
 
   .callback-icon {
-    margin-bottom: var(--spacing-sm);
+    flex-shrink: 0;
   }
 
   .callback-info p {
     margin: 0;
     color: #166534;
+    font-size: var(--font-size-sm);
   }
 
   .callback-info strong {
-    font-size: var(--font-size-lg);
-  }
-
-  .callback-info .small-text {
-    font-size: var(--font-size-sm);
-    color: #4ade80;
-    margin-top: var(--spacing-xs);
+    font-size: var(--font-size-base);
   }
 
   .next-steps {
-    text-align: left;
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
   }
 
   .next-steps h2 {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-base);
     color: var(--color-text);
-    margin: 0 0 var(--spacing-lg) 0;
+    margin: 0 0 var(--spacing-md) 0;
     text-align: center;
   }
 
-  .next-steps ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .next-steps li {
-    display: flex;
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-md);
-    padding: var(--spacing-md) 0;
-    border-bottom: 1px solid var(--color-bg-light);
   }
 
-  .next-steps li:last-child {
-    border-bottom: none;
+  .step-item {
+    text-align: center;
+    padding: var(--spacing-sm);
   }
 
   .step-number {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: #259bd7;
     color: white;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     font-weight: 600;
-    flex-shrink: 0;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
   }
 
-  .next-steps strong {
+  .step-item strong {
     display: block;
     color: var(--color-text);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
+    font-size: var(--font-size-sm);
   }
 
-  .next-steps p {
+  .step-item p {
     margin: 0;
     color: var(--color-text-light);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
   }
 
   .contact-info {
     background: var(--color-bg-light);
     border-radius: var(--radius-md);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
   }
 
   .contact-info p {
-    margin: 0 0 var(--spacing-sm) 0;
+    margin: 0 0 var(--spacing-xs) 0;
     color: var(--color-text-light);
     font-size: var(--font-size-sm);
   }
@@ -202,9 +192,9 @@ import Layout from '../layouts/Layout.astro';
   .phone-link {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
     color: #259bd7;
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-lg);
     font-weight: 600;
     text-decoration: none;
   }
@@ -215,17 +205,29 @@ import Layout from '../layouts/Layout.astro';
 
   .btn-secondary {
     display: inline-block;
-    padding: var(--spacing-sm) var(--spacing-lg);
+    padding: var(--spacing-xs) var(--spacing-md);
     background: var(--color-bg-light);
     color: var(--color-text);
     border-radius: var(--radius-md);
     text-decoration: none;
     font-weight: 500;
+    font-size: var(--font-size-sm);
     transition: background 0.2s;
   }
 
   .btn-secondary:hover {
     background: var(--color-bg-dark);
+  }
+
+  @media (max-width: 480px) {
+    .steps-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-sm);
+    }
+
+    .callback-info {
+      flex-direction: column;
+    }
   }
 </style>
 
