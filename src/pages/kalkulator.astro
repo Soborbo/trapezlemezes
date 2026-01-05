@@ -3146,17 +3146,18 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     } else if (input.hasAttribute('data-phone')) {
       // Phone validation - normalize and check
       const normalizedPhone = value.replace(/[\s\-]/g, '');
-      // Check if it's just the prefix (empty phone)
-      if (!value || normalizedPhone === '+36' || normalizedPhone === '06' || normalizedPhone === '36') {
+      // Check if it's just the prefix (empty phone) - must have actual digits after prefix
+      const digitsOnly = normalizedPhone.replace(/^\+?36|^06/, '');
+      if (!value || !digitsOnly || digitsOnly.length < 8) {
         isValid = false;
         errorMessage = VALIDATION_MESSAGES.phone || 'Kérjük, adja meg a telefonszámát';
       } else if (!PHONE_REGEX.test(value) && !/^(\+36|06|36)?\d{9}$/.test(normalizedPhone)) {
         isValid = false;
         errorMessage = VALIDATION_MESSAGES.phone;
       }
-    } else if (input.type === 'email') {
+    } else if (input.type === 'email' || field === 'email') {
       // Email validation - check for empty or invalid format
-      if (!value) {
+      if (!value || value.trim() === '') {
         isValid = false;
         errorMessage = VALIDATION_MESSAGES.email || 'Kérjük, adja meg az e-mail címét';
       } else {
