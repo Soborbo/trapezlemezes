@@ -3357,7 +3357,31 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
           body: formData,
         });
 
-        const result = await response.json();
+        // Check if response is JSON before parsing
+        const contentType = response.headers.get('content-type') || '';
+        let result;
+
+        if (!contentType.includes('application/json')) {
+          // API returned non-JSON (likely HTML 404/500 error page)
+          const text = await response.text();
+          console.error('[Quote API] Non-JSON response:', response.status, text.slice(0, 800));
+          showFormErrors([
+            `A szerver nem JSON választ adott (${response.status}). Az /api/quote endpoint nem elérhető.`,
+          ]);
+          // Reset button state
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            if (btnText) (btnText as HTMLElement).style.display = 'inline';
+            if (btnLoading) (btnLoading as HTMLElement).style.display = 'none';
+          }
+          return;
+        }
+
+        result = await response.json();
+
+        if (!response.ok) {
+          console.error('[Quote API] Error response:', response.status, result);
+        }
 
         if (result.success) {
           // Track submission
