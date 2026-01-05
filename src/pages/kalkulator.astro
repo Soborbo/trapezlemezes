@@ -929,47 +929,37 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     }
   }
 
-  /* Roof type grid - stacked vertically */
+  /* Roof type grid - side by side */
   .roof-type-grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-    max-width: 400px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+    max-width: 500px;
     margin: 0 auto;
   }
 
   .roof-type-card {
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: var(--spacing-md);
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
     padding: var(--spacing-md);
   }
 
   .roof-type-card .card-image {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 0;
+    width: 100px;
+    height: 100px;
+    margin-bottom: var(--spacing-sm);
   }
 
   .roof-type-card .card-label,
   .roof-type-card .card-desc {
-    text-align: left;
+    text-align: center;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 480px) {
     .roof-type-grid {
-      max-width: 100%;
-    }
-
-    .roof-type-card {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .roof-type-card .card-label,
-    .roof-type-card .card-desc {
-      text-align: center;
+      grid-template-columns: 1fr;
+      max-width: 280px;
     }
   }
 
@@ -1307,6 +1297,13 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   .step[data-step="color"] .radio-grid {
     grid-template-columns: repeat(5, 1fr);
     gap: var(--spacing-md);
+    align-items: start;
+  }
+
+  /* Color cards - don't stretch, stay compact */
+  .color-card {
+    height: auto !important;
+    min-height: 0;
   }
 
   @media (max-width: 768px) {
@@ -1594,25 +1591,24 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     }
   }
 
-  /* Roof type selector for additional roofs */
+  /* Roof type selector for additional roofs - stacked vertically */
   :global(.roof-type-selector) {
     display: flex;
-    gap: var(--spacing-md);
+    flex-direction: column;
+    gap: var(--spacing-sm);
     margin-bottom: var(--spacing-md);
   }
 
   :global(.roof-type-option) {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
     border: 2px solid var(--color-border);
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: all 0.2s;
-    flex: 1;
-    max-width: 150px;
   }
 
   :global(.roof-type-option:hover) {
@@ -1631,13 +1627,13 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   }
 
   :global(.roof-type-option img) {
-    width: 80px;
-    height: auto;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
   }
 
   :global(.roof-type-option span) {
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-sm);
     font-weight: 500;
     color: var(--color-text);
   }
@@ -2963,11 +2959,19 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
           if (selectedType === 'felteto') {
             nyeregImg?.classList.add('hidden');
             feltetoImg?.classList.remove('hidden');
-            cdInputs.forEach(input => input.classList.add('hidden'));
+            // Hide C/D inputs for féltető
+            cdInputs.forEach(input => {
+              input.classList.add('hidden');
+              (input as HTMLElement).style.display = 'none';
+            });
           } else {
             nyeregImg?.classList.remove('hidden');
             feltetoImg?.classList.add('hidden');
-            cdInputs.forEach(input => input.classList.remove('hidden'));
+            // Show C/D inputs for nyeregtető
+            cdInputs.forEach(input => {
+              input.classList.remove('hidden');
+              (input as HTMLElement).style.display = '';
+            });
           }
         });
       });
@@ -3142,10 +3146,11 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     gdpr: 'Az adatkezelési tájékoztató elfogadása szükséges a továbblépéshez',
   };
 
-  // Phone validation regex - accepts +36, 06, or just 30/20/70 etc.
-  // Hungarian phone regex - matches mobile and landline formats
-  // Accepts: +36301234567, +36 30 123 4567, 06-30-123-4567, etc.
-  const PHONE_REGEX = /^(\+36|06)[\s\-]?(1|20|30|31|50|70|[2-9]\d)[\s\-]?\d{2,3}[\s\-]?\d{2,4}[\s\-]?\d{0,4}$/;
+  // Phone validation regex - accepts Hungarian and international numbers
+  // Hungarian: +36301234567, +36 30 123 4567, 06-30-123-4567, etc.
+  // International: +44 7985 505061, +1 555 123 4567, etc.
+  const HU_PHONE_REGEX = /^(\+36|06)[\s\-]?(1|20|30|31|50|70|[2-9]\d)[\s\-]?\d{2,3}[\s\-]?\d{2,4}[\s\-]?\d{0,4}$/;
+  const INTL_PHONE_REGEX = /^\+\d{1,4}[\s\-]?\d{2,14}$/; // International: + country code + 7-14 digits
 
   // Client-side validation
   function validateField(input: HTMLInputElement): boolean {
@@ -3182,14 +3187,19 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     } else if (input.hasAttribute('data-phone')) {
       // Phone validation - normalize and check
       const normalizedPhone = value.replace(/[\s\-]/g, '');
-      // Check if it's just the prefix (empty phone) - must have actual digits after prefix
-      const digitsOnly = normalizedPhone.replace(/^\+?36|^06/, '');
-      if (!value || !digitsOnly || digitsOnly.length < 8) {
+      // Check minimum length (at least 7 digits after prefix)
+      const digitsOnly = normalizedPhone.replace(/[^\d]/g, '');
+      if (!value || digitsOnly.length < 7) {
         isValid = false;
         errorMessage = VALIDATION_MESSAGES.phone || 'Kérjük, adja meg a telefonszámát';
-      } else if (!PHONE_REGEX.test(value) && !/^(\+36|06|36)?\d{9}$/.test(normalizedPhone)) {
-        isValid = false;
-        errorMessage = VALIDATION_MESSAGES.phone;
+      } else {
+        // Check Hungarian or International format
+        const isHungarian = HU_PHONE_REGEX.test(value) || /^(\+36|06|36)?\d{9}$/.test(normalizedPhone);
+        const isInternational = INTL_PHONE_REGEX.test(normalizedPhone) || /^\+\d{7,15}$/.test(normalizedPhone);
+        if (!isHungarian && !isInternational) {
+          isValid = false;
+          errorMessage = VALIDATION_MESSAGES.phone;
+        }
       }
     } else if (input.type === 'email' || field === 'email') {
       // Email validation - check for empty or invalid format
