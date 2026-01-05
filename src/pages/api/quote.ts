@@ -19,8 +19,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const csrfError = validateCsrfFromRequest(request);
   if (csrfError) return csrfError;
 
-  // Get Cloudflare runtime for background tasks
-  const runtime = (locals as { runtime?: { waitUntil: (promise: Promise<unknown>) => void } }).runtime;
+  // Get Cloudflare execution context for background tasks
+  // In Astro + Cloudflare, it's at locals.runtime.ctx.waitUntil
+  const ctx = (locals as { runtime?: { ctx?: { waitUntil: (promise: Promise<unknown>) => void } } }).runtime?.ctx;
 
   try {
     // Parse form data
@@ -255,11 +256,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Use waitUntil for Cloudflare Workers (keeps worker alive after response)
     // Falls back to fire-and-forget if not available
-    if (runtime?.waitUntil) {
-      runtime.waitUntil(backgroundTask());
+    if (ctx?.waitUntil) {
+      console.log('Using Cloudflare waitUntil for background tasks');
+      ctx.waitUntil(backgroundTask());
     } else {
-      // Fallback: fire and forget (may not complete in serverless)
-      backgroundTask();
+      console.log('waitUntil not available, running synchronously');
+      // Fallback: run synchronously (blocks response but ensures completion)
+      await backgroundTask();
     }
 
     // Return immediately - don't wait for emails/sheets
