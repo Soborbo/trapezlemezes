@@ -7,24 +7,17 @@
 
 import type { APIRoute } from 'astro';
 import { sendEmail } from '../../lib/email';
+import { setRuntimeEnv, getEnv } from '../../lib/env';
 import AdminNotificationTemplate from '../../emails/admin-notification';
 import type { CalculatorFormData } from '../../lib/validation';
 
 export const prerender = false;
 
-// Helper to get env vars
-function getEnv(key: string): string | undefined {
-  if (typeof import.meta !== 'undefined' && import.meta.env) {
-    const value = (import.meta.env as Record<string, string>)[key];
-    if (value) return value;
-  }
-  if (typeof process !== 'undefined' && process.env) {
-    return process.env[key];
-  }
-  return undefined;
-}
+export const POST: APIRoute = async ({ request, locals }) => {
+  // Set runtime env for Cloudflare Pages
+  const runtimeEnv = (locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
+  setRuntimeEnv(runtimeEnv || null);
 
-export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
 

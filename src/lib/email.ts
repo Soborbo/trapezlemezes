@@ -6,20 +6,7 @@
  */
 
 import type { CalculatorFormData } from './validation';
-
-// Helper to get env vars (works in both Node.js and Cloudflare)
-function getEnv(key: string): string | undefined {
-  // Try import.meta.env first (Astro/Cloudflare)
-  if (typeof import.meta !== 'undefined' && import.meta.env) {
-    const value = (import.meta.env as Record<string, string>)[key];
-    if (value) return value;
-  }
-  // Fall back to process.env (Node.js)
-  if (typeof process !== 'undefined' && process.env) {
-    return process.env[key];
-  }
-  return undefined;
-}
+import { getEnv } from './env';
 
 interface EmailOptions {
   to: string;

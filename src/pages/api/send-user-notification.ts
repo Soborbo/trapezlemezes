@@ -7,11 +7,16 @@
 
 import type { APIRoute } from 'astro';
 import { sendEmail } from '../../lib/email';
+import { setRuntimeEnv } from '../../lib/env';
 import QuoteConfirmationTemplate from '../../emails/quote-confirmation';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
+  // Set runtime env for Cloudflare Pages (secrets are in locals.runtime.env)
+  const runtimeEnv = (locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
+  setRuntimeEnv(runtimeEnv || null);
+
   try {
     const body = await request.json();
 
