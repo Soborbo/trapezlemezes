@@ -3143,19 +3143,28 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     } else if (input.minLength && value.length < input.minLength) {
       isValid = false;
       errorMessage = VALIDATION_MESSAGES[field] || `Kérjük, adjon meg legalább ${input.minLength} karaktert`;
-    } else if (input.hasAttribute('data-phone') && value) {
+    } else if (input.hasAttribute('data-phone')) {
       // Phone validation - normalize and check
       const normalizedPhone = value.replace(/[\s\-]/g, '');
-      if (!PHONE_REGEX.test(value) && !/^(\+36|06|36)?\d{9}$/.test(normalizedPhone)) {
+      // Check if it's just the prefix (empty phone)
+      if (!value || normalizedPhone === '+36' || normalizedPhone === '06' || normalizedPhone === '36') {
+        isValid = false;
+        errorMessage = VALIDATION_MESSAGES.phone || 'Kérjük, adja meg a telefonszámát';
+      } else if (!PHONE_REGEX.test(value) && !/^(\+36|06|36)?\d{9}$/.test(normalizedPhone)) {
         isValid = false;
         errorMessage = VALIDATION_MESSAGES.phone;
       }
-    } else if (input.type === 'email' && value) {
-      // Email validation
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(value)) {
+    } else if (input.type === 'email') {
+      // Email validation - check for empty or invalid format
+      if (!value) {
         isValid = false;
-        errorMessage = VALIDATION_MESSAGES.email;
+        errorMessage = VALIDATION_MESSAGES.email || 'Kérjük, adja meg az e-mail címét';
+      } else {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          isValid = false;
+          errorMessage = VALIDATION_MESSAGES.email;
+        }
       }
     } else if (field === 'postcode' && value && !/^\d{4}$/.test(value)) {
       isValid = false;
