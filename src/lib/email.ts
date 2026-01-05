@@ -75,15 +75,17 @@ async function sendViaBrevo(options: EmailOptions): Promise<boolean> {
 }
 
 /**
- * Send email via Resend (fallback) using fetch API
+ * Send email via Resend (primary) using fetch API
  * Cloudflare Workers compatible
  */
 async function sendViaResend(options: EmailOptions): Promise<boolean> {
+  console.log('sendViaResend called, to:', options.to);
   const apiKey = getEnv('RESEND_API_KEY');
   if (!apiKey) {
     console.warn('Resend API key not configured');
     return false;
   }
+  console.log('Resend API key found, length:', apiKey.length);
 
   try {
     const response = await fetch('https://api.resend.com/emails', {

@@ -10,8 +10,12 @@ import { getEnvVar } from '../config/site';
 
 // JWT creation for Google Service Account authentication
 async function createJWT(): Promise<string | null> {
+  console.log('createJWT called');
   const clientEmail = getEnvVar('GOOGLE_SHEETS_CLIENT_EMAIL');
   const privateKey = getEnvVar('GOOGLE_SHEETS_PRIVATE_KEY');
+
+  console.log('clientEmail:', clientEmail ? 'found' : 'MISSING');
+  console.log('privateKey:', privateKey ? `found (${privateKey.length} chars)` : 'MISSING');
 
   if (!clientEmail || !privateKey) {
     console.warn('Google Sheets credentials not configured');
@@ -133,13 +137,18 @@ export async function appendToSheet(
     gclid?: string;
   }
 ): Promise<boolean> {
+  console.log('appendToSheet called for:', data.email);
+
   const spreadsheetId = getEnvVar('GOOGLE_SHEETS_SPREADSHEET_ID');
+  console.log('spreadsheetId:', spreadsheetId ? 'found' : 'MISSING');
   if (!spreadsheetId) {
     console.warn('Google Sheets spreadsheet ID not configured');
     return false;
   }
 
+  console.log('Getting access token...');
   const accessToken = await getAccessToken();
+  console.log('accessToken:', accessToken ? 'obtained' : 'FAILED');
   if (!accessToken) return false;
 
   try {

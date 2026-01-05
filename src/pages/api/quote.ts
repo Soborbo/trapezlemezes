@@ -15,13 +15,20 @@ import { validateCsrfFromRequest } from '../../lib/csrf';
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request, locals }) => {
+  console.log('=== QUOTE API CALLED ===');
+
   // CSRF validation
   const csrfError = validateCsrfFromRequest(request);
-  if (csrfError) return csrfError;
+  if (csrfError) {
+    console.log('CSRF validation failed');
+    return csrfError;
+  }
 
   // Get Cloudflare execution context for background tasks
   // In Astro + Cloudflare, it's at locals.runtime.ctx.waitUntil
+  console.log('locals.runtime:', JSON.stringify(locals));
   const ctx = (locals as { runtime?: { ctx?: { waitUntil: (promise: Promise<unknown>) => void } } }).runtime?.ctx;
+  console.log('ctx available:', !!ctx, 'waitUntil available:', !!ctx?.waitUntil);
 
   try {
     // Parse form data
