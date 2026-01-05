@@ -9,7 +9,7 @@ import { validateForm, correctEmailTypos } from '../../lib/validation';
 import { sendQuoteConfirmation, sendAdminNotification } from '../../lib/email';
 import { appendToSheet, ensureSheetHeaders } from '../../lib/sheets';
 import { generateQuoteId, generateQuoteUrl } from '../../lib/quote-hash';
-import { calculateQuote, type SizeEntry } from '../../calculator';
+import { calculateQuote, calculateRoofSheets, calculateFenceSheets, type SizeEntry } from '../../calculator';
 import { validateCsrfFromRequest } from '../../lib/csrf';
 
 export const prerender = false;
@@ -104,7 +104,10 @@ export const POST: APIRoute = async ({ request }) => {
     };
 
     // Parse sizes from form data
+    // Support both array format (size_length[]) and numbered format (length_1, length_2, etc.)
     const sizes: SizeEntry[] = [];
+
+    // Try array format first (size_length[], size_quantity[])
     const sizeLengths = data.size_length as string[] | undefined;
     const sizeQuantities = data.size_quantity as string[] | undefined;
 
@@ -114,6 +117,69 @@ export const POST: APIRoute = async ({ request }) => {
         const quantity = parseInt(sizeQuantities[i], 10);
         if (length > 0 && quantity > 0) {
           sizes.push({ length, quantity });
+        }
+      }
+    }
+
+    // If no array data, try numbered format (length_1, quantity_1, etc.)
+    if (sizes.length === 0) {
+      for (let i = 1; i <= 10; i++) {
+        const lengthKey = `length_${i}`;
+        const quantityKey = `quantity_${i}`;
+        const lengthVal = data[lengthKey] as string | undefined;
+        const quantityVal = data[quantityKey] as string | undefined;
+
+        if (lengthVal && quantityVal) {
+          const length = parseInt(lengthVal, 10);
+          const quantity = parseInt(quantityVal, 10);
+          if (length > 0 && quantity > 0) {
+            sizes.push({ length, quantity });
+          }
+        }
+      }
+    }
+
+    // If still no sizes, calculate from roof dimensions
+    if (sizes.length === 0) {
+      const roofType = data.roof_type as string | undefined;
+      for (let i = 1; i <= 5; i++) {
+        const roofA = parseInt(data[`roof_${i}_a`] as string, 10);
+        const roofB = parseInt(data[`roof_${i}_b`] as string, 10);
+        const roofC = parseInt(data[`roof_${i}_c`] as string, 10) || undefined;
+        const roofD = parseInt(data[`roof_${i}_d`] as string, 10) || undefined;
+
+        if (roofA > 0 && roofB > 0) {
+          const roofCalc = calculateRoofSheets({
+            type: roofType === 'felteto' ? 'felnyereg' : 'nyereg',
+            a: roofA,
+            b: roofB,
+            c: roofC,
+            d: roofD,
+          });
+          sizes.push(...roofCalc.sizes.map(s => ({ length: s.length, quantity: s.quantity })));
+        }
+      }
+    }
+
+    // If still no sizes, calculate from fence dimensions
+    if (sizes.length === 0) {
+      // Simple mode: fence_length and fence_height
+      const fenceLength = parseInt(data.fence_length as string, 10);
+      const fenceHeight = parseInt(data.fence_height as string, 10);
+
+      if (fenceLength > 0 && fenceHeight > 0) {
+        const fenceCalc = calculateFenceSheets({ length: fenceLength, height: fenceHeight });
+        sizes.push(...fenceCalc.sizes.map(s => ({ length: s.length, quantity: s.quantity })));
+      } else {
+        // Sides mode: fence_side_N_length and fence_side_N_height
+        for (let i = 1; i <= 10; i++) {
+          const sideLength = parseInt(data[`fence_side_${i}_length`] as string, 10);
+          const sideHeight = parseInt(data[`fence_side_${i}_height`] as string, 10);
+
+          if (sideLength > 0 && sideHeight > 0) {
+            const fenceCalc = calculateFenceSheets({ length: sideLength, height: sideHeight });
+            sizes.push(...fenceCalc.sizes.map(s => ({ length: s.length, quantity: s.quantity })));
+          }
         }
       }
     }
