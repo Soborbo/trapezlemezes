@@ -2285,6 +2285,11 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
         updateRoofTypeImage();
       }
 
+      // Update screw recommendation when entering screws step
+      if (stepId === 'screws') {
+        updateScrewRecommendation();
+      }
+
       // Focus first input
       const firstInput = targetStep.querySelector('input:not([type="radio"]):not([type="checkbox"])') as HTMLInputElement;
       if (firstInput) {
@@ -2758,51 +2763,79 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   const SCREW_PRICE_PER_BOX = 5990;
   const SQM_PER_BOX = 25;
 
+  // Calculate recommended boxes based on total m² (exposed for step navigation)
+  function getScrewRecommendedBoxes(): number {
+    let totalSqm = 0;
+
+    // Try to get from saved answers (sizes from step 2a)
+    for (let i = 1; i <= 8; i++) {
+      const length = parseFloat(state.answers[`length_${i}`] as string) || 0;
+      const qty = parseFloat(state.answers[`quantity_${i}`] as string) || 0;
+      if (length && qty) {
+        // Length in cm, width 110cm (cover width)
+        totalSqm += (length / 100) * 1.1 * qty;
+      }
+    }
+
+    // Also check roof dimensions
+    for (let i = 1; i <= 4; i++) {
+      const a = parseFloat(state.answers[`roof_${i}_a`] as string) || 0;
+      const b = parseFloat(state.answers[`roof_${i}_b`] as string) || 0;
+      if (a && b) {
+        totalSqm += (a / 100) * (b / 100);
+      }
+    }
+
+    // Check fence dimensions
+    const fenceLength = parseFloat(state.answers.fence_length as string) || 0;
+    const fenceHeight = parseFloat(state.answers.fence_height as string) || 0;
+    if (fenceLength && fenceHeight) {
+      totalSqm += (fenceLength / 100) * (fenceHeight / 100);
+    }
+
+    if (totalSqm <= 0) totalSqm = 25; // Default to 1 box if unknown
+
+    return Math.max(1, Math.ceil(totalSqm / SQM_PER_BOX));
+  }
+
+  // Update screw recommendation display (called when entering screws step)
+  function updateScrewRecommendation(): void {
+    const quantitySection = document.getElementById('screw-quantity-section');
+    const quantityInput = document.getElementById('screw_quantity') as HTMLInputElement;
+    const recommendedEl = document.getElementById('screw-recommended');
+    const priceEl = document.getElementById('screw-price');
+
+    if (!quantitySection || !quantityInput) return;
+
+    // Only update if a screw type requiring quantity is selected (not "nem")
+    const selectedScrew = (document.querySelector('input[name="screws"]:checked') as HTMLInputElement)?.value;
+    if (selectedScrew === 'nem') return;
+
+    const recommended = getScrewRecommendedBoxes();
+    if (recommendedEl) {
+      recommendedEl.textContent = `${recommended} doboz (${recommended * SQM_PER_BOX} m²-hez)`;
+    }
+    quantityInput.value = recommended.toString();
+
+    // Update price
+    const price = recommended * SCREW_PRICE_PER_BOX;
+    if (priceEl) {
+      priceEl.textContent = new Intl.NumberFormat('hu-HU').format(price) + ' Ft';
+    }
+    state.answers.screw_quantity = recommended;
+    state.answers.screw_price = price;
+    quantitySection.classList.remove('hidden');
+  }
+
   function initScrewCalculator(): void {
     const screwTypeCards = document.querySelectorAll('.screw-type-card');
     const quantitySection = document.getElementById('screw-quantity-section');
     const quantityInput = document.getElementById('screw_quantity') as HTMLInputElement;
-    const recommendedEl = document.getElementById('screw-recommended');
     const priceEl = document.getElementById('screw-price');
     const minusBtn = document.getElementById('screw-qty-minus');
     const plusBtn = document.getElementById('screw-qty-plus');
 
     if (!quantitySection || !quantityInput) return;
-
-    // Calculate recommended boxes based on total m²
-    function getRecommendedBoxes(): number {
-      let totalSqm = 0;
-
-      // Try to get from saved answers (sizes from step 2a)
-      for (let i = 1; i <= 8; i++) {
-        const length = parseFloat(state.answers[`length_${i}`] as string) || 0;
-        const qty = parseFloat(state.answers[`quantity_${i}`] as string) || 0;
-        if (length && qty) {
-          // Length in cm, width 110cm (cover width)
-          totalSqm += (length / 100) * 1.1 * qty;
-        }
-      }
-
-      // Also check roof dimensions
-      for (let i = 1; i <= 4; i++) {
-        const a = parseFloat(state.answers[`roof_${i}_a`] as string) || 0;
-        const b = parseFloat(state.answers[`roof_${i}_b`] as string) || 0;
-        if (a && b) {
-          totalSqm += (a / 100) * (b / 100);
-        }
-      }
-
-      // Check fence dimensions
-      const fenceLength = parseFloat(state.answers.fence_length as string) || 0;
-      const fenceHeight = parseFloat(state.answers.fence_height as string) || 0;
-      if (fenceLength && fenceHeight) {
-        totalSqm += (fenceLength / 100) * (fenceHeight / 100);
-      }
-
-      if (totalSqm <= 0) totalSqm = 25; // Default to 1 box if unknown
-
-      return Math.max(1, Math.ceil(totalSqm / SQM_PER_BOX));
-    }
 
     function updateScrewPrice(): void {
       const qty = parseInt(quantityInput.value, 10) || 1;
@@ -2813,16 +2846,6 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
       state.answers.screw_quantity = qty;
       state.answers.screw_price = price;
       saveState();
-    }
-
-    function showQuantitySection(): void {
-      const recommended = getRecommendedBoxes();
-      if (recommendedEl) {
-        recommendedEl.textContent = `${recommended} doboz (${recommended * SQM_PER_BOX} m²-hez)`;
-      }
-      quantityInput.value = recommended.toString();
-      updateScrewPrice();
-      quantitySection?.classList.remove('hidden');
     }
 
     // When a screw type is selected, update quantity section
@@ -2841,15 +2864,12 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
             }, 200);
           } else {
             // Show recommended quantity
-            showQuantitySection();
+            updateScrewRecommendation();
           }
           saveState();
         });
       }
     });
-
-    // Initialize with recommended boxes on step load
-    showQuantitySection();
 
     // Quantity controls
     minusBtn?.addEventListener('click', () => {

@@ -747,22 +747,8 @@ if (quoteHash) {
   sessionStorage.setItem('quote_viewed_at', viewedAt.toString());
   sessionStorage.setItem('quote_data', JSON.stringify(quoteData));
 
-  // Send user notification email async (if not already sent)
-  const emailSent = sessionStorage.getItem(`email_sent_${quoteData.quote_id}`);
-  if (!emailSent && quoteData.email && quoteData.quote_id) {
-    fetch('/api/send-user-notification', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: quoteData.email,
-        quote_id: quoteData.quote_id,
-        quote_url: window.location.href,
-        name: `${quoteData.first_name || ''} ${quoteData.last_name || ''}`.trim(),
-      }),
-    }).then(() => {
-      sessionStorage.setItem(`email_sent_${quoteData.quote_id}`, 'true');
-    }).catch(console.error);
-  }
+  // Note: User email is sent by /api/quote during form submission (with full breakdown)
+  // No need to send again here - that was causing duplicate emails
 
   // Schedule delayed admin notification (5 min) if user doesn't request callback
   // Only schedule if not already notified for this quote

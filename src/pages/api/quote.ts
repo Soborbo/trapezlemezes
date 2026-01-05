@@ -212,10 +212,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
         includeScrews: validatedData.screws !== 'nem',
       });
 
-      // Format sizes for sheet (e.g., "200cm x 5db, 300cm x 10db")
+      // Format sizes for sheet with newlines (Alt+Enter in Google Sheets)
+      // e.g., "200cm x 5db\n300cm x 10db"
       const sizesFormatted = sizes
         .map(s => `${s.length}cm x ${s.quantity}db`)
-        .join(', ');
+        .join('\n');
 
       breakdown = quote.breakdown;
       calculatedData = {
