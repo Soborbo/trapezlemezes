@@ -765,19 +765,29 @@ if (quoteHash) {
   }
 
   // Schedule delayed admin notification (5 min) if user doesn't request callback
-  setTimeout(async () => {
-    const callbackRequested = sessionStorage.getItem('callback_requested');
-    if (!callbackRequested && quoteData.quote_id) {
-      // Send admin notification
-      await fetch('/api/send-admin-notification', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          quote_id: quoteData.quote_id,
-          quote_data: quoteData,
-          delay_reason: 'no_callback_after_5min',
-        }),
-      }).catch(console.error);
-    }
-  }, 5 * 60 * 1000); // 5 minutes
+  // Only schedule if not already notified for this quote
+  const adminNotifiedKey = `admin_notified_${quoteData.quote_id}`;
+  if (!sessionStorage.getItem(adminNotifiedKey)) {
+    setTimeout(async () => {
+      // Double check we haven't sent already
+      if (sessionStorage.getItem(adminNotifiedKey)) return;
+
+      const callbackRequested = sessionStorage.getItem('callback_requested');
+      if (!callbackRequested && quoteData.quote_id) {
+        // Mark as notified first to prevent duplicates
+        sessionStorage.setItem(adminNotifiedKey, 'true');
+
+        // Send admin notification
+        await fetch('/api/send-admin-notification', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            quote_id: quoteData.quote_id,
+            quote_data: quoteData,
+            delay_reason: 'no_callback_after_5min',
+          }),
+        }).catch(console.error);
+      }
+    }, 5 * 60 * 1000); // 5 minutes
+  }
 </script>
