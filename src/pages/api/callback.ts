@@ -7,13 +7,17 @@
 
 import type { APIRoute } from 'astro';
 import { sendEmail } from '../../lib/email';
+import { setRuntimeEnv, getEnv } from '../../lib/env';
 import CallbackRequestTemplate from '../../emails/callback-request';
 import { validateCsrfFromRequest } from '../../lib/csrf';
-import { getEnvVar } from '../../config/site';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
+  // Set runtime env for Cloudflare Pages
+  const runtimeEnv = (locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
+  setRuntimeEnv(runtimeEnv || null);
+
   // CSRF validation
   const csrfError = validateCsrfFromRequest(request);
   if (csrfError) return csrfError;
@@ -61,7 +65,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     // Send email to admin
-    const adminEmail = getEnvVar('ADMIN_EMAIL') || 'info@trapezlemezes.hu';
+    const adminEmail = getEnv('ADMIN_EMAIL') || 'info@trapezlemezes.hu';
 
     const emailSent = await sendEmail({
       to: adminEmail,

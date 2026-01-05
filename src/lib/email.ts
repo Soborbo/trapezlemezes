@@ -6,20 +6,7 @@
  */
 
 import type { CalculatorFormData } from './validation';
-
-// Helper to get env vars (works in both Node.js and Cloudflare)
-function getEnv(key: string): string | undefined {
-  // Try import.meta.env first (Astro/Cloudflare)
-  if (typeof import.meta !== 'undefined' && import.meta.env) {
-    const value = (import.meta.env as Record<string, string>)[key];
-    if (value) return value;
-  }
-  // Fall back to process.env (Node.js)
-  if (typeof process !== 'undefined' && process.env) {
-    return process.env[key];
-  }
-  return undefined;
-}
+import { getEnv } from './env';
 
 interface EmailOptions {
   to: string;
@@ -75,15 +62,17 @@ async function sendViaBrevo(options: EmailOptions): Promise<boolean> {
 }
 
 /**
- * Send email via Resend (fallback) using fetch API
+ * Send email via Resend (primary) using fetch API
  * Cloudflare Workers compatible
  */
 async function sendViaResend(options: EmailOptions): Promise<boolean> {
+  console.log('sendViaResend called, to:', options.to);
   const apiKey = getEnv('RESEND_API_KEY');
   if (!apiKey) {
     console.warn('Resend API key not configured');
     return false;
   }
+  console.log('Resend API key found, length:', apiKey.length);
 
   try {
     const response = await fetch('https://api.resend.com/emails', {

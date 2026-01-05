@@ -8,6 +8,7 @@ import type { APIRoute } from 'astro';
 import { validateForm, correctEmailTypos } from '../../lib/validation';
 import { sendQuoteConfirmation, sendAdminNotification } from '../../lib/email';
 import { appendToSheet } from '../../lib/sheets';
+import { setRuntimeEnv } from '../../lib/env';
 import { generateQuoteId, generateQuoteUrl } from '../../lib/quote-hash';
 import { calculateQuote, calculateRoofSheets, calculateFenceSheets, type SizeEntry } from '../../calculator';
 import { validateCsrfFromRequest } from '../../lib/csrf';
@@ -15,12 +16,23 @@ import { validateCsrfFromRequest } from '../../lib/csrf';
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request, locals }) => {
+  console.log('=== QUOTE API CALLED ===');
+
+  // Set runtime env for Cloudflare Pages (secrets are in locals.runtime.env)
+  const runtime = (locals as { runtime?: { env?: Record<string, string>; ctx?: { waitUntil: (promise: Promise<unknown>) => void } } }).runtime;
+  setRuntimeEnv(runtime?.env || null);
+  console.log('Runtime env set, keys:', runtime?.env ? Object.keys(runtime.env).length : 0);
+
   // CSRF validation
   const csrfError = validateCsrfFromRequest(request);
-  if (csrfError) return csrfError;
+  if (csrfError) {
+    console.log('CSRF validation failed');
+    return csrfError;
+  }
 
-  // Get Cloudflare runtime for background tasks
-  const runtime = (locals as { runtime?: { waitUntil: (promise: Promise<unknown>) => void } }).runtime;
+  // Get Cloudflare execution context for background tasks
+  const ctx = runtime?.ctx;
+  console.log('ctx available:', !!ctx, 'waitUntil available:', !!ctx?.waitUntil);
 
   try {
     // Parse form data
@@ -200,10 +212,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
         includeScrews: validatedData.screws !== 'nem',
       });
 
-      // Format sizes for sheet (e.g., "200cm x 5db, 300cm x 10db")
+      // Format sizes for sheet with newlines (Alt+Enter in Google Sheets)
+      // e.g., "200cm x 5db\n300cm x 10db"
       const sizesFormatted = sizes
         .map(s => `${s.length}cm x ${s.quantity}db`)
-        .join(', ');
+        .join('\n');
 
       breakdown = quote.breakdown;
       calculatedData = {
@@ -255,11 +268,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Use waitUntil for Cloudflare Workers (keeps worker alive after response)
     // Falls back to fire-and-forget if not available
-    if (runtime?.waitUntil) {
-      runtime.waitUntil(backgroundTask());
+    if (ctx?.waitUntil) {
+      console.log('Using Cloudflare waitUntil for background tasks');
+      ctx.waitUntil(backgroundTask());
     } else {
-      // Fallback: fire and forget (may not complete in serverless)
-      backgroundTask();
+      console.log('waitUntil not available, running synchronously');
+      // Fallback: run synchronously (blocks response but ensures completion)
+      await backgroundTask();
     }
 
     // Return immediately - don't wait for emails/sheets

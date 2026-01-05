@@ -6,12 +6,16 @@
  */
 
 import type { CalculatorFormData } from './validation';
-import { getEnvVar } from '../config/site';
+import { getEnv } from './env';
 
 // JWT creation for Google Service Account authentication
 async function createJWT(): Promise<string | null> {
-  const clientEmail = getEnvVar('GOOGLE_SHEETS_CLIENT_EMAIL');
-  const privateKey = getEnvVar('GOOGLE_SHEETS_PRIVATE_KEY');
+  console.log('createJWT called');
+  const clientEmail = getEnv('GOOGLE_SHEETS_CLIENT_EMAIL');
+  const privateKey = getEnv('GOOGLE_SHEETS_PRIVATE_KEY');
+
+  console.log('clientEmail:', clientEmail ? 'found' : 'MISSING');
+  console.log('privateKey:', privateKey ? `found (${privateKey.length} chars)` : 'MISSING');
 
   if (!clientEmail || !privateKey) {
     console.warn('Google Sheets credentials not configured');
@@ -118,7 +122,7 @@ async function getAccessToken(): Promise<string | null> {
 
 /**
  * Append a row to the Google Sheet
- * Columns: Dátum | Telefonszám | Email | Vezetéknév | Keresztnév | Cégnév | Város | Irányítószám | Utca házszám | Tételek | Szín | Szállítás | Csavar mennyiség | Csavar ára | Kishibás | Netes rendelés | Végösszeg | Ajánlat ID | Megjegyzés | GCLID | Forrás oldal
+ * Columns (A-V): Dátum | Telefonszám | Email | Vezetéknév | Keresztnév | Cégnév | Város | Irányítószám | Utca házszám | Tételek | Szín | Négyzetméter | Szállítás | Csavar mennyiség | Csavar ára | Kishibás | Netes rendelés | Végösszeg | Ajánlat ID | Megjegyzés | GCLID | Forrás oldal
  */
 export async function appendToSheet(
   data: CalculatorFormData,
@@ -133,13 +137,18 @@ export async function appendToSheet(
     gclid?: string;
   }
 ): Promise<boolean> {
-  const spreadsheetId = getEnvVar('GOOGLE_SHEETS_SPREADSHEET_ID');
+  console.log('appendToSheet called for:', data.email);
+
+  const spreadsheetId = getEnv('GOOGLE_SHEETS_SPREADSHEET_ID');
+  console.log('spreadsheetId:', spreadsheetId ? 'found' : 'MISSING');
   if (!spreadsheetId) {
     console.warn('Google Sheets spreadsheet ID not configured');
     return false;
   }
 
+  console.log('Getting access token...');
   const accessToken = await getAccessToken();
+  console.log('accessToken:', accessToken ? 'obtained' : 'FAILED');
   if (!accessToken) return false;
 
   try {
@@ -153,7 +162,7 @@ export async function appendToSheet(
       minute: '2-digit',
     });
 
-    // Prepare row data matching user's column structure (A-U)
+    // Prepare row data matching user's column structure (A-V)
     const row = [
       dateStr,                                    // A: Dátum
       data.phone,                                 // B: Telefonszám
@@ -166,19 +175,20 @@ export async function appendToSheet(
       data.street,                                // I: Utca házszám
       calculatedData.sizesFormatted || '',        // J: Tételek
       data.color || '',                           // K: Szín
-      data.shipping || '',                        // L: Szállítás
-      calculatedData.screwBoxes || '',            // M: Csavar mennyiség (doboz)
-      calculatedData.screwPrice || '',            // N: Csavar ára
-      data.secondhand || '',                      // O: Kishibás
-      'Igen',                                     // P: Netes rendelés (always yes from website)
-      calculatedData.totalPrice,                  // Q: Végösszeg
-      data.quote_id || '',                        // R: Ajánlat ID
-      '',                                         // S: Megjegyzés
-      calculatedData.gclid || '',                 // T: GCLID
-      data.source_page || '',                     // U: Forrás oldal
+      calculatedData.totalSqm || '',              // L: Négyzetméter
+      data.shipping || '',                        // M: Szállítás
+      calculatedData.screwBoxes || '',            // N: Csavar mennyiség (doboz)
+      calculatedData.screwPrice || '',            // O: Csavar ára
+      data.secondhand || '',                      // P: Kishibás
+      'Igen',                                     // Q: Netes rendelés (always yes from website)
+      calculatedData.totalPrice,                  // R: Végösszeg
+      data.quote_id || '',                        // S: Ajánlat ID
+      '',                                         // T: Megjegyzés
+      calculatedData.gclid || '',                 // U: GCLID
+      data.source_page || '',                     // V: Forrás oldal
     ];
 
-    const range = encodeURIComponent('Trapez mind!A:U');
+    const range = encodeURIComponent('Trapez mind!A:V');
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
 
     const response = await fetch(url, {
