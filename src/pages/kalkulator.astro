@@ -48,7 +48,7 @@ const minEconomyPrice = Math.min(...shippingZones.map(z => z.economyPrice));
 const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 ---
 
-<Layout title="Trapézlemez árajánlat kalkulátor - Olcsó, méretre gyártott trapézlemez Budapesten" hideHeader>
+<Layout title="Trapézlemez árajánlat kalkulátor - Olcsó, méretre gyártott trapézlemez Budapesten" hideHeader hideNotifications>
   <div class="calculator-page">
     <!-- Progress Bar -->
     <div class="progress-wrapper">
@@ -602,13 +602,13 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
             />
             <span class="phone-error-message" id="phone-error" style="display: none;"></span>
           </div>
-        </div>
 
-        <div class="checkbox-group">
-          <label class="checkbox-label">
-            <input type="checkbox" name="gdpr" id="gdpr" required />
-            <span>Elfogadom az <a href="/adatkezelesi-tajekoztato" target="_blank">adatkezelési tájékoztatót</a> *</span>
-          </label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="gdpr" id="gdpr" required />
+              <span>Elfogadom az <a href="/adatkezelesi-tajekoztato" target="_blank">adatkezelési tájékoztatót</a> *</span>
+            </label>
+          </div>
         </div>
 
         <!-- Error summary for validation errors -->
@@ -663,7 +663,6 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
                   required
                   autocomplete="address-level2"
                   placeholder="(automatikusan kitöltjük)"
-                  readonly
                 />
               </div>
             </div>
@@ -1123,6 +1122,7 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
   .screw-quantity-input {
     margin-bottom: var(--spacing-md);
+    text-align: center;
   }
 
   .screw-quantity-input label {
@@ -1135,8 +1135,10 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   .quantity-controls {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
     max-width: 200px;
+    margin: 0 auto;
   }
 
   .qty-btn {
@@ -1223,9 +1225,20 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   .color-card .card-image {
     width: 100px;
     height: 100px;
+    min-height: 100px;
+    max-height: 100px;
     border-radius: var(--radius-md);
     overflow: hidden;
     margin-bottom: 20px;
+    flex-shrink: 0;
+  }
+
+  .color-card .card-image picture,
+  .color-card .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .color-card .card-label {
@@ -2474,6 +2487,17 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
   // Progress step click handlers
   function initProgressStepClicks(): void {
+    // Map data-target values to actual step IDs
+    const progressTargetToStep: Record<string, string> = {
+      '1': 'knows-sizes',
+      '3': 'color',
+      '4': 'shipping',
+      '5': 'screws',
+      '6a': 'name',
+      '6b': 'contact',
+      '6c': 'address'
+    };
+
     progressContainer.querySelectorAll('.progress-step').forEach(step => {
       step.addEventListener('click', (e) => {
         const btn = e.currentTarget as HTMLButtonElement;
@@ -2483,16 +2507,7 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
         const targetStep = btn.dataset.target;
         if (targetStep) {
-          // Map progress target to actual step
-          // Target 1 -> step 1 (or 2a/2b based on previous path)
-          // Target 3-6 -> steps 3-6
-          let actualStep = targetStep;
-
-          if (targetStep === '1') {
-            // Go back to start of size entry
-            actualStep = '1';
-          }
-
+          const actualStep = progressTargetToStep[targetStep] || 'knows-sizes';
           navigateToStep(actualStep);
         }
       });
@@ -2588,8 +2603,10 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
       // Only lookup when we have 4 digits
       if (postcode.length !== 4 || !/^\d{4}$/.test(postcode)) {
-        cityInput.value = '';
-        cityInput.readOnly = true;
+        // Clear only if user is still typing postcode
+        if (postcode.length < 4) {
+          cityInput.value = '';
+        }
         return;
       }
 
@@ -2597,11 +2614,11 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
       if (postcodeCache && postcodeCache[postcode]) {
         cityInput.value = postcodeCache[postcode];
-        cityInput.readOnly = true;
+        // City is editable - just auto-filled
+        cityInput.placeholder = 'Település';
       } else {
         // Unknown postcode - allow manual entry
         cityInput.value = '';
-        cityInput.readOnly = false;
         cityInput.placeholder = 'Ismeretlen irányítószám - írja be';
       }
     });
@@ -2627,13 +2644,32 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
         modeButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // Toggle modes
+        // Toggle modes and required attributes
         if (mode === 'simple') {
           simpleMode?.classList.remove('hidden');
           sidesMode?.classList.add('hidden');
+          // Set required on simple mode inputs
+          const fenceLength = document.getElementById('fence_length') as HTMLInputElement;
+          const fenceHeight = document.getElementById('fence_height') as HTMLInputElement;
+          if (fenceLength) fenceLength.required = true;
+          if (fenceHeight) fenceHeight.required = true;
+          // Remove required from sides mode inputs
+          document.querySelectorAll('.fence-side-input, .fence-height-input').forEach(input => {
+            (input as HTMLInputElement).required = false;
+          });
         } else {
           simpleMode?.classList.add('hidden');
           sidesMode?.classList.remove('hidden');
+          // Remove required from simple mode inputs
+          const fenceLength = document.getElementById('fence_length') as HTMLInputElement;
+          const fenceHeight = document.getElementById('fence_height') as HTMLInputElement;
+          if (fenceLength) fenceLength.required = false;
+          if (fenceHeight) fenceHeight.required = false;
+          // Set required on first side inputs (at minimum)
+          const firstSideLength = document.querySelector('input[name="fence_side_1_length"]') as HTMLInputElement;
+          const firstSideHeight = document.querySelector('input[name="fence_side_1_height"]') as HTMLInputElement;
+          if (firstSideLength) firstSideLength.required = true;
+          if (firstSideHeight) firstSideHeight.required = true;
         }
 
         state.answers.fence_mode = mode;

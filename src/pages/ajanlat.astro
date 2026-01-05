@@ -23,7 +23,7 @@ if (quoteHash) {
 }
 ---
 
-<Layout title="Árajánlat - Trapezlemezes.hu" noindex hideHeader>
+<Layout title="Árajánlat - Trapezlemezes.hu" noindex hideHeader hideNotifications>
   <div class="quote-page">
     <div class="quote-container">
       <!-- Left column: Quote summary -->
@@ -86,7 +86,8 @@ if (quoteHash) {
         </p>
 
         <button type="button" class="btn btn-callback" id="callback-btn">
-          VISSZAHÍVÁST KÉREK
+          <span class="btn-text">VISSZAHÍVÁST KÉREK</span>
+          <span class="btn-loading" style="display: none;">Küldés...</span>
         </button>
 
         <a href="tel:+3613009206" class="btn btn-call">
@@ -147,8 +148,8 @@ if (quoteHash) {
   .quote-page {
     min-height: calc(100vh - 80px);
     background: #e5e7eb;
-    padding: var(--spacing-xl) var(--spacing-md);
-    padding-bottom: var(--spacing-2xl);
+    padding: var(--spacing-lg) var(--spacing-md);
+    padding-bottom: var(--spacing-lg);
   }
 
   .quote-container {
@@ -156,8 +157,8 @@ if (quoteHash) {
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-xl);
-    align-items: start;
+    gap: var(--spacing-lg);
+    align-items: stretch;
   }
 
   @media (max-width: 768px) {
@@ -172,7 +173,9 @@ if (quoteHash) {
     background: var(--color-white);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
   }
 
   .quote-header {
@@ -244,14 +247,17 @@ if (quoteHash) {
     background: var(--color-white);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
-    padding: var(--spacing-xl);
+    padding: var(--spacing-lg);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .contact-photo {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto var(--spacing-md);
+    width: 100px;
+    height: 100px;
+    margin: 0 auto var(--spacing-sm);
     border-radius: var(--radius-md);
     overflow: hidden;
     border: 3px solid var(--color-bg-light);
@@ -554,12 +560,12 @@ if (quoteHash) {
       // Show address row only if shipping is selected
       if (addressRow) addressRow.style.display = 'flex';
 
-      // Build address string
+      // Build address string - postcode/city first, then street
       const addressParts: string[] = [];
-      if (quoteData.street) addressParts.push(quoteData.street);
       if (quoteData.postcode || quoteData.city) {
-        addressParts.push(`${quoteData.postcode || 'Irányítószám nem ismert'} ${quoteData.city || 'Város nem ismert'}`);
+        addressParts.push(`${quoteData.postcode || ''} ${quoteData.city || ''}`.trim());
       }
+      if (quoteData.street) addressParts.push(quoteData.street);
 
       if (addressEl) {
         if (addressParts.length > 0) {
@@ -670,34 +676,24 @@ if (quoteHash) {
   }
   (document.getElementById('callback-quote-data') as HTMLInputElement).value = JSON.stringify(quoteData);
 
-  callbackBtn?.addEventListener('click', () => {
-    if (callbackModal) callbackModal.style.display = 'flex';
-  });
+  // Direct callback submission - no modal, one click
+  callbackBtn?.addEventListener('click', async () => {
+    const btn = callbackBtn as HTMLButtonElement;
+    const btnText = btn.querySelector('.btn-text') as HTMLElement;
+    const btnLoading = btn.querySelector('.btn-loading') as HTMLElement;
 
-  modalClose?.addEventListener('click', () => {
-    if (callbackModal) callbackModal.style.display = 'none';
-  });
-
-  callbackModal?.addEventListener('click', (e) => {
-    if (e.target === callbackModal) {
-      callbackModal.style.display = 'none';
-    }
-  });
-
-  // Handle callback form submission
-  callbackForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const submitBtn = document.getElementById('callback-submit') as HTMLButtonElement;
-    const btnText = submitBtn.querySelector('.btn-text') as HTMLElement;
-    const btnLoading = submitBtn.querySelector('.btn-loading') as HTMLElement;
-
-    submitBtn.disabled = true;
-    btnText.style.display = 'none';
-    btnLoading.style.display = 'inline';
+    btn.disabled = true;
+    if (btnText) btnText.style.display = 'none';
+    if (btnLoading) btnLoading.style.display = 'inline';
 
     try {
-      const formData = new FormData(callbackForm);
+      // Build form data from existing quote data
+      const formData = new FormData();
+      formData.append('name', `${quoteData.first_name || ''} ${quoteData.last_name || ''}`.trim());
+      formData.append('phone', quoteData.phone || '');
+      formData.append('email', quoteData.email || '');
+      formData.append('quote_id', quoteData.quote_id || '');
+      formData.append('quote_data', JSON.stringify(quoteData));
 
       const response = await fetch('/api/callback', {
         method: 'POST',
@@ -712,16 +708,16 @@ if (quoteHash) {
       } else {
         const data = await response.json();
         alert(data.error || 'Hiba történt. Kérjük, próbálja újra.');
-        submitBtn.disabled = false;
-        btnText.style.display = 'inline';
-        btnLoading.style.display = 'none';
+        btn.disabled = false;
+        if (btnText) btnText.style.display = 'inline';
+        if (btnLoading) btnLoading.style.display = 'none';
       }
     } catch (error) {
       console.error('Callback submission error:', error);
       alert('Hiba történt. Kérjük, próbálja újra.');
-      submitBtn.disabled = false;
-      btnText.style.display = 'inline';
-      btnLoading.style.display = 'none';
+      btn.disabled = false;
+      if (btnText) btnText.style.display = 'inline';
+      if (btnLoading) btnLoading.style.display = 'none';
     }
   });
 
