@@ -25,18 +25,20 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const formData = await request.formData();
 
-    const name = formData.get('name') as string;
+    const firstName = formData.get('first_name') as string;
+    const lastName = formData.get('last_name') as string;
     const phone = formData.get('phone') as string;
-    const email = formData.get('email') as string | null;
-    const quoteId = formData.get('quote_id') as string | null;
-    const quoteDataStr = formData.get('quote_data') as string | null;
+    const email = formData.get('email') as string;
+    const quoteId = formData.get('quote_id') as string;
+    const quoteUrl = formData.get('quote_url') as string;
+    const totalPrice = parseFloat(formData.get('total_price') as string) || 0;
 
     // Validate required fields
-    if (!name || !phone) {
+    if (!firstName || !lastName || !phone || !email) {
       return new Response(
         JSON.stringify({
           success: false,
-          error: 'Név és telefonszám megadása kötelező',
+          error: 'Minden mező kitöltése kötelező',
         }),
         {
           status: 400,
@@ -45,23 +47,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Parse quote data if provided
-    let quoteData;
-    if (quoteDataStr) {
-      try {
-        quoteData = JSON.parse(quoteDataStr);
-      } catch (e) {
-        console.warn('Failed to parse quote data:', e);
-      }
-    }
-
     // Generate email HTML
     const html = CallbackRequestTemplate({
-      name,
+      firstName,
+      lastName,
+      email,
       phone,
-      email: email || undefined,
-      quoteId: quoteId || undefined,
-      quoteData,
+      totalPrice,
+      quoteId: quoteId || '-',
+      quoteUrl: quoteUrl || '#',
     });
 
     // Send email to admin
@@ -69,9 +63,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     const emailSent = await sendEmail({
       to: adminEmail,
-      subject: `📞 Visszahívás kérés - ${name}`,
+      subject: `📞 Visszahívás kérés - ${lastName} ${firstName} - ${new Intl.NumberFormat('hu-HU').format(totalPrice)} Ft`,
       html,
-      replyTo: email || undefined,
+      replyTo: email,
     });
 
     if (!emailSent) {
@@ -79,9 +73,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     console.log('Callback request processed:', {
-      name,
+      name: `${lastName} ${firstName}`,
       phone,
       quoteId,
+      totalPrice,
       emailSent,
     });
 

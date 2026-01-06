@@ -687,13 +687,20 @@ if (quoteHash) {
     if (btnLoading) btnLoading.style.display = 'inline';
 
     try {
+      // Get total price from displayed quote
+      const quoteTotalEl = document.getElementById('quote-total');
+      const totalPriceText = quoteTotalEl?.textContent?.replace(/[^\d]/g, '') || '0';
+      const totalPrice = parseInt(totalPriceText, 10);
+
       // Build form data from existing quote data
       const formData = new FormData();
-      formData.append('name', `${quoteData.first_name || ''} ${quoteData.last_name || ''}`.trim());
+      formData.append('first_name', quoteData.first_name || '');
+      formData.append('last_name', quoteData.last_name || '');
       formData.append('phone', quoteData.phone || '');
       formData.append('email', quoteData.email || '');
       formData.append('quote_id', quoteData.quote_id || '');
-      formData.append('quote_data', JSON.stringify(quoteData));
+      formData.append('quote_url', window.location.href);
+      formData.append('total_price', totalPrice.toString());
 
       const response = await fetch('/api/callback', {
         method: 'POST',
