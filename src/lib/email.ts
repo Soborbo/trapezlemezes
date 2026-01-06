@@ -147,24 +147,43 @@ export async function sendQuoteConfirmation(
 }
 
 /**
- * Send notification email to admin
+ * Send notification email to admin (only for high-value quotes >340,000 Ft)
  */
 export async function sendAdminNotification(
   data: CalculatorFormData,
-  quoteUrl: string
+  quoteUrl: string,
+  calculatedData: {
+    totalPrice: number;
+    totalSqm: number;
+    screwBoxes: number;
+    screwPrice: number;
+    sizesFormatted: string;
+  }
 ): Promise<boolean> {
+  // Only send admin notification for high-value quotes (>340,000 Ft)
+  const ADMIN_NOTIFICATION_THRESHOLD = 340000;
+  if (calculatedData.totalPrice < ADMIN_NOTIFICATION_THRESHOLD) {
+    console.log(`Skipping admin notification: ${calculatedData.totalPrice} Ft < ${ADMIN_NOTIFICATION_THRESHOLD} Ft threshold`);
+    return true; // Return true as this is expected behavior, not an error
+  }
+
   const { default: AdminNotificationTemplate } = await import('../emails/admin-notification');
 
   const html = AdminNotificationTemplate({
     data,
     quoteUrl,
+    totalPrice: calculatedData.totalPrice,
+    totalSqm: calculatedData.totalSqm,
+    screwBoxes: calculatedData.screwBoxes,
+    screwPrice: calculatedData.screwPrice,
+    sizesFormatted: calculatedData.sizesFormatted,
   });
 
   const adminEmail = getEnv('ADMIN_EMAIL') || 'info@trapezlemezes.hu';
 
   return sendEmail({
     to: adminEmail,
-    subject: `Új árajánlatkérés - ${data.first_name} ${data.last_name}`,
+    subject: `Nagyösszegű árajánlat - ${new Intl.NumberFormat('hu-HU').format(calculatedData.totalPrice)} Ft - ${data.first_name} ${data.last_name}`,
     html,
     replyTo: data.email,
   });

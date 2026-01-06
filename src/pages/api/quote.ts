@@ -245,7 +245,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
             console.error('Customer email error:', e);
             return false;
           }),
-          sendAdminNotification(validatedData, quoteUrl).catch((e) => {
+          sendAdminNotification(validatedData, quoteUrl, {
+            totalPrice: calculatedData.totalPrice,
+            totalSqm: calculatedData.totalSqm,
+            screwBoxes: calculatedData.screwBoxes,
+            screwPrice: calculatedData.screwPrice,
+            sizesFormatted: calculatedData.sizesFormatted,
+          }).catch((e) => {
             console.error('Admin email error:', e);
             return false;
           }),
