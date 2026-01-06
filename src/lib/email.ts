@@ -142,7 +142,7 @@ export async function sendQuoteConfirmation(
     to: data.email,
     subject: `Trapézlemez árajánlat - ${data.quote_id}`,
     html,
-    replyTo: 'info@trapezlemezes.hu',
+    replyTo: 'hello@trapezlemezes.hu',
   });
 }
 
