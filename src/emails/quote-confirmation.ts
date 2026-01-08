@@ -13,145 +13,55 @@ interface QuoteConfirmationProps {
   breakdown: Array<{ label: string; value: number }>;
 }
 
-function formatPrice(price: number): string {
-  return new Intl.NumberFormat('hu-HU', {
-    style: 'currency',
-    currency: 'HUF',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
-}
-
 export default function QuoteConfirmationTemplate({
   firstName,
-  lastName,
-  company,
-  quoteId,
   quoteUrl,
-  breakdown,
 }: QuoteConfirmationProps): string {
-  const greeting = company
-    ? `Tisztelt ${lastName} ${firstName} (${company})!`
-    : `Tisztelt ${lastName} ${firstName}!`;
-
-  const breakdownHtml = breakdown
-    .map(item => `
-      <tr>
-        <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; color: #374151;">
-          ${item.label}
-        </td>
-        <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; text-align: right; font-weight: ${item.label === 'Összesen' ? '700' : '400'}; color: ${item.value < 0 ? '#16a34a' : '#374151'};">
-          ${item.value < 0 ? '-' : ''}${formatPrice(Math.abs(item.value))}
-        </td>
-      </tr>
-    `)
-    .join('');
-
   return `
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trapézlemez árajánlat - ${quoteId}</title>
-</head>
-<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f3f4f6;">
-  <table role="presentation" style="width: 100%; border-collapse: collapse;">
-    <tr>
-      <td style="padding: 40px 20px;">
-        <table role="presentation" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-          <!-- Header -->
-          <tr>
-            <td style="background-color: #259bd7; padding: 32px; text-align: center;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700;">
-                Trapézlemez árajánlat
-              </h1>
-              <p style="margin: 8px 0 0 0; color: rgba(255, 255, 255, 0.9); font-size: 14px;">
-                Azonosító: ${quoteId}
-              </p>
-            </td>
-          </tr>
-
-          <!-- Content -->
-          <tr>
-            <td style="padding: 32px;">
-              <p style="margin: 0 0 24px 0; color: #374151; font-size: 16px; line-height: 1.6;">
-                ${greeting}
-              </p>
-
-              <p style="margin: 0 0 24px 0; color: #374151; font-size: 16px; line-height: 1.6;">
-                Köszönjük, hogy trapézlemez árajánlatot kért tőlünk! Az alábbiakban találja a kalkulált árakat:
-              </p>
-
-              <!-- Price breakdown -->
-              <table role="presentation" style="width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
-                <thead>
-                  <tr style="background-color: #f9fafb;">
-                    <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb;">
-                      Tétel
-                    </th>
-                    <th style="padding: 12px 16px; text-align: right; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb;">
-                      Ár
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${breakdownHtml}
-                </tbody>
-              </table>
-
-              <p style="margin: 24px 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                Ez egy előzetes kalkuláció. A végleges árat a pontos felmérés után tudjuk megerősíteni. Munkatársunk hamarosan felveszi Önnel a kapcsolatot.
-              </p>
-
-              <!-- CTA Button -->
-              <table role="presentation" style="width: 100%; margin: 32px 0;">
-                <tr>
-                  <td style="text-align: center;">
-                    <a href="${quoteUrl}" style="display: inline-block; padding: 16px 32px; background-color: #259bd7; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 16px; border-radius: 8px;">
-                      Ajánlat megtekintése
-                    </a>
-                  </td>
-                </tr>
-              </table>
-
-              <p style="margin: 24px 0 0 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
-                A fenti linkre kattintva bármikor visszatérhet az ajánlatához és módosíthatja a paramétereket.
-              </p>
-            </td>
-          </tr>
-
-          <!-- Footer -->
-          <tr>
-            <td style="background-color: #f9fafb; padding: 24px 32px; border-top: 1px solid #e5e7eb;">
-              <table role="presentation" style="width: 100%;">
-                <tr>
-                  <td style="color: #6b7280; font-size: 14px; line-height: 1.6;">
-                    <p style="margin: 0 0 8px 0; font-weight: 600; color: #374151;">
-                      Trapezlemezes.hu
-                    </p>
-                    <p style="margin: 0;">
-                      Telefon: <a href="tel:+36309386050" style="color: #259bd7; text-decoration: none;">+36 30 938 6050</a>
-                    </p>
-                    <p style="margin: 4px 0 0 0;">
-                      E-mail: <a href="mailto:info@trapezlemezes.hu" style="color: #259bd7; text-decoration: none;">info@trapezlemezes.hu</a>
-                    </p>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-
-        <!-- Disclaimer -->
-        <p style="max-width: 600px; margin: 24px auto 0 auto; text-align: center; color: #9ca3af; font-size: 12px; line-height: 1.5;">
-          Ez az e-mail automatikusan került kiküldésre. Kérjük, ne válaszoljon rá közvetlenül.
-          Ha kérdése van, írjon az info@trapezlemezes.hu címre.
-        </p>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>
+<table style="background-color: #f4f4f4;" border="0" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding: 20px;" align="center" valign="top">
+<table style="background-color: #ffffff; max-width: 600px; width: 100%; margin: 0 auto; border-radius: 6px; overflow: hidden; font-family: sans-serif; color: #333;" border="0" width="600" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #4a51ac; padding: 30px; text-align: center;">
+<h1 style="color: #ffffff; font-size: 24px; margin: 0;">Trapezlemezes.hu</h1>
+</td>
+</tr>
+<tr>
+<td style="text-align: center; font-size: 16px; padding: 20px;">
+<p style="margin-bottom: 20px;"><strong>Kedves ${firstName}!</strong></p>
+<p style="margin-bottom: 20px;">Köszönöm, hogy használta az online árajánlat-szolgáltatásunkat.</p>
+<table style="margin: 0 auto;" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="text-align: center;"><a style="background-color: #ec1d23; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 16px; padding: 14px 24px; border-radius: 6px; display: inline-block;" href="${quoteUrl}">TEKINTSE MEG ÁRBECSLÉSÉT</a></td>
+</tr>
+</tbody>
+</table>
+<p style="margin-top: 20px;">Ha az ajánlat elnyerte a tetszését, a legegyszerűbb, ha visszahívást kér az árajánlatot tartalmazó oldalon (kattintson a gombra!) vagy <strong>csak egyszerűen válaszoljon "igen"-t erre az e-mailre.</strong></p>
+<p>Így munkatársunk a már megadott adatok birtokában hívja majd fel Önt és véglegesíti a rendelését.</p>
+<p style="margin-top: 20px;"><img style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 0px; display: block; margin-left: auto; margin-right: auto;" src="https://trapezlemezes.hu/wp-content/uploads/2024/07/20240628_173905.jpg" alt="Trapezlemezes.hu" width="350" /></p>
+<p style="margin-top: 20px;">Ha pedig bármiben, akár a szükséges méreteket, akár az anyagot illetően a legcsekélyebb bizonytalanságot is érzi, ne habozzon felhívni a</p>
+<p><a style="font-size: 28px; color: red; font-weight: bold; text-decoration: none;" href="tel:+3613009206">+36 1 300-92-06</a></p>
+<p>számon, örömmel segítünk!</p>
+<p style="margin-top: 20px;"><strong>Tisztelettel:</strong></p>
+<table style="width: 100%; border-collapse: collapse; margin-left: auto; margin-right: auto; margin-top: 20px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="width: 50%; vertical-align: top; padding-right: 10px;"><img style="font-size: 16px; border-radius: 6px; float: right; max-width: 100%; height: auto;" src="https://trapezlemezes.hu/wp-content/uploads/2024/07/roland.jpg" alt="Farkas Roland" width="150" /></td>
+<td style="width: 50%; text-align: left; padding-left: 15px; vertical-align: middle;"><strong>Farkas Roland</strong><br />Ügyvezető<br />Trapezlemezes.hu<br />+36 1 300-9206<br /><a href="mailto:hello@trapezlemezes.hu">hello@trapezlemezes.hu</a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
   `.trim();
 }

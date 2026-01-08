@@ -1,163 +1,102 @@
 /**
  * Callback Request Email Template
  *
- * Sent to admin when a customer requests a callback.
+ * Sent to admin when customer requests a callback from the quote page.
  */
 
 interface CallbackRequestProps {
-  name: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   phone: string;
-  email?: string;
-  quoteId?: string;
-  quoteData?: {
-    color?: string;
-    shipping?: string;
-    postcode?: string;
-    city?: string;
-    street?: string;
-  };
+  totalPrice: number;
+  quoteId: string;
+  quoteUrl: string;
 }
 
-const SHIPPING_LABELS: Record<string, string> = {
-  gazdasagos: 'Gazdaságos szállítás',
-  expressz: 'Expressz szállítás',
-  sajat: 'Saját szállítás',
-};
+function formatPrice(price: number): string {
+  return new Intl.NumberFormat('hu-HU').format(price);
+}
 
 export default function CallbackRequestTemplate({
-  name,
-  phone,
+  firstName,
+  lastName,
   email,
+  phone,
+  totalPrice,
   quoteId,
-  quoteData,
+  quoteUrl,
 }: CallbackRequestProps): string {
-  const formattedDate = new Date().toLocaleString('hu-HU', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-
   return `
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visszahívás kérés - ${name}</title>
-</head>
-<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f3f4f6;">
-  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+<table style="background-color: #f4f4f4;" border="0" width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding: 20px;" align="center" valign="top">
+<table style="background-color: #ffffff; max-width: 600px; width: 100%; margin: 0 auto; border-radius: 6px; overflow: hidden; font-family: sans-serif; color: #333;" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #ffc107; padding: 20px; text-align: center;">
+<h1 style="color: #333; font-size: 22px; margin: 0;">📞 Visszahívás Kérés</h1>
+</td>
+</tr>
+<tr>
+<td style="padding: 30px;">
+
+  <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+    <p style="margin: 0; font-weight: bold; color: #856404; font-size: 16px;">
+      Az ügyfél visszahívást kért az árajánlat oldalról!
+    </p>
+  </div>
+
+  <p style="font-size: 15px; line-height: 1.6; color: #555;">
+    Ez az ügyfél érdeklődik és szeretné, ha visszahívnád. Hívd fel mielőbb!
+  </p>
+
+  <p style="margin: 20px 0; text-align: center;">
+    <a href="tel:${phone.replace(/\s/g, '')}" style="background-color: #ec1d23; color: #ffffff!important; padding: 14px 28px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; font-size: 18px;">📞 ${phone}</a>
+  </p>
+
+  <h2 style="color: #046bd2; font-size: 18px; margin: 25px 0 15px; border-bottom: 2px solid #046bd2; padding-bottom: 8px;">👤 Ügyfél Adatok</h2>
+  <table style="width: 100%; margin-bottom: 20px;">
     <tr>
-      <td style="padding: 40px 20px;">
-        <table role="presentation" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-          <!-- Header -->
-          <tr>
-            <td style="background-color: #f59e0b; padding: 24px 32px;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 20px; font-weight: 700;">
-                📞 Visszahívás kérés érkezett!
-              </h1>
-              <p style="margin: 8px 0 0 0; color: rgba(255, 255, 255, 0.9); font-size: 14px;">
-                ${formattedDate}
-              </p>
-            </td>
-          </tr>
-
-          <!-- Content -->
-          <tr>
-            <td style="padding: 32px;">
-              <!-- Priority Notice -->
-              <div style="background-color: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
-                <p style="margin: 0; font-weight: 600; color: #92400e;">
-                  ⚡ SÜRGŐS - Ügyfél visszahívást kért!
-                </p>
-              </div>
-
-              <!-- Customer Info -->
-              <h2 style="margin: 0 0 16px 0; color: #374151; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
-                Ügyfél adatai
-              </h2>
-              <table role="presentation" style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
-                <tr>
-                  <td style="padding: 8px 0; color: #6b7280; width: 120px;">Név:</td>
-                  <td style="padding: 8px 0; color: #374151; font-weight: 500;">${name}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 8px 0; color: #6b7280;">Telefon:</td>
-                  <td style="padding: 8px 0;">
-                    <a href="tel:${phone}" style="color: #259bd7; text-decoration: none; font-weight: 700; font-size: 18px;">${phone}</a>
-                  </td>
-                </tr>
-                ${email ? `
-                <tr>
-                  <td style="padding: 8px 0; color: #6b7280;">E-mail:</td>
-                  <td style="padding: 8px 0;">
-                    <a href="mailto:${email}" style="color: #259bd7; text-decoration: none; font-weight: 500;">${email}</a>
-                  </td>
-                </tr>
-                ` : ''}
-              </table>
-
-              ${quoteId ? `
-              <!-- Quote Info -->
-              <h2 style="margin: 0 0 16px 0; color: #374151; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
-                Ajánlat információk
-              </h2>
-              <table role="presentation" style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
-                <tr>
-                  <td style="padding: 8px 0; color: #6b7280; width: 140px;">Ajánlat ID:</td>
-                  <td style="padding: 8px 0; color: #374151; font-weight: 500;">${quoteId}</td>
-                </tr>
-                ${quoteData?.color ? `
-                <tr>
-                  <td style="padding: 8px 0; color: #6b7280;">Szín:</td>
-                  <td style="padding: 8px 0; color: #374151;">${quoteData.color}</td>
-                </tr>
-                ` : ''}
-                ${quoteData?.shipping ? `
-                <tr>
-                  <td style="padding: 8px 0; color: #6b7280;">Szállítás:</td>
-                  <td style="padding: 8px 0; color: #374151;">${SHIPPING_LABELS[quoteData.shipping] || quoteData.shipping}</td>
-                </tr>
-                ` : ''}
-                ${quoteData?.postcode && quoteData?.city ? `
-                <tr>
-                  <td style="padding: 8px 0; color: #6b7280;">Cím:</td>
-                  <td style="padding: 8px 0; color: #374151;">
-                    ${quoteData.postcode} ${quoteData.city}${quoteData.street ? `<br>${quoteData.street}` : ''}
-                  </td>
-                </tr>
-                ` : ''}
-              </table>
-              ` : ''}
-
-              <!-- CTA Button -->
-              <table role="presentation" style="width: 100%; margin: 32px 0;">
-                <tr>
-                  <td style="text-align: center;">
-                    <a href="tel:${phone}" style="display: inline-block; padding: 16px 32px; background-color: #16a34a; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 16px; border-radius: 8px;">
-                      📞 Hívás indítása: ${phone}
-                    </a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
-          <!-- Footer -->
-          <tr>
-            <td style="background-color: #f9fafb; padding: 16px 32px; border-top: 1px solid #e5e7eb;">
-              <p style="margin: 0; color: #9ca3af; font-size: 12px; text-align: center;">
-                Ez az értesítés automatikusan lett kiküldve a Trapezlemezes.hu árajánlat oldalról.
-              </p>
-            </td>
-          </tr>
-        </table>
-      </td>
+      <td style="padding: 8px 0; width: 35%; font-weight: bold; color: #555;">Név:</td>
+      <td style="padding: 8px 0;">${lastName} ${firstName}</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 0; font-weight: bold; color: #555;">Email:</td>
+      <td style="padding: 8px 0;"><a href="mailto:${email}" style="color: #046bd2;">${email}</a></td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 0; font-weight: bold; color: #555;">Telefon:</td>
+      <td style="padding: 8px 0;"><a href="tel:${phone.replace(/\s/g, '')}" style="color: #046bd2; font-size: 16px; font-weight: bold;">${phone}</a></td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 0; font-weight: bold; color: #555;">Becsült ár:</td>
+      <td style="padding: 8px 0; font-size: 18px; font-weight: bold; color: #046bd2;">${formatPrice(totalPrice)} Ft</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 0; font-weight: bold; color: #555;">Ajánlat ID:</td>
+      <td style="padding: 8px 0; font-family: monospace;">${quoteId}</td>
     </tr>
   </table>
-</body>
-</html>
+
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="${quoteUrl}" style="background-color: #046bd2; color: white; text-decoration: none; padding: 14px 28px; border-radius: 6px; font-weight: bold; display: inline-block;">📄 Ajánlat Megtekintése</a>
+  </div>
+
+  <div style="background: #e7f3ff; border-left: 4px solid #046bd2; padding: 15px; margin-top: 25px; border-radius: 4px;">
+    <p style="margin: 0; font-size: 14px; color: #046bd2;">
+      💡 <strong>Tipp:</strong> Hívd vissza az ügyfelet mielőbb, mert most aktívan érdeklődik!
+    </p>
+  </div>
+
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
   `.trim();
 }
