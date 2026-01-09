@@ -64,7 +64,7 @@ export interface ColorOption {
   /** Kép fájlnév a src/assets/images/ mappából */
   image: string;
   /** Szín típus - befolyásolja az árat */
-  type: 'standard' | 'premium' | 'special';
+  type: 'standard' | 'premium' | 'special' | 'promo';
   /** Elérhető-e jelenleg */
   available: boolean;
 }
@@ -121,9 +121,9 @@ export const colors: ColorOption[] = [
   {
     id: 'narancs',
     label: 'Narancssárga',
-    ral: 'RAL 2004',
+    ral: 'RAL 2000',
     image: 'narancssarga-trapezlemez.jpg',
-    type: 'standard',
+    type: 'promo',
     available: true,
   },
   {

@@ -25,7 +25,7 @@ import narancsTrapez from '../assets/images/narancssarga-trapezlemez.jpg';
 // Shipping images
 import gazdasagosImg from '../assets/images/gazdasagos-szallitas.jpg';
 import expresszImg from '../assets/images/expressz-szallitas.jpg';
-import sajatImg from '../assets/images/sajat-szallitas.jpg';
+import nemSzallitunkImg from '../assets/images/nem-szallitunk.jpg';
 
 // Screw images
 import facsavarImg from '../assets/images/trapezlemez-facsavar.jpg';
@@ -40,12 +40,6 @@ import rolandImg from '../assets/images/farkas-roland.jpg';
 import kishibasIgenImg from '../assets/images/kishibas-igen.jpg';
 import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
 
-// Calculator config for shipping prices
-import { shippingZones, formatPrice } from '../calculator';
-
-// Get minimum shipping prices (Budapest zone)
-const minEconomyPrice = Math.min(...shippingZones.map(z => z.economyPrice));
-const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 ---
 
 <Layout title="Trapézlemez árajánlat kalkulátor - Olcsó, méretre gyártott trapézlemez Budapesten" hideHeader hideNotifications>
@@ -300,9 +294,17 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
       <!-- Step: Szín választás -->
       <div class="step hidden" data-step="color">
         <h2>Milyen színű trapézlemezt szeretne?</h2>
-        <div class="radio-grid cols-3">
+        <div class="radio-grid">
           <label class="radio-card color-card" data-auto-advance>
-            <input type="radio" name="color" value="antracit" required />
+            <input type="radio" name="color" value="horganyzott" required />
+            <div class="card-image">
+              <TinyImage src={horganyzottTrapez} alt="Horganyzott" />
+            </div>
+            <span class="card-label">Horganyzott</span>
+            <span class="card-ral">natúr</span>
+          </label>
+          <label class="radio-card color-card" data-auto-advance>
+            <input type="radio" name="color" value="antracit" />
             <div class="card-image">
               <TinyImage src={antracitTrapez} alt="Antracit" />
             </div>
@@ -323,7 +325,7 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
               <TinyImage src={vorosTrapez} alt="Vörös" />
             </div>
             <span class="card-label">Vörös</span>
-            <span class="card-ral">RAL 3011</span>
+            <span class="card-ral">RAL 3009</span>
           </label>
           <label class="radio-card color-card" data-auto-advance>
             <input type="radio" name="color" value="kek" />
@@ -339,7 +341,7 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
               <TinyImage src={feherTrapez} alt="Fehér" />
             </div>
             <span class="card-label">Fehér</span>
-            <span class="card-ral">RAL 9002</span>
+            <span class="card-ral">RAL 9010</span>
           </label>
           <label class="radio-card color-card" data-auto-advance>
             <input type="radio" name="color" value="fekete" />
@@ -355,7 +357,7 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
               <TinyImage src={narancsTrapez} alt="Narancssárga" />
             </div>
             <span class="card-label">Narancssárga</span>
-            <span class="card-ral">RAL 2004</span>
+            <span class="card-ral">RAL 2000</span>
           </label>
           <label class="radio-card color-card" data-auto-advance>
             <input type="radio" name="color" value="famintas" />
@@ -364,14 +366,6 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
             </div>
             <span class="card-label">Famintás</span>
             <span class="card-ral">&nbsp;</span>
-          </label>
-          <label class="radio-card color-card" data-auto-advance>
-            <input type="radio" name="color" value="horganyzott" />
-            <div class="card-image">
-              <TinyImage src={horganyzottTrapez} alt="Horganyzott" />
-            </div>
-            <span class="card-label">Horganyzott</span>
-            <span class="card-ral">natúr</span>
           </label>
           <label class="radio-card color-card color-card-other" id="color-other-card">
             <input type="radio" name="color" value="egyeb" />
@@ -394,42 +388,43 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
       <!-- Step: Szállítás -->
       <div class="step hidden" data-step="shipping">
-        <h2>Szállítást igényel?</h2>
-        <div class="radio-grid cols-3">
-          <label class="radio-card" data-auto-advance>
+        <h2>Kér szállítást?</h2>
+        <div class="radio-grid cols-3 shipping-options-grid">
+          <label class="radio-card shipping-card" data-auto-advance>
             <input type="radio" name="shipping" value="gazdasagos" required />
             <div class="card-image">
               <TinyImage src={gazdasagosImg} alt="Gazdaságos szállítás" />
             </div>
-            <span class="card-label">Gazdaságos szállítás</span>
-            <span class="card-desc">3-5 munkanap</span>
-            <span class="card-price">{formatPrice(minEconomyPrice)}-tól</span>
+            <span class="card-label">Gazdaságos</span>
+            <span class="card-desc">Összevárjuk más környékbeli megrendelésekkel, így megoszlik a szállítás költsége.</span>
+            <span class="card-price">19 990 Ft</span>
           </label>
-          <label class="radio-card" data-auto-advance>
+          <label class="radio-card shipping-card" data-auto-advance>
             <input type="radio" name="shipping" value="expressz" />
             <div class="card-image">
               <TinyImage src={expresszImg} alt="Expressz szállítás" />
             </div>
-            <span class="card-label">Expressz szállítás</span>
-            <span class="card-desc">1-2 munkanap</span>
-            <span class="card-price">{formatPrice(minExpressPrice)}-tól</span>
+            <span class="card-label">Expressz</span>
+            <span class="card-desc">Ki tudjuk szállítani soron kívül is a megrendelt trapézlemezeket.</span>
+            <span class="card-price">39 990 Ft</span>
           </label>
-          <label class="radio-card" data-auto-advance>
+          <label class="radio-card shipping-card" data-auto-advance>
             <input type="radio" name="shipping" value="sajat" />
             <div class="card-image">
-              <TinyImage src={sajatImg} alt="Saját szállítás" />
+              <TinyImage src={nemSzallitunkImg} alt="Nem kérek szállítást" />
             </div>
-            <span class="card-label">Magam viszem el</span>
-            <span class="card-desc">Személyes átvétel</span>
-            <span class="card-price">Ingyenes</span>
+            <span class="card-label">Nem kérek szállítást</span>
+            <span class="card-desc">Magam viszem el a telephelyről</span>
+            <span class="card-price">0 Ft</span>
           </label>
         </div>
+        <p class="shipping-note">Telephelyünk Budapest XVIII. kerületében található. <b>250 m² feletti rendelés esetén a szállítás INGYENES!</b></p>
       </div>
 
       <!-- Step: Csavar -->
       <div class="step hidden" data-step="screws">
-        <h2>Milyen csavart szeretne a rendeléshez?</h2>
-        <p class="step-desc">Ajánljuk trapézlemez rögzítéséhez alkalmas, speciális gumis alátétes csavarjainkat. 1 doboz (250 db) elegendő kb. 25 m² fedéséhez.</p>
+        <h2>Adhatunk a rendeléséhez az akciós csavarjainkból is?</h2>
+        <p class="step-desc">Most 250 színazonos csavart adunk <b>mindössze 5 990 Ft-ért!</b> Egy doboz általában 25 négyzetméter trapézlemez rögzítéséhez elég, így a csavar ára mindössze 239 forint / négyzetméter!</p>
 
         <!-- Screw type options - 4 in a row -->
         <div class="radio-grid cols-4 screw-options-grid">
@@ -438,32 +433,28 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
             <div class="card-image">
               <TinyImage src={facsavarImg} alt="Fához való csavar" />
             </div>
-            <span class="card-label">Fához való</span>
-            <span class="card-desc">Fa alépítményhez</span>
+            <span class="card-label">Fához való csavarokat kérek</span>
           </label>
           <label class="radio-card screw-type-card" id="screw-fem">
             <input type="radio" name="screws" value="fem" />
             <div class="card-image">
               <TinyImage src={femcsavarImg} alt="Fémhez való csavar" />
             </div>
-            <span class="card-label">Fémhez való</span>
-            <span class="card-desc">Fém alépítményhez</span>
+            <span class="card-label">Fémhez való csavarokat kérek</span>
           </label>
           <label class="radio-card screw-type-card" id="screw-vegyes">
             <input type="radio" name="screws" value="vegyes" />
             <div class="card-image">
               <TinyImage src={csavarImg} alt="Vegyes csavar" />
             </div>
-            <span class="card-label">Vegyesen kérek</span>
-            <span class="card-desc">Fa és fém egyaránt</span>
+            <span class="card-label">Vegyesen kérek csavarokat</span>
           </label>
           <label class="radio-card screw-type-card" id="screw-nem">
             <input type="radio" name="screws" value="nem" />
             <div class="card-image">
               <TinyImage src={nemkellImg} alt="Nem kérek csavart" />
             </div>
-            <span class="card-label">Nem kérek</span>
-            <span class="card-desc">Már van csavarom</span>
+            <span class="card-label">Nincsen szükségem színazonos csavarra</span>
           </label>
         </div>
 
@@ -483,7 +474,7 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
               </div>
             </div>
             <div class="screw-price-row">
-              <span class="screw-price-label">Csavar összesen:</span>
+              <span class="screw-price-label">Kedvezményes ár (összesen):</span>
               <span class="screw-price-value" id="screw-price">5 990 Ft</span>
             </div>
           </div>
@@ -497,7 +488,7 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
       <!-- Step: Másodosztályú lemez érdeklődés -->
       <div class="step hidden" data-step="secondhand">
-        <h2>Érdekelné másodosztályú, kishibás trapézlemez is?</h2>
+        <h2>Érdekli másodosztályú, kishibás trapézlemez is még olcsóbban?</h2>
         <p class="step-desc">Ezek a lemezek apró esztétikai hibával rendelkeznek (kis karcolás, színeltérés), de funkcionálisan tökéletesek és jelentősen olcsóbbak!</p>
         <div class="radio-grid cols-2">
           <label class="radio-card" data-auto-advance>
@@ -506,15 +497,13 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
               <TinyImage src={kishibasIgenImg} alt="Igen, érdekel" />
             </div>
             <span class="card-label">Igen, érdekel</span>
-            <span class="card-desc">Mutassák az elérhető készletet</span>
           </label>
           <label class="radio-card" data-auto-advance>
             <input type="radio" name="secondhand" value="no" />
             <div class="card-image">
               <TinyImage src={kishibasNemImg} alt="Nem, csak elsőosztályú" />
             </div>
-            <span class="card-label">Nem, csak elsőosztályú</span>
-            <span class="card-desc">Csak hibátlan lemezekből kérek</span>
+            <span class="card-label">Nem, kizárólag tökéletes trapézlemezek érdekelnek</span>
           </label>
         </div>
       </div>
@@ -725,12 +714,12 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   .calculator-page {
     min-height: calc(100vh - 80px);
     background: var(--color-bg-light);
-    padding: var(--spacing-xl) var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-xl);
   }
 
   @media (max-width: 640px) {
     .calculator-page {
-      padding: var(--spacing-md) 20px;
+      padding: var(--spacing-sm) 20px var(--spacing-md);
       background: var(--color-white);
     }
   }
@@ -740,7 +729,7 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -903,6 +892,13 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     margin-bottom: var(--spacing-lg);
   }
 
+  .shipping-note {
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-md);
+  }
+
   /* Radio Grid */
   .radio-grid {
     display: grid;
@@ -995,12 +991,16 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   .radio-card:hover {
     border-color: var(--color-primary);
     background: rgba(46, 125, 50, 0.05);
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .radio-card:has(input:checked) {
     border-color: var(--color-primary);
     background: var(--color-primary);
     color: var(--color-white);
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .radio-card input {
@@ -1068,13 +1068,50 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   }
 
   .screw-options-grid .card-image {
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    aspect-ratio: 1;
+    height: auto;
+  }
+
+  /* Shipping options - full width images */
+  .shipping-options-grid {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .shipping-options-grid .shipping-card {
+    padding: var(--spacing-sm);
+    background: #f5f5f5;
+  }
+
+  .shipping-options-grid .shipping-card .card-label {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .shipping-options-grid .shipping-card .card-desc {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .shipping-options-grid .card-image {
+    width: 100%;
+    aspect-ratio: 1;
+    height: auto;
   }
 
   @media (max-width: 768px) {
     .radio-grid.cols-4 {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    .shipping-options-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .shipping-options-grid .shipping-card .card-label {
+      white-space: normal;
     }
   }
 
@@ -1082,6 +1119,14 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   .screw-quantity-section {
     max-width: 400px;
     margin: 0 auto;
+  }
+
+  .screw-promo {
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.5;
   }
 
   .screw-calculation {
@@ -1151,6 +1196,13 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     color: var(--color-primary);
   }
 
+  .qty-btn:active {
+    transform: scale(0.95);
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+  }
+
   .quantity-controls input {
     width: 60px;
     text-align: center;
@@ -1159,6 +1211,14 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     border-radius: var(--radius-md);
     font-size: var(--font-size-base);
     font-weight: 600;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .quantity-controls input::-webkit-outer-spin-button,
+  .quantity-controls input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   .quantity-controls input:focus {
@@ -1206,20 +1266,20 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     color: white;
   }
 
-  /* Color cards - bigger images, compact height */
+  /* Color cards - consistent height with aspect-ratio images */
   .color-card {
     padding: var(--spacing-sm);
-    gap: 0;
+    gap: var(--spacing-xs);
+    display: flex;
+    flex-direction: column;
   }
 
   .color-card .card-image {
-    width: 100px;
-    height: 100px;
-    min-height: 100px;
-    max-height: 100px;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 4/3;
     border-radius: var(--radius-md);
     overflow: hidden;
-    margin-bottom: 20px;
     flex-shrink: 0;
   }
 
@@ -1241,7 +1301,7 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   .color-card .card-ral {
     font-size: var(--font-size-xs);
     color: var(--color-text-muted);
-    margin-top: 2px;
+    margin-top: 0;
     line-height: 1.2;
   }
 
@@ -1251,8 +1311,8 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
   /* Egyéb color card with question mark */
   .color-card-other .card-icon-question {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    aspect-ratio: 4/3;
     border-radius: var(--radius-md);
     background: var(--color-bg-light);
     border: 2px dashed var(--color-border);
@@ -1295,32 +1355,25 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
 
   /* 5 columns for color grid on desktop */
   .step[data-step="color"] .radio-grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(5, 1fr) !important;
     gap: var(--spacing-md);
-    align-items: start;
+    align-items: stretch;
   }
 
-  /* Color cards - don't stretch, stay compact */
-  .color-card {
-    height: auto !important;
-    min-height: 0;
+  /* Color cards - equal height on desktop */
+  .step[data-step="color"] .color-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step[data-step="color"] .color-card .card-label {
+    margin-top: auto;
   }
 
   @media (max-width: 768px) {
     .step[data-step="color"] .radio-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .color-card .card-image,
-    .color-card-other .card-icon-question {
-      width: 80px;
-      height: 80px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .step[data-step="color"] .radio-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 1fr) !important;
     }
   }
 
@@ -2763,39 +2816,69 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
   const SCREW_PRICE_PER_BOX = 5990;
   const SQM_PER_BOX = 25;
 
-  // Calculate recommended boxes based on total m² (exposed for step navigation)
-  function getScrewRecommendedBoxes(): number {
+  // Calculate total square meters from saved answers
+  // Cover width constant (same as in calculation.ts)
+  const COVER_WIDTH_CM = 110;
+
+  function getTotalSqm(): number {
     let totalSqm = 0;
 
-    // Try to get from saved answers (sizes from step 2a)
+    // Try to get from saved answers (sizes from step 2a - manual input)
     for (let i = 1; i <= 8; i++) {
       const length = parseFloat(state.answers[`length_${i}`] as string) || 0;
       const qty = parseFloat(state.answers[`quantity_${i}`] as string) || 0;
       if (length && qty) {
         // Length in cm, width 110cm (cover width)
-        totalSqm += (length / 100) * 1.1 * qty;
+        totalSqm += (length / 100) * (COVER_WIDTH_CM / 100) * qty;
       }
     }
 
-    // Also check roof dimensions
+    // Check roof dimensions - calculate sheets needed, then m²
+    const roofType = state.answers.roof_type as string;
     for (let i = 1; i <= 4; i++) {
-      const a = parseFloat(state.answers[`roof_${i}_a`] as string) || 0;
-      const b = parseFloat(state.answers[`roof_${i}_b`] as string) || 0;
+      const a = parseFloat(state.answers[`roof_${i}_a`] as string) || 0; // szélesség
+      const b = parseFloat(state.answers[`roof_${i}_b`] as string) || 0; // lejtő hossza
       if (a && b) {
-        totalSqm += (a / 100) * (b / 100);
+        // Calculate number of sheets needed for this roof section
+        const sheetsNeeded = Math.ceil((a / 100) / (COVER_WIDTH_CM / 100));
+        // m² = sheets × length × cover width
+        const roofSqm = sheetsNeeded * (b / 100) * (COVER_WIDTH_CM / 100);
+        totalSqm += roofSqm;
+
+        // For nyereg (gable) roof, there are 2 sides
+        if (roofType === 'nyereg' || !roofType) {
+          totalSqm += roofSqm; // Double for both sides
+        }
       }
     }
 
-    // Check fence dimensions
+    // Check fence dimensions - simple mode
     const fenceLength = parseFloat(state.answers.fence_length as string) || 0;
     const fenceHeight = parseFloat(state.answers.fence_height as string) || 0;
     if (fenceLength && fenceHeight) {
-      totalSqm += (fenceLength / 100) * (fenceHeight / 100);
+      // Calculate number of sheets needed
+      const sheetsNeeded = Math.ceil((fenceLength / 100) / (COVER_WIDTH_CM / 100));
+      totalSqm += sheetsNeeded * (fenceHeight / 100) * (COVER_WIDTH_CM / 100);
+    }
+
+    // Check fence dimensions - sides mode (fence_side_N_length, fence_side_N_height)
+    for (let i = 1; i <= 10; i++) {
+      const sideLength = parseFloat(state.answers[`fence_side_${i}_length`] as string) || 0;
+      const sideHeight = parseFloat(state.answers[`fence_side_${i}_height`] as string) || 0;
+      if (sideLength && sideHeight) {
+        const sheetsNeeded = Math.ceil((sideLength / 100) / (COVER_WIDTH_CM / 100));
+        totalSqm += sheetsNeeded * (sideHeight / 100) * (COVER_WIDTH_CM / 100);
+      }
     }
 
     if (totalSqm <= 0) totalSqm = 25; // Default to 1 box if unknown
 
-    return Math.max(1, Math.ceil(totalSqm / SQM_PER_BOX));
+    return totalSqm;
+  }
+
+  // Calculate recommended boxes based on total m² (exposed for step navigation)
+  function getScrewRecommendedBoxes(): number {
+    return Math.max(1, Math.ceil(getTotalSqm() / SQM_PER_BOX));
   }
 
   // Update screw recommendation display (called when entering screws step)
@@ -2812,8 +2895,9 @@ const minExpressPrice = Math.min(...shippingZones.map(z => z.expressPrice));
     if (selectedScrew === 'nem') return;
 
     const recommended = getScrewRecommendedBoxes();
+    const totalSqm = Math.round(getTotalSqm());
     if (recommendedEl) {
-      recommendedEl.textContent = `${recommended} doboz (${recommended * SQM_PER_BOX} m²-hez)`;
+      recommendedEl.textContent = `${recommended} doboz (${totalSqm} m²-hez)`;
     }
     quantityInput.value = recommended.toString();
 

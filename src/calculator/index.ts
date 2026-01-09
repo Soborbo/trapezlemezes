@@ -25,8 +25,8 @@ export {
 export {
   basePrices,
   shippingZones,
-  defaultShippingPrice,
-  freeShippingThreshold,
+  shippingPrices,
+  freeShippingSqmThreshold,
   screwPricing,
   volumeDiscounts,
   calculateSheets,
@@ -36,6 +36,7 @@ export {
   calculateSheetPrice,
   getVolumeDiscount,
   calculateShippingCost,
+  getShippingZone,
   calculateScrewCost,
   calculateQuote,
   formatPrice,

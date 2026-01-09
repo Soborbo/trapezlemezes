@@ -62,9 +62,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const html = AdminNotificationTemplate({
       data: formData as CalculatorFormData,
       quoteUrl,
+      totalPrice: quote_data?.totalPrice || 0,
+      totalSqm: quote_data?.totalSqm || 0,
+      screwBoxes: quote_data?.screwBoxes || 0,
+      screwPrice: quote_data?.screwPrice || 0,
+      sizesFormatted: quote_data?.sizesFormatted || '',
     }).replace(
-      '🎉 Új árajánlatkérés érkezett!',
-      `📋 Árajánlat megtekintve (${delay_reason === 'no_callback_after_5min' ? 'nem kért visszahívást' : 'értesítés'})`
+      'Nagyösszegű árajánlatot adtunk ki',
+      `Árajánlat megtekintve (${delay_reason === 'no_callback_after_5min' ? 'nem kért visszahívást' : 'értesítés'})`
     );
 
     // Send email to admin
