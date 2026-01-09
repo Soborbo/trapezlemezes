@@ -196,13 +196,15 @@ const faqs = [
   <section class="problem-section">
     <div class="problem-grid">
       <div class="problem-video">
-        <iframe
-          src="https://www.youtube.com/embed/U_hP1vBoitg"
-          title="Hogyan rontják el sokan"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+        <div class="youtube-embed" data-video-id="U_hP1vBoitg">
+          <div class="youtube-thumbnail"></div>
+          <button class="youtube-play-button" aria-label="Videó lejátszása">
+            <svg height="100%" version="1.1" viewBox="0 0 68 48" width="100%">
+              <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#f00"></path>
+              <path d="M 45,24 27,14 27,34" fill="#fff"></path>
+            </svg>
+          </button>
+        </div>
       </div>
       <div class="problem-content">
         <h2>Hogyan rontják el sokan</h2>
@@ -593,12 +595,6 @@ const faqs = [
       </div>
     </div>
   </section>
-
-  <!-- Sticky Mobile CTA -->
-  <div class="sticky-cta">
-    <a href="tel:+3613009206" class="sticky-btn sticky-phone">HÍVJON MOST</a>
-    <a href="/kalkulator" class="sticky-btn sticky-calc">ÁRKALKULÁTOR</a>
-  </div>
 </Layout>
 
 <style>
@@ -629,6 +625,7 @@ const faqs = [
     grid-template-rows: 1fr auto;
     height: calc(100dvh - 70px);
     min-height: 500px;
+    margin: 0;
   }
 
   @media (max-width: 900px) {
@@ -637,6 +634,8 @@ const faqs = [
       flex-direction: column;
       height: auto;
       min-height: auto;
+      margin-top: 0;
+      padding-top: 0;
     }
   }
 
@@ -933,7 +932,58 @@ const faqs = [
     box-shadow: 0 8px 30px rgba(0,0,0,0.15);
   }
 
-  .problem-video iframe {
+  .youtube-embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .youtube-thumbnail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .youtube-embed[data-video-id]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.ytimg.com/vi/' attr(data-video-id) '/hqdefault.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .youtube-play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 68px;
+    height: 48px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.3s ease;
+    z-index: 1;
+  }
+
+  .youtube-play-button:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .youtube-embed iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -2292,52 +2342,6 @@ const faqs = [
   }
 
   /* ===================================
-     STICKY CTA
-     =================================== */
-  .sticky-cta {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--white);
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-    padding: 12px;
-    gap: 12px;
-    z-index: 1000;
-  }
-
-  @media (max-width: 768px) {
-    .sticky-cta {
-      display: flex;
-    }
-
-    body {
-      padding-bottom: 70px;
-    }
-  }
-
-  .sticky-btn {
-    flex: 1;
-    padding: 14px;
-    text-align: center;
-    font-weight: 700;
-    font-size: 0.85rem;
-    border-radius: 8px;
-    text-decoration: none;
-  }
-
-  .sticky-phone {
-    background: var(--accent-green);
-    color: var(--white);
-  }
-
-  .sticky-calc {
-    background: var(--accent-orange);
-    color: var(--white);
-  }
-
-  /* ===================================
      CONTAINER UTILITY
      =================================== */
   .container {
@@ -2346,3 +2350,34 @@ const faqs = [
     padding: 0 20px;
   }
 </style>
+
+<script>
+  // YouTube click-to-play functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const youtubeEmbeds = document.querySelectorAll('.youtube-embed');
+
+    youtubeEmbeds.forEach(embed => {
+      const videoId = embed.dataset.videoId;
+      if (!videoId) return;
+
+      // Set thumbnail background
+      const thumbnail = embed.querySelector('.youtube-thumbnail');
+      if (thumbnail) {
+        thumbnail.style.backgroundImage = `url(https://i.ytimg.com/vi/${videoId}/hqdefault.jpg)`;
+      }
+
+      // Handle click to load iframe
+      embed.addEventListener('click', function() {
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('title', 'Hogyan rontják el sokan');
+
+        this.innerHTML = '';
+        this.appendChild(iframe);
+      }, { once: true });
+    });
+  });
+</script>
