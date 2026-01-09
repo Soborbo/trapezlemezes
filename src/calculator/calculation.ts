@@ -11,21 +11,25 @@ import { sheetSpecs, colors, type ColorOption } from './config';
 // ALAPÁRAK (Ft/m²)
 // ============================================
 
-export const basePrices = {
-  /** Standard színek alapára Ft/m² (GravityForms: 2640) */
+export const basePrices: Record<string, number> = {
+  /** Standard színek alapára Ft/m² */
   standard: 2640,
 
-  /** Prémium színek (famintás) Ft/m² (GravityForms: 2840) */
+  /** Prémium színek (famintás) Ft/m² */
   premium: 2840,
 
-  /** Speciális (horganyzott) Ft/m² (GravityForms: 2240) */
+  /** Speciális (horganyzott natúr) Ft/m² */
   special: 2240,
+
+  /** Akciós narancssárga Ft/m² */
+  promo: 2249,
 };
 
 // ============================================
 // SZÁLLÍTÁSI DÍJAK
 // ============================================
 
+/** Szállítási zónák (CRM-hez szükséges, de az ár nem függ tőle) */
 export interface ShippingZone {
   /** Irányítószám tartomány kezdete */
   from: number;
@@ -33,32 +37,30 @@ export interface ShippingZone {
   to: number;
   /** Zóna neve */
   name: string;
-  /** Gazdaságos szállítás díja (Ft) */
-  economyPrice: number;
-  /** Expressz szállítás díja (Ft) */
-  expressPrice: number;
 }
 
 export const shippingZones: ShippingZone[] = [
-  { from: 1000, to: 1999, name: 'Budapest', economyPrice: 19000, expressPrice: 39000 },
-  { from: 2000, to: 2999, name: 'Pest megye', economyPrice: 22000, expressPrice: 42000 },
-  { from: 3000, to: 3999, name: 'Észak-Magyarország', economyPrice: 28000, expressPrice: 48000 },
-  { from: 4000, to: 4999, name: 'Észak-Alföld', economyPrice: 30000, expressPrice: 50000 },
-  { from: 5000, to: 5999, name: 'Dél-Alföld', economyPrice: 28000, expressPrice: 48000 },
-  { from: 6000, to: 6999, name: 'Dél-Alföld', economyPrice: 30000, expressPrice: 50000 },
-  { from: 7000, to: 7999, name: 'Dél-Dunántúl', economyPrice: 30000, expressPrice: 50000 },
-  { from: 8000, to: 8999, name: 'Közép-Dunántúl', economyPrice: 25000, expressPrice: 45000 },
-  { from: 9000, to: 9999, name: 'Nyugat-Dunántúl', economyPrice: 30000, expressPrice: 50000 },
+  { from: 1000, to: 1999, name: 'Budapest' },
+  { from: 2000, to: 2999, name: 'Pest megye' },
+  { from: 3000, to: 3999, name: 'Észak-Magyarország' },
+  { from: 4000, to: 4999, name: 'Észak-Alföld' },
+  { from: 5000, to: 5999, name: 'Dél-Alföld' },
+  { from: 6000, to: 6999, name: 'Dél-Alföld' },
+  { from: 7000, to: 7999, name: 'Dél-Dunántúl' },
+  { from: 8000, to: 8999, name: 'Közép-Dunántúl' },
+  { from: 9000, to: 9999, name: 'Nyugat-Dunántúl' },
 ];
 
-/** Alapértelmezett szállítási díj ha nincs zóna találat */
-export const defaultShippingPrice = {
-  economy: 25000,
-  express: 35000,
+/** Fix szállítási díjak (Ft) */
+export const shippingPrices = {
+  /** Gazdaságos szállítás díja */
+  economy: 19990,
+  /** Expressz szállítás díja */
+  express: 39990,
 };
 
-/** Ingyenes szállítás limit (Ft felett) */
-export const freeShippingThreshold = 150000;
+/** Ingyenes szállítás limit (m² felett) */
+export const freeShippingSqmThreshold = 250;
 
 // ============================================
 // CSAVAR ÁR
@@ -76,7 +78,7 @@ export const screwPricing = {
 };
 
 // ============================================
-// MENNYISÉGI KEDVEZMÉNYEK
+// MENNYISÉGI KEDVEZMÉNYEK (jelenleg nincs)
 // ============================================
 
 export interface VolumeDiscount {
@@ -86,12 +88,8 @@ export interface VolumeDiscount {
   discountPercent: number;
 }
 
-export const volumeDiscounts: VolumeDiscount[] = [
-  { minSqm: 100, discountPercent: 5 },
-  { minSqm: 200, discountPercent: 8 },
-  { minSqm: 500, discountPercent: 10 },
-  { minSqm: 1000, discountPercent: 12 },
-];
+/** Jelenleg nincsenek mennyiségi kedvezmények */
+export const volumeDiscounts: VolumeDiscount[] = [];
 
 // ============================================
 // SZÁMÍTÁSI FÜGGVÉNYEK
@@ -244,28 +242,30 @@ export function getVolumeDiscount(sqm: number): number {
 }
 
 /**
- * Számítja a szállítási díjat irányítószám alapján
+ * Számítja a szállítási díjat
+ * Fix árak: gazdaságos 19 990 Ft, expressz 39 990 Ft
+ * 250 m² felett ingyenes
  */
 export function calculateShippingCost(
-  postcode: string,
   shippingType: 'gazdasagos' | 'expressz' | 'sajat',
-  orderTotal: number
+  totalSqm: number
 ): number {
   if (shippingType === 'sajat') return 0;
 
-  // Ingyenes szállítás nagy rendelésnél
-  if (orderTotal >= freeShippingThreshold) return 0;
-
-  const postcodeNum = parseInt(postcode, 10);
-  const zone = shippingZones.find(z => postcodeNum >= z.from && postcodeNum <= z.to);
-
-  if (zone) {
-    return shippingType === 'expressz' ? zone.expressPrice : zone.economyPrice;
-  }
+  // Ingyenes szállítás 250 m² felett
+  if (totalSqm >= freeShippingSqmThreshold) return 0;
 
   return shippingType === 'expressz'
-    ? defaultShippingPrice.express
-    : defaultShippingPrice.economy;
+    ? shippingPrices.express
+    : shippingPrices.economy;
+}
+
+/**
+ * Megkeresi a szállítási zónát irányítószám alapján (CRM-hez)
+ */
+export function getShippingZone(postcode: string): ShippingZone | null {
+  const postcodeNum = parseInt(postcode, 10);
+  return shippingZones.find(z => postcodeNum >= z.from && postcodeNum <= z.to) || null;
 }
 
 /**
@@ -299,8 +299,6 @@ export interface QuoteResult {
   sheetPriceAfterDiscount: number;
   screws?: { boxes: number; price: number };
   shippingCost: number;
-  subtotal: number;
-  vat: number;
   total: number;
   pricePerSqm: number;
   breakdown: Array<{ label: string; value: number }>;
@@ -321,18 +319,15 @@ export function calculateQuote(input: QuoteInput): QuoteResult {
   // Csavar
   const screws = input.includeScrews ? calculateScrewCost(sheets.totalSqm) : undefined;
 
-  // Szállítás
+  // Szállítás (fix árak, 250 m² felett ingyenes)
   const subtotalBeforeShipping = sheetPriceAfterDiscount + (screws?.price || 0);
   const shippingCost = calculateShippingCost(
-    input.postcode || '',
     input.shippingType,
-    subtotalBeforeShipping
+    sheets.totalSqm
   );
 
-  // Végösszeg
-  const subtotal = subtotalBeforeShipping + shippingCost;
-  const vat = Math.round(subtotal * 0.27); // 27% ÁFA
-  const total = subtotal + vat;
+  // Végösszeg (bruttó árak, ÁFA már benne van)
+  const total = subtotalBeforeShipping + shippingCost;
 
   // Átlag ár/m²
   const pricePerSqm = sheets.totalSqm > 0
@@ -358,8 +353,7 @@ export function calculateQuote(input: QuoteInput): QuoteResult {
     breakdown.push({ label: 'Szállítás (ingyenes)', value: 0 });
   }
 
-  breakdown.push({ label: 'ÁFA (27%)', value: vat });
-  breakdown.push({ label: 'Összesen', value: total });
+  breakdown.push({ label: 'Összesen (bruttó)', value: total });
 
   return {
     sheets,
@@ -369,8 +363,6 @@ export function calculateQuote(input: QuoteInput): QuoteResult {
     sheetPriceAfterDiscount,
     screws,
     shippingCost,
-    subtotal,
-    vat,
     total,
     pricePerSqm,
     breakdown,

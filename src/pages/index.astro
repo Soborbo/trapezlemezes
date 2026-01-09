@@ -29,6 +29,17 @@ import trapezTetoSzereles from '../assets/images/trapezlemez-teto-szereles.jpg';
 import logo from '../assets/images/logo.png';
 import gyartosorBg from '../assets/images/trapezlemez-gyartosor.jpg';
 
+// Process images
+import folyamatKalkulator from '../assets/images/folyamat-kalkulator.jpg';
+import folyamatHivas from '../assets/images/folyamat-hivas.jpg';
+import folyamatGyartas from '../assets/images/folyamat-gyartas.jpg';
+import folyamatSzallitas from '../assets/images/folyamat-szallitas.jpg';
+
+// Benefits images
+import garanciaImg from '../assets/images/trapezlemez-garancia.png';
+import ketNapAlattImg from '../assets/images/2nap-alatt.jpg';
+import meretreVagottImg from '../assets/images/meretre-vagott-trapezlemez.jpg';
+
 // Colors data with prices
 const colors = [
   { src: antracitTrapez, name: 'Antracit szürke', ral: 'RAL 7016', price: '2 640 Ft/nm' },
@@ -71,7 +82,7 @@ const faqs = [
     <div class="hero-content">
       <h1>TRAPÉZLEMEZ KÖZVETLEN<br />A GYÁRTÓTÓL</h1>
       <p class="hero-subtitle">
-        Ne fizesse ki a kiskereskedő hasznát: vásároljon vastagabb (0,5 mm) és erősebb trapézlemezt alacsonyabb áron.
+        <strong>Ne fizesse ki a kiskereskedő hasznát: vásároljon vastagabb (0,5&nbsp;mm) és erősebb trapézlemezt alacsonyabb áron.</strong>
       </p>
 
       <div class="hero-cta-group">
@@ -98,39 +109,65 @@ const faqs = [
     <!-- 4 USPs at the bottom of the fold -->
     <div class="hero-usps">
       <div class="usp-item">
-        <div class="usp-icon usp-blue">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-        </div>
-        <div class="usp-text">
-          <strong>AKÁR INGYENES</strong>
-          <span>országos házhozszállítás</span>
-        </div>
+        <strong>AKÁR INGYENES</strong>
+        <span>országos házhozszállítás</span>
       </div>
       <div class="usp-item">
-        <div class="usp-icon usp-green">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-        </div>
-        <div class="usp-text">
-          <strong>48 óra</strong>
-          <span>szállítási határidő</span>
-        </div>
+        <strong>48 óra</strong>
+        <span>szállítási határidő</span>
       </div>
       <div class="usp-item">
-        <div class="usp-icon usp-purple">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-        </div>
-        <div class="usp-text">
-          <strong>20 év</strong>
-          <span>garancia</span>
-        </div>
+        <strong>20 év</strong>
+        <span>garancia</span>
       </div>
       <div class="usp-item">
-        <div class="usp-icon usp-orange">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle><circle cx="5" cy="12" r="1"></circle><circle cx="7" cy="7" r="1"></circle><circle cx="17" cy="7" r="1"></circle><circle cx="17" cy="17" r="1"></circle><circle cx="7" cy="17" r="1"></circle></svg>
+        <strong>10+</strong>
+        <span>szín és mintázat</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Google Reviews Section -->
+  <section class="reviews-section">
+    <div class="container">
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-stars">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+          </div>
+          <p class="review-text">"Ahogy ígérték e-mailben, 4-5 nap a gyártás. Minden klappolt átvételkor is. Az ár pedig a legversenyképesebb."</p>
+          <div class="review-author-row">
+            <svg class="google-logo" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            <span class="review-author">O. M.</span>
+          </div>
         </div>
-        <div class="usp-text">
-          <strong>10+</strong>
-          <span>szín és mintázat</span>
+        <div class="review-card">
+          <div class="review-stars">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+          </div>
+          <p class="review-text">"Kedvesek, extra gyorsak, segítőkészek, korrektek. Biztos hogy még lesz megrendelésünk tőlük. Csak ajánlani tudom."</p>
+          <div class="review-author-row">
+            <svg class="google-logo" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            <span class="review-author">Márkné Melinda E.</span>
+          </div>
         </div>
       </div>
     </div>
@@ -268,45 +305,25 @@ const faqs = [
       <div class="process-steps">
         <div class="process-card">
           <div class="process-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-              <line x1="9" y1="6" x2="15" y2="6"></line>
-              <line x1="9" y1="10" x2="15" y2="10"></line>
-              <line x1="9" y1="14" x2="12" y2="14"></line>
-              <path d="M9 18l2 2 4-4"></path>
-            </svg>
+            <img src={folyamatKalkulator.src} alt="Kalkulátor" />
           </div>
           <p class="process-card-text">Töltse ki a megrendelő űrlapot vagy kérjen visszahívást az árkalkuláció végén.</p>
         </div>
         <div class="process-card">
           <div class="process-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <circle cx="12" cy="10" r="3"></circle>
-              <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path>
-              <path d="M16 4.5c1.5 1.5 2 3 2 5"></path>
-              <path d="M19 3c2 2 2.5 4 2.5 6.5"></path>
-            </svg>
+            <img src={folyamatHivas.src} alt="Visszahívás" />
           </div>
           <p class="process-card-text">A munkatársunk telefonon véglegesíti a megrendelés részleteit Önnel.</p>
         </div>
         <div class="process-card">
           <div class="process-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
+            <img src={folyamatGyartas.src} alt="Gyártás" />
           </div>
           <p class="process-card-text">Akár még aznap, de legkésőbb 48 órán belül legyártjuk a lemezeket.</p>
         </div>
         <div class="process-card">
           <div class="process-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="1" y="3" width="15" height="13"></rect>
-              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-              <circle cx="5.5" cy="18.5" r="2.5"></circle>
-              <circle cx="18.5" cy="18.5" r="2.5"></circle>
-            </svg>
+            <img src={folyamatSzallitas.src} alt="Szállítás" />
           </div>
           <p class="process-card-text">A telephelyünkön átadjuk vagy kiszállítjuk Önnek a trapézlemezt.</p>
         </div>
@@ -361,30 +378,21 @@ const faqs = [
       <div class="benefits-grid">
         <div class="benefit-card">
           <div class="benefit-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              <path d="M9 12l2 2 4-4"></path>
-            </svg>
+            <img src={garanciaImg.src} alt="20 év garancia" />
           </div>
           <h3 class="benefit-title">Nincs kockázat</h3>
           <p class="benefit-text">Tisztában vagyunk az általunk gyártott trapézlemez minőségével és tartósságával, ezért büszkén vállalunk rá <strong>két évtized minőségi garanciát</strong>.</p>
         </div>
         <div class="benefit-card">
           <div class="benefit-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 10"></polyline>
-              <path d="M4.93 4.93l14.14 14.14"></path>
-            </svg>
+            <img src={ketNapAlattImg.src} alt="2 nap alatt" />
           </div>
           <h3 class="benefit-title">Villámgyors gyártás</h3>
           <p class="benefit-text">Mi a gyakori egy hetes és tíz napos gyártási és szállítási időkkel szemben <strong>két munkanapos határidővel</strong> vállaljuk a méretre vágott trapézlemezek elkészítését.</p>
         </div>
         <div class="benefit-card">
           <div class="benefit-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-            </svg>
+            <img src={meretreVagottImg.src} alt="Méretre vágott" />
           </div>
           <h3 class="benefit-title">Egyedi méretre vágva</h3>
           <p class="benefit-text">A trapézlemezeket további költség nélkül, <strong>ingyenesen méretre szabjuk</strong>, így Önhöz már a beépítésre kész panelek érkeznek, már csak fel kell szerelnie azokat.</p>
@@ -444,9 +452,11 @@ const faqs = [
             <div class="color-image">
               <SmallImage src={color.src} alt={color.name} />
             </div>
-            <p class="color-name">{color.name}</p>
-            {color.ral && <p class="color-ral">{color.ral}</p>}
-            <p class="color-price">{color.price}</p>
+            <div class="color-card-text">
+              <p class="color-name">{color.name}</p>
+              {color.ral && <p class="color-ral">{color.ral}</p>}
+              <p class="color-price">{color.price}</p>
+            </div>
           </div>
         ))}
       </div>
@@ -623,8 +633,8 @@ const faqs = [
 
   @media (max-width: 900px) {
     .hero {
-      grid-template-columns: 1fr;
-      grid-template-rows: 40dvh auto auto;
+      display: flex;
+      flex-direction: column;
       height: auto;
       min-height: auto;
     }
@@ -645,9 +655,7 @@ const faqs = [
   @media (max-width: 900px) {
     .hero-content {
       padding: 40px 20px;
-      order: 1;
-      grid-row: auto;
-      grid-column: auto;
+      order: 2;
     }
   }
 
@@ -673,19 +681,21 @@ const faqs = [
   }
 
   .cta-label {
-    font-size: 1rem;
-    font-style: italic;
-    color: #c0392b;
-    margin-bottom: 8px;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #ff0000;
+    margin-bottom: -5px;
+    text-transform: uppercase;
+    line-height: 1.2;
   }
 
   .phone-number {
     display: block;
     font-size: 2rem;
     font-weight: 700;
-    color: #1a5276;
+    color: #ff0000;
     text-decoration: none;
-    margin-bottom: 16px;
+    margin-bottom: 0;
     transition: color 0.2s ease, transform 0.2s ease;
   }
 
@@ -698,7 +708,8 @@ const faqs = [
     display: block;
     font-size: 0.95rem;
     color: var(--text-light);
-    margin-bottom: 16px;
+    margin-top: 10px;
+    margin-bottom: 25px;
   }
 
   .btn-cta {
@@ -743,26 +754,35 @@ const faqs = [
     overflow: hidden;
     grid-row: 1 / 2;
     grid-column: 2 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #edebf0;
   }
 
   @media (max-width: 900px) {
     .hero-image {
-      order: 0;
-      min-height: 300px;
-      grid-row: auto;
-      grid-column: auto;
+      order: 1;
+      min-height: auto;
+      background: transparent;
+      align-items: flex-end;
     }
   }
 
   .hero-image :global(img) {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
+    object-fit: contain;
+    object-position: center right;
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
+    max-width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    .hero-image :global(img) {
+      height: auto;
+      object-position: center bottom;
+    }
   }
 
   /* Starburst price badge - positioned in bottom left of image */
@@ -841,92 +861,43 @@ const faqs = [
   .hero-usps {
     grid-column: 1 / -1;
     grid-row: 2 / 3;
-    background: var(--white);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    padding: 24px 40px;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     .hero-usps {
+      order: 3;
       grid-template-columns: repeat(2, 1fr);
-      padding: 20px;
-      gap: 16px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .hero-usps {
-      grid-template-columns: repeat(2, 1fr);
-      padding: 16px;
-      gap: 12px;
     }
   }
 
   .usp-item {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    justify-content: center;
-  }
-
-  @media (max-width: 768px) {
-    .usp-item {
-      justify-content: flex-start;
-      gap: 10px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .usp-item {
-      flex-direction: column;
-      text-align: center;
-      gap: 6px;
-    }
-  }
-
-  .usp-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--white);
-    flex-shrink: 0;
-  }
-
-  @media (max-width: 480px) {
-    .usp-icon {
-      width: 40px;
-      height: 40px;
-    }
-
-    .usp-icon svg {
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  .usp-blue { background: #3498db; }
-  .usp-green { background: var(--accent-green); }
-  .usp-purple { background: var(--accent-purple); }
-  .usp-orange { background: var(--accent-orange); }
-
-  .usp-text {
-    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px 16px;
+    color: #fff;
+    background: #1a3d5c;
   }
 
-  .usp-text strong {
-    font-size: 0.9rem;
-    color: var(--text-dark);
+  .usp-item strong {
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: block;
+    line-height: 1;
+    margin-bottom: 5px;
   }
 
-  .usp-text span {
-    font-size: 0.8rem;
-    color: var(--text-light);
+  .usp-item span {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    line-height: 1.2;
   }
 
   /* ===================================
@@ -970,6 +941,11 @@ const faqs = [
     height: 100%;
   }
 
+  .problem-content {
+    overflow: hidden;
+    min-width: 0;
+  }
+
   .problem-content h2 {
     font-size: clamp(1.5rem, 3vw, 2rem);
     color: var(--text-dark);
@@ -980,6 +956,8 @@ const faqs = [
     color: var(--text-dark);
     line-height: 1.7;
     margin-bottom: 16px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
 
   .solution-text {
@@ -1060,6 +1038,75 @@ const faqs = [
     color: var(--text-light);
     line-height: 1.7;
     font-size: 1.05rem;
+  }
+
+  /* ===================================
+     REVIEWS SECTION
+     =================================== */
+  .reviews-section {
+    padding: 40px 20px;
+    background: #f8f9fa;
+  }
+
+  .reviews-section .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 640px) {
+    .reviews-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .review-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .review-stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 12px;
+  }
+
+  .review-text {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    margin: 0 0 auto 0;
+    padding-bottom: 16px;
+    line-height: 1.5;
+    font-style: italic;
+    flex: 1;
+  }
+
+  .review-author-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+
+  .review-author-row .google-logo {
+    flex-shrink: 0;
+  }
+
+  .review-author {
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    font-weight: 600;
   }
 
   /* ===================================
@@ -1340,20 +1387,15 @@ const faqs = [
   }
 
   .process-card-icon {
-    width: 90px;
-    height: 90px;
-    background: linear-gradient(135deg, #e3f5f9 0%, #d0eef5 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 180px;
     margin: 0 auto 20px;
-    color: #0891b2;
+    line-height: 0;
   }
 
-  .process-card-icon svg {
-    width: 48px;
-    height: 48px;
+  .process-card-icon img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   .process-card-text {
@@ -1607,21 +1649,24 @@ const faqs = [
   }
 
   .benefit-icon {
-    width: 100px;
-    height: 100px;
-    background: linear-gradient(135deg, #e8f4f8 0%, #d0eef5 100%);
-    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 24px;
-    color: #0891b2;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease;
+  }
+
+  .benefit-icon img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
   }
 
   .benefit-card:hover .benefit-icon {
     transform: scale(1.05);
-    box-shadow: 0 8px 25px rgba(8, 145, 178, 0.2);
   }
 
   .benefit-title {
@@ -1750,34 +1795,35 @@ const faqs = [
   .color-card {
     text-align: center;
     transition: transform 0.3s ease;
+    background: #f5f5f5;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   }
 
   .color-card:hover {
     transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
   }
 
   .color-image {
-    aspect-ratio: 1;
-    border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    transition: box-shadow 0.3s ease;
-  }
-
-  .color-card:hover .color-image {
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    line-height: 0;
   }
 
   .color-image :global(img) {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    display: block;
     transition: transform 0.3s ease;
   }
 
   .color-card:hover .color-image :global(img) {
     transform: scale(1.05);
+  }
+
+  .color-card-text {
+    padding: 12px 8px;
   }
 
   .color-name {
