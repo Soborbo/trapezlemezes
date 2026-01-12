@@ -138,6 +138,9 @@ if (quoteHash) {
     </div>
   </div>
 
+  <!-- Toast notification container -->
+  <div id="toast-container" class="toast-container"></div>
+
   <!-- Server-decoded quote data (passed to client) -->
   <script is:inline define:vars={{ serverDecodedData }}>
     window.__SERVER_QUOTE_DATA__ = serverDecodedData;
@@ -444,6 +447,73 @@ if (quoteHash) {
     opacity: 0.7;
     cursor: not-allowed;
   }
+
+  /* Toast notifications */
+  .toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: #dc2626;
+    color: white;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 300px;
+    max-width: 400px;
+    pointer-events: auto;
+    animation: slideIn 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+  }
+
+  .toast.hiding {
+    animation: slideOut 0.3s ease forwards;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .toast-container {
+      top: 10px;
+      right: 10px;
+      left: 10px;
+    }
+
+    .toast {
+      min-width: auto;
+      max-width: none;
+    }
+  }
 </style>
 
 <script>
@@ -454,6 +524,30 @@ if (quoteHash) {
     interface Window {
       __SERVER_QUOTE_DATA__?: Record<string, unknown>;
     }
+  }
+
+  // Show toast notification
+  function showToast(message: string): void {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
+      <span>${message}</span>
+    `;
+    container.appendChild(toast);
+
+    // Auto-remove after 4 seconds
+    setTimeout(() => {
+      toast.classList.add('hiding');
+      setTimeout(() => {
+        container.removeChild(toast);
+      }, 300);
+    }, 4000);
   }
 
   // Color labels
@@ -714,14 +808,14 @@ if (quoteHash) {
         window.location.href = '/koszonjuk-az-erdeklodest';
       } else {
         const data = await response.json();
-        alert(data.error || 'Hiba történt. Kérjük, próbálja újra.');
+        showToast(data.error || 'Hiba történt. Kérjük, próbálja újra.');
         btn.disabled = false;
         if (btnText) btnText.style.display = 'inline';
         if (btnLoading) btnLoading.style.display = 'none';
       }
     } catch (error) {
       console.error('Callback submission error:', error);
-      alert('Hiba történt. Kérjük, próbálja újra.');
+      showToast('Hiba történt. Kérjük, próbálja újra.');
       btn.disabled = false;
       if (btnText) btnText.style.display = 'inline';
       if (btnLoading) btnLoading.style.display = 'none';

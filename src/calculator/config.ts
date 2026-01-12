@@ -136,7 +136,7 @@ export const colors: ColorOption[] = [
   {
     id: 'horganyzott',
     label: 'Horganyzott natúr',
-    image: 'horganyzott-trapezlemez.jpg',
+    image: 'horganyzott-natur-trapezlemez.jpg',
     type: 'special',
     available: true,
   },

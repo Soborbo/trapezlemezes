@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { HeroImage, ContentImage, SmallImage, LargeImage } from '../components/images';
+import { getImage } from 'astro:assets';
 
 // Images
 import heroImg from '../assets/images/trapezlemez-fo.jpg';
@@ -23,7 +24,7 @@ import tortfeherTrapez from '../assets/images/trapezlemez-feher.jpg';
 import kekTrapez from '../assets/images/kek-trapezlemez.jpg';
 import zoldTrapez from '../assets/images/zold-trapezlemez.jpg';
 import famintasTrapez from '../assets/images/famintas-trapezlemez.jpg';
-import horganyzottTrapez from '../assets/images/horganyzott-trapezlemez.jpg';
+import horganyzottTrapez from '../assets/images/horganyzott-natur-trapezlemez.jpg';
 
 
 // Guide images
@@ -78,6 +79,14 @@ const faqs = [
     answer: 'Mi robosztus, 0,5 mm-es anyagból készítünk trapézlemezt, mert a tapasztalataink szerint ez az a vastagság, amely még nem túl nehéz, de már kellően erős és szilárd.'
   }
 ];
+
+// Optimize background image for contact section
+const optimizedGyartosorBg = await getImage({
+  src: gyartosorBg,
+  width: 1920,
+  format: 'webp',
+  quality: 80,
+});
 ---
 
 <Layout
@@ -522,7 +531,7 @@ const faqs = [
   </section>
 
   <!-- Contact Section -->
-  <section class="contact-section" style={`--bg-image: url(${gyartosorBg.src})`}>
+  <section class="contact-section" style={`--bg-image: url(${optimizedGyartosorBg.src})`}>
     <div class="container">
       <div class="contact-layout">
         <!-- Left: Main contact info -->
@@ -632,6 +641,7 @@ const faqs = [
     height: calc(100dvh - 70px);
     min-height: 500px;
     margin: 0;
+    background: #edebf0;
   }
 
   @media (max-width: 900px) {
@@ -779,10 +789,11 @@ const faqs = [
   @media (max-width: 900px) {
     .hero-image {
       order: 1;
-      min-height: 50vh;
-      flex-grow: 1;
+      min-height: 0;
+      flex-grow: 0;
       background: #edebf0;
-      align-items: flex-end;
+      align-items: center;
+      padding: 20px 20px 0;
     }
   }
 
@@ -1933,11 +1944,12 @@ const faqs = [
 
   .pricing-boxes {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    gap: 16px;
     margin-bottom: 40px;
-    max-width: 600px;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -1948,7 +1960,7 @@ const faqs = [
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    width: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1956,8 +1968,15 @@ const faqs = [
     min-height: 80px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
+    .pricing-boxes {
+      flex-direction: column;
+      align-items: center;
+      max-width: 400px;
+    }
+
     .pricing-box {
+      width: 100%;
       padding: 14px 16px;
       min-height: 70px;
     }
