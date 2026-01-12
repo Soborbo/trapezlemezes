@@ -127,6 +127,22 @@ const faqs = [
     </div>
   </section>
 
+  <!-- Calculator CTA Section -->
+  <section class="calculator-section">
+    <div class="container">
+      <h2 class="section-title">Árkalkulátor</h2>
+      <div class="calculator-content">
+        <div class="calculator-image">
+          <ContentImage src={kalkulatorImg} alt="Trapézlemez árkalkulátor" />
+        </div>
+        <div class="calculator-text">
+          <p>Számítsa ki, mennyi trapézlemezre lesz szüksége és mennyibe fog kerülni kevesebb, mint egy perc alatt!</p>
+          <a href="/kalkulator" class="btn-cta-blue">Számolja ki a költségeit most!</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Google Reviews Section -->
   <section class="reviews-section">
     <div class="container">
@@ -255,8 +271,7 @@ const faqs = [
   <section class="shipping-section">
     <div class="container">
       <h2 class="shipping-title">Akár <em>ingyen</em> házhozszállítjuk</h2>
-      <p class="shipping-desc">A kész trapézlemezeket <strong>önköltségi áron szállítjuk ki</strong>. Miért?<br />
-      Mert nem fuvarozók vagyunk, hanem trapézlemez gyártók, <strong>nem akarunk a szállításon pénzt keresni</strong>.</p>
+      <p class="shipping-desc">A kész trapézlemezeket <strong>önköltségi áron szállítjuk ki</strong>. Miért? Mert nem fuvarozók vagyunk, hanem trapézlemez gyártók, <strong>nem akarunk a szállításon pénzt keresni</strong>.</p>
       <p class="shipping-note">A kész, méretre vágott trapézlemez <strong>személyesen is átvehető</strong> a Budapest 18. kerületében található telephelyünkön.</p>
 
       <div class="shipping-options">
@@ -328,22 +343,6 @@ const faqs = [
             <img src={folyamatSzallitas.src} alt="Szállítás" />
           </div>
           <p class="process-card-text">A telephelyünkön átadjuk vagy kiszállítjuk Önnek a trapézlemezt.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Calculator CTA Section -->
-  <section class="calculator-section">
-    <div class="container">
-      <h2 class="section-title">Árkalkulátor</h2>
-      <div class="calculator-content">
-        <div class="calculator-image">
-          <ContentImage src={kalkulatorImg} alt="Trapézlemez árkalkulátor" />
-        </div>
-        <div class="calculator-text">
-          <p>Számítsa ki, mennyi trapézlemezre lesz szüksége és mennyibe fog kerülni kevesebb, mint egy perc alatt!</p>
-          <a href="/kalkulator" class="btn-cta-blue">Számolja ki a költségeit most!</a>
         </div>
       </div>
     </div>
@@ -632,10 +631,10 @@ const faqs = [
     .hero {
       display: flex;
       flex-direction: column;
-      height: auto;
-      min-height: auto;
-      margin-top: 0;
-      padding-top: 0;
+      height: 100dvh;
+      min-height: 100dvh;
+      margin: 0;
+      padding: 0;
     }
   }
 
@@ -870,7 +869,7 @@ const faqs = [
   @media (max-width: 900px) {
     .hero-usps {
       order: 3;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 
@@ -885,6 +884,12 @@ const faqs = [
     background: #1a3d5c;
   }
 
+  @media (max-width: 900px) {
+    .usp-item {
+      padding: 12px 8px;
+    }
+  }
+
   .usp-item strong {
     font-size: 1.4rem;
     font-weight: 700;
@@ -893,10 +898,24 @@ const faqs = [
     margin-bottom: 5px;
   }
 
+  @media (max-width: 900px) {
+    .usp-item strong {
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+  }
+
   .usp-item span {
     font-size: 0.95rem;
     opacity: 0.9;
     line-height: 1.2;
+  }
+
+  @media (max-width: 900px) {
+    .usp-item span {
+      font-size: 0.7rem;
+      line-height: 1.1;
+    }
   }
 
   /* ===================================
@@ -905,6 +924,12 @@ const faqs = [
   .problem-section {
     padding: 80px 20px;
     background: var(--bg-light);
+  }
+
+  @media (max-width: 768px) {
+    .problem-section {
+      padding: 60px 20px;
+    }
   }
 
   .problem-grid {
@@ -1167,6 +1192,12 @@ const faqs = [
     background: linear-gradient(135deg, var(--accent-orange) 0%, #e67e22 100%);
   }
 
+  @media (max-width: 768px) {
+    .promo-section {
+      padding: 40px 20px;
+    }
+  }
+
   .promo-grid {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
@@ -1230,7 +1261,7 @@ const faqs = [
 
   @media (max-width: 768px) {
     .shipping-section {
-      padding: 60px 20px;
+      padding: 60px 10px;
     }
   }
 
@@ -1283,6 +1314,12 @@ const faqs = [
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
+  @media (max-width: 768px) {
+    .shipping-card {
+      padding: 20px;
+    }
+  }
+
   .shipping-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 30px rgba(0,0,0,0.1);
@@ -1327,6 +1364,13 @@ const faqs = [
     padding: 14px 20px;
     font-size: 0.95rem;
     background: white;
+  }
+
+  @media (max-width: 768px) {
+    .shipping-price-row {
+      padding: 12px 12px;
+      font-size: 0.85rem;
+    }
   }
 
   .shipping-price-row:not(:last-child) {
@@ -1695,7 +1739,7 @@ const faqs = [
     .benefits-grid {
       grid-template-columns: 1fr;
       max-width: 500px;
-      gap: 30px;
+      gap: 20px;
     }
   }
 
@@ -1748,6 +1792,12 @@ const faqs = [
   .specs-section {
     padding: 60px 20px;
     background: var(--white);
+  }
+
+  @media (max-width: 768px) {
+    .specs-section {
+      padding: 40px 20px;
+    }
   }
 
   .specs-grid {
@@ -1819,6 +1869,13 @@ const faqs = [
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  @media (max-width: 768px) {
+    .pricing-box {
+      flex: 1 1 calc(33.333% - 12px);
+      min-width: 0;
+    }
   }
 
   .pricing-label {
@@ -2124,7 +2181,7 @@ const faqs = [
 
   @media (max-width: 500px) {
     .contact-main {
-      padding: 28px 24px;
+      padding: 28px 16px;
     }
   }
 
@@ -2182,6 +2239,22 @@ const faqs = [
     font-weight: 700;
     color: var(--white);
     letter-spacing: -0.5px;
+  }
+
+  @media (max-width: 500px) {
+    .contact-phone-number {
+      font-size: 1.5rem;
+    }
+
+    .contact-phone-block {
+      padding: 20px 16px;
+      gap: 16px;
+    }
+
+    .contact-phone-icon {
+      width: 52px;
+      height: 52px;
+    }
   }
 
   @media (max-width: 500px) {
