@@ -80,7 +80,7 @@ const faqs = [
   <!-- Hero Section - Text left centered, image right edge-to-edge -->
   <section class="hero">
     <div class="hero-content">
-      <h1>TRAPÉZLEMEZ KÖZVETLEN<br />A GYÁRTÓTÓL</h1>
+      <h1>TRAPÉZLEMEZ KÖZVETLEN<br /> A GYÁRTÓTÓL</h1>
       <p class="hero-subtitle">
         <strong>Ne fizesse ki a kiskereskedő hasznát: vásároljon vastagabb (0,5&nbsp;mm) és erősebb trapézlemezt alacsonyabb áron.</strong>
       </p>
@@ -631,7 +631,7 @@ const faqs = [
     .hero {
       display: flex;
       flex-direction: column;
-      height: 100dvh;
+      height: auto;
       min-height: 100dvh;
       margin: 0;
       padding: 0;
@@ -867,13 +867,13 @@ const faqs = [
     line-height: 1.2;
   }
 
-  /* USPs at the bottom of the fold - 2x2 grid */
+  /* USPs at the bottom of the fold - 1x4 desktop, 2x2 mobile */
   .hero-usps {
     grid-column: 1 / -1;
     grid-row: 2 / 3;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
     position: relative;
     z-index: 10;

@@ -685,14 +685,7 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
 
     <!-- Social proof -->
     <div class="social-proof">
-      <div class="social-proof-stars">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-      </div>
-      <p>Kizárólag <strong>öt csillagos értékeléseink</strong> vannak Google-on</p>
+      <p class="social-proof-text">Kizárólag <span class="inline-stars"><svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg></span> értékeléseink vannak Google-on</p>
     </div>
 
     <!-- Help widget - hidden initially, shows after 10s -->
@@ -2108,15 +2101,25 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     color: var(--color-text-muted);
   }
 
-  .social-proof-stars {
+  .social-proof-text {
     display: flex;
+    align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 4px;
-    margin-bottom: 8px;
+    margin: 0;
+    font-size: 0.9rem;
   }
 
-  .social-proof strong {
-    color: var(--color-primary);
+  .inline-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    vertical-align: middle;
+  }
+
+  .inline-stars svg {
+    display: inline-block;
   }
 
   /* Help widget - fixed bottom right */
