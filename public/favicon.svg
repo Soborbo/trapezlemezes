@@ -1,20 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Infiniti Steel logo mark - geometric blue arrow -->
+  <!-- Trapézlemez favicon - piros hullámok -->
   <defs>
-    <linearGradient id="steelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#5c7faa"/>
-      <stop offset="50%" style="stop-color:#4a6b94"/>
-      <stop offset="100%" style="stop-color:#3d5a80"/>
+    <linearGradient id="redTop" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff4444"/>
+      <stop offset="100%" style="stop-color:#cc2222"/>
     </linearGradient>
-    <linearGradient id="lightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#8fb3de"/>
-      <stop offset="100%" style="stop-color:#6b9cd0"/>
+    <linearGradient id="redSide" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#aa1111"/>
+      <stop offset="100%" style="stop-color:#cc2222"/>
     </linearGradient>
   </defs>
-  <!-- Upper arrow pointing right -->
-  <polygon points="4,4 16,16 4,16" fill="url(#lightGrad)"/>
-  <!-- Lower arrow pointing right -->
-  <polygon points="4,16 16,28 4,28" fill="url(#steelGrad)"/>
-  <!-- Right arrow pointing right -->
-  <polygon points="12,10 28,16 12,22" fill="url(#steelGrad)"/>
+
+  <!-- Háttér -->
+  <rect width="32" height="32" fill="#f5f5f5" rx="4"/>
+
+  <!-- Trapézlemez bordák - perspektívában -->
+  <!-- 1. borda -->
+  <polygon points="4,24 6,8 8,8 6,24" fill="url(#redTop)"/>
+  <polygon points="6,24 8,8 9,8 7,24" fill="url(#redSide)"/>
+
+  <!-- 2. borda -->
+  <polygon points="9,24 11,8 13,8 11,24" fill="url(#redTop)"/>
+  <polygon points="11,24 13,8 14,8 12,24" fill="url(#redSide)"/>
+
+  <!-- 3. borda -->
+  <polygon points="14,24 16,8 18,8 16,24" fill="url(#redTop)"/>
+  <polygon points="16,24 18,8 19,8 17,24" fill="url(#redSide)"/>
+
+  <!-- 4. borda -->
+  <polygon points="19,24 21,8 23,8 21,24" fill="url(#redTop)"/>
+  <polygon points="21,24 23,8 24,8 22,24" fill="url(#redSide)"/>
+
+  <!-- 5. borda -->
+  <polygon points="24,24 26,8 28,8 26,24" fill="url(#redTop)"/>
+  <polygon points="26,24 28,8 29,8 27,24" fill="url(#redSide)"/>
 </svg>
