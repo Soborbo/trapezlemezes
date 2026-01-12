@@ -685,6 +685,13 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
 
     <!-- Social proof -->
     <div class="social-proof">
+      <div class="social-proof-stars">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+      </div>
       <p>Kizárólag <strong>öt csillagos értékeléseink</strong> vannak Google-on</p>
     </div>
 
@@ -699,6 +706,9 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
       </a>
     </div>
   </div>
+
+  <!-- Toast notification container -->
+  <div id="toast-container" class="toast-container"></div>
 </Layout>
 
 <style>
@@ -2098,6 +2108,13 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     color: var(--color-text-muted);
   }
 
+  .social-proof-stars {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
   .social-proof strong {
     color: var(--color-primary);
   }
@@ -2178,6 +2195,73 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     .help-avatar {
       width: 56px;
       height: 56px;
+    }
+  }
+
+  /* Toast notifications */
+  .toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: #dc2626;
+    color: white;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 300px;
+    max-width: 400px;
+    pointer-events: auto;
+    animation: slideIn 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+  }
+
+  .toast.hiding {
+    animation: slideOut 0.3s ease forwards;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .toast-container {
+      top: 10px;
+      right: 10px;
+      left: 10px;
+    }
+
+    .toast {
+      min-width: auto;
+      max-width: none;
     }
   }
 
@@ -2524,6 +2608,30 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     });
   }
 
+  // Show toast notification
+  function showToast(message: string): void {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
+      <span>${message}</span>
+    `;
+    container.appendChild(toast);
+
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+      toast.classList.add('hiding');
+      setTimeout(() => {
+        container.removeChild(toast);
+      }, 300);
+    }, 3000);
+  }
+
   // Navigation buttons
   function initNavButtons(): void {
     document.querySelectorAll('[data-next]').forEach(btn => {
@@ -2533,24 +2641,45 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
         if (currentStepEl) {
           const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
           let valid = true;
+          let errorMessage = '';
 
-          inputs.forEach(input => {
-            if (!(input as HTMLInputElement).checkValidity()) {
+          // Check radio buttons
+          const radioGroups = new Set<string>();
+          currentStepEl.querySelectorAll('input[type="radio"][required]').forEach((radio: HTMLInputElement) => {
+            radioGroups.add(radio.name);
+          });
+
+          radioGroups.forEach(groupName => {
+            const checked = currentStepEl.querySelector(`input[name="${groupName}"]:checked`);
+            if (!checked) {
               valid = false;
-              (input as HTMLInputElement).reportValidity();
+              errorMessage = 'Kérjük, válasszon egy opciót a folytatáshoz!';
             }
           });
 
-          if (valid) {
-            // Save form data
-            const formData = new FormData(form);
-            formData.forEach((value, key) => {
-              state.answers[key] = value;
-            });
-            saveState();
+          // Check other required fields
+          inputs.forEach(input => {
+            if ((input as HTMLInputElement).type !== 'radio' && !(input as HTMLInputElement).checkValidity()) {
+              valid = false;
+              if (!errorMessage) {
+                errorMessage = 'Kérjük, töltse ki a kötelező mezőket!';
+              }
+            }
+          });
 
-            navigateToStep(getNextStep(state.currentStep));
+          if (!valid) {
+            showToast(errorMessage);
+            return;
           }
+
+          // Save form data
+          const formData = new FormData(form);
+          formData.forEach((value, key) => {
+            state.answers[key] = value;
+          });
+          saveState();
+
+          navigateToStep(getNextStep(state.currentStep));
         }
       });
     });
