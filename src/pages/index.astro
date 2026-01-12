@@ -93,6 +93,44 @@ const optimizedGyartosorBg = await getImage({
   title="T18 trapézlemez (0,5 mm) most csak 2240 Ft / nm áron a gyártótól"
   description="Ne fizesse ki a kiskereskedő hasznát: vásároljon vastagabb (0,5 mm) és erősebb trapézlemezt alacsonyabb áron. 48 óra szállítás, 20 év garancia."
 >
+  <!-- FAQ Schema -->
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  })} />
+
+  <!-- Product Schema -->
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "T18 Trapézlemez 0,5 mm",
+    "description": "Minőségi trapézlemez 0,5 mm vastagságban, horganyzott vagy színes kivitelben. Méretre vágva, 48 órás gyártással.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Trapezlemezes.hu"
+    },
+    "offers": {
+      "@type": "AggregateOffer",
+      "priceCurrency": "HUF",
+      "lowPrice": "2240",
+      "highPrice": "2840",
+      "offerCount": "12",
+      "availability": "https://schema.org/InStock"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "127"
+    }
+  })} />
   <!-- Hero Section - Text left centered, image right edge-to-edge -->
   <section class="hero">
     <div class="hero-content">
@@ -1114,6 +1152,7 @@ const optimizedGyartosorBg = await getImage({
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
 
   .checker-content {
