@@ -28,6 +28,7 @@
 
   --color-white: #ffffff;
   --color-black: #000000;
+  --color-border: #d1d5db;
 
   /* Typography */
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
