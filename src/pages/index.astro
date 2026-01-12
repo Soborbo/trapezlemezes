@@ -659,12 +659,22 @@ const faqs = [
   }
 
   .hero h1 {
-    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
     font-weight: 700;
     color: #1a3d5c;
     margin-bottom: 20px;
     line-height: 1.15;
     text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .hero h1 br {
+      display: none;
+    }
+
+    .hero h1 {
+      font-size: 1.5rem;
+    }
   }
 
   .hero-subtitle {

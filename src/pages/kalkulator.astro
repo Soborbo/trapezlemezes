@@ -380,7 +380,7 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
             <input type="text" id="color_other_text" name="color_other_text" placeholder="Pl. RAL 6005 (mohazöld)" />
           </div>
         </div>
-        <div class="step-nav color-step-nav hidden" id="color-step-nav">
+        <div class="step-nav" id="color-step-nav">
           <button type="button" class="btn btn-secondary" data-prev>Előző</button>
           <button type="button" class="btn btn-primary" data-next>Következő</button>
         </div>
@@ -419,6 +419,10 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
           </label>
         </div>
         <p class="shipping-note">Telephelyünk Budapest XVIII. kerületében található. <b>250 m² feletti rendelés esetén a szállítás INGYENES!</b></p>
+        <div class="step-nav">
+          <button type="button" class="btn btn-secondary" data-prev>Előző</button>
+          <button type="button" class="btn btn-primary" data-next>Következő</button>
+        </div>
       </div>
 
       <!-- Step: Csavar -->
@@ -1358,10 +1362,6 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
   }
 
   /* Color step nav - shown only when "Egyéb" is selected */
-  .color-step-nav.hidden {
-    display: none;
-  }
-
   /* 5 columns for color grid on desktop */
   .step[data-step="color"] .radio-grid {
     grid-template-columns: repeat(5, 1fr) !important;
@@ -2351,6 +2351,9 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
       updateProgress(stepId);
       saveState();
 
+      // Scroll to top of page so progress bar is visible
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
       if (pushState) {
         history.pushState({ step: stepId }, '', `#step-${stepId}`);
       }
@@ -2494,16 +2497,14 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     const colorOtherCard = document.getElementById('color-other-card');
     const colorOtherInput = document.getElementById('other-color-input');
     const colorOtherText = document.getElementById('color_other_text') as HTMLInputElement;
-    const colorStepNav = document.getElementById('color-step-nav');
     const colorRadio = colorOtherCard?.querySelector('input[type="radio"]') as HTMLInputElement;
 
-    if (!colorOtherCard || !colorOtherInput || !colorStepNav || !colorRadio) return;
+    if (!colorOtherCard || !colorOtherInput || !colorRadio) return;
 
-    // When "Egyéb" is selected, show text input and manual nav
+    // When "Egyéb" is selected, show text input
     colorRadio.addEventListener('change', () => {
       if (colorRadio.checked) {
         colorOtherInput.classList.remove('hidden');
-        colorStepNav.classList.remove('hidden');
         state.answers.color = 'egyeb';
         saveState();
 
