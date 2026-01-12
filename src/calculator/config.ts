@@ -277,11 +277,11 @@ export const steps: StepConfig[] = [
 
 export const socialProof = {
   /** Fő szöveg */
-  mainText: 'Több mint <strong>5000+ elégedett ügyfél</strong> választotta már trapézlemezeinket',
+  mainText: 'Kizárólag <strong>öt csillagos értékeléseink</strong> vannak Google-on',
 
   /** Lépésenként változó szövegek (opcionális) */
   stepTexts: {
-    '1': 'Több mint 5000+ elégedett ügyfél',
+    '1': 'Kizárólag öt csillagos értékeléseink vannak Google-on',
     '3': '15+ színválaszték készletről',
     '4': 'Országos kiszállítás 1-5 munkanap',
     '6': 'Gyors és precíz árajánlat 24 órán belül',

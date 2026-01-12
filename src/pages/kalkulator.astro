@@ -250,7 +250,7 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
         <div class="fence-simple-mode" id="fence-simple-mode">
           <div class="fence-inputs">
             <div class="input-group">
-              <label for="fence_length">Kerítés összhossza (cm) *</label>
+              <label for="fence_length">Kerítés összhossza* (cm)</label>
               <input type="number" id="fence_length" name="fence_length" min="10" required />
             </div>
             <div class="input-group">
@@ -681,7 +681,7 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
 
     <!-- Social proof -->
     <div class="social-proof">
-      <p>Több mint <strong>5000+ elégedett ügyfél</strong> választotta már trapézlemezeinket</p>
+      <p>Kizárólag <strong>öt csillagos értékeléseink</strong> vannak Google-on</p>
     </div>
 
     <!-- Help widget - hidden initially, shows after 10s -->
@@ -884,6 +884,15 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     text-align: center;
     margin-bottom: var(--spacing-lg);
     font-size: var(--font-size-xl);
+  }
+
+  @media (min-width: 769px) {
+    .step h2 {
+      font-size: 2.5rem;
+      padding-top: 40px;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
   }
 
   .step-desc {
@@ -1107,7 +1116,7 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     }
 
     .shipping-options-grid {
-      grid-template-columns: 1fr !important;
+      grid-template-columns: repeat(2, 1fr) !important;
     }
 
     .shipping-options-grid .shipping-card .card-label {
@@ -2067,6 +2076,19 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
   .step-nav .btn {
     flex: 1;
     max-width: 200px;
+  }
+
+  @media (max-width: 768px) {
+    .step-nav {
+      gap: var(--spacing-sm);
+    }
+
+    .step-nav .btn {
+      flex: 1;
+      max-width: none;
+      min-height: 48px;
+      font-size: 1rem;
+    }
   }
 
   /* Social proof */
