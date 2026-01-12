@@ -80,7 +80,7 @@ const faqs = [
   <!-- Hero Section - Text left centered, image right edge-to-edge -->
   <section class="hero">
     <div class="hero-content">
-      <h1>TRAPÉZLEMEZ KÖZVETLEN<br />A GYÁRTÓTÓL</h1>
+      <h1>TRAPÉZLEMEZ KÖZVETLEN<br /> A GYÁRTÓTÓL</h1>
       <p class="hero-subtitle">
         <strong>Ne fizesse ki a kiskereskedő hasznát: vásároljon vastagabb (0,5&nbsp;mm) és erősebb trapézlemezt alacsonyabb áron.</strong>
       </p>
@@ -106,11 +106,11 @@ const faqs = [
       </div>
     </div>
 
-    <!-- 4 USPs at the bottom of the fold -->
+    <!-- 4 USPs at the bottom of the fold - 2x2 grid -->
     <div class="hero-usps">
       <div class="usp-item">
         <strong>AKÁR INGYENES</strong>
-        <span>országos házhozszállítás</span>
+        <span>országos házhoz szállítás</span>
       </div>
       <div class="usp-item">
         <strong>48 óra</strong>
@@ -123,6 +123,22 @@ const faqs = [
       <div class="usp-item">
         <strong>10+</strong>
         <span>szín és mintázat</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator CTA Section -->
+  <section class="calculator-section">
+    <div class="container">
+      <h2 class="section-title">Árkalkulátor</h2>
+      <div class="calculator-content">
+        <div class="calculator-image">
+          <ContentImage src={kalkulatorImg} alt="Trapézlemez árkalkulátor" />
+        </div>
+        <div class="calculator-text">
+          <p>Számítsa ki, mennyi trapézlemezre lesz szüksége és mennyibe fog kerülni kevesebb, mint egy perc alatt!</p>
+          <a href="/kalkulator" class="btn-cta-blue">Számolja ki a költségeit most!</a>
+        </div>
       </div>
     </div>
   </section>
@@ -196,13 +212,15 @@ const faqs = [
   <section class="problem-section">
     <div class="problem-grid">
       <div class="problem-video">
-        <iframe
-          src="https://www.youtube.com/embed/U_hP1vBoitg"
-          title="Hogyan rontják el sokan"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+        <div class="youtube-embed" data-video-id="U_hP1vBoitg">
+          <div class="youtube-thumbnail"></div>
+          <button class="youtube-play-button" aria-label="Videó lejátszása">
+            <svg height="100%" version="1.1" viewBox="0 0 68 48" width="100%">
+              <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#f00"></path>
+              <path d="M 45,24 27,14 27,34" fill="#fff"></path>
+            </svg>
+          </button>
+        </div>
       </div>
       <div class="problem-content">
         <h2>Hogyan rontják el sokan</h2>
@@ -253,8 +271,7 @@ const faqs = [
   <section class="shipping-section">
     <div class="container">
       <h2 class="shipping-title">Akár <em>ingyen</em> házhozszállítjuk</h2>
-      <p class="shipping-desc">A kész trapézlemezeket <strong>önköltségi áron szállítjuk ki</strong>. Miért?<br />
-      Mert nem fuvarozók vagyunk, hanem trapézlemez gyártók, <strong>nem akarunk a szállításon pénzt keresni</strong>.</p>
+      <p class="shipping-desc">A kész trapézlemezeket <strong>önköltségi áron szállítjuk ki</strong>. Miért? Mert nem fuvarozók vagyunk, hanem trapézlemez gyártók, <strong>nem akarunk a szállításon pénzt keresni</strong>.</p>
       <p class="shipping-note">A kész, méretre vágott trapézlemez <strong>személyesen is átvehető</strong> a Budapest 18. kerületében található telephelyünkön.</p>
 
       <div class="shipping-options">
@@ -326,22 +343,6 @@ const faqs = [
             <img src={folyamatSzallitas.src} alt="Szállítás" />
           </div>
           <p class="process-card-text">A telephelyünkön átadjuk vagy kiszállítjuk Önnek a trapézlemezt.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Calculator CTA Section -->
-  <section class="calculator-section">
-    <div class="container">
-      <h2 class="section-title">Árkalkulátor</h2>
-      <div class="calculator-content">
-        <div class="calculator-image">
-          <ContentImage src={kalkulatorImg} alt="Trapézlemez árkalkulátor" />
-        </div>
-        <div class="calculator-text">
-          <p>Számítsa ki, mennyi trapézlemezre lesz szüksége és mennyibe fog kerülni kevesebb, mint egy perc alatt!</p>
-          <a href="/kalkulator" class="btn-cta-blue">Számolja ki a költségeit most!</a>
         </div>
       </div>
     </div>
@@ -593,12 +594,6 @@ const faqs = [
       </div>
     </div>
   </section>
-
-  <!-- Sticky Mobile CTA -->
-  <div class="sticky-cta">
-    <a href="tel:+3613009206" class="sticky-btn sticky-phone">HÍVJON MOST</a>
-    <a href="/kalkulator" class="sticky-btn sticky-calc">ÁRKALKULÁTOR</a>
-  </div>
 </Layout>
 
 <style>
@@ -629,6 +624,7 @@ const faqs = [
     grid-template-rows: 1fr auto;
     height: calc(100dvh - 70px);
     min-height: 500px;
+    margin: 0;
   }
 
   @media (max-width: 900px) {
@@ -636,7 +632,9 @@ const faqs = [
       display: flex;
       flex-direction: column;
       height: auto;
-      min-height: auto;
+      min-height: 100dvh;
+      margin: 0;
+      padding: 0;
     }
   }
 
@@ -654,18 +652,29 @@ const faqs = [
 
   @media (max-width: 900px) {
     .hero-content {
-      padding: 40px 20px;
+      padding: 30px 20px 20px;
       order: 2;
+      flex-shrink: 0;
     }
   }
 
   .hero h1 {
-    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
     font-weight: 700;
     color: #1a3d5c;
     margin-bottom: 20px;
     line-height: 1.15;
     text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .hero h1 br {
+      display: none;
+    }
+
+    .hero h1 {
+      font-size: 1.5rem;
+    }
   }
 
   .hero-subtitle {
@@ -763,8 +772,9 @@ const faqs = [
   @media (max-width: 900px) {
     .hero-image {
       order: 1;
-      min-height: auto;
-      background: transparent;
+      min-height: 50vh;
+      flex-grow: 1;
+      background: #edebf0;
       align-items: flex-end;
     }
   }
@@ -857,12 +867,13 @@ const faqs = [
     line-height: 1.2;
   }
 
-  /* USPs at the bottom of the fold */
+  /* USPs at the bottom of the fold - 1x4 desktop, 2x2 mobile */
   .hero-usps {
     grid-column: 1 / -1;
     grid-row: 2 / 3;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    gap: 0;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
     position: relative;
     z-index: 10;
@@ -881,23 +892,43 @@ const faqs = [
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 12px 16px;
+    padding: 20px 16px;
     color: #fff;
     background: #1a3d5c;
   }
 
+  @media (max-width: 900px) {
+    .usp-item {
+      padding: 16px 8px;
+    }
+  }
+
   .usp-item strong {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 700;
     display: block;
     line-height: 1;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 900px) {
+    .usp-item strong {
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
   }
 
   .usp-item span {
     font-size: 0.95rem;
     opacity: 0.9;
-    line-height: 1.2;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 900px) {
+    .usp-item span {
+      font-size: 0.75rem;
+      line-height: 1.2;
+    }
   }
 
   /* ===================================
@@ -906,6 +937,12 @@ const faqs = [
   .problem-section {
     padding: 80px 20px;
     background: var(--bg-light);
+  }
+
+  @media (max-width: 768px) {
+    .problem-section {
+      padding: 60px 20px;
+    }
   }
 
   .problem-grid {
@@ -933,7 +970,58 @@ const faqs = [
     box-shadow: 0 8px 30px rgba(0,0,0,0.15);
   }
 
-  .problem-video iframe {
+  .youtube-embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .youtube-thumbnail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .youtube-embed[data-video-id]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.ytimg.com/vi/' attr(data-video-id) '/hqdefault.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .youtube-play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 68px;
+    height: 48px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.3s ease;
+    z-index: 1;
+  }
+
+  .youtube-play-button:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .youtube-embed iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -1048,6 +1136,12 @@ const faqs = [
     background: #f8f9fa;
   }
 
+  @media (max-width: 768px) {
+    .reviews-section {
+      padding: 20px 20px 40px;
+    }
+  }
+
   .reviews-section .container {
     max-width: 900px;
     margin: 0 auto;
@@ -1117,6 +1211,12 @@ const faqs = [
     background: linear-gradient(135deg, var(--accent-orange) 0%, #e67e22 100%);
   }
 
+  @media (max-width: 768px) {
+    .promo-section {
+      padding: 40px 20px;
+    }
+  }
+
   .promo-grid {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
@@ -1178,6 +1278,12 @@ const faqs = [
     text-align: center;
   }
 
+  @media (max-width: 768px) {
+    .shipping-section {
+      padding: 60px 10px;
+    }
+  }
+
   .shipping-title {
     font-size: clamp(1.8rem, 4vw, 2.5rem);
     color: var(--text-dark);
@@ -1227,6 +1333,12 @@ const faqs = [
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
+  @media (max-width: 768px) {
+    .shipping-card {
+      padding: 20px;
+    }
+  }
+
   .shipping-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 30px rgba(0,0,0,0.1);
@@ -1271,6 +1383,13 @@ const faqs = [
     padding: 14px 20px;
     font-size: 0.95rem;
     background: white;
+  }
+
+  @media (max-width: 768px) {
+    .shipping-price-row {
+      padding: 12px 12px;
+      font-size: 0.85rem;
+    }
   }
 
   .shipping-price-row:not(:last-child) {
@@ -1412,6 +1531,12 @@ const faqs = [
     background: var(--bg-light);
   }
 
+  @media (max-width: 768px) {
+    .calculator-section {
+      padding: 60px 20px 30px;
+    }
+  }
+
   .calculator-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1433,6 +1558,18 @@ const faqs = [
     box-shadow: 0 8px 30px rgba(0,0,0,0.12);
   }
 
+  .calculator-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 768px) {
+    .calculator-text {
+      align-items: center;
+      text-align: center;
+    }
+  }
+
   .calculator-text p {
     font-size: 1.1rem;
     color: var(--text-dark);
@@ -1450,6 +1587,15 @@ const faqs = [
     font-weight: 600;
     transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 15px rgba(18, 177, 184, 0.3);
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .btn-cta-blue {
+      width: 100%;
+      max-width: 400px;
+      padding: 16px 24px;
+    }
   }
 
   .btn-cta-blue:hover {
@@ -1637,15 +1783,38 @@ const faqs = [
 
   @media (max-width: 900px) {
     .benefits-grid {
-      grid-template-columns: 1fr;
-      max-width: 500px;
-      gap: 30px;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 16px;
+      max-width: 100%;
+      padding: 0 20px;
+      margin: 0 -20px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .benefits-grid::-webkit-scrollbar {
+      display: none;
     }
   }
 
   .benefit-card {
     text-align: center;
     padding: 30px 20px;
+  }
+
+  @media (max-width: 900px) {
+    .benefit-card {
+      flex: 0 0 85%;
+      scroll-snap-align: center;
+      animation: peek 2s ease-in-out 1s 3;
+    }
+
+    @keyframes peek {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-10px); }
+    }
   }
 
   .benefit-icon {
@@ -1690,8 +1859,14 @@ const faqs = [
      SPECS SECTION
      =================================== */
   .specs-section {
-    padding: 60px 20px;
+    padding: 40px 20px;
     background: var(--white);
+  }
+
+  @media (max-width: 768px) {
+    .specs-section {
+      padding: 20px 20px 40px;
+    }
   }
 
   .specs-grid {
@@ -1751,10 +1926,13 @@ const faqs = [
 
   .pricing-boxes {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .pricing-box {
@@ -1763,19 +1941,44 @@ const faqs = [
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+  }
+
+  @media (max-width: 768px) {
+    .pricing-box {
+      padding: 14px 16px;
+      min-height: 70px;
+    }
   }
 
   .pricing-label {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text-light);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 768px) {
+    .pricing-label {
+      font-size: 0.85rem;
+    }
   }
 
   .pricing-price {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--primary-blue);
+  }
+
+  @media (max-width: 768px) {
+    .pricing-price {
+      font-size: 1.2rem;
+    }
   }
 
   .colors-grid {
@@ -2068,7 +2271,7 @@ const faqs = [
 
   @media (max-width: 500px) {
     .contact-main {
-      padding: 28px 24px;
+      padding: 28px 16px;
     }
   }
 
@@ -2126,6 +2329,22 @@ const faqs = [
     font-weight: 700;
     color: var(--white);
     letter-spacing: -0.5px;
+  }
+
+  @media (max-width: 500px) {
+    .contact-phone-number {
+      font-size: 1.5rem;
+    }
+
+    .contact-phone-block {
+      padding: 20px 16px;
+      gap: 16px;
+    }
+
+    .contact-phone-icon {
+      width: 52px;
+      height: 52px;
+    }
   }
 
   @media (max-width: 500px) {
@@ -2292,52 +2511,6 @@ const faqs = [
   }
 
   /* ===================================
-     STICKY CTA
-     =================================== */
-  .sticky-cta {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--white);
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-    padding: 12px;
-    gap: 12px;
-    z-index: 1000;
-  }
-
-  @media (max-width: 768px) {
-    .sticky-cta {
-      display: flex;
-    }
-
-    body {
-      padding-bottom: 70px;
-    }
-  }
-
-  .sticky-btn {
-    flex: 1;
-    padding: 14px;
-    text-align: center;
-    font-weight: 700;
-    font-size: 0.85rem;
-    border-radius: 8px;
-    text-decoration: none;
-  }
-
-  .sticky-phone {
-    background: var(--accent-green);
-    color: var(--white);
-  }
-
-  .sticky-calc {
-    background: var(--accent-orange);
-    color: var(--white);
-  }
-
-  /* ===================================
      CONTAINER UTILITY
      =================================== */
   .container {
@@ -2346,3 +2519,34 @@ const faqs = [
     padding: 0 20px;
   }
 </style>
+
+<script>
+  // YouTube click-to-play functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const youtubeEmbeds = document.querySelectorAll('.youtube-embed');
+
+    youtubeEmbeds.forEach(embed => {
+      const videoId = embed.dataset.videoId;
+      if (!videoId) return;
+
+      // Set thumbnail background
+      const thumbnail = embed.querySelector('.youtube-thumbnail');
+      if (thumbnail) {
+        thumbnail.style.backgroundImage = `url(https://i.ytimg.com/vi/${videoId}/hqdefault.jpg)`;
+      }
+
+      // Handle click to load iframe
+      embed.addEventListener('click', function() {
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('title', 'Hogyan rontják el sokan');
+
+        this.innerHTML = '';
+        this.appendChild(iframe);
+      }, { once: true });
+    });
+  });
+</script>

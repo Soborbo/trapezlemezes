@@ -250,7 +250,7 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
         <div class="fence-simple-mode" id="fence-simple-mode">
           <div class="fence-inputs">
             <div class="input-group">
-              <label for="fence_length">Kerítés összhossza (cm) *</label>
+              <label for="fence_length">Kerítés összhossza* (cm)</label>
               <input type="number" id="fence_length" name="fence_length" min="10" required />
             </div>
             <div class="input-group">
@@ -380,7 +380,7 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
             <input type="text" id="color_other_text" name="color_other_text" placeholder="Pl. RAL 6005 (mohazöld)" />
           </div>
         </div>
-        <div class="step-nav color-step-nav hidden" id="color-step-nav">
+        <div class="step-nav" id="color-step-nav">
           <button type="button" class="btn btn-secondary" data-prev>Előző</button>
           <button type="button" class="btn btn-primary" data-next>Következő</button>
         </div>
@@ -419,6 +419,10 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
           </label>
         </div>
         <p class="shipping-note">Telephelyünk Budapest XVIII. kerületében található. <b>250 m² feletti rendelés esetén a szállítás INGYENES!</b></p>
+        <div class="step-nav">
+          <button type="button" class="btn btn-secondary" data-prev>Előző</button>
+          <button type="button" class="btn btn-primary" data-next>Következő</button>
+        </div>
       </div>
 
       <!-- Step: Csavar -->
@@ -681,7 +685,7 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
 
     <!-- Social proof -->
     <div class="social-proof">
-      <p>Több mint <strong>5000+ elégedett ügyfél</strong> választotta már trapézlemezeinket</p>
+      <p class="social-proof-text">Kizárólag <span class="inline-stars"><svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg></span> értékeléseink vannak Google-on</p>
     </div>
 
     <!-- Help widget - hidden initially, shows after 10s -->
@@ -695,6 +699,9 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
       </a>
     </div>
   </div>
+
+  <!-- Toast notification container -->
+  <div id="toast-container" class="toast-container"></div>
 </Layout>
 
 <style>
@@ -884,6 +891,15 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     text-align: center;
     margin-bottom: var(--spacing-lg);
     font-size: var(--font-size-xl);
+  }
+
+  @media (min-width: 769px) {
+    .step h2 {
+      font-size: 2.5rem;
+      padding-top: 40px;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
   }
 
   .step-desc {
@@ -1107,7 +1123,7 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     }
 
     .shipping-options-grid {
-      grid-template-columns: 1fr !important;
+      grid-template-columns: repeat(2, 1fr) !important;
     }
 
     .shipping-options-grid .shipping-card .card-label {
@@ -1349,10 +1365,6 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
   }
 
   /* Color step nav - shown only when "Egyéb" is selected */
-  .color-step-nav.hidden {
-    display: none;
-  }
-
   /* 5 columns for color grid on desktop */
   .step[data-step="color"] .radio-grid {
     grid-template-columns: repeat(5, 1fr) !important;
@@ -2069,6 +2081,19 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     max-width: 200px;
   }
 
+  @media (max-width: 768px) {
+    .step-nav {
+      gap: var(--spacing-sm);
+    }
+
+    .step-nav .btn {
+      flex: 1;
+      max-width: none;
+      min-height: 48px;
+      font-size: 1rem;
+    }
+  }
+
   /* Social proof */
   .social-proof {
     text-align: center;
@@ -2076,8 +2101,25 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     color: var(--color-text-muted);
   }
 
-  .social-proof strong {
-    color: var(--color-primary);
+  .social-proof-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .inline-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    vertical-align: middle;
+  }
+
+  .inline-stars svg {
+    display: inline-block;
   }
 
   /* Help widget - fixed bottom right */
@@ -2156,6 +2198,73 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     .help-avatar {
       width: 56px;
       height: 56px;
+    }
+  }
+
+  /* Toast notifications */
+  .toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: #dc2626;
+    color: white;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 300px;
+    max-width: 400px;
+    pointer-events: auto;
+    animation: slideIn 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+  }
+
+  .toast.hiding {
+    animation: slideOut 0.3s ease forwards;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .toast-container {
+      top: 10px;
+      right: 10px;
+      left: 10px;
+    }
+
+    .toast {
+      min-width: auto;
+      max-width: none;
     }
   }
 
@@ -2329,6 +2438,9 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
       updateProgress(stepId);
       saveState();
 
+      // Scroll to top of page so progress bar is visible
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
       if (pushState) {
         history.pushState({ step: stepId }, '', `#step-${stepId}`);
       }
@@ -2472,16 +2584,14 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     const colorOtherCard = document.getElementById('color-other-card');
     const colorOtherInput = document.getElementById('other-color-input');
     const colorOtherText = document.getElementById('color_other_text') as HTMLInputElement;
-    const colorStepNav = document.getElementById('color-step-nav');
     const colorRadio = colorOtherCard?.querySelector('input[type="radio"]') as HTMLInputElement;
 
-    if (!colorOtherCard || !colorOtherInput || !colorStepNav || !colorRadio) return;
+    if (!colorOtherCard || !colorOtherInput || !colorRadio) return;
 
-    // When "Egyéb" is selected, show text input and manual nav
+    // When "Egyéb" is selected, show text input
     colorRadio.addEventListener('change', () => {
       if (colorRadio.checked) {
         colorOtherInput.classList.remove('hidden');
-        colorStepNav.classList.remove('hidden');
         state.answers.color = 'egyeb';
         saveState();
 
@@ -2501,6 +2611,30 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     });
   }
 
+  // Show toast notification
+  function showToast(message: string): void {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
+      <span>${message}</span>
+    `;
+    container.appendChild(toast);
+
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+      toast.classList.add('hiding');
+      setTimeout(() => {
+        container.removeChild(toast);
+      }, 300);
+    }, 3000);
+  }
+
   // Navigation buttons
   function initNavButtons(): void {
     document.querySelectorAll('[data-next]').forEach(btn => {
@@ -2510,24 +2644,45 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
         if (currentStepEl) {
           const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
           let valid = true;
+          let errorMessage = '';
 
-          inputs.forEach(input => {
-            if (!(input as HTMLInputElement).checkValidity()) {
+          // Check radio buttons
+          const radioGroups = new Set<string>();
+          currentStepEl.querySelectorAll('input[type="radio"][required]').forEach((radio: HTMLInputElement) => {
+            radioGroups.add(radio.name);
+          });
+
+          radioGroups.forEach(groupName => {
+            const checked = currentStepEl.querySelector(`input[name="${groupName}"]:checked`);
+            if (!checked) {
               valid = false;
-              (input as HTMLInputElement).reportValidity();
+              errorMessage = 'Kérjük, válasszon egy opciót a folytatáshoz!';
             }
           });
 
-          if (valid) {
-            // Save form data
-            const formData = new FormData(form);
-            formData.forEach((value, key) => {
-              state.answers[key] = value;
-            });
-            saveState();
+          // Check other required fields
+          inputs.forEach(input => {
+            if ((input as HTMLInputElement).type !== 'radio' && !(input as HTMLInputElement).checkValidity()) {
+              valid = false;
+              if (!errorMessage) {
+                errorMessage = 'Kérjük, töltse ki a kötelező mezőket!';
+              }
+            }
+          });
 
-            navigateToStep(getNextStep(state.currentStep));
+          if (!valid) {
+            showToast(errorMessage);
+            return;
           }
+
+          // Save form data
+          const formData = new FormData(form);
+          formData.forEach((value, key) => {
+            state.answers[key] = value;
+          });
+          saveState();
+
+          navigateToStep(getNextStep(state.currentStep));
         }
       });
     });
