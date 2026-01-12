@@ -631,7 +631,7 @@ const faqs = [
     .hero {
       display: flex;
       flex-direction: column;
-      height: 100dvh;
+      height: auto;
       min-height: 100dvh;
       margin: 0;
       padding: 0;
@@ -652,8 +652,9 @@ const faqs = [
 
   @media (max-width: 900px) {
     .hero-content {
-      padding: 40px 20px;
+      padding: 30px 20px 20px;
       order: 2;
+      flex-shrink: 0;
     }
   }
 
@@ -761,8 +762,9 @@ const faqs = [
   @media (max-width: 900px) {
     .hero-image {
       order: 1;
-      min-height: auto;
-      background: transparent;
+      min-height: 50vh;
+      flex-grow: 1;
+      background: #edebf0;
       align-items: flex-end;
     }
   }
@@ -886,7 +888,13 @@ const faqs = [
 
   @media (max-width: 900px) {
     .usp-item {
-      padding: 12px 8px;
+      padding: 12px 6px;
+    }
+
+    .usp-item:first-child {
+      flex-direction: row;
+      gap: 4px;
+      align-items: center;
     }
   }
 
@@ -900,8 +908,13 @@ const faqs = [
 
   @media (max-width: 900px) {
     .usp-item strong {
-      font-size: 1rem;
+      font-size: 0.85rem;
       margin-bottom: 3px;
+      white-space: nowrap;
+    }
+
+    .usp-item:first-child strong {
+      margin-bottom: 0;
     }
   }
 
@@ -913,8 +926,9 @@ const faqs = [
 
   @media (max-width: 900px) {
     .usp-item span {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       line-height: 1.1;
+      white-space: nowrap;
     }
   }
 
@@ -1121,6 +1135,12 @@ const faqs = [
   .reviews-section {
     padding: 40px 20px;
     background: #f8f9fa;
+  }
+
+  @media (max-width: 768px) {
+    .reviews-section {
+      padding: 20px 20px 40px;
+    }
   }
 
   .reviews-section .container {
@@ -1512,6 +1532,12 @@ const faqs = [
     background: var(--bg-light);
   }
 
+  @media (max-width: 768px) {
+    .calculator-section {
+      padding: 60px 20px 30px;
+    }
+  }
+
   .calculator-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1531,6 +1557,18 @@ const faqs = [
     width: 100%;
     border-radius: 12px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  }
+
+  .calculator-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 768px) {
+    .calculator-text {
+      align-items: center;
+      text-align: center;
+    }
   }
 
   .calculator-text p {
@@ -1737,15 +1775,38 @@ const faqs = [
 
   @media (max-width: 900px) {
     .benefits-grid {
-      grid-template-columns: 1fr;
-      max-width: 500px;
-      gap: 20px;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 16px;
+      max-width: 100%;
+      padding: 0 20px;
+      margin: 0 -20px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .benefits-grid::-webkit-scrollbar {
+      display: none;
     }
   }
 
   .benefit-card {
     text-align: center;
     padding: 30px 20px;
+  }
+
+  @media (max-width: 900px) {
+    .benefit-card {
+      flex: 0 0 85%;
+      scroll-snap-align: center;
+      animation: peek 2s ease-in-out 1s 3;
+    }
+
+    @keyframes peek {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-10px); }
+    }
   }
 
   .benefit-icon {
@@ -1796,7 +1857,7 @@ const faqs = [
 
   @media (max-width: 768px) {
     .specs-section {
-      padding: 40px 20px;
+      padding: 20px 20px 40px;
     }
   }
 
@@ -1875,6 +1936,7 @@ const faqs = [
     .pricing-box {
       flex: 1 1 calc(33.333% - 12px);
       min-width: 0;
+      padding: 12px 8px;
     }
   }
 
@@ -1885,10 +1947,25 @@ const faqs = [
     margin-bottom: 4px;
   }
 
+  @media (max-width: 768px) {
+    .pricing-label {
+      font-size: 0.7rem;
+      line-height: 1.2;
+      min-height: 2.4em;
+    }
+  }
+
   .pricing-price {
     font-size: 1.3rem;
     font-weight: 700;
     color: var(--primary-blue);
+  }
+
+  @media (max-width: 768px) {
+    .pricing-price {
+      font-size: 1.1rem;
+      white-space: nowrap;
+    }
   }
 
   .colors-grid {
