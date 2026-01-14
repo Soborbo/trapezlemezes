@@ -786,15 +786,30 @@ if (quoteHash) {
       const totalPriceText = quoteTotalEl?.textContent?.replace(/[^\d]/g, '') || '0';
       const totalPrice = parseInt(totalPriceText, 10);
 
-      // Build form data from existing quote data
+      // Build form data from existing quote data (include all data for Sheets)
       const formData = new FormData();
       formData.append('first_name', quoteData.first_name || '');
       formData.append('last_name', quoteData.last_name || '');
       formData.append('phone', quoteData.phone || '');
       formData.append('email', quoteData.email || '');
+      formData.append('company', quoteData.company || '');
+      formData.append('postcode', quoteData.postcode || '');
+      formData.append('city', quoteData.city || '');
+      formData.append('street', quoteData.street || '');
       formData.append('quote_id', quoteData.quote_id || '');
       formData.append('quote_url', window.location.href);
       formData.append('total_price', totalPrice.toString());
+      formData.append('color', quoteData.color || '');
+      formData.append('shipping', quoteData.shipping || '');
+      formData.append('screws', quoteData.screws || '');
+      formData.append('secondhand', quoteData.secondhand || '');
+
+      // Calculate sizes formatted and sqm for Sheets
+      const sizes = quoteData.sizes || [];
+      const sizesFormatted = sizes.map(s => `${s.length}cm x ${s.quantity}db`).join('\n');
+      const totalSqm = sizes.reduce((acc, s) => acc + (s.length / 100) * 1.1 * s.quantity, 0);
+      formData.append('sizes_formatted', sizesFormatted);
+      formData.append('total_sqm', totalSqm.toFixed(2));
 
       const response = await fetch('/api/callback', {
         method: 'POST',

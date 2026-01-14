@@ -224,3 +224,203 @@ export async function ensureSheetHeaders(): Promise<boolean> {
   // This function is kept for compatibility but does nothing
   return true;
 }
+
+/**
+ * Append to "Trapez 350000+" sheet for high-value quotes (>340,000 Ft)
+ * Same column structure as "Trapez mind"
+ */
+export async function appendToHighValueSheet(
+  data: CalculatorFormData,
+  calculatedData: {
+    totalSqm: number;
+    totalSheets: number;
+    totalPrice: number;
+    quoteUrl: string;
+    sizesFormatted?: string;
+    screwBoxes?: number;
+    screwPrice?: number;
+    gclid?: string;
+  }
+): Promise<boolean> {
+  const THRESHOLD = 340000;
+  if (calculatedData.totalPrice < THRESHOLD) {
+    return true; // Not a high-value quote, skip silently
+  }
+
+  console.log('appendToHighValueSheet called for:', data.email, 'price:', calculatedData.totalPrice);
+
+  const spreadsheetId = getEnv('GOOGLE_SHEETS_SPREADSHEET_ID');
+  if (!spreadsheetId) {
+    console.warn('Google Sheets spreadsheet ID not configured');
+    return false;
+  }
+
+  const accessToken = await getAccessToken();
+  if (!accessToken) return false;
+
+  try {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('hu-HU', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    const row = [
+      dateStr,
+      data.phone,
+      data.email,
+      data.last_name,
+      data.first_name,
+      data.company || '',
+      data.city,
+      data.postcode,
+      data.street,
+      calculatedData.sizesFormatted || '',
+      data.color || '',
+      calculatedData.totalSqm || '',
+      data.shipping || '',
+      calculatedData.screwBoxes || '',
+      calculatedData.screwPrice || '',
+      data.secondhand || '',
+      'Igen',
+      calculatedData.totalPrice,
+      data.quote_id || '',
+      '',
+      calculatedData.gclid || '',
+      data.source_page || '',
+    ];
+
+    const range = encodeURIComponent('Trapez 350000+!A:V');
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        values: [row],
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('Google Sheets (350000+) append error:', error);
+      return false;
+    }
+
+    console.log('Data appended to Trapez 350000+ sheet:', data.quote_id);
+    return true;
+  } catch (error) {
+    console.error('Google Sheets (350000+) error:', error);
+    return false;
+  }
+}
+
+/**
+ * Append to "Trapez visszahivast kert" sheet for callback requests
+ * Same column structure as "Trapez mind"
+ */
+export async function appendToCallbackSheet(
+  data: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+    company?: string;
+    postcode?: string;
+    city?: string;
+    street?: string;
+    quote_id?: string;
+    color?: string;
+    shipping?: string;
+    screws?: string;
+    secondhand?: string;
+    source_page?: string;
+  },
+  calculatedData: {
+    totalSqm?: number;
+    totalPrice?: number;
+    sizesFormatted?: string;
+    screwBoxes?: number;
+    screwPrice?: number;
+    gclid?: string;
+  }
+): Promise<boolean> {
+  console.log('appendToCallbackSheet called for:', data.email);
+
+  const spreadsheetId = getEnv('GOOGLE_SHEETS_SPREADSHEET_ID');
+  if (!spreadsheetId) {
+    console.warn('Google Sheets spreadsheet ID not configured');
+    return false;
+  }
+
+  const accessToken = await getAccessToken();
+  if (!accessToken) return false;
+
+  try {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('hu-HU', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    const row = [
+      dateStr,
+      data.phone,
+      data.email,
+      data.last_name,
+      data.first_name,
+      data.company || '',
+      data.city || '',
+      data.postcode || '',
+      data.street || '',
+      calculatedData.sizesFormatted || '',
+      data.color || '',
+      calculatedData.totalSqm || '',
+      data.shipping || '',
+      calculatedData.screwBoxes || '',
+      calculatedData.screwPrice || '',
+      data.secondhand || '',
+      'Igen',
+      calculatedData.totalPrice || '',
+      data.quote_id || '',
+      'Visszahívást kért',
+      calculatedData.gclid || '',
+      data.source_page || 'ajanlat',
+    ];
+
+    const range = encodeURIComponent('Trapez visszahivast kert!A:V');
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        values: [row],
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('Google Sheets (visszahivast kert) append error:', error);
+      return false;
+    }
+
+    console.log('Data appended to Trapez visszahivast kert sheet:', data.quote_id);
+    return true;
+  } catch (error) {
+    console.error('Google Sheets (visszahivast kert) error:', error);
+    return false;
+  }
+}

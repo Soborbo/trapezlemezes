@@ -23,6 +23,25 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     const { quote_id, quote_data, delay_reason } = body;
 
+    // Only send admin notification for high-value quotes (>340,000 Ft)
+    const ADMIN_NOTIFICATION_THRESHOLD = 340000;
+    const totalPrice = quote_data?.totalPrice || 0;
+
+    if (totalPrice < ADMIN_NOTIFICATION_THRESHOLD) {
+      console.log(`Skipping delayed admin notification: ${totalPrice} Ft < ${ADMIN_NOTIFICATION_THRESHOLD} Ft threshold`);
+      return new Response(
+        JSON.stringify({
+          success: true,
+          skipped: true,
+          reason: 'below_threshold',
+        }),
+        {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
     if (!quote_id) {
       return new Response(
         JSON.stringify({

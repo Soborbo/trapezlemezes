@@ -7,7 +7,7 @@
 import type { APIRoute } from 'astro';
 import { validateForm, correctEmailTypos } from '../../lib/validation';
 import { sendQuoteConfirmation, sendAdminNotification } from '../../lib/email';
-import { appendToSheet } from '../../lib/sheets';
+import { appendToSheet, appendToHighValueSheet } from '../../lib/sheets';
 import { setRuntimeEnv } from '../../lib/env';
 import { generateQuoteId, generateQuoteUrl } from '../../lib/quote-hash';
 import { calculateQuote, calculateRoofSheets, calculateFenceSheets, type SizeEntry } from '../../calculator';
@@ -240,7 +240,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Send emails and save to sheets in background (non-blocking)
     const backgroundTask = async () => {
       try {
-        const [customerEmailSent, adminEmailSent, sheetsSaved] = await Promise.all([
+        const [customerEmailSent, adminEmailSent, sheetsSaved, highValueSheetSaved] = await Promise.all([
           sendQuoteConfirmation(validatedData, quoteUrl, breakdown).catch((e) => {
             console.error('Customer email error:', e);
             return false;
@@ -259,6 +259,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
             console.error('Sheets error:', e);
             return false;
           }),
+          // Also save to "Trapez 350000+" sheet if high-value quote (>340k)
+          appendToHighValueSheet(validatedData, calculatedData).catch((e) => {
+            console.error('High-value sheets error:', e);
+            return false;
+          }),
         ]);
 
         console.log('Quote submission background tasks completed:', {
@@ -266,6 +271,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
           customerEmailSent,
           adminEmailSent,
           sheetsSaved,
+          highValueSheetSaved,
         });
       } catch (error) {
         console.error('Background task error:', error);
