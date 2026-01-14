@@ -18,14 +18,44 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const runtimeEnv = (locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
   setRuntimeEnv(runtimeEnv || null);
 
+  // Parse JSON body with error handling
+  let body: Record<string, unknown>;
   try {
-    const body = await request.json();
+    body = await request.json();
+  } catch {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: 'Invalid JSON payload',
+      }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
 
+  try {
     const { quote_id, quote_data, delay_reason } = body;
+
+    // Validate quote_data structure
+    if (quote_data && typeof quote_data !== 'object') {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: 'Invalid quote_data format',
+        }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
 
     // Only send admin notification for high-value quotes (>340,000 Ft)
     const ADMIN_NOTIFICATION_THRESHOLD = 340000;
-    const totalPrice = quote_data?.totalPrice || 0;
+    const rawPrice = (quote_data as Record<string, unknown>)?.totalPrice;
+    const totalPrice = typeof rawPrice === 'number' && !isNaN(rawPrice) ? rawPrice : 0;
 
     if (totalPrice < ADMIN_NOTIFICATION_THRESHOLD) {
       console.log(`Skipping delayed admin notification: ${totalPrice} Ft < ${ADMIN_NOTIFICATION_THRESHOLD} Ft threshold`);
@@ -55,37 +85,48 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
+    // Helper to safely extract string from quote_data
+    const qd = quote_data as Record<string, unknown> | undefined;
+    const getString = (key: string): string => {
+      const val = qd?.[key];
+      return typeof val === 'string' ? val : '';
+    };
+    const getNumber = (key: string): number => {
+      const val = qd?.[key];
+      return typeof val === 'number' && !isNaN(val) ? val : 0;
+    };
+
     // Convert quote_data to CalculatorFormData format
     const formData: Partial<CalculatorFormData> = {
-      quote_id,
-      first_name: quote_data?.first_name || '',
-      last_name: quote_data?.last_name || '',
-      company: quote_data?.company || '',
-      email: quote_data?.email || '',
-      phone: quote_data?.phone || '',
-      postcode: quote_data?.postcode || '',
-      city: quote_data?.city || '',
-      street: quote_data?.street || '',
-      color: quote_data?.color || '',
-      shipping: quote_data?.shipping || '',
-      screws: quote_data?.screws || '',
-      secondhand: quote_data?.secondhand || '',
+      quote_id: typeof quote_id === 'string' ? quote_id : '',
+      first_name: getString('first_name'),
+      last_name: getString('last_name'),
+      company: getString('company'),
+      email: getString('email'),
+      phone: getString('phone'),
+      postcode: getString('postcode'),
+      city: getString('city'),
+      street: getString('street'),
+      color: getString('color'),
+      shipping: getString('shipping'),
+      screws: getString('screws'),
+      secondhand: getString('secondhand'),
       source_page: 'ajanlat',
     };
 
     // Generate quote URL
     const baseUrl = new URL(request.url).origin;
-    const quoteUrl = `${baseUrl}/ajanlat?q=${encodeURIComponent(quote_id)}`;
+    const quoteUrl = `${baseUrl}/ajanlat?q=${encodeURIComponent(formData.quote_id || '')}`;
 
     // Generate email HTML with note about delay
     const html = AdminNotificationTemplate({
       data: formData as CalculatorFormData,
       quoteUrl,
-      totalPrice: quote_data?.totalPrice || 0,
-      totalSqm: quote_data?.totalSqm || 0,
-      screwBoxes: quote_data?.screwBoxes || 0,
-      screwPrice: quote_data?.screwPrice || 0,
-      sizesFormatted: quote_data?.sizesFormatted || '',
+      totalPrice,
+      totalSqm: getNumber('totalSqm'),
+      screwBoxes: getNumber('screwBoxes'),
+      screwPrice: getNumber('screwPrice'),
+      sizesFormatted: getString('sizesFormatted'),
     }).replace(
       'Nagyösszegű árajánlatot adtunk ki',
       `Árajánlat megtekintve (${delay_reason === 'no_callback_after_5min' ? 'nem kért visszahívást' : 'értesítés'})`

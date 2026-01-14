@@ -7,7 +7,7 @@
  */
 
 import type { CalculatorFormData } from './validation';
-import { getEnvVar } from '../config/site';
+import { getEnv } from './env';
 
 /**
  * Base64url encode (Cloudflare Workers compatible)
@@ -46,7 +46,10 @@ function simpleHash(str: string): string {
  * Creates a hash from quote data
  */
 export function createQuoteHash(data: Partial<CalculatorFormData> & { sizes?: Array<{ length: number; quantity: number }> }): string {
-  const secret = getEnvVar('QUOTE_HASH_SECRET') || 'trapezlemez-secret-2024';
+  const secret = getEnv('QUOTE_HASH_SECRET');
+  if (!secret) {
+    throw new Error('QUOTE_HASH_SECRET environment variable must be configured');
+  }
 
   // Select only the fields we want to save
   const saveData = {
@@ -84,7 +87,11 @@ export function createQuoteHash(data: Partial<CalculatorFormData> & { sizes?: Ar
  * Decodes a quote hash back to data
  */
 export function decodeQuoteHash(hash: string): Partial<CalculatorFormData> | null {
-  const secret = getEnvVar('QUOTE_HASH_SECRET') || 'trapezlemez-secret-2024';
+  const secret = getEnv('QUOTE_HASH_SECRET');
+  if (!secret) {
+    console.error('QUOTE_HASH_SECRET not configured');
+    return null;
+  }
 
   try {
     const [encoded, checksum] = hash.split('.');
