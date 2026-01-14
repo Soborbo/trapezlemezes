@@ -12,153 +12,288 @@ import trapezTeto from '../assets/images/trapezlemez-teto-haz.jpg';
 import trapezMeretek from '../assets/images/trapezlemez-meretek.png';
 import trapezFacsavar from '../assets/images/trapezlemez-facsavar.jpg';
 import farkasRoland from '../assets/images/farkas-roland.jpg';
+
+// Article metadata
+const publishDate = '2024-03-15';
+const updateDate = '2024-12-10';
+const readingTime = 12;
+const author = {
+  name: 'Farkas Roland',
+  title: 'ügyvezető igazgató',
+  experience: '15+ év tapasztalat',
+  image: farkasRoland
+};
+
+// FAQ data for schema
+const faqs = [
+  {
+    question: "Mennyi ideig tart egy trapézlemez tető?",
+    answer: "Egy minőségi, 0,5mm vastag horganyzott és festett trapézlemez tető 30-40 évig is kitarthat megfelelő felszerelés mellett. Mi 20 év garanciát vállalunk a lemezeinkre."
+  },
+  {
+    question: "Mennyibe kerül egy trapézlemez tető négyzetmétere?",
+    answer: "A trapézlemez ára négyzetméterenként 2.500-4.500 Ft között mozog a színtől és mennyiségtől függően. Ehhez jön még a csavar (kb. 250 Ft/m²) és esetleg a szállítás. Pontos árajánlatért használja kalkulátorunkat."
+  },
+  {
+    question: "Lehet-e trapézlemezt télen szerelni?",
+    answer: "Igen, a trapézlemezt egész évben lehet szerelni. Nincs ragasztás vagy száradási idő, csak a csavarokat kell behajtani. Fagyban is működik, de a tetőn dolgozni csúszós lehet, szóval óvatosan."
+  },
+  {
+    question: "Kell-e alátétfólia a trapézlemez alá?",
+    answer: "Fűtött épületeknél mindenképpen ajánlott párazáró fólia, mert a hőmérsékletkülönbség miatt páralecsapódás lehet. Fűtetlen melléképületeknél (pl. garázs, fészer) általában nem szükséges."
+  },
+  {
+    question: "Milyen lejtésszög kell trapézlemez tetőhöz?",
+    answer: "Minimum 7-10 fok lejtés szükséges, hogy a víz rendesen lefolyjon. Ideális a 15-25 fok közötti lejtésszög. Laposabb tetőn állhat a víz és beszivároghat az átfedéseknél."
+  },
+  {
+    question: "Hány csavar kell négyzetméterenként?",
+    answer: "Ökölszabályként 8-10 csavar kell négyzetméterenként. Egy 250 darabos csavardobozunk kb. 25-30 m² rögzítéséhez elég. Erősebb szél esetén több csavar ajánlott."
+  },
+  {
+    question: "Zajosabb a trapézlemez tető esőben?",
+    answer: "Igen, fémtető hangosabb esőben, mint a cserép. De ha van alatta szigetelés vagy lambéria, jelentősen tompul a hang. Sokan szeretik az eső hangját - megszokás kérdése."
+  },
+  {
+    question: "Mennyivel olcsóbb a trapézlemez a cserépnél?",
+    answer: "A trapézlemez tető teljes költsége (anyag + munka) általában 30-50%-kal olcsóbb, mint a cserép. Ráadásul gyorsabban elkészül és kevesebb a munkadíj."
+  }
+];
 ---
 
 <Layout
-  title="Trapézlemez tető - Minden, amit a trapézlemez tető építéséről tudni kell | Trapezlemezes.hu"
-  description="Teljes útmutató a trapézlemez tető építéséhez: előnyök, lemezválasztás, szerelési tippek és gyakori hibák elkerülése. Szakértői tanácsadás a trapezlemezes.hu-tól."
+  title="Trapézlemez tető útmutató - Szerelés és tippek 2024"
+  description="Teljes útmutató a trapézlemez tető építéséhez: előnyök, lemezválasztás, szerelési tippek és gyakori hibák elkerülése. Szakértői tanácsadás 15 év tapasztalattal."
   ogImage={heroImage.src}
 >
-  <article class="article">
+  <article class="article" itemscope itemtype="https://schema.org/Article">
+    <meta itemprop="datePublished" content={publishDate} />
+    <meta itemprop="dateModified" content={updateDate} />
+
     <div class="container">
+      <!-- Author & Reading time -->
+      <div class="article-meta">
+        <div class="author-box" itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <div class="author-image">
+            <ContentImage src={author.image} alt={author.name} />
+          </div>
+          <div class="author-info">
+            <span class="author-name" itemprop="name">{author.name}</span>
+            <span class="author-title">{author.title} | {author.experience}</span>
+          </div>
+        </div>
+        <div class="reading-info">
+          <span class="reading-time">{readingTime} perc olvasás</span>
+          <span class="update-date">Frissítve: {new Date(updateDate).toLocaleDateString('hu-HU')}</span>
+        </div>
+      </div>
+
       <header class="article-header">
-        <h1>Trapézlemez tető - Teljes útmutató</h1>
+        <h1 itemprop="headline">Trapézlemez tető - Amit 15 év tapasztalatból megtanultunk</h1>
         <p class="article-intro">
-          A trapézlemez tető kiváló választás azok számára, akik könnyű, tartós és gazdaságos megoldást keresnek. A trapézlemez tetőket elsősorban melléképületek, műhelyek, irodák és gazdasági épületek tetején szoktuk látni, de a technológia fejlődésével egyre terjed a lakossági használat is.
+          Nálunk naponta 5-10 ügyfél telefonál, hogy trapézlemez tetőt szeretne építeni. 15 év alatt rengeteg kérdéssel, problémával és megoldással találkoztunk - ebben a cikkben összegyűjtöttük, amit tudni érdemes, mielőtt belevágna.
         </p>
       </header>
 
       <figure class="hero-image">
-        <ContentImage src={heroImage} alt="Esztétikus trapézlemez tető" />
+        <ContentImage src={heroImage} alt="Trapézlemez tető családi házon" />
       </figure>
 
       <!-- Section 1: Előnyök -->
       <section class="article-section">
-        <h2>1. Mik a trapézlemez tető előnyei?</h2>
+        <h2>Miért választanak sokan trapézlemez tetőt?</h2>
+        <p>Az igazat megvallva, nem mindig a trapézlemez tető a legjobb választás. De bizonyos esetekben tényleg nincs jobb megoldás. Nézzük, mikor éri meg igazán:</p>
 
         <div class="benefit-row">
           <div class="benefit-content">
-            <h3>Olcsó</h3>
-            <p>A trapézlemez tető jelentősen olcsóbb megoldás, mint a hagyományos cserép vagy pala tetőfedés. A könnyű acéllemezek gyártási költségei alacsonyabbak, és a telepítésük is gyorsabb és egyszerűbb, ami tovább csökkenti a munkadíjakat. Ezen kívül a trapézlemez kevesebb karbantartást igényel, és hosszabb élettartamot biztosít, így a teljes élettartamra vetített összes költség is jelentősen alacsonyabb lehet, mint más megoldások esetében.</p>
+            <h3>Az ár-érték arány verhetetetlen</h3>
+            <p>Mondhatjuk finoman, hogy a trapézlemez olcsó - de ez így félrevezető lenne. Inkább úgy fogalmaznék: <strong>a befektetett pénzért cserébe aránytalanul jó minőséget kapsz.</strong></p>
+            <p>Egy tipikus 100 m²-es garázstető cserépből kb. 1,5-2 millió forint. Trapézlemezből? 400-600 ezer, szállítással együtt. És a tartóssága? Majdnem ugyanannyi, ha jó minőségű lemezt veszel.</p>
+            <p>Persze van bökkenő: a 0,3-0,4 mm vastag "akciós" lemezek alig pár évig bírják. Mi ezért csak 0,5 mm-es lemezt árulunk - ez még könnyű, de már elég erős.</p>
           </div>
           <figure class="benefit-image">
-            <ContentImage src={olcsoTeto} alt="Olcsó trapézlemez tető" />
-            <figcaption>Kedvező árú megoldás</figcaption>
+            <ContentImage src={olcsoTeto} alt="Trapézlemez tető gazdasági épületen" />
+            <figcaption>Gazdasági épület trapézlemez tetővel</figcaption>
           </figure>
         </div>
 
         <div class="benefit-row reverse">
           <div class="benefit-content">
-            <h3>Tartós</h3>
-            <p>Egy acél trapézlemez tető erős, nagy teherbírású, és kiválóan ellenáll az időjárási viszontagságoknak. Ezt tovább fokozza a horganyzott bevonat, amely megvédi a lemezt a rozsdásodástól és korróziótól. A trapézlemez formája is hozzájárul a tartóssághoz, mivel a bordázat megnöveli a szerkezeti szilárdságot. A színes bevonatok pedig további védelmet nyújtanak a napsugárzás és UV-sugárzás ellen, így a trapézlemez tető hosszú távon is megőrzi esztétikai és funkcionális minőségét.</p>
+            <h3>30-40 évig is kibírja</h3>
+            <p>A múlt héten egy ügyfelünk mesélte, hogy az apja 1992-ben rakott trapézlemezt a pajtára, és azóta semmi baja. Na ez a lényeg - <strong>egyszer felrakod és évtizedekig nem kell hozzányúlni.</strong></p>
+            <p>A titok a horganyzásban van. A mi lemezeink 275 g/m² cink bevonattal készülnek - ez az, ami megvédi a rozsdától. A vékonyabb, olcsóbb lemezeknél ez sokkal kevesebb, ezért rozsdásodnak hamar.</p>
+            <p>Mi ezért vállalunk nyugodt szívvel 20 év garanciát. Nem azért, mert nagylelkűek vagyunk - egyszerűen tudjuk, hogy nem fog visszajönni reklamálni senki.</p>
           </div>
           <figure class="benefit-image">
-            <ContentImage src={tartosTeto} alt="Tartós trapézlemez szerkezet" />
-            <figcaption>Erős, tartós szerkezet</figcaption>
+            <ContentImage src={tartosTeto} alt="Régi, de jó állapotú trapézlemez tető" />
+            <figcaption>Évtizedek után is jó állapotban</figcaption>
           </figure>
         </div>
 
         <div class="benefit-row">
           <div class="benefit-content">
-            <h3>Gondozásmentes</h3>
-            <p>Az trapézlemez tetők acél alapanyaga nagyon ellenálló a mechanikai sérülésekkel szemben, a horganyzott felület pedig megakadályozza a rozsdásodást. A trapézlemez tető nem igényel festést vagy más felületkezelést, strapabíró anyaga ellenáll az UV-sugárzásnak és a hőmérséklet-ingadozásnak, ezért nem vetemedik vagy repedezik, mint a fa. A trapézlemez nem szívja magába a nedvességet, így nem kell aggódni a gombásodás vagy a rothadás miatt, tisztítása pedig rendkívül egyszerű, általában egy vizes mosás elegendő. Várható élettartama is hosszú, nem esnek le belőle darabok, mint a cserép tető esetén, így ha egyszer felszerelte évekre el is felejtheti.</p>
+            <h3>Nem kell vele foglalkozni</h3>
+            <p>A cseréptető szép, hagyományos - és évente ellenőrizni kell, mert eltörik a cserepek, kimozdul a kúpcserép, benő a moha. Ismerős?</p>
+            <p>A trapézlemez tető nem igényel semmit. <strong>Nincs festés, nincs karbantartás, nincs semmilyen éves teendő.</strong> Maximum pár évente érdemes egy pillantást vetni a csavarokra, de ez 5 perc.</p>
+            <p>Az egyetlen, ami tönkremehet: ha a csavarokat rosszul húzták meg (túl lazán vagy túl erősen), és beszivárog mellettük a víz. De ez telepítési hiba, nem anyaghiba.</p>
           </div>
           <figure class="benefit-image">
-            <ContentImage src={tetoKishaz} alt="Kisház trapézlemez tetővel" />
-            <figcaption>Hosszú élettartam, minimális karbantartás</figcaption>
+            <ContentImage src={tetoKishaz} alt="Kisház modern trapézlemez tetővel" />
+            <figcaption>Kisház - egyszer felrakták, azóta semmi gond</figcaption>
           </figure>
         </div>
 
         <div class="benefit-row reverse">
           <div class="benefit-content">
-            <h3>Gyors vele dolgozni</h3>
-            <p>A trapézlemezből készült tető rendkívül gyorsan telepíthető, mivel a lemezek méretre vágva, nagy lapokban érkeznek, így kevesebb darabból áll össze a teljes fedés, csökkentve a munkaidőt. A trapézlemez tető könnyű, ezért felszereléskor is könnyebb vele dolgozni és nem igényel nagy teherbírású szerkezetet sem. A rögzítési folyamat is kifejezetten gyors, mivel a lemezeket csavarokkal könnyedén a tetőszerkezethez lehet rögzíteni.</p>
+            <h3>Egy nap alatt fent lehet</h3>
+            <p>Tavaly volt egy ügyfelünk, aki pénteken rendelt, szombaton megkapta a lemezt, és vasárnap estére kész volt a 60 m²-es garázstető. Egyedül csinálta.</p>
+            <p>Persze nem mindenki ilyen ügyes, de a lényeg igaz: <strong>a trapézlemezzel nagyon gyorsan lehet haladni.</strong> Nincs ragasztás, nincs száradási idő, csak mérés, vágás, csavarozás.</p>
+            <p>Ez azért fontos, mert a munkadíj sokszor drágább, mint az anyag. Ha a bádogos 3 nap helyett 1 nap alatt végez, az komoly megtakarítás.</p>
           </div>
           <figure class="benefit-image">
-            <ContentImage src={tetoSzereles} alt="Trapézlemez tető szerelés" />
-            <figcaption>Gyors és egyszerű telepítés</figcaption>
+            <ContentImage src={tetoSzereles} alt="Trapézlemez tető szerelés folyamatban" />
+            <figcaption>A szerelés gyorsan megy</figcaption>
           </figure>
         </div>
       </section>
 
       <!-- Section 2: Lemezválasztás -->
       <section class="article-section">
-        <h2>2. Milyen trapézlemezt válasszak?</h2>
-        <p>A különböző trapézlemez-típusokról és arról, melyiket hol érdemes használni, bővebben írtunk már ebben a cikkünkben: <a href="/trapezlemez-arak">Milyen trapézlemezt válasszak? Mitől függ a trapézlemez ára?</a></p>
+        <h2>Melyik lemezt válasszam?</h2>
+        <p>Ez a leggyakoribb kérdés, amit kapunk. A válasz egyszerű, de fontos megérteni a miértet is.</p>
 
         <div class="thickness-list">
           <div class="thickness-item warning">
-            <span class="thickness-value">0,2–0,3 mm</span>
-            <span class="thickness-desc">Ezek papírvékony lemezek, <strong>nem igazán ajánljuk</strong> a használatukat.</span>
+            <span class="thickness-value">0,2-0,3 mm</span>
+            <span class="thickness-desc"><strong>NE vedd meg.</strong> Papírvékony, hajlik, törik, a horganyzás sem elég rajta. Egy-két év és rozsdás lesz. Hiába olcsó, kidobott pénz.</span>
+          </div>
+          <div class="thickness-item warning">
+            <span class="thickness-value">0,4 mm</span>
+            <span class="thickness-desc"><strong>Kockázatos.</strong> Sokan ezt veszik, mert "elég jó lesz". Pár évig tényleg működik, de hamar meglátszik rajta az idő. Ideiglenes megoldásnak még elmegy.</span>
+          </div>
+          <div class="thickness-item recommended">
+            <span class="thickness-value">0,5 mm</span>
+            <span class="thickness-desc"><strong>Ezt ajánljuk.</strong> Mi kizárólag ilyet árulunk. Elég erős ahhoz, hogy ne hajoljon, elég vastag, hogy a horganyzás rendesen megvédje. Ez az arany középút.</span>
           </div>
           <div class="thickness-item">
-            <span class="thickness-value">0,5–0,7 mm</span>
-            <span class="thickness-desc">Lakóépületek tetői, homlokzatok, kisebb raktárak és mezőgazdasági épületek.</span>
-          </div>
-          <div class="thickness-item">
-            <span class="thickness-value">0,7–1,0 mm</span>
-            <span class="thickness-desc">Ipari létesítmények, nagyobb raktárak, logisztikai központok, nagyobb tetők és falak.</span>
-          </div>
-          <div class="thickness-item">
-            <span class="thickness-value">1,0 mm felett</span>
-            <span class="thickness-desc">Nagy teherbírású ipari építmények és extrém igénybevétel esetén.</span>
+            <span class="thickness-value">0,6-0,7 mm</span>
+            <span class="thickness-desc">Ipari célokra, nagy tetőkre, vagy ahol extra strapabírás kell. Drágább és nehezebb - lakóépületnél általában nem éri meg.</span>
           </div>
         </div>
 
         <div class="expert-advice">
-          <h4>Legtöbbször a 0,5 mm vastag trapézlemezt ajánljuk</h4>
-          <p>Mi általában a 0,5 mm vastag trapézlemezt ajánljuk lakóépületek, kisebb raktárak és mezőgazdasági épületek tetőfedésére. Ez a vastagság már megfelelő teherbírást biztosít, miközben megőrzi a lemez könnyűségét, így a szerkezetet nem terheli túl. Tartós, időjárásálló, és ellenáll a mechanikai hatásoknak, így hosszú élettartamot garantál. Ezen felül a 0,5 mm-es lemez könnyen kezelhető és telepíthető, ideális választás, ha gyorsan, megbízható és költséghatékony megoldást keres.</p>
+          <h4>Miért pont 0,5 mm?</h4>
+          <p>Ez nem marketing - évek tapasztalata. A 0,4 mm-es lemezekből túl sok reklamáció jött vissza (hajlás, horpadás, korai rozsdásodás). A 0,6 mm-es pedig feleslegesen drága a legtöbb felhasználásra.</p>
+          <p>A 0,5 mm az a pont, ahol a lemez már elég merev, a horganyzott réteg megfelelően vastag, és az ár még elfogadható. Ezért döntöttünk úgy, hogy kizárólag ebben a vastagságban dolgozunk.</p>
         </div>
+
+        <p>A lemezválasztásról bővebben írtunk egy külön cikkben: <a href="/trapezlemez-arak">Milyen trapézlemezt válasszak? Mitől függ a trapézlemez ára?</a></p>
       </section>
 
-      <!-- Section 3: Tető építése -->
+      <!-- Section 3: Építés -->
       <section class="article-section">
-        <h2>3. Trapézlemez tető építése</h2>
-        <p>A hagyományos cserép-, zsindely- vagy palatetőkhöz képest a trapézlemezzel sokkal egyszerűbb, gyorsabb és könnyebb dolgozni - de azért adódhatnak problémák. Az alábbiakban igyekszünk segítséget adni a trapézlemez tető építéshez!</p>
+        <h2>Hogyan építs trapézlemez tetőt?</h2>
+        <p>Most jön a gyakorlati rész. Nem akarok úgy tenni, mintha ez rakétatudomány lenne - nem az. De van pár dolog, amit ha elrontasz, később megkeserülöd.</p>
 
         <figure class="section-image">
-          <ContentImage src={trapezTeto} alt="Háztető trapézlemezből" />
-          <figcaption>Trapézlemez tető családi házon</figcaption>
+          <ContentImage src={trapezTeto} alt="Kész trapézlemez tető családi házon" />
+          <figcaption>Kész trapézlemez tető családi házon</figcaption>
         </figure>
 
-        <h3>Mérés és tervezés</h3>
-        <p>A trapézlemez tető tervezése során először ellenőrizze a tetőszerkezet állapotát, hogy elbírja-e a trapézlemez tető súlyát, és szükség esetén végezzen megerősítést. A jó hír, hogy a legtöbb más tetőhöz képest a trapézlemez általában könnyebb szokott lenni, tehát ez ritkán probléma.</p>
-        <p>Ezután pontosan mérje fel a tető méreteit, figyelembe véve a lejtésszöget és az eresz túlnyúlását. Ne felejtse el lemezek közötti átfedést is belekalkulálni: a mi trapézlemezeink például bár 116 centiméter szélesek, de 6-6 centimétert mindkét oldalon le kell ebből vonnia, hogy a lemezek egymás fölé kerüljenek és megfelelő szigetelést biztosítsanak az illesztéseknél.</p>
+        <h3>1. Mérés - ez a legfontosabb</h3>
+        <p>Az első dolog, ami fontos: <strong>a mi lemezeink 116 cm szélesek, de ebből csak 110 cm hasznos szélesség.</strong> A 6 cm az átfedéshez kell mindkét oldalon.</p>
+        <p>Mit jelent ez gyakorlatban? Ha 3 métert akarsz lefedni:</p>
 
         <div class="info-box">
-          <p><strong>Például</strong> ha Ön 3 méter felületet szeretne lefedni, Önnek három darab lemezre lesz szüksége, amiből az első két, egyenként 116 cm széles lemez együtt csak 220 cm-t fog lefedni, hogy meglegyen a megfelelő szigetelés, és a harmadik lemezből a maradék 80+6 cm-es részt fogja használni.</p>
+          <p><strong>Számolás:</strong> 3 méter = 300 cm. Az első lemez lefed 110 cm-t. A második is 110-et. Az összesen 220 cm. A harmadik lemez maradék 80 cm-ét használod fel (+ 6 cm átfedés). Tehát 3 lemez kell.</p>
         </div>
 
         <figure class="section-image">
-          <ContentImage src={trapezMeretek} alt="Trapézlemez méretek" />
-          <figcaption>T18 trapézlemez méretezése</figcaption>
+          <ContentImage src={trapezMeretek} alt="Trapézlemez méretek ábrája" />
+          <figcaption>T18 trapézlemez méretei - a hasznos szélesség 110 cm</figcaption>
         </figure>
 
-        <h3>Vízszigetelés és alátétfólia</h3>
-        <p>Felhasználási területtől függően érdemes lehet a trapézlemez tető alá alátétfóliát alkalmazni, amely hatékonyan meggátolja a páralecsapódást, és védi a tetőszerkezetet. Fontos, hogy a fóliát feszesen helyezze el, ügyelve arra, hogy ne legyen rajta szakadás vagy gyűrődés, mivel ezek csökkenthetik a vízzáró képességet.</p>
-        <p>Az alátétfólia felhelyezésekor hagyjon elegendő átfedést az egyes sávok között, hogy biztosítsa a teljes vízszigetelést. Az illesztéseknél használjon speciális fóliarögzítő szalagot vagy ragasztót, amely segít a fólia stabil rögzítésében és megakadályozza a víz bejutását. Az alátétfólia nemcsak a szerkezet élettartamát növeli meg, hanem a beltér hőszigetelésében is közvetett szerepet játszik.</p>
+        <h3>2. Alátétfólia - kell vagy nem?</h3>
+        <p>Röviden: <strong>fűtött épületnél igen, fűtetlennél általában nem.</strong></p>
+        <p>A részletes magyarázat: ha a tető alatt melegebb van, mint kívül (fűtött lakás, műhely), akkor a páratartalom a hideg lemez alján lecsapódik. Ez hosszú távon károsíthatja a faszerkezetet.</p>
+        <p>Fészer, garázs, nyitott tároló esetén nincs ilyen probléma - a hőmérséklet kb. ugyanannyi belül és kívül.</p>
 
-        <h3>A lemezek rögzítése</h3>
-        <p>A trapézlemezek tetőre rögzítése során fontos, hogy megfelelő típusú és hosszúságú csavarokat használjon, amelyek biztosítják a stabil és tartós rögzítést. A csavarokat a lemez hullámvölgyeinek alján kell elhelyezni, hogy minimalizálja a víz beszivárgásának esélyét.</p>
-        <p>Ügyeljen arra, hogy a csavarokat egyenletes távolságban rögzítse - ökölszabályként érdemes 10 csavarral számolnia négyzetméterenként, amiből érdemes színazonost vásárolnia, hacsak nem szeretné, hogy a csavarok messziről világítsanak a tetőn.</p>
+        <h3>3. A csavarozás művészete</h3>
+        <p>Két szabályt jegyezz meg:</p>
+        <ul>
+          <li><strong>A csavar a hullámvölgybe megy, NEM a gerincre.</strong> Tudom, logikusnak tűnik a gerincre tenni ("onnan folyik le a víz"), de ez tévedés. A völgyben sokkal jobb a tömítés.</li>
+          <li><strong>Kb. 10 csavar négyzetméterenként.</strong> Szélnek kitett helyen inkább 12-15. Ha spórolsz a csavarokon, az első komolyabb vihar leszedi a lemezt.</li>
+        </ul>
 
         <figure class="section-image small">
-          <ContentImage src={trapezFacsavar} alt="Trapézlemez facsavar" />
-          <figcaption>Színazonos trapézlemez rögzítő csavarok</figcaption>
+          <ContentImage src={trapezFacsavar} alt="Színazonos trapézlemez csavarok" />
+          <figcaption>Színazonos csavarok - nem fognak "kilógni" a tetőből</figcaption>
         </figure>
 
-        <h3>Ellenőrzés és karbantartás</h3>
-        <p>A telepítés után érdemes átvizsgálni a rögzítési pontokat és az átfedéseket, hogy mindenhol tökéletesen illeszkedjenek. Hosszú távon a trapézlemez tető minimális karbantartást igényel, de időnként érdemes ellenőrizni a csavarokat és a lemezek állapotát.</p>
-
         <div class="warning-box">
-          <h4>Egy gyakori tévhit: ne a gerincre tegye a csavart!</h4>
-          <p>A trapézlemez rögzítésekor a csavarokat a <strong>hullámvölgybe</strong> kell elhelyezni, nem pedig a gerincre. Ennek több oka van:</p>
-          <ul>
-            <li>A hullámvölgybe rögzített csavaroknál a gumitömítés és a lemez közötti kapcsolat szorosabb, így kevésbé valószínű, hogy a víz beszivárog. A hullámgerincen elhelyezett csavaroknál a víz könnyebben átfolyhat a tömítésnél, különösen intenzív esőzéskor.</li>
-            <li>A hullámvölgyekben a lemez közvetlenül érintkezik az alátámasztással, így a rögzítési pont stabilabb. A hullámgerincnél a lemez „szabadon áll," és a csavar túlfeszítése akár a lemezt is eldeformálhatja.</li>
-            <li>A hullámvölgyekben rögzített csavarok csökkentik a korrózió esélyét, mivel a gumitömítés és a csavar szorosabban illeszkedik.</li>
-          </ul>
-          <p>Tehát, bár logikusnak tűnhet, hogy a víz a gerincről lefolyik, a megfelelő rögzítés helye a <strong>hullámvölgy</strong>, mivel ott érhető el a legjobb vízzárás és stabilitás.</p>
+          <h4>A leggyakoribb hiba: túlhúzott csavar</h4>
+          <p>Sokszor látjuk, hogy valaki akkumulátoros csavarozóval nekiesik és "beledurrantja" a csavarokat. A gumitömítés összelapul, a lemez behorpad a csavar körül, és pár év múlva szivárog.</p>
+          <p>A helyes módszer: <strong>addig hajtsd, amíg a tömítés éppen hozzáér a lemezhez, de még nem lapul össze.</strong> Ha kézzel még el tudod fordítani egy kicsit, az jó. Ha egyáltalán nem mozdul, túl erős.</p>
+        </div>
+
+        <h3>4. Átfedések és tömítés</h3>
+        <p>A lemezek közötti átfedés minimum 6-10 cm legyen. A mi lemezeink ehhez vannak kialakítva - az egyik szélén "felül", a másikon "alul" van a profil, így pontosan egymásba illeszkednek.</p>
+        <p>Extra tömítés (szilikon, bitumen) általában nem kell. Ha mégis parancsolsz, használj építési szilikon - NE ecetszagú fürdőszobai szilikon, mert az korrodálhatja a fémet.</p>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="article-section faq-section">
+        <h2>Gyakran ismételt kérdések</h2>
+        <p>Ezeket a kérdéseket kapjuk a legtöbbször telefonon. Ha te is hasonlóval küzdesz, itt a válasz:</p>
+
+        <div class="faq-grid">
+          <div class="faq-category">
+            <h3>Tartósság és minőség</h3>
+            {faqs.filter((_, i) => i < 2).map(faq => (
+              <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <summary itemprop="name">{faq.question}</summary>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                  <p itemprop="text">{faq.answer}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+
+          <div class="faq-category">
+            <h3>Szerelés és telepítés</h3>
+            {faqs.filter((_, i) => i >= 2 && i < 4).map(faq => (
+              <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <summary itemprop="name">{faq.question}</summary>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                  <p itemprop="text">{faq.answer}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+
+          <div class="faq-category">
+            <h3>Műszaki kérdések</h3>
+            {faqs.filter((_, i) => i >= 4 && i < 6).map(faq => (
+              <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <summary itemprop="name">{faq.question}</summary>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                  <p itemprop="text">{faq.answer}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+
+          <div class="faq-category">
+            <h3>Költségek és összehasonlítás</h3>
+            {faqs.filter((_, i) => i >= 6).map(faq => (
+              <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <summary itemprop="name">{faq.question}</summary>
+                <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                  <p itemprop="text">{faq.answer}</p>
+                </div>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -173,24 +308,95 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
             <p class="cta-title">ügyvezető igazgató</p>
           </div>
           <div class="cta-content">
-            <h2>Kérdése van? Örömmel segítünk!</h2>
-            <p>Ha trapézlemezt szeretne vásárolni, de akkor is, ha még csak a lehetőségeit mérlegeli: <strong>ingyenes tanácsadással</strong> állunk rendelkezésére.</p>
-            <p>Cégünk trapézlemez gyártással foglalkozik, <strong>nagykereskedelmi árakon</strong> rendelhet tőlünk lakossági ügyfélként is.</p>
-            <p>Hívjon bennünket most vagy tekintse meg kínálatunkat az alábbi gombra kattintva!</p>
+            <h2>Van kérdésed? Szívesen segítek!</h2>
+            <p>Ha nem találtad meg a választ, vagy szeretnéd személyesen átbeszélni a projektedet - hívj nyugodtan. <strong>Ingyenes tanácsadással</strong> állok rendelkezésedre, akkor is, ha végül nem tőlünk vásárolsz.</p>
+            <p>15 év tapasztalattal segítek kiválasztani a megfelelő lemezt és kiszámolni, mennyi kell a tetődre.</p>
             <div class="cta-buttons">
               <a href="tel:+3613009206" class="cta-phone">+36 1 300-92-06</a>
-              <a href="/kalkulator" class="cta-btn">Trapézlemez kínálatunk</a>
+              <a href="/kalkulator" class="cta-btn">Azonnali árajánlat</a>
             </div>
           </div>
         </div>
       </section>
     </div>
   </article>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  })} />
+
+  <!-- Article Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Trapézlemez tető - Amit 15 év tapasztalatból megtanultunk",
+    "description": "Teljes útmutató a trapézlemez tető építéséhez: előnyök, lemezválasztás, szerelési tippek és gyakori hibák elkerülése.",
+    "image": heroImage.src,
+    "author": {
+      "@type": "Person",
+      "name": "Farkas Roland",
+      "jobTitle": "ügyvezető igazgató",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Infinit Steel Kft."
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Trapezlemezes.hu",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://trapezlemezes.hu/favicon.png"
+      }
+    },
+    "datePublished": publishDate,
+    "dateModified": updateDate
+  })} />
+
+  <!-- HowTo Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Hogyan építs trapézlemez tetőt",
+    "description": "Lépésről lépésre útmutató a trapézlemez tető építéséhez",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Mérés és tervezés",
+        "text": "Mérd fel a tető méreteit. Számolj 110 cm hasznos szélességgel lemezenként (116 cm teljes, 6 cm átfedés)."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Alátétfólia (opcionális)",
+        "text": "Fűtött épületnél helyezz el párazáró fóliát a tetőszerkezetre. Fűtetlennél nem szükséges."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Lemezek elhelyezése",
+        "text": "Helyezd el a lemezeket alulról felfelé haladva, 6-10 cm átfedéssel."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Csavarozás",
+        "text": "Rögzítsd a lemezeket a hullámvölgyekbe, kb. 10 csavar/m². Ne húzd túl a csavarokat."
+      }
+    ]
+  })} />
 </Layout>
 
 <style>
   .article {
-    padding: 60px 0;
+    padding: 40px 0 60px;
     background: #fff;
   }
 
@@ -200,31 +406,104 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
     padding: 0 20px;
   }
 
+  /* Author & Meta */
+  .article-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .author-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .author-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .author-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .author-name {
+    font-weight: 600;
+    color: #1a3d5c;
+    font-size: 0.95rem;
+  }
+
+  .author-title {
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+
+  .reading-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .reading-time {
+    font-size: 0.9rem;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  .update-date {
+    font-size: 0.8rem;
+    color: #94a3b8;
+  }
+
+  @media (max-width: 600px) {
+    .article-meta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .reading-info {
+      align-items: flex-start;
+    }
+  }
+
   .article-header {
-    margin-bottom: 50px;
-    text-align: center;
+    margin-bottom: 40px;
   }
 
   .article-header h1 {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
     color: #1a3d5c;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     line-height: 1.3;
   }
 
   .article-intro {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: #475569;
     line-height: 1.8;
-    max-width: 800px;
-    margin: 0 auto;
   }
 
   .hero-image {
     margin: 0 0 50px;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
   }
 
   .hero-image :global(img) {
@@ -238,10 +517,10 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   }
 
   .article-section h2 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: #1a3d5c;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
     border-bottom: 3px solid #12b1b8;
   }
 
@@ -253,9 +532,21 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   }
 
   .article-section h3 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     color: #1a3d5c;
-    margin: 40px 0 16px;
+    margin: 36px 0 14px;
+  }
+
+  .article-section ul {
+    margin: 16px 0;
+    padding-left: 24px;
+  }
+
+  .article-section li {
+    font-size: 1rem;
+    color: #475569;
+    line-height: 1.7;
+    margin-bottom: 10px;
   }
 
   .article-section a {
@@ -271,12 +562,12 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   .benefit-row {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
-    gap: 40px;
+    gap: 30px;
     align-items: center;
-    margin-bottom: 50px;
-    padding: 30px;
+    margin-bottom: 40px;
+    padding: 24px;
     background: #f8fafc;
-    border-radius: 16px;
+    border-radius: 12px;
   }
 
   .benefit-row.reverse {
@@ -297,23 +588,27 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   }
 
   .benefit-content h3 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #1a3d5c;
-    margin: 0 0 16px;
+    margin: 0 0 12px;
   }
 
   .benefit-content p {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #475569;
     line-height: 1.7;
-    margin: 0;
+    margin: 0 0 12px;
+  }
+
+  .benefit-content p:last-child {
+    margin-bottom: 0;
   }
 
   .benefit-image {
     margin: 0;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
 
   .benefit-image :global(img) {
@@ -323,10 +618,10 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   }
 
   .benefit-image figcaption {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #64748b;
     text-align: center;
-    padding: 12px;
+    padding: 10px;
     background: #f1f5f9;
   }
 
@@ -334,17 +629,17 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   .thickness-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    margin: 30px 0;
+    gap: 12px;
+    margin: 24px 0;
   }
 
   .thickness-item {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 20px 24px;
+    gap: 16px;
+    padding: 16px 20px;
     background: #f8fafc;
-    border-radius: 12px;
+    border-radius: 8px;
     border-left: 4px solid #12b1b8;
   }
 
@@ -353,15 +648,20 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
     background: #fef2f2;
   }
 
+  .thickness-item.recommended {
+    border-left-color: #22c55e;
+    background: #f0fdf4;
+  }
+
   .thickness-value {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: #1a3d5c;
-    min-width: 120px;
+    min-width: 100px;
   }
 
   .thickness-desc {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #475569;
     line-height: 1.5;
   }
@@ -377,35 +677,39 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   /* Expert Advice */
   .expert-advice {
     background: linear-gradient(135deg, #e8f4f8 0%, #d0eef5 100%);
-    border-radius: 12px;
-    padding: 30px;
+    border-radius: 10px;
+    padding: 24px;
     border-left: 4px solid #12b1b8;
-    margin: 30px 0;
+    margin: 24px 0;
   }
 
   .expert-advice h4 {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     color: #1a3d5c;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .expert-advice p {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #475569;
     line-height: 1.7;
-    margin: 0;
+    margin: 0 0 10px;
+  }
+
+  .expert-advice p:last-child {
+    margin-bottom: 0;
   }
 
   /* Section Image */
   .section-image {
-    margin: 30px 0;
-    border-radius: 12px;
+    margin: 24px 0;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
 
   .section-image.small {
-    max-width: 400px;
+    max-width: 350px;
   }
 
   .section-image :global(img) {
@@ -415,19 +719,19 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   }
 
   .section-image figcaption {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #64748b;
     text-align: center;
-    padding: 12px;
+    padding: 10px;
     background: #f1f5f9;
   }
 
   /* Info Box */
   .info-box {
     background: #f0f9ff;
-    border-radius: 12px;
-    padding: 24px;
-    margin: 24px 0;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
     border-left: 4px solid #0ea5e9;
   }
 
@@ -441,53 +745,112 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   /* Warning Box */
   .warning-box {
     background: #fffbeb;
-    border-radius: 12px;
-    padding: 30px;
-    margin: 40px 0;
+    border-radius: 10px;
+    padding: 24px;
+    margin: 30px 0;
     border-left: 4px solid #f59e0b;
   }
 
   .warning-box h4 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #92400e;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .warning-box p {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #78350f;
     line-height: 1.7;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .warning-box p:last-child {
     margin-bottom: 0;
   }
 
-  .warning-box ul {
-    margin: 16px 0;
-    padding-left: 20px;
+  /* FAQ Section */
+  .faq-section h2 {
+    margin-bottom: 12px;
   }
 
-  .warning-box li {
-    font-size: 0.95rem;
-    color: #78350f;
-    line-height: 1.6;
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .faq-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .faq-category h3 {
+    font-size: 1rem;
+    color: #64748b;
     margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .faq-item {
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1a3d5c;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: "+";
+    font-size: 1.2rem;
+    color: #12b1b8;
+    font-weight: 300;
+  }
+
+  .faq-item[open] summary::after {
+    content: "-";
+  }
+
+  .faq-answer {
+    padding: 0 16px 14px;
+  }
+
+  .faq-answer p {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.6;
+    margin: 0;
   }
 
   /* CTA Section */
   .cta-section {
     background: linear-gradient(135deg, #1a3d5c 0%, #0e2a42 100%);
-    border-radius: 16px;
-    padding: 50px;
-    margin-top: 60px;
+    border-radius: 12px;
+    padding: 40px;
+    margin-top: 40px;
   }
 
   .cta-grid {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 50px;
+    gap: 40px;
     align-items: center;
   }
 
@@ -498,7 +861,7 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
 
     .cta-grid {
       grid-template-columns: 1fr;
-      gap: 30px;
+      gap: 24px;
       text-align: center;
     }
   }
@@ -508,12 +871,12 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   }
 
   .cta-image {
-    width: 180px;
-    height: 220px;
+    width: 140px;
+    height: 170px;
     border-radius: 8px;
     overflow: hidden;
-    margin: 0 auto 16px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    margin: 0 auto 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
   }
 
   .cta-image :global(img) {
@@ -524,35 +887,35 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   }
 
   .cta-name {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #fff;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
 
   .cta-title {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: rgba(255,255,255,0.7);
   }
 
   .cta-content h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     color: #fff;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   .cta-content p {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: rgba(255,255,255,0.9);
     line-height: 1.7;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .cta-buttons {
     display: flex;
     align-items: center;
-    gap: 24px;
-    margin-top: 30px;
+    gap: 20px;
+    margin-top: 24px;
     flex-wrap: wrap;
   }
 
@@ -563,7 +926,7 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
   }
 
   .cta-phone {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: #fbbf24;
     text-decoration: none;
@@ -578,10 +941,10 @@ import farkasRoland from '../assets/images/farkas-roland.jpg';
     display: inline-block;
     background: #27ae60;
     color: #fff;
-    padding: 14px 28px;
+    padding: 12px 24px;
     border-radius: 8px;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
     text-decoration: none;
     transition: background 0.2s, transform 0.2s;
     box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);

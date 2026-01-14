@@ -1,0 +1,50 @@
+# Redirects for old WordPress URLs to new Astro site
+# Format: /old-path /new-path status-code
+
+# Calculator related
+/online-kalkulator /kalkulator  301
+/megrendeles /kalkulator  301
+/beviteli-urlap /kalkulator  301
+
+# Quote result page
+/kalkulacio-eredmeny /ajanlat  301
+
+# Thank you pages
+/koszonjuk-megkaptuk-a-rendeleset /koszonjuk  301
+
+# Main page redirects
+/home /  301
+/blog /  301
+/kapcsolat /  301
+/feed/ /  301
+
+# Author and admin pages
+/author/admin/ /  301
+
+# Old blog posts
+/2023/05/01/trapezlemez-ar/ /trapezlemez-arak  301
+/2023/05/19/t18-trapezlemez/ /  301
+/2023/05/16/trapezlemez-kerites/ /  301
+/2023/05/21/olcso-trapezlemez /  301
+
+# Tag pages
+/tag/trapezlemez-ar /trapezlemez-arak  301
+/tag/trapezlemez-teto /trapezlemez-teto  301
+/tag/t18-trapezlemez/ /  301
+/tag/olcso-trapezlemez-altalanos-jellemzoi /  301
+/tag/trapezlemez-kerites /  301
+/tag/* /  301
+
+# Category pages
+/category/cikk/feed/ /  301
+/category/egyeb/ /  301
+/category/* /  301
+
+# Element category (Elementor)
+/element_category/sections/ /  301
+/element_category/* /  301
+
+# Block old WordPress admin/content paths (return 410 Gone)
+/wp-admin/* /  410
+/wp-content/* /  410
+/wp-includes/* /  410
