@@ -52,7 +52,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Send email
     const emailSent = await sendEmail({
       to: email,
-      subject: `Trapézlemez árajánlat - ${quote_id}`,
+      subject: 'A trapézlemez árajánlata elkészült',
       html,
       replyTo: 'info@trapezlemezes.hu',
     });

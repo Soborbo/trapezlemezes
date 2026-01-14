@@ -140,7 +140,7 @@ export async function sendQuoteConfirmation(
 
   return sendEmail({
     to: data.email,
-    subject: `Trapézlemez árajánlat - ${data.quote_id}`,
+    subject: 'A trapézlemez árajánlata elkészült',
     html,
     replyTo: 'hello@trapezlemezes.hu',
   });
