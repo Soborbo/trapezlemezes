@@ -17,12 +17,6 @@
 /category/* /  301
 /tag/* /  301
 
-# Trailing slash normalization (redirect to non-trailing)
-/trapezlemez-arak/ /trapezlemez-arak  301
-/trapezlemez-teto/ /trapezlemez-teto  301
-/kalkulator/ /kalkulator  301
-/adatkezelesi-tajekoztato/ /adatkezelesi-tajekoztato  301
-
 # Block old WordPress admin/content paths (return 410 Gone)
 /wp-admin/* /  410
 /wp-content/* /  410
