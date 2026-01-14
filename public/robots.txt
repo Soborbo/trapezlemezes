@@ -13,5 +13,12 @@ Disallow: /api/
 # Block utility pages
 Disallow: /404
 
+# Block old WordPress paths (site migrated to Astro)
+Disallow: /wp-admin/
+Disallow: /wp-content/
+Disallow: /wp-includes/
+Disallow: /category/
+Disallow: /tag/
+
 # Crawl-delay for polite crawling
 Crawl-delay: 1

@@ -1,0 +1,29 @@
+# Redirects for old WordPress URLs to new Astro site
+# Format: /old-path /new-path status-code
+
+# Main page redirects
+/home /  301
+/blog/ /  301
+/megrendeles/ /kalkulator  301
+/araink /kalkulator  301
+/kapcsolat/ /  301
+
+# Old blog posts to new articles
+/2023/05/01/trapezlemez-ar/ /trapezlemez-arak  301
+/trapezlemez-ar /trapezlemez-arak  301
+/famintas-olcso-trapezlemez /  301
+
+# Category and tag pages (no longer exist)
+/category/* /  301
+/tag/* /  301
+
+# Trailing slash normalization (redirect to non-trailing)
+/trapezlemez-arak/ /trapezlemez-arak  301
+/trapezlemez-teto/ /trapezlemez-teto  301
+/kalkulator/ /kalkulator  301
+/adatkezelesi-tajekoztato/ /adatkezelesi-tajekoztato  301
+
+# Block old WordPress admin/content paths (return 410 Gone)
+/wp-admin/* /  410
+/wp-content/* /  410
+/wp-includes/* /  410
