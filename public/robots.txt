@@ -1,0 +1,17 @@
+# robots.txt for trapezlemezes.hu
+# Trapézlemez árak, kalkulátor és árajánlatkérés
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://trapezlemezes.hu/sitemap-index.xml
+
+# Block API endpoints (not useful for crawlers)
+Disallow: /api/
+
+# Block utility pages
+Disallow: /404
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
