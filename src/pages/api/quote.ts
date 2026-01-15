@@ -314,6 +314,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         success: true,
         quoteId: validatedData.quote_id,
         quoteUrl,
+        totalPrice: calculatedData.totalPrice,
       }),
       {
         status: 200,

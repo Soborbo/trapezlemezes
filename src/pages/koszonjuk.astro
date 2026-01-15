@@ -215,9 +215,10 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <script>
-  // Get quote ID from URL
+  // Get quote ID and value from URL
   const params = new URLSearchParams(window.location.search);
   const quoteId = params.get('quote');
+  const quoteValue = parseFloat(params.get('value') || '0');
 
   if (quoteId) {
     const quoteIdEl = document.getElementById('quote-id');
@@ -237,7 +238,9 @@ import Layout from '../layouts/Layout.astro';
     window.dataLayer.push({
       event: 'quote_request',
       conversion_type: 'calculator_submission',
-      quote_id: quoteId || undefined
+      quote_id: quoteId || undefined,
+      value: quoteValue || undefined,
+      currency: 'HUF'
     });
   }
 </script>
