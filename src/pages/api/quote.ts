@@ -120,6 +120,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
       screwBoxes: 0,
       screwPrice: 0,
       gclid: (data.gclid as string) || '',
+      utm_source: (data.utm_source as string) || '',
+      utm_medium: (data.utm_medium as string) || '',
+      utm_campaign: (data.utm_campaign as string) || '',
+      utm_term: (data.utm_term as string) || '',
+      utm_content: (data.utm_content as string) || '',
     };
 
     // Parse sizes from form data
@@ -228,6 +233,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
         screwBoxes: quote.screws?.boxes || 0,
         screwPrice: quote.screws?.price || 0,
         gclid: (data.gclid as string) || '',
+        utm_source: (data.utm_source as string) || '',
+        utm_medium: (data.utm_medium as string) || '',
+        utm_campaign: (data.utm_campaign as string) || '',
+        utm_term: (data.utm_term as string) || '',
+        utm_content: (data.utm_content as string) || '',
       };
     }
 

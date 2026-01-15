@@ -122,7 +122,7 @@ async function getAccessToken(): Promise<string | null> {
 
 /**
  * Append a row to the Google Sheet
- * Columns (A-V): Dátum | Telefonszám | Email | Vezetéknév | Keresztnév | Cégnév | Város | Irányítószám | Utca házszám | Tételek | Szín | Négyzetméter | Szállítás | Csavar mennyiség | Csavar ára | Kishibás | Netes rendelés | Végösszeg | Ajánlat ID | Megjegyzés | GCLID | Forrás oldal
+ * Columns (A-AA): Dátum | Telefonszám | Email | Vezetéknév | Keresztnév | Cégnév | Város | Irányítószám | Utca házszám | Tételek | Szín | Négyzetméter | Szállítás | Csavar mennyiség | Csavar ára | Kishibás | Netes rendelés | Végösszeg | Ajánlat ID | Megjegyzés | GCLID | Forrás oldal | UTM Source | UTM Medium | UTM Campaign | UTM Term | UTM Content
  */
 export async function appendToSheet(
   data: CalculatorFormData,
@@ -135,6 +135,11 @@ export async function appendToSheet(
     screwBoxes?: number;
     screwPrice?: number;
     gclid?: string;
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    utm_term?: string;
+    utm_content?: string;
   }
 ): Promise<boolean> {
   console.log('appendToSheet called for:', data.email);
@@ -186,9 +191,14 @@ export async function appendToSheet(
       '',                                         // T: Megjegyzés
       calculatedData.gclid || '',                 // U: GCLID
       data.source_page || '',                     // V: Forrás oldal
+      calculatedData.utm_source || '',            // W: UTM Source
+      calculatedData.utm_medium || '',            // X: UTM Medium
+      calculatedData.utm_campaign || '',          // Y: UTM Campaign
+      calculatedData.utm_term || '',              // Z: UTM Term
+      calculatedData.utm_content || '',           // AA: UTM Content
     ];
 
-    const range = encodeURIComponent('Trapez mind!A:V');
+    const range = encodeURIComponent('Trapez mind!A:AA');
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
 
     const response = await fetch(url, {
@@ -240,6 +250,11 @@ export async function appendToHighValueSheet(
     screwBoxes?: number;
     screwPrice?: number;
     gclid?: string;
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    utm_term?: string;
+    utm_content?: string;
   }
 ): Promise<boolean> {
   const THRESHOLD = 340000;
@@ -291,9 +306,14 @@ export async function appendToHighValueSheet(
       '',
       calculatedData.gclid || '',
       data.source_page || '',
+      calculatedData.utm_source || '',
+      calculatedData.utm_medium || '',
+      calculatedData.utm_campaign || '',
+      calculatedData.utm_term || '',
+      calculatedData.utm_content || '',
     ];
 
-    const range = encodeURIComponent('Trapez 350000+!A:V');
+    const range = encodeURIComponent('Trapez 350000+!A:AA');
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
 
     const response = await fetch(url, {
@@ -349,6 +369,11 @@ export async function appendToCallbackSheet(
     screwBoxes?: number;
     screwPrice?: number;
     gclid?: string;
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    utm_term?: string;
+    utm_content?: string;
   }
 ): Promise<boolean> {
   console.log('appendToCallbackSheet called for:', data.email);
@@ -395,9 +420,14 @@ export async function appendToCallbackSheet(
       'Visszahívást kért',
       calculatedData.gclid || '',
       data.source_page || 'ajanlat',
+      calculatedData.utm_source || '',
+      calculatedData.utm_medium || '',
+      calculatedData.utm_campaign || '',
+      calculatedData.utm_term || '',
+      calculatedData.utm_content || '',
     ];
 
-    const range = encodeURIComponent('Trapez visszahivast kert!A:V');
+    const range = encodeURIComponent('Trapez visszahivast kert!A:AA');
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
 
     const response = await fetch(url, {
