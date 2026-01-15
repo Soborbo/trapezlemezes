@@ -10,6 +10,7 @@ import { sendEmail } from '../../lib/email';
 import { setRuntimeEnv } from '../../lib/env';
 import QuoteConfirmationTemplate from '../../emails/quote-confirmation';
 import { validateCsrfFromRequest } from '../../lib/csrf';
+import { SITE_CONFIG } from '../../config/site';
 
 export const prerender = false;
 
@@ -78,7 +79,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       to: email,
       subject: 'A trapézlemez árajánlata elkészült',
       html,
-      replyTo: 'info@trapezlemezes.hu',
+      replyTo: SITE_CONFIG.email,
     });
 
     console.log('User notification sent:', {

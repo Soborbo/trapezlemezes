@@ -768,11 +768,8 @@ if (quoteHash) {
 
   displayQuote();
 
-  // Callback modal
+  // Callback button
   const callbackBtn = document.getElementById('callback-btn');
-  const callbackModal = document.getElementById('callback-modal');
-  const modalClose = document.getElementById('modal-close');
-  const callbackForm = document.getElementById('callback-form') as HTMLFormElement;
 
   // Pre-fill callback form with stored data
   if (quoteData.first_name && quoteData.last_name) {

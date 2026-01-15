@@ -8,6 +8,7 @@
 import type { APIRoute } from 'astro';
 import { sendEmail } from '../../lib/email';
 import { setRuntimeEnv, getEnv } from '../../lib/env';
+import { SITE_CONFIG } from '../../config/site';
 import CallbackRequestTemplate from '../../emails/callback-request';
 import { validateCsrfFromRequest } from '../../lib/csrf';
 import { appendToCallbackSheet } from '../../lib/sheets';
@@ -92,7 +93,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
 
     // Send email to admin
-    const adminEmail = getEnv('ADMIN_EMAIL') || 'info@trapezlemezes.hu';
+    const adminEmail = getEnv('ADMIN_EMAIL') || SITE_CONFIG.email;
 
     // Send email and save to sheets in parallel
     const [emailSent, sheetsSaved] = await Promise.all([

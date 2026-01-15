@@ -11,6 +11,7 @@ export const SITE_CONFIG = {
   phoneRaw: '+3613009206',
   email: 'info@trapezlemezes.hu',
   emailAjanlat: 'ajanlat@trapezlemezes.hu',
+  emailHello: 'hello@trapezlemezes.hu',
 
   // Address
   address: {

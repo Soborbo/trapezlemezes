@@ -7,6 +7,7 @@
 
 import type { CalculatorFormData } from './validation';
 import { getEnv } from './env';
+import { SITE_CONFIG } from '../config/site';
 
 interface EmailOptions {
   to: string;
@@ -38,7 +39,7 @@ async function sendViaBrevo(options: EmailOptions): Promise<boolean> {
       body: JSON.stringify({
         sender: {
           name: 'Trapezlemezes.hu',
-          email: options.from?.match(/<(.+)>/)?.[1] || options.from || 'ajanlat@trapezlemezes.hu',
+          email: options.from?.match(/<(.+)>/)?.[1] || options.from || SITE_CONFIG.emailAjanlat,
         },
         to: [{ email: options.to }],
         subject: options.subject,
@@ -82,7 +83,7 @@ async function sendViaResend(options: EmailOptions): Promise<boolean> {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: options.from || 'Trapezlemezes.hu <ajanlat@trapezlemezes.hu>',
+        from: options.from || `${SITE_CONFIG.company.name} <${SITE_CONFIG.emailAjanlat}>`,
         to: options.to,
         subject: options.subject,
         html: options.html,
@@ -142,7 +143,7 @@ export async function sendQuoteConfirmation(
     to: data.email,
     subject: 'A trapézlemez árajánlata elkészült',
     html,
-    replyTo: 'hello@trapezlemezes.hu',
+    replyTo: SITE_CONFIG.emailHello,
   });
 }
 
@@ -179,7 +180,7 @@ export async function sendAdminNotification(
     sizesFormatted: calculatedData.sizesFormatted,
   });
 
-  const adminEmail = getEnv('ADMIN_EMAIL') || 'info@trapezlemezes.hu';
+  const adminEmail = getEnv('ADMIN_EMAIL') || SITE_CONFIG.email;
 
   return sendEmail({
     to: adminEmail,
