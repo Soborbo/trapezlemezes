@@ -26,23 +26,36 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const formData = await request.formData();
 
-    const firstName = formData.get('first_name') as string;
-    const lastName = formData.get('last_name') as string;
-    const phone = formData.get('phone') as string;
-    const email = formData.get('email') as string;
-    const company = formData.get('company') as string;
-    const postcode = formData.get('postcode') as string;
-    const city = formData.get('city') as string;
-    const street = formData.get('street') as string;
-    const quoteId = formData.get('quote_id') as string;
-    const quoteUrl = formData.get('quote_url') as string;
-    const totalPrice = parseFloat(formData.get('total_price') as string) || 0;
-    const color = formData.get('color') as string;
-    const shipping = formData.get('shipping') as string;
-    const screws = formData.get('screws') as string;
-    const secondhand = formData.get('secondhand') as string;
-    const sizesFormatted = formData.get('sizes_formatted') as string;
-    const totalSqm = parseFloat(formData.get('total_sqm') as string) || 0;
+    // Helper to safely get string from FormData
+    const getString = (key: string): string => {
+      const value = formData.get(key);
+      return typeof value === 'string' ? value.trim() : '';
+    };
+
+    // Helper to safely get number from FormData
+    const getNumber = (key: string): number => {
+      const value = getString(key);
+      const num = parseFloat(value);
+      return isNaN(num) ? 0 : num;
+    };
+
+    const firstName = getString('first_name');
+    const lastName = getString('last_name');
+    const phone = getString('phone');
+    const email = getString('email');
+    const company = getString('company');
+    const postcode = getString('postcode');
+    const city = getString('city');
+    const street = getString('street');
+    const quoteId = getString('quote_id');
+    const quoteUrl = getString('quote_url');
+    const totalPrice = getNumber('total_price');
+    const color = getString('color');
+    const shipping = getString('shipping');
+    const screws = getString('screws');
+    const secondhand = getString('secondhand');
+    const sizesFormatted = getString('sizes_formatted');
+    const totalSqm = getNumber('total_sqm');
 
     // Validate required fields
     if (!firstName || !lastName || !phone || !email) {

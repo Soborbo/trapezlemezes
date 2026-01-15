@@ -40,7 +40,12 @@ export const SITE_CONFIG = {
   },
 } as const;
 
-// Environment variable validation
+// Re-export getEnv for backwards compatibility
+// Note: For runtime env access in Cloudflare, use getEnv from '../lib/env'
+import { getEnv } from '../lib/env';
+export { getEnv as getEnvVar };
+
+// Environment variable validation (use only at build time or after setRuntimeEnv)
 export function validateEnvVars(): { valid: boolean; missing: string[] } {
   const required = ['QUOTE_HASH_SECRET'];
   // Optional env vars: BREVO_API_KEY, RESEND_API_KEY, GOOGLE_SHEETS_CLIENT_EMAIL, GOOGLE_SHEETS_PRIVATE_KEY, GOOGLE_SHEETS_SPREADSHEET_ID, ADMIN_EMAIL
@@ -48,7 +53,7 @@ export function validateEnvVars(): { valid: boolean; missing: string[] } {
   const missing: string[] = [];
 
   for (const key of required) {
-    const value = getEnvVar(key);
+    const value = getEnv(key);
     if (!value) {
       missing.push(key);
     }
@@ -58,18 +63,4 @@ export function validateEnvVars(): { valid: boolean; missing: string[] } {
     valid: missing.length === 0,
     missing,
   };
-}
-
-// Helper to get env vars (works in both Node.js and Cloudflare)
-export function getEnvVar(key: string): string | undefined {
-  // Try import.meta.env first (Astro/Cloudflare)
-  if (typeof import.meta !== 'undefined' && import.meta.env) {
-    const value = (import.meta.env as Record<string, string>)[key];
-    if (value) return value;
-  }
-  // Fall back to process.env (Node.js)
-  if (typeof process !== 'undefined' && process.env) {
-    return process.env[key];
-  }
-  return undefined;
 }

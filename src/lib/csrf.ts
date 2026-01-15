@@ -5,7 +5,7 @@
  * Uses a simple token-based approach suitable for Cloudflare Workers.
  */
 
-import { getEnvVar } from '../config/site';
+import { getEnv } from './env';
 
 // Token expiration time (1 hour)
 const TOKEN_EXPIRY_MS = 60 * 60 * 1000;
@@ -15,7 +15,15 @@ const TOKEN_EXPIRY_MS = 60 * 60 * 1000;
  * Token format: base64(timestamp:hash)
  */
 export function generateCsrfToken(): string {
-  const secret = getEnvVar('CSRF_SECRET') || getEnvVar('QUOTE_HASH_SECRET') || 'default-dev-secret';
+  const secret = getEnv('CSRF_SECRET') || getEnv('QUOTE_HASH_SECRET');
+  if (!secret) {
+    console.warn('CSRF secret not configured, using fallback for dev only');
+    // Only allow fallback in development
+    if (typeof import.meta !== 'undefined' && import.meta.env?.DEV) {
+      return btoa(`${Date.now()}:dev-token`);
+    }
+    throw new Error('CSRF_SECRET or QUOTE_HASH_SECRET must be configured');
+  }
   const timestamp = Date.now().toString();
   const data = `${timestamp}:${secret}`;
 
@@ -46,7 +54,14 @@ export function validateCsrfToken(token: string): boolean {
     }
 
     // Verify hash
-    const secret = getEnvVar('CSRF_SECRET') || getEnvVar('QUOTE_HASH_SECRET') || 'default-dev-secret';
+    const secret = getEnv('CSRF_SECRET') || getEnv('QUOTE_HASH_SECRET');
+    if (!secret) {
+      // In dev mode, accept dev tokens
+      if (typeof import.meta !== 'undefined' && import.meta.env?.DEV) {
+        return hash === 'dev-token';
+      }
+      return false;
+    }
     const expectedHash = simpleHash(`${timestamp}:${secret}`);
 
     return hash === expectedHash;

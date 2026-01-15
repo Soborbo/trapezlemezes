@@ -17,10 +17,29 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const runtimeEnv = (locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
   setRuntimeEnv(runtimeEnv || null);
 
+  // Parse JSON body with error handling
+  let body: Record<string, unknown>;
   try {
-    const body = await request.json();
+    body = await request.json();
+  } catch {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: 'Invalid JSON payload',
+      }),
+      {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+  }
 
-    const { email, quote_id, quote_url, name } = body;
+  try {
+    // Safely extract values with type checking
+    const email = typeof body.email === 'string' ? body.email.trim() : '';
+    const quote_id = typeof body.quote_id === 'string' ? body.quote_id : '';
+    const quote_url = typeof body.quote_url === 'string' ? body.quote_url : '';
+    const name = typeof body.name === 'string' ? body.name : '';
 
     if (!email || !quote_id) {
       return new Response(

@@ -524,7 +524,7 @@ if (quoteHash) {
 </style>
 
 <script>
-  import { formatPrice, calculateQuote, colors, type SizeEntry } from '../calculator';
+  import { formatPrice, calculateQuote, colors, sheetSpecs, type SizeEntry } from '../calculator';
 
   // Declare global type for server-decoded data
   declare global {
@@ -540,12 +540,23 @@ if (quoteHash) {
 
     const toast = document.createElement('div');
     toast.className = 'toast';
-    toast.innerHTML = `
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-      </svg>
-      <span>${message}</span>
-    `;
+
+    // Create SVG icon (safe static content)
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '20');
+    svg.setAttribute('height', '20');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'white');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z');
+    svg.appendChild(path);
+
+    // Create message span (safe - uses textContent, not innerHTML)
+    const span = document.createElement('span');
+    span.textContent = message;
+
+    toast.appendChild(svg);
+    toast.appendChild(span);
     container.appendChild(toast);
 
     // Auto-remove after 4 seconds
@@ -814,7 +825,8 @@ if (quoteHash) {
       // Calculate sizes formatted and sqm for Sheets
       const sizes = quoteData.sizes || [];
       const sizesFormatted = sizes.map(s => `${s.length}cm x ${s.quantity}db`).join('\n');
-      const totalSqm = sizes.reduce((acc, s) => acc + (s.length / 100) * 1.1 * s.quantity, 0);
+      const coverWidthM = sheetSpecs.coverWidth / 100; // Use config value instead of hardcoded 1.1
+      const totalSqm = sizes.reduce((acc, s) => acc + (s.length / 100) * coverWidthM * s.quantity, 0);
       formData.append('sizes_formatted', sizesFormatted);
       formData.append('total_sqm', totalSqm.toFixed(2));
 
