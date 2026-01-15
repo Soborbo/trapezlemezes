@@ -2,7 +2,7 @@
  * CSRF Protection Utilities
  *
  * Provides CSRF token generation and validation for API routes.
- * Uses a simple token-based approach suitable for Cloudflare Workers.
+ * Uses HMAC-SHA256 for secure token generation (Cloudflare Workers compatible).
  */
 
 import { getEnv } from './env';
@@ -11,32 +11,119 @@ import { getEnv } from './env';
 const TOKEN_EXPIRY_MS = 60 * 60 * 1000;
 
 /**
- * Generate a CSRF token
- * Token format: base64(timestamp:hash)
+ * Generate HMAC-SHA256 hash using Web Crypto API
+ * Falls back to simple hash in non-crypto environments (dev only)
  */
-export function generateCsrfToken(): string {
+async function hmacHash(message: string, secret: string): Promise<string> {
+  try {
+    const encoder = new TextEncoder();
+    const keyData = encoder.encode(secret);
+    const messageData = encoder.encode(message);
+
+    const cryptoKey = await crypto.subtle.importKey(
+      'raw',
+      keyData,
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
+    );
+
+    const signature = await crypto.subtle.sign('HMAC', cryptoKey, messageData);
+    const hashArray = Array.from(new Uint8Array(signature));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  } catch {
+    // Fallback for environments without crypto.subtle (should not happen in production)
+    return fallbackHash(message + secret);
+  }
+}
+
+/**
+ * Synchronous fallback hash (djb2) - only used when crypto.subtle unavailable
+ */
+function fallbackHash(str: string): string {
+  let hash = 5381;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) + hash) + str.charCodeAt(i);
+  }
+  return Math.abs(hash).toString(16);
+}
+
+/**
+ * Generate a CSRF token (async version using HMAC)
+ * Token format: base64(timestamp:hmac)
+ */
+export async function generateCsrfTokenAsync(): Promise<string> {
   const secret = getEnv('CSRF_SECRET') || getEnv('QUOTE_HASH_SECRET');
   if (!secret) {
-    console.warn('CSRF secret not configured, using fallback for dev only');
     // Only allow fallback in development
     if (typeof import.meta !== 'undefined' && import.meta.env?.DEV) {
       return btoa(`${Date.now()}:dev-token`);
     }
     throw new Error('CSRF_SECRET or QUOTE_HASH_SECRET must be configured');
   }
+
   const timestamp = Date.now().toString();
-  const data = `${timestamp}:${secret}`;
-
-  // Simple hash using Web Crypto API would be ideal, but for compatibility
-  // we use a simple approach that works in Cloudflare Workers
-  const hash = simpleHash(data);
-
-  const token = btoa(`${timestamp}:${hash}`);
-  return token;
+  const hash = await hmacHash(timestamp, secret);
+  return btoa(`${timestamp}:${hash.slice(0, 32)}`);
 }
 
 /**
- * Validate a CSRF token
+ * Generate a CSRF token (sync version - for backward compatibility)
+ * Uses fallback hash which is less secure but sync
+ */
+export function generateCsrfToken(): string {
+  const secret = getEnv('CSRF_SECRET') || getEnv('QUOTE_HASH_SECRET');
+  if (!secret) {
+    // Only allow fallback in development
+    if (typeof import.meta !== 'undefined' && import.meta.env?.DEV) {
+      return btoa(`${Date.now()}:dev-token`);
+    }
+    throw new Error('CSRF_SECRET or QUOTE_HASH_SECRET must be configured');
+  }
+
+  const timestamp = Date.now().toString();
+  const hash = fallbackHash(timestamp + ':' + secret);
+  return btoa(`${timestamp}:${hash}`);
+}
+
+/**
+ * Validate a CSRF token (async version using HMAC)
+ */
+export async function validateCsrfTokenAsync(token: string): Promise<boolean> {
+  if (!token) return false;
+
+  try {
+    const decoded = atob(token);
+    const [timestamp, hash] = decoded.split(':');
+
+    if (!timestamp || !hash) return false;
+
+    // Check if token is expired
+    const tokenTime = parseInt(timestamp, 10);
+    if (isNaN(tokenTime) || Date.now() - tokenTime > TOKEN_EXPIRY_MS) {
+      return false;
+    }
+
+    // Verify hash
+    const secret = getEnv('CSRF_SECRET') || getEnv('QUOTE_HASH_SECRET');
+    if (!secret) {
+      // In dev mode, accept dev tokens
+      if (typeof import.meta !== 'undefined' && import.meta.env?.DEV) {
+        return hash === 'dev-token';
+      }
+      return false;
+    }
+
+    const expectedHash = await hmacHash(timestamp, secret);
+    // Compare first 32 chars (HMAC tokens) or full hash (fallback tokens)
+    return hash === expectedHash.slice(0, 32) || hash === fallbackHash(timestamp + ':' + secret);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Validate a CSRF token (sync version - backward compatible)
  */
 export function validateCsrfToken(token: string): boolean {
   if (!token) return false;
@@ -62,25 +149,12 @@ export function validateCsrfToken(token: string): boolean {
       }
       return false;
     }
-    const expectedHash = simpleHash(`${timestamp}:${secret}`);
 
+    const expectedHash = fallbackHash(timestamp + ':' + secret);
     return hash === expectedHash;
-  } catch (e) {
+  } catch {
     return false;
   }
-}
-
-/**
- * Simple string hash function (not cryptographic, but sufficient for CSRF)
- */
-function simpleHash(str: string): string {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32bit integer
-  }
-  return Math.abs(hash).toString(36);
 }
 
 /**
@@ -107,9 +181,13 @@ export function validateCsrfFromRequest(request: Request): Response | null {
 
   // If Origin is present and matches host, allow the request
   if (origin) {
-    const originUrl = new URL(origin);
-    if (originUrl.host === host) {
-      return null;
+    try {
+      const originUrl = new URL(origin);
+      if (originUrl.host === host) {
+        return null;
+      }
+    } catch {
+      // Invalid origin URL
     }
   }
 

@@ -10,6 +10,8 @@ import { sendEmail } from '../../lib/email';
 import { setRuntimeEnv, getEnv } from '../../lib/env';
 import AdminNotificationTemplate from '../../emails/admin-notification';
 import type { CalculatorFormData } from '../../lib/validation';
+import { validateCsrfFromRequest } from '../../lib/csrf';
+import { SITE_CONFIG } from '../../config/site';
 
 export const prerender = false;
 
@@ -17,6 +19,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
   // Set runtime env for Cloudflare Pages
   const runtimeEnv = (locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
   setRuntimeEnv(runtimeEnv || null);
+
+  // CSRF validation - protects against cross-site request forgery
+  const csrfError = validateCsrfFromRequest(request);
+  if (csrfError) return csrfError;
 
   // Parse JSON body with error handling
   let body: Record<string, unknown>;
@@ -97,6 +103,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
     };
 
     // Convert quote_data to CalculatorFormData format
+    // Type assertions needed for enum fields since getString returns string
+    const shippingVal = getString('shipping') as '' | 'gazdasagos' | 'expressz' | 'sajat';
+    const screwsVal = getString('screws') as '' | 'fa' | 'fem' | 'vegyes' | 'nem';
+    const secondhandVal = getString('secondhand') as '' | 'yes' | 'no';
+
     const formData: Partial<CalculatorFormData> = {
       quote_id: typeof quote_id === 'string' ? quote_id : '',
       first_name: getString('first_name'),
@@ -108,9 +119,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
       city: getString('city'),
       street: getString('street'),
       color: getString('color'),
-      shipping: getString('shipping'),
-      screws: getString('screws'),
-      secondhand: getString('secondhand'),
+      shipping: shippingVal || undefined,
+      screws: screwsVal || undefined,
+      secondhand: secondhandVal || undefined,
       source_page: 'ajanlat',
     };
 
@@ -133,7 +144,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
 
     // Send email to admin
-    const adminEmail = getEnv('ADMIN_EMAIL') || 'info@trapezlemezes.hu';
+    const adminEmail = getEnv('ADMIN_EMAIL') || SITE_CONFIG.email;
 
     const emailSent = await sendEmail({
       to: adminEmail,

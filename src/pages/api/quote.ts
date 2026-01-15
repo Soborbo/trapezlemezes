@@ -12,27 +12,28 @@ import { setRuntimeEnv } from '../../lib/env';
 import { generateQuoteId, generateQuoteUrl } from '../../lib/quote-hash';
 import { calculateQuote, calculateRoofSheets, calculateFenceSheets, type SizeEntry } from '../../calculator';
 import { validateCsrfFromRequest } from '../../lib/csrf';
+import { logger } from '../../lib/logger';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  console.log('=== QUOTE API CALLED ===');
+  logger.debug('=== QUOTE API CALLED ===');
 
   // Set runtime env for Cloudflare Pages (secrets are in locals.runtime.env)
   const runtime = (locals as { runtime?: { env?: Record<string, string>; ctx?: { waitUntil: (promise: Promise<unknown>) => void } } }).runtime;
   setRuntimeEnv(runtime?.env || null);
-  console.log('Runtime env set, keys:', runtime?.env ? Object.keys(runtime.env).length : 0);
+  logger.debug('Runtime env set, keys:', runtime?.env ? Object.keys(runtime.env).length : 0);
 
   // CSRF validation
   const csrfError = validateCsrfFromRequest(request);
   if (csrfError) {
-    console.log('CSRF validation failed');
+    logger.debug('CSRF validation failed');
     return csrfError;
   }
 
   // Get Cloudflare execution context for background tasks
   const ctx = runtime?.ctx;
-  console.log('ctx available:', !!ctx, 'waitUntil available:', !!ctx?.waitUntil);
+  logger.debug('ctx available:', !!ctx, 'waitUntil available:', !!ctx?.waitUntil);
 
   try {
     // Parse form data
@@ -65,8 +66,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const validation = validateForm(data);
 
     if (!validation.success) {
-      console.log('Validation failed:', validation.errors);
-      console.log('Received data:', JSON.stringify(data, null, 2));
+      logger.debug('Validation failed:', validation.errors);
       return new Response(
         JSON.stringify({
           success: false,
@@ -261,7 +261,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       try {
         const [customerEmailSent, adminEmailSent, sheetsSaved, highValueSheetSaved] = await Promise.all([
           sendQuoteConfirmation(validatedData, quoteUrl, breakdown).catch((e) => {
-            console.error('Customer email error:', e);
+            logger.error('Customer email error:', e);
             return false;
           }),
           sendAdminNotification(validatedData, quoteUrl, {
@@ -271,21 +271,21 @@ export const POST: APIRoute = async ({ request, locals }) => {
             screwPrice: calculatedData.screwPrice,
             sizesFormatted: calculatedData.sizesFormatted,
           }).catch((e) => {
-            console.error('Admin email error:', e);
+            logger.error('Admin email error:', e);
             return false;
           }),
           appendToSheet(validatedData, calculatedData).catch((e) => {
-            console.error('Sheets error:', e);
+            logger.error('Sheets error:', e);
             return false;
           }),
           // Also save to "Trapez 350000+" sheet if high-value quote (>340k)
           appendToHighValueSheet(validatedData, calculatedData).catch((e) => {
-            console.error('High-value sheets error:', e);
+            logger.error('High-value sheets error:', e);
             return false;
           }),
         ]);
 
-        console.log('Quote submission background tasks completed:', {
+        logger.debug('Quote submission background tasks completed:', {
           quoteId: validatedData.quote_id,
           customerEmailSent,
           adminEmailSent,
@@ -293,17 +293,17 @@ export const POST: APIRoute = async ({ request, locals }) => {
           highValueSheetSaved,
         });
       } catch (error) {
-        console.error('Background task error:', error);
+        logger.error('Background task error:', error);
       }
     };
 
     // Use waitUntil for Cloudflare Workers (keeps worker alive after response)
     // Falls back to fire-and-forget if not available
     if (ctx?.waitUntil) {
-      console.log('Using Cloudflare waitUntil for background tasks');
+      logger.debug('Using Cloudflare waitUntil for background tasks');
       ctx.waitUntil(backgroundTask());
     } else {
-      console.log('waitUntil not available, running synchronously');
+      logger.debug('waitUntil not available, running synchronously');
       // Fallback: run synchronously (blocks response but ensures completion)
       await backgroundTask();
     }
@@ -321,7 +321,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       }
     );
   } catch (error) {
-    console.error('Quote submission error:', error);
+    logger.error('Quote submission error:', error);
 
     return new Response(
       JSON.stringify({

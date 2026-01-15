@@ -2675,25 +2675,35 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
       if (radio !== colorRadio) {
         radio.addEventListener('change', () => {
           colorOtherInput.classList.add('hidden');
-          colorStepNav.classList.add('hidden');
         });
       }
     });
   }
 
-  // Show toast notification
+  // Show toast notification - safe DOM manipulation (no innerHTML with dynamic content)
   function showToast(message: string): void {
     const container = document.getElementById('toast-container');
     if (!container) return;
 
     const toast = document.createElement('div');
     toast.className = 'toast';
-    toast.innerHTML = `
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-      </svg>
-      <span>${message}</span>
-    `;
+
+    // Create SVG icon safely
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '20');
+    svg.setAttribute('height', '20');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'white');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z');
+    svg.appendChild(path);
+
+    // Create message span safely using textContent (prevents XSS)
+    const span = document.createElement('span');
+    span.textContent = message;
+
+    toast.appendChild(svg);
+    toast.appendChild(span);
     container.appendChild(toast);
 
     // Auto-remove after 3 seconds
@@ -2718,8 +2728,8 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
 
           // Check radio buttons
           const radioGroups = new Set<string>();
-          currentStepEl.querySelectorAll('input[type="radio"][required]').forEach((radio: HTMLInputElement) => {
-            radioGroups.add(radio.name);
+          currentStepEl.querySelectorAll('input[type="radio"][required]').forEach((radio) => {
+            radioGroups.add((radio as HTMLInputElement).name);
           });
 
           radioGroups.forEach(groupName => {
@@ -3059,20 +3069,28 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     }
 
     // Check roof dimensions - calculate sheets needed, then m²
+    // Matches server-side calculation in calculation.ts
     const roofType = state.answers.roof_type as string;
     for (let i = 1; i <= 4; i++) {
-      const a = parseFloat(state.answers[`roof_${i}_a`] as string) || 0; // szélesség
-      const b = parseFloat(state.answers[`roof_${i}_b`] as string) || 0; // lejtő hossza
-      if (a && b) {
-        // Calculate number of sheets needed for this roof section
-        const sheetsNeeded = Math.ceil((a / 100) / (COVER_WIDTH_CM / 100));
-        // m² = sheets × length × cover width
-        const roofSqm = sheetsNeeded * (b / 100) * (COVER_WIDTH_CM / 100);
-        totalSqm += roofSqm;
+      const a = parseFloat(state.answers[`roof_${i}_a`] as string) || 0; // szélesség (side A)
+      const b = parseFloat(state.answers[`roof_${i}_b`] as string) || 0; // lejtő hossza (slope B)
+      const c = parseFloat(state.answers[`roof_${i}_c`] as string) || 0; // szélesség side C (optional)
+      const d = parseFloat(state.answers[`roof_${i}_d`] as string) || 0; // lejtő D (optional)
 
-        // For nyereg (gable) roof, there are 2 sides
+      if (a && b) {
+        // Calculate first side (A × B)
+        const sheetsA = Math.ceil((a / 100) / (COVER_WIDTH_CM / 100));
+        const sideSqmA = sheetsA * (b / 100) * (COVER_WIDTH_CM / 100);
+        totalSqm += sideSqmA;
+
+        // For nyereg (gable) roof, calculate second side
         if (roofType === 'nyereg' || !roofType) {
-          totalSqm += roofSqm; // Double for both sides
+          // If C is specified, use it; otherwise mirror A
+          const sheetsC = c > 0 ? Math.ceil((c / 100) / (COVER_WIDTH_CM / 100)) : sheetsA;
+          // If D is specified, use it; otherwise mirror B
+          const slopeD = d > 0 ? d : b;
+          const sideSqmC = sheetsC * (slopeD / 100) * (COVER_WIDTH_CM / 100);
+          totalSqm += sideSqmC;
         }
       }
     }
@@ -3475,11 +3493,11 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     gdpr: 'Az adatkezelési tájékoztató elfogadása szükséges a továbblépéshez',
   };
 
-  // Phone validation regex - accepts Hungarian and international numbers
-  // Hungarian: +36301234567, +36 30 123 4567, 06-30-123-4567, etc.
-  // International: +44 7985 505061, +1 555 123 4567, etc.
-  const HU_PHONE_REGEX = /^(\+36|06)[\s\-]?(1|20|30|31|50|70|[2-9]\d)[\s\-]?\d{2,3}[\s\-]?\d{2,4}[\s\-]?\d{0,4}$/;
-  const INTL_PHONE_REGEX = /^\+\d{1,4}[\s\-]?\d{2,14}$/; // International: + country code + 7-14 digits
+  // Phone validation regex - matches server-side validation (validation.ts)
+  // Works on NORMALIZED phone numbers (no spaces/dashes)
+  // Hungarian: Mobile (20/30/31/50/70) + 7 digits, Budapest landline (1) + 7 digits, Other landline (2-9X) + 6-7 digits
+  const HU_PHONE_REGEX_NORMALIZED = /^(\+36|06)(1\d{7}|20\d{7}|30\d{7}|31\d{7}|50\d{7}|70\d{7}|[2-9]\d{7,8})$/;
+  const INTL_PHONE_REGEX_NORMALIZED = /^\+\d{7,15}$/; // International: + followed by 7-15 digits
 
   // Client-side validation
   function validateField(input: HTMLInputElement): boolean {
@@ -3522,9 +3540,9 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
         isValid = false;
         errorMessage = VALIDATION_MESSAGES.phone || 'Kérjük, adja meg a telefonszámát';
       } else {
-        // Check Hungarian or International format
-        const isHungarian = HU_PHONE_REGEX.test(value) || /^(\+36|06|36)?\d{9}$/.test(normalizedPhone);
-        const isInternational = INTL_PHONE_REGEX.test(normalizedPhone) || /^\+\d{7,15}$/.test(normalizedPhone);
+        // Check Hungarian or International format on normalized phone
+        const isHungarian = HU_PHONE_REGEX_NORMALIZED.test(normalizedPhone);
+        const isInternational = INTL_PHONE_REGEX_NORMALIZED.test(normalizedPhone);
         if (!isHungarian && !isInternational) {
           isValid = false;
           errorMessage = VALIDATION_MESSAGES.phone;
@@ -3666,9 +3684,9 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     const digitsOnly = normalizedPhone.replace(/[^\d]/g, '');
     const phoneError = document.getElementById('phone-error');
 
-    // Check if valid
-    const isHungarian = HU_PHONE_REGEX.test(value) || /^(\+36|06|36)?\d{9}$/.test(normalizedPhone);
-    const isInternational = INTL_PHONE_REGEX.test(normalizedPhone) || /^\+\d{7,15}$/.test(normalizedPhone);
+    // Check if valid (using normalized phone with server-matching regex)
+    const isHungarian = HU_PHONE_REGEX_NORMALIZED.test(normalizedPhone);
+    const isInternational = INTL_PHONE_REGEX_NORMALIZED.test(normalizedPhone);
     const isValid = digitsOnly.length >= 11 && (isHungarian || isInternational);
 
     if (phoneError) {

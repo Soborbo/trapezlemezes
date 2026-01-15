@@ -2591,17 +2591,17 @@ const optimizedGyartosorBg = await getImage({
     const youtubeEmbeds = document.querySelectorAll('.youtube-embed');
 
     youtubeEmbeds.forEach(embed => {
-      const videoId = embed.dataset.videoId;
+      const videoId = (embed as HTMLElement).dataset.videoId;
       if (!videoId) return;
 
       // Set thumbnail background
-      const thumbnail = embed.querySelector('.youtube-thumbnail');
+      const thumbnail = embed.querySelector('.youtube-thumbnail') as HTMLElement | null;
       if (thumbnail) {
         thumbnail.style.backgroundImage = `url(https://i.ytimg.com/vi/${videoId}/hqdefault.jpg)`;
       }
 
       // Handle click to load iframe
-      embed.addEventListener('click', function() {
+      embed.addEventListener('click', function(this: HTMLElement) {
         const iframe = document.createElement('iframe');
         iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
         iframe.setAttribute('frameborder', '0');
