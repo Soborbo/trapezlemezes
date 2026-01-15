@@ -747,6 +747,18 @@ if (quoteHash) {
       screwsEl.textContent = `${formatPrice(quote.screws.price)} (${quote.screws.boxes} doboz)`;
     }
 
+    // GTM Conversion Event - Quote Request / Quote Viewed
+    // This triggers conversion tracking when user views their calculated quote
+    if (typeof window !== 'undefined' && (window as any).dataLayer) {
+      (window as any).dataLayer.push({
+        event: 'quote_request',
+        conversion_type: 'quote_viewed',
+        quote_id: quoteData.quote_id || undefined,
+        value: quote.total,
+        currency: 'HUF'
+      });
+    }
+
     // Display sizes
     if (sizes.length > 0) {
       const sizesRow = document.getElementById('sizes-row');
