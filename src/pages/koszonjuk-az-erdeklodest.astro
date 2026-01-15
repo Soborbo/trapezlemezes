@@ -234,4 +234,13 @@ import Layout from '../layouts/Layout.astro';
 <script>
   // Mark callback as requested (prevents delayed admin notification)
   sessionStorage.setItem('callback_requested', 'true');
+
+  // GTM Conversion Event - Callback Request Submitted
+  // This triggers the Google Ads conversion tracking for callback requests
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    window.dataLayer.push({
+      event: 'callback_request',
+      conversion_type: 'callback_submission'
+    });
+  }
 </script>

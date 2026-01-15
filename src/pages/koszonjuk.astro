@@ -230,4 +230,14 @@ import Layout from '../layouts/Layout.astro';
       quoteInfo.style.display = 'none';
     }
   }
+
+  // GTM Conversion Event - Quote Request Submitted
+  // This triggers the Google Ads conversion tracking for calculator form submissions
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    window.dataLayer.push({
+      event: 'quote_request',
+      conversion_type: 'calculator_submission',
+      quote_id: quoteId || undefined
+    });
+  }
 </script>
