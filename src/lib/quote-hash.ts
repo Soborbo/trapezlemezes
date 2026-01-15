@@ -71,6 +71,13 @@ export function createQuoteHash(data: Partial<CalculatorFormData> & { sizes?: Ar
     qi: data.quote_id,
     ts: data.timestamp,
     sz: data.sizes, // sizes array
+    // Tracking params
+    gc: data.gclid,
+    us1: data.utm_source,
+    um: data.utm_medium,
+    uc: data.utm_campaign,
+    ut: data.utm_term,
+    uo: data.utm_content,
   };
 
   // Create JSON and encode
@@ -131,6 +138,13 @@ export function decodeQuoteHash(hash: string): Partial<CalculatorFormData> | nul
       quote_id: saveData.qi,
       timestamp: saveData.ts,
       sizes: saveData.sz, // sizes array
+      // Tracking params
+      gclid: saveData.gc,
+      utm_source: saveData.us1,
+      utm_medium: saveData.um,
+      utm_campaign: saveData.uc,
+      utm_term: saveData.ut,
+      utm_content: saveData.uo,
     } as Partial<CalculatorFormData> & { sizes?: Array<{ length: number; quantity: number }> };
   } catch (error) {
     console.error('Error decoding quote hash:', error);

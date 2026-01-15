@@ -57,6 +57,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const sizesFormatted = getString('sizes_formatted');
     const totalSqm = getNumber('total_sqm');
 
+    // Tracking params
+    const gclid = getString('gclid');
+    const utmSource = getString('utm_source');
+    const utmMedium = getString('utm_medium');
+    const utmCampaign = getString('utm_campaign');
+    const utmTerm = getString('utm_term');
+    const utmContent = getString('utm_content');
+    const fromEmail = getString('from_email');
+
     // Validate required fields
     if (!firstName || !lastName || !phone || !email) {
       return new Response(
@@ -108,12 +117,18 @@ export const POST: APIRoute = async ({ request, locals }) => {
           shipping,
           screws,
           secondhand,
-          source_page: 'ajanlat',
+          source_page: fromEmail === 'yes' ? 'ajanlat (emailből)' : 'ajanlat',
         },
         {
           totalPrice,
           totalSqm,
           sizesFormatted,
+          gclid,
+          utm_source: utmSource,
+          utm_medium: utmMedium,
+          utm_campaign: utmCampaign,
+          utm_term: utmTerm,
+          utm_content: utmContent,
         }
       ).catch((e) => {
         console.error('Callback sheets error:', e);

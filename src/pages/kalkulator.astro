@@ -3855,6 +3855,11 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
 
         formData.append('source_page', window.location.href);
 
+        // Ensure gclid is explicitly included (for Google Ads tracking)
+        if (state.answers.gclid && !formData.has('gclid')) {
+          formData.append('gclid', state.answers.gclid as string);
+        }
+
         // Submit to API
         const response = await fetch('/api/quote', {
           method: 'POST',
@@ -3974,6 +3979,28 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
     const quoteHash = urlParams.get('q');
     if (quoteHash) {
       loadQuoteFromHash(quoteHash);
+    }
+
+    // Extract and store gclid from URL for Google Ads tracking
+    const gclid = urlParams.get('gclid');
+    if (gclid) {
+      state.answers.gclid = gclid;
+      console.log('[GCLID] Extracted from URL:', gclid);
+    }
+
+    // Extract and store UTM parameters for campaign tracking
+    const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+    utmParams.forEach(param => {
+      const value = urlParams.get(param);
+      if (value) {
+        state.answers[param] = value;
+        console.log(`[UTM] ${param}:`, value);
+      }
+    });
+
+    // Save state if any tracking params were found
+    if (gclid || utmParams.some(p => urlParams.get(p))) {
+      saveState();
     }
   });
 

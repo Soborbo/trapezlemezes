@@ -120,6 +120,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
       screwBoxes: 0,
       screwPrice: 0,
       gclid: (data.gclid as string) || '',
+      utm_source: (data.utm_source as string) || '',
+      utm_medium: (data.utm_medium as string) || '',
+      utm_campaign: (data.utm_campaign as string) || '',
+      utm_term: (data.utm_term as string) || '',
+      utm_content: (data.utm_content as string) || '',
     };
 
     // Parse sizes from form data
@@ -228,12 +233,26 @@ export const POST: APIRoute = async ({ request, locals }) => {
         screwBoxes: quote.screws?.boxes || 0,
         screwPrice: quote.screws?.price || 0,
         gclid: (data.gclid as string) || '',
+        utm_source: (data.utm_source as string) || '',
+        utm_medium: (data.utm_medium as string) || '',
+        utm_campaign: (data.utm_campaign as string) || '',
+        utm_term: (data.utm_term as string) || '',
+        utm_content: (data.utm_content as string) || '',
       };
     }
 
-    // Generate quote URL (including sizes for recalculation on ajanlat page)
+    // Generate quote URL (including sizes and tracking params for ajanlat page)
     const baseUrl = new URL(request.url).origin;
-    const quoteDataWithSizes = { ...validatedData, sizes };
+    const quoteDataWithSizes = {
+      ...validatedData,
+      sizes,
+      gclid: calculatedData.gclid,
+      utm_source: calculatedData.utm_source,
+      utm_medium: calculatedData.utm_medium,
+      utm_campaign: calculatedData.utm_campaign,
+      utm_term: calculatedData.utm_term,
+      utm_content: calculatedData.utm_content,
+    };
     const quoteUrl = generateQuoteUrl(quoteDataWithSizes, baseUrl);
     calculatedData.quoteUrl = quoteUrl;
 

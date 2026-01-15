@@ -830,6 +830,19 @@ if (quoteHash) {
       formData.append('sizes_formatted', sizesFormatted);
       formData.append('total_sqm', totalSqm.toFixed(2));
 
+      // Add tracking params from quote data
+      formData.append('gclid', (quoteData as Record<string, unknown>).gclid as string || '');
+      formData.append('utm_source', (quoteData as Record<string, unknown>).utm_source as string || '');
+      formData.append('utm_medium', (quoteData as Record<string, unknown>).utm_medium as string || '');
+      formData.append('utm_campaign', (quoteData as Record<string, unknown>).utm_campaign as string || '');
+      formData.append('utm_term', (quoteData as Record<string, unknown>).utm_term as string || '');
+      formData.append('utm_content', (quoteData as Record<string, unknown>).utm_content as string || '');
+
+      // Detect if user came from email link
+      const urlParams = new URLSearchParams(window.location.search);
+      const fromEmail = urlParams.get('src') === 'email';
+      formData.append('from_email', fromEmail ? 'yes' : 'no');
+
       const response = await fetch('/api/callback', {
         method: 'POST',
         body: formData,

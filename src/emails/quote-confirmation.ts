@@ -17,6 +17,9 @@ export default function QuoteConfirmationTemplate({
   firstName,
   quoteUrl,
 }: QuoteConfirmationProps): string {
+  // Add email tracking parameter to quote URL
+  const emailTrackedUrl = quoteUrl + (quoteUrl.includes('?') ? '&' : '?') + 'src=email';
+
   return `
 <table style="background-color: #f4f4f4;" border="0" width="100%" cellspacing="0" cellpadding="0">
 <tbody>
@@ -36,7 +39,7 @@ export default function QuoteConfirmationTemplate({
 <table style="margin: 0 auto;" border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
-<td style="text-align: center;"><a style="background-color: #ec1d23; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 16px; padding: 14px 24px; border-radius: 6px; display: inline-block;" href="${quoteUrl}">TEKINTSE MEG ÁRBECSLÉSÉT</a></td>
+<td style="text-align: center;"><a style="background-color: #ec1d23; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 16px; padding: 14px 24px; border-radius: 6px; display: inline-block;" href="${emailTrackedUrl}">TEKINTSE MEG ÁRBECSLÉSÉT</a></td>
 </tr>
 </tbody>
 </table>
