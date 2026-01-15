@@ -3911,14 +3911,20 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
         }
 
         if (result.success) {
-          // Track submission
-          trackEvent('calculator_submit', { quote_id: result.quoteId });
+          // Track submission with quote value for GA4/Google Ads conversion tracking
+          trackEvent('calculator_submit', {
+            quote_id: result.quoteId,
+            value: result.totalPrice || 0,
+            currency: 'HUF'
+          });
 
           // Clear state
           localStorage.removeItem(STORAGE_KEY);
 
-          // Redirect to ajanlat (quote result) page
-          window.location.href = result.quoteUrl || ('/ajanlat?quote=' + result.quoteId);
+          // Redirect to ajanlat (quote result) page, include value for thank you page tracking
+          const redirectUrl = result.quoteUrl || ('/ajanlat?quote=' + result.quoteId);
+          const separator = redirectUrl.includes('?') ? '&' : '?';
+          window.location.href = redirectUrl + separator + 'value=' + (result.totalPrice || 0);
         } else {
           // Show server-side validation errors
           if (result.errors) {

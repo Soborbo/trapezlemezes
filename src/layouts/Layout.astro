@@ -32,6 +32,11 @@ const fullCanonicalUrl = canonicalUrl || `${siteUrl}${currentPath}`;
 <!DOCTYPE html>
 <html lang="hu">
 <head>
+  <!-- Google Tag Manager dataLayer initialization (must be before GTM script) -->
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
@@ -330,6 +335,22 @@ const fullCanonicalUrl = canonicalUrl || `${siteUrl}${currentPath}`;
         mobileFloatingCta?.classList.add('show');
       }, 3000);
     }
+
+    // Phone click tracking for GTM/Google Ads call conversions
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a[href^="tel:"]') as HTMLAnchorElement;
+      if (link && window.dataLayer) {
+        const phoneNumber = link.href.replace('tel:', '');
+        const isMobile = window.innerWidth <= 768;
+        window.dataLayer.push({
+          event: 'phone_click',
+          phone_number: phoneNumber,
+          click_location: link.className || 'unknown',
+          device_type: isMobile ? 'mobile' : 'desktop'
+        });
+      }
+    });
   </script>
 </body>
 </html>
