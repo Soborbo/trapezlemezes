@@ -9,6 +9,7 @@ import type { APIRoute } from 'astro';
 import { sendEmail } from '../../lib/email';
 import { setRuntimeEnv } from '../../lib/env';
 import QuoteConfirmationTemplate from '../../emails/quote-confirmation';
+import { validateCsrfFromRequest } from '../../lib/csrf';
 
 export const prerender = false;
 
@@ -16,6 +17,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
   // Set runtime env for Cloudflare Pages (secrets are in locals.runtime.env)
   const runtimeEnv = (locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
   setRuntimeEnv(runtimeEnv || null);
+
+  // CSRF validation - protects against cross-site request forgery
+  const csrfError = validateCsrfFromRequest(request);
+  if (csrfError) return csrfError;
 
   // Parse JSON body with error handling
   let body: Record<string, unknown>;
