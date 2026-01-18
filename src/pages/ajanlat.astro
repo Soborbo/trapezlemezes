@@ -3,8 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import { TinyImage } from '../components/images';
 import rolandImg from '../assets/images/farkas-roland.jpg';
 import { decodeQuoteHash } from '../lib/quote-hash';
+import { setRuntimeEnv } from '../lib/env';
 
 export const prerender = false;
+
+// Set runtime env for Cloudflare Pages (secrets are in locals.runtime.env)
+const runtimeEnv = (Astro.locals as { runtime?: { env?: Record<string, string> } }).runtime?.env;
+setRuntimeEnv(runtimeEnv || null);
 
 // Decode quote hash on SERVER side (where env vars are available)
 const url = new URL(Astro.request.url);
