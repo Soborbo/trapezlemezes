@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
+import tracking from './src/components/conversion-tracking/src/integration.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,6 +19,12 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) => !page.includes('/koszonjuk') && !page.includes('/ajanlat'),
+    }),
+    tracking({
+      gtmId: 'GTM-MPGKFHFX',
+      currency: 'HUF',
+      sessionTimeoutMinutes: 30,
+      debug: import.meta.env.DEV,
     }),
   ],
 });

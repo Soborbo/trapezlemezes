@@ -530,6 +530,7 @@ if (quoteHash) {
 
 <script>
   import { formatPrice, calculateQuote, colors, sheetSpecs, type SizeEntry } from '../calculator';
+  import { getMarketingConsentValue, trackMetaLeadPixel } from '../components/conversion-tracking/src/client/metaPixel';
 
   // Declare global type for server-decoded data
   declare global {
@@ -847,6 +848,9 @@ if (quoteHash) {
       const fromEmail = urlParams.get('src') === 'email';
       formData.append('from_email', fromEmail ? 'yes' : 'no');
 
+      // Pass marketing consent to server for CAPI (respects CookieYes choice)
+      formData.append('marketing_consent', getMarketingConsentValue());
+
       const response = await fetch('/api/callback', {
         method: 'POST',
         body: formData,
@@ -855,6 +859,36 @@ if (quoteHash) {
       if (response.ok) {
         // Mark callback as requested
         sessionStorage.setItem('callback_requested', 'true');
+
+        // Get eventId from server response (for Meta deduplication)
+        const responseData = await response.json();
+        const eventId = responseData.eventId || (Date.now() + '-' + Math.random().toString(36).substring(2, 9));
+
+        // GTM dataLayer push for callback_request conversion
+        if (window.dataLayer) {
+          window.dataLayer.push({
+            event: 'callback_request',
+            event_id: eventId, // Same ID used for Meta CAPI deduplication
+            lead_id: quoteData.quote_id || eventId,
+            value: totalPrice,
+            currency: 'HUF',
+            user_email: quoteData.email || '',
+            user_phone: quoteData.phone || '',
+            device: window.innerWidth <= 768 ? 'mobile' : 'desktop',
+          });
+        }
+
+        // Meta Pixel Lead event (client-side, consent-aware)
+        // Uses same eventId as server-side CAPI for deduplication
+        // Only fires if marketing consent is granted (CookieYes)
+        trackMetaLeadPixel({
+          eventId,
+          value: totalPrice,
+          currency: 'HUF',
+          contentName: 'Callback Request',
+          contentCategory: 'quote',
+        });
+
         // Redirect to thank you page
         window.location.href = '/koszonjuk-az-erdeklodest';
       } else {

@@ -33,6 +33,7 @@ const fullCanonicalUrl = canonicalUrl || `${siteUrl}${currentPath}`;
 <html lang="hu">
 <head>
   <!-- Google Tag Manager dataLayer initialization (must be before GTM script) -->
+  <!-- Meta Pixel is loaded via GTM with consent mode - DO NOT add hardcoded pixel here -->
   <script is:inline>
     window.dataLayer = window.dataLayer || [];
   </script>
@@ -336,19 +337,47 @@ const fullCanonicalUrl = canonicalUrl || `${siteUrl}${currentPath}`;
       }, 3000);
     }
 
-    // Phone click tracking for GTM/Google Ads call conversions
+    // Phone click tracking - moved to module script below for consent import
+  </script>
+
+  <!-- Conversion tracking initialization (attribution, session, remarketing) + phone click -->
+  <script>
+    import('../components/conversion-tracking/src/scripts/init').catch(() => {
+      // Silently fail if tracking init fails
+    });
+
+    // Phone click tracking for GTM/Google Ads call conversions + Meta
+    import { trackMetaContactPixel, generateMetaEventId } from '../components/conversion-tracking/src/client/metaPixel';
+
+    let phoneClickTracked = sessionStorage.getItem('phone_click_tracked') === 'true';
+
     document.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
       const link = target.closest('a[href^="tel:"]') as HTMLAnchorElement;
-      if (link && window.dataLayer) {
+      if (link) {
         const phoneNumber = link.href.replace('tel:', '');
         const isMobile = window.innerWidth <= 768;
-        window.dataLayer.push({
-          event: 'phone_click',
-          phone_number: phoneNumber,
-          click_location: link.className || 'unknown',
-          device_type: isMobile ? 'mobile' : 'desktop'
-        });
+
+        // GTM dataLayer push (always - GTM handles consent)
+        if (window.dataLayer) {
+          window.dataLayer.push({
+            event: 'phone_click',
+            phone_number: phoneNumber,
+            click_location: link.className || 'unknown',
+            device_type: isMobile ? 'mobile' : 'desktop'
+          });
+        }
+
+        // Meta Pixel Contact event (once per session, consent-aware)
+        if (!phoneClickTracked) {
+          const result = trackMetaContactPixel({
+            eventId: generateMetaEventId(),
+            contentName: 'Phone Click'
+          });
+          // Mark as tracked regardless of consent (to prevent spam if consent given later)
+          phoneClickTracked = true;
+          sessionStorage.setItem('phone_click_tracked', 'true');
+        }
       }
     });
   </script>

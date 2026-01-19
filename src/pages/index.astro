@@ -2602,6 +2602,16 @@ const optimizedGyartosorBg = await getImage({
 
       // Handle click to load iframe
       embed.addEventListener('click', function(this: HTMLElement) {
+        // Track video play event in GTM dataLayer
+        if (window.dataLayer) {
+          window.dataLayer.push({
+            event: 'video_played',
+            video_id: videoId,
+            video_title: 'Hogyan rontják el sokan',
+            video_provider: 'youtube',
+          });
+        }
+
         const iframe = document.createElement('iframe');
         iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
         iframe.setAttribute('frameborder', '0');

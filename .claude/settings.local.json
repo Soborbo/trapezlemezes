@@ -32,7 +32,14 @@
       "Bash(copy \"d:\\\\dev\\\\trapezlemezes.hu\\\\_reference\\\\uploads\\\\2024\\\\07\\\\lindab-lemez.jpg\" \"d:\\\\dev\\\\trapezlemezes.hu\\\\src\\\\assets\\\\images\\\\lindab-lemez.jpg\")",
       "Bash(copy:*)",
       "Bash(node -p:*)",
-      "Bash(gh auth:*)"
+      "Bash(gh auth:*)",
+      "Bash(xargs cat:*)",
+      "Bash(npx astro build:*)",
+      "Bash(node node_modules/astro/astro.js:*)",
+      "Bash(wc:*)",
+      "Bash(cd:*)",
+      "Bash(Select-String -Pattern \"error|Error|ERROR|warning|Warning\")",
+      "Bash(Select-Object -First 30)"
     ]
   }
 }

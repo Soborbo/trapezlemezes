@@ -12,6 +12,7 @@ import { SITE_CONFIG } from '../../config/site';
 import CallbackRequestTemplate from '../../emails/callback-request';
 import { validateCsrfFromRequest } from '../../lib/csrf';
 import { appendToCallbackSheet } from '../../lib/sheets';
+import { sendMetaConversion, generateEventId, getMetaCookies, getClientIP } from '../../lib/meta-capi';
 
 export const prerender = false;
 
@@ -67,6 +68,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const utmContent = getString('utm_content');
     const fromEmail = getString('from_email');
 
+    // Marketing consent from client (CookieYes)
+    // Only send Meta CAPI if user has granted marketing consent
+    const marketingConsent = getString('marketing_consent');
+
     // Validate required fields
     if (!firstName || !lastName || !phone || !email) {
       return new Response(
@@ -95,8 +100,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Send email to admin
     const adminEmail = getEnv('ADMIN_EMAIL') || SITE_CONFIG.email;
 
-    // Send email and save to sheets in parallel
-    const [emailSent, sheetsSaved] = await Promise.all([
+    // Get Meta cookies and client info for CAPI
+    const metaCookies = getMetaCookies(request.headers.get('cookie'));
+    const clientIP = getClientIP(request);
+    const userAgent = request.headers.get('user-agent') || undefined;
+    const metaAccessToken = getEnv('META_ACCESS_TOKEN');
+    const eventId = generateEventId();
+
+    // Send email, save to sheets, and send Meta CAPI in parallel
+    const [emailSent, sheetsSaved, metaSent] = await Promise.all([
       sendEmail({
         to: adminEmail,
         subject: `📞 Visszahívás kérés - ${lastName} ${firstName} - ${new Intl.NumberFormat('hu-HU').format(totalPrice)} Ft`,
@@ -135,6 +147,28 @@ export const POST: APIRoute = async ({ request, locals }) => {
         console.error('Callback sheets error:', e);
         return false;
       }),
+      // Meta CAPI - server-side conversion tracking
+      // Only send if: 1) marketing consent granted, 2) access token available
+      (marketingConsent === 'granted' && metaAccessToken) ? sendMetaConversion({
+        eventName: 'Lead',
+        eventId,
+        sourceUrl: quoteUrl || 'https://trapezlemezes.hu/ajanlat',
+        email,
+        phone,
+        firstName,
+        lastName,
+        value: totalPrice,
+        currency: 'HUF',
+        contentName: 'Callback Request',
+        ipAddress: clientIP,
+        userAgent,
+        fbc: metaCookies.fbc,
+        fbp: metaCookies.fbp,
+        accessToken: metaAccessToken,
+      }).catch((e) => {
+        console.error('Meta CAPI error:', e);
+        return { success: false, error: String(e) };
+      }) : Promise.resolve({ success: false, error: marketingConsent !== 'granted' ? 'No marketing consent' : 'No META_ACCESS_TOKEN' }),
     ]);
 
     if (!emailSent) {
@@ -148,12 +182,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
       totalPrice,
       emailSent,
       sheetsSaved,
+      metaSent: metaSent?.success ?? false,
+      marketingConsent,
     });
 
     return new Response(
       JSON.stringify({
         success: true,
         message: 'Visszahívás kérés elküldve',
+        eventId, // Return eventId for client-side Meta Pixel deduplication
       }),
       {
         status: 200,
