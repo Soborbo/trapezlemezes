@@ -127,8 +127,9 @@ export function calculateSheets(sizes: SizeEntry[]): SheetCalculation {
   for (const size of sizes) {
     if (!size.length || !size.quantity) continue;
 
-    // Egy lemez m²-e (hossz × fedett szélesség)
-    const sqmPerSheet = (size.length / 100) * (sheetSpecs.coverWidth / 100);
+    // Egy lemez m²-e (hossz × teljes szélesség)
+    // Anyagszükséglet számításnál a teljes szélesség számít (116 cm), nem a fedett (110 cm)
+    const sqmPerSheet = (size.length / 100) * (sheetSpecs.totalWidth / 100);
     const sqmTotal = sqmPerSheet * size.quantity;
 
     result.sizes.push({
