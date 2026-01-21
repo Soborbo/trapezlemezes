@@ -3911,9 +3911,12 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
         }
 
         if (result.success) {
-          // Track submission with quote value for GA4/Google Ads conversion tracking
-          trackEvent('calculator_submit', {
-            quote_id: result.quoteId,
+          // Track quote_request event for GA4/Google Ads conversion tracking
+          // Event name must match GTM trigger (CE - quote_request)
+          trackEvent('quote_request', {
+            lead_id: result.quoteId,
+            user_email: (state.answers.email as string || '').trim().toLowerCase(),
+            user_phone: state.answers.phone as string || '',
             value: result.totalPrice || 0,
             currency: 'HUF'
           });
@@ -3924,7 +3927,13 @@ import kishibasNemImg from '../assets/images/kishibas-nem.jpg';
           // Redirect to ajanlat (quote result) page, include value for thank you page tracking
           const redirectUrl = result.quoteUrl || ('/ajanlat?quote=' + result.quoteId);
           const separator = redirectUrl.includes('?') ? '&' : '?';
-          window.location.href = redirectUrl + separator + 'value=' + (result.totalPrice || 0);
+          const finalUrl = redirectUrl + separator + 'value=' + (result.totalPrice || 0);
+
+          // Delay redirect to allow GTM tags to fire (GA4, Google Ads conversions)
+          // Without this delay, the page navigates away before tracking requests complete
+          setTimeout(() => {
+            window.location.href = finalUrl;
+          }, 300);
         } else {
           // Show server-side validation errors
           if (result.errors) {
