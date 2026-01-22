@@ -792,44 +792,45 @@ if (quoteHash) {
   (document.getElementById('callback-quote-data') as HTMLInputElement).value = JSON.stringify(quoteData);
 
   // Direct callback submission - no modal, one click
-  callbackBtn?.addEventListener('click', async () => {
-    const btn = callbackBtn as HTMLButtonElement;
-    const btnText = btn.querySelector('.btn-text') as HTMLElement;
-    const btnLoading = btn.querySelector('.btn-loading') as HTMLElement;
+  if (callbackBtn) {
+    callbackBtn.addEventListener('click', async () => {
+      const btn = callbackBtn as HTMLButtonElement;
+      const btnText = btn.querySelector('.btn-text') as HTMLElement;
+      const btnLoading = btn.querySelector('.btn-loading') as HTMLElement;
 
-    // Check if we have required data BEFORE disabling button
-    const missingFields: string[] = [];
-    if (!quoteData.first_name) missingFields.push('keresztnév');
-    if (!quoteData.last_name) missingFields.push('vezetéknév');
-    if (!quoteData.phone) missingFields.push('telefonszám');
-    if (!quoteData.email) missingFields.push('email');
+      // Check if we have required data BEFORE disabling button
+      const missingFields: string[] = [];
+      if (!quoteData.first_name) missingFields.push('keresztnév');
+      if (!quoteData.last_name) missingFields.push('vezetéknév');
+      if (!quoteData.phone) missingFields.push('telefonszám');
+      if (!quoteData.email) missingFields.push('email');
 
-    if (missingFields.length > 0) {
-      console.error('Callback failed - missing quoteData fields:', missingFields);
-      showToast(`Hiányzó adatok: ${missingFields.join(', ')}. Kérjük, hívjon minket közvetlenül!`);
-      return;
-    }
+      if (missingFields.length > 0) {
+        console.error('Callback failed - missing quoteData fields:', missingFields);
+        showToast('Hiányzó adatok: ' + missingFields.join(', ') + '. Kérjük, hívjon minket közvetlenül!');
+        return;
+      }
 
-    btn.disabled = true;
-    if (btnText) btnText.style.display = 'none';
-    if (btnLoading) btnLoading.style.display = 'inline';
+      btn.disabled = true;
+      if (btnText) btnText.style.display = 'none';
+      if (btnLoading) btnLoading.style.display = 'inline';
 
-    try {
-      // Get total price from displayed quote
-      const quoteTotalEl = document.getElementById('quote-total');
-      const totalPriceText = quoteTotalEl?.textContent?.replace(/[^\d]/g, '') || '0';
-      const totalPrice = parseInt(totalPriceText, 10);
+      try {
+        // Get total price from displayed quote
+        const quoteTotalEl = document.getElementById('quote-total');
+        const totalPriceText = (quoteTotalEl && quoteTotalEl.textContent) ? quoteTotalEl.textContent.replace(/[^\d]/g, '') : '0';
+        const totalPrice = parseInt(totalPriceText, 10);
 
-      // Build form data from existing quote data (include all data for Sheets)
-      const formData = new FormData();
-      formData.append('first_name', quoteData.first_name || '');
-      formData.append('last_name', quoteData.last_name || '');
-      formData.append('phone', quoteData.phone || '');
-      formData.append('email', quoteData.email || '');
-      formData.append('company', quoteData.company || '');
-      formData.append('postcode', quoteData.postcode || '');
-      formData.append('city', quoteData.city || '');
-      formData.append('street', quoteData.street || '');
+        // Build form data from existing quote data (include all data for Sheets)
+        const formData = new FormData();
+        formData.append('first_name', quoteData.first_name || '');
+        formData.append('last_name', quoteData.last_name || '');
+        formData.append('phone', quoteData.phone || '');
+        formData.append('email', quoteData.email || '');
+        formData.append('company', quoteData.company || '');
+        formData.append('postcode', quoteData.postcode || '');
+        formData.append('city', quoteData.city || '');
+        formData.append('street', quoteData.street || '');
       formData.append('quote_id', quoteData.quote_id || '');
       formData.append('quote_url', window.location.href);
       formData.append('total_price', totalPrice.toString());
@@ -919,7 +920,8 @@ if (quoteHash) {
       if (btnText) btnText.style.display = 'inline';
       if (btnLoading) btnLoading.style.display = 'none';
     }
-  });
+    });
+  }
 
   // Quote expiration check (7 days)
   const QUOTE_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
