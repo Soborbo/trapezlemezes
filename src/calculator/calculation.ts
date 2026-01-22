@@ -217,7 +217,7 @@ export function calculateFenceSheets(fence: FenceDimensions): SheetCalculation {
  */
 export function getColorType(colorId: string): ColorOption['type'] {
   const color = colors.find(c => c.id === colorId);
-  return color?.type || 'standard';
+  return (color && color.type) ? color.type : 'standard';
 }
 
 /**
@@ -321,7 +321,7 @@ export function calculateQuote(input: QuoteInput): QuoteResult {
   const screws = input.includeScrews ? calculateScrewCost(sheets.totalSqm) : undefined;
 
   // Szállítás (fix árak, 250 m² felett ingyenes)
-  const subtotalBeforeShipping = sheetPriceAfterDiscount + (screws?.price || 0);
+  const subtotalBeforeShipping = sheetPriceAfterDiscount + (screws ? screws.price : 0);
   const shippingCost = calculateShippingCost(
     input.shippingType,
     sheets.totalSqm
