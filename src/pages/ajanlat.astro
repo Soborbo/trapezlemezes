@@ -21,10 +21,21 @@ if (quoteHash) {
     const decoded = decodeQuoteHash(quoteHash);
     if (decoded) {
       serverDecodedData = decoded as Record<string, unknown>;
+      console.log('Quote hash decoded successfully:', {
+        quote_id: decoded.quote_id,
+        has_first_name: !!decoded.first_name,
+        has_last_name: !!decoded.last_name,
+        has_email: !!decoded.email,
+        has_phone: !!decoded.phone,
+      });
+    } else {
+      console.error('Quote hash decode returned null - check QUOTE_HASH_SECRET');
     }
   } catch (e) {
     console.error('Error decoding quote hash on server:', e);
   }
+} else {
+  console.log('No quote hash in URL - page accessed without ?q= parameter');
 }
 ---
 
