@@ -799,6 +799,19 @@ if (quoteHash) {
     const btnText = btn.querySelector('.btn-text') as HTMLElement;
     const btnLoading = btn.querySelector('.btn-loading') as HTMLElement;
 
+    // Check if we have required data BEFORE disabling button
+    const missingFields: string[] = [];
+    if (!quoteData.first_name) missingFields.push('keresztnév');
+    if (!quoteData.last_name) missingFields.push('vezetéknév');
+    if (!quoteData.phone) missingFields.push('telefonszám');
+    if (!quoteData.email) missingFields.push('email');
+
+    if (missingFields.length > 0) {
+      console.error('Callback failed - missing quoteData fields:', missingFields);
+      showToast(`Hiányzó adatok: ${missingFields.join(', ')}. Kérjük, hívjon minket közvetlenül!`);
+      return;
+    }
+
     btn.disabled = true;
     if (btnText) btnText.style.display = 'none';
     if (btnLoading) btnLoading.style.display = 'inline';

@@ -74,6 +74,52 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Validate required fields
     if (!firstName || !lastName || !phone || !email) {
+      // Log the failed attempt with available data
+      console.error('Callback validation failed - missing required fields:', {
+        hasFirstName: !!firstName,
+        hasLastName: !!lastName,
+        hasPhone: !!phone,
+        hasEmail: !!email,
+        quoteId,
+        totalPrice,
+      });
+
+      // Still save to sheets with error marker so we don't lose the lead
+      try {
+        await appendToCallbackSheet(
+          {
+            first_name: firstName || '[HIÁNYZIK]',
+            last_name: lastName || '[HIÁNYZIK]',
+            email: email || '[HIÁNYZIK]',
+            phone: phone || '[HIÁNYZIK]',
+            company,
+            postcode,
+            city,
+            street,
+            quote_id: quoteId,
+            color,
+            shipping,
+            screws,
+            secondhand,
+            source_page: 'HIBA - hiányzó adatok',
+          },
+          {
+            totalPrice,
+            totalSqm,
+            sizesFormatted,
+            gclid,
+            utm_source: utmSource,
+            utm_medium: utmMedium,
+            utm_campaign: utmCampaign,
+            utm_term: utmTerm,
+            utm_content: utmContent,
+          }
+        );
+        console.log('Saved incomplete callback to sheets for manual follow-up');
+      } catch (e) {
+        console.error('Failed to save incomplete callback to sheets:', e);
+      }
+
       return new Response(
         JSON.stringify({
           success: false,
