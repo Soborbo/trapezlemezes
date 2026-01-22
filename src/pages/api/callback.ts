@@ -74,6 +74,52 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Validate required fields
     if (!firstName || !lastName || !phone || !email) {
+      // Log the failed attempt with available data
+      console.error('Callback validation failed - missing required fields:', {
+        hasFirstName: !!firstName,
+        hasLastName: !!lastName,
+        hasPhone: !!phone,
+        hasEmail: !!email,
+        quoteId,
+        totalPrice,
+      });
+
+      // Still save to sheets with error marker so we don't lose the lead
+      try {
+        await appendToCallbackSheet(
+          {
+            first_name: firstName || '[HIÁNYZIK]',
+            last_name: lastName || '[HIÁNYZIK]',
+            email: email || '[HIÁNYZIK]',
+            phone: phone || '[HIÁNYZIK]',
+            company,
+            postcode,
+            city,
+            street,
+            quote_id: quoteId,
+            color,
+            shipping,
+            screws,
+            secondhand,
+            source_page: 'HIBA - hiányzó adatok',
+          },
+          {
+            totalPrice,
+            totalSqm,
+            sizesFormatted,
+            gclid,
+            utm_source: utmSource,
+            utm_medium: utmMedium,
+            utm_campaign: utmCampaign,
+            utm_term: utmTerm,
+            utm_content: utmContent,
+          }
+        );
+        console.log('Saved incomplete callback to sheets for manual follow-up');
+      } catch (e) {
+        console.error('Failed to save incomplete callback to sheets:', e);
+      }
+
       return new Response(
         JSON.stringify({
           success: false,
@@ -171,8 +217,16 @@ export const POST: APIRoute = async ({ request, locals }) => {
       }) : Promise.resolve({ success: false, error: marketingConsent !== 'granted' ? 'No marketing consent' : 'No META_ACCESS_TOKEN' }),
     ]);
 
+    // CRITICAL: If admin email failed, this is a serious issue - log details
     if (!emailSent) {
-      console.error('Failed to send callback notification email');
+      console.error('CRITICAL: Failed to send callback notification email!', {
+        adminEmail,
+        firstName,
+        lastName,
+        phone,
+        quoteId,
+        totalPrice,
+      });
     }
 
     console.log('Callback request processed:', {
@@ -186,11 +240,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
       marketingConsent,
     });
 
+    // If email failed but sheets saved, still return success for UX
+    // but include emailSent status so we can track the issue
     return new Response(
       JSON.stringify({
         success: true,
         message: 'Visszahívás kérés elküldve',
         eventId, // Return eventId for client-side Meta Pixel deduplication
+        emailSent, // Track if admin was notified
+        sheetsSaved, // Track if data was saved
       }),
       {
         status: 200,

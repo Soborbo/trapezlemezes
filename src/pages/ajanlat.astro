@@ -21,10 +21,21 @@ if (quoteHash) {
     const decoded = decodeQuoteHash(quoteHash);
     if (decoded) {
       serverDecodedData = decoded as Record<string, unknown>;
+      console.log('Quote hash decoded successfully:', {
+        quote_id: decoded.quote_id,
+        has_first_name: !!decoded.first_name,
+        has_last_name: !!decoded.last_name,
+        has_email: !!decoded.email,
+        has_phone: !!decoded.phone,
+      });
+    } else {
+      console.error('Quote hash decode returned null - check QUOTE_HASH_SECRET');
     }
   } catch (e) {
     console.error('Error decoding quote hash on server:', e);
   }
+} else {
+  console.log('No quote hash in URL - page accessed without ?q= parameter');
 }
 ---
 
@@ -101,10 +112,6 @@ if (quoteHash) {
           <span class="btn-text">VISSZAHÍVÁST KÉREK</span>
           <span class="btn-loading" style="display: none;">Küldés...</span>
         </button>
-
-        <a href="tel:+3613009206" class="btn btn-call">
-          HÍVOM MOST
-        </a>
       </div>
     </div>
 
@@ -334,15 +341,6 @@ if (quoteHash) {
 
   .btn-callback:hover {
     background: #15803d;
-  }
-
-  .btn-call {
-    background: #259bd7;
-    color: white;
-  }
-
-  .btn-call:hover {
-    background: #1e7fb3;
   }
 
   /* Back link */
@@ -798,6 +796,19 @@ if (quoteHash) {
     const btn = callbackBtn as HTMLButtonElement;
     const btnText = btn.querySelector('.btn-text') as HTMLElement;
     const btnLoading = btn.querySelector('.btn-loading') as HTMLElement;
+
+    // Check if we have required data BEFORE disabling button
+    const missingFields: string[] = [];
+    if (!quoteData.first_name) missingFields.push('keresztnév');
+    if (!quoteData.last_name) missingFields.push('vezetéknév');
+    if (!quoteData.phone) missingFields.push('telefonszám');
+    if (!quoteData.email) missingFields.push('email');
+
+    if (missingFields.length > 0) {
+      console.error('Callback failed - missing quoteData fields:', missingFields);
+      showToast(`Hiányzó adatok: ${missingFields.join(', ')}. Kérjük, hívjon minket közvetlenül!`);
+      return;
+    }
 
     btn.disabled = true;
     if (btnText) btnText.style.display = 'none';

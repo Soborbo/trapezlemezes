@@ -191,6 +191,7 @@ export function createQuoteHash(data: Partial<CalculatorFormData> & { sizes?: Ar
 export function decodeQuoteHash(hash: string): Partial<CalculatorFormData> | null {
   const secret = getEnv('QUOTE_HASH_SECRET');
   if (!secret) {
+    console.error('CRITICAL: QUOTE_HASH_SECRET not available for decoding!');
     return null;
   }
 
