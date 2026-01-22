@@ -171,8 +171,16 @@ export const POST: APIRoute = async ({ request, locals }) => {
       }) : Promise.resolve({ success: false, error: marketingConsent !== 'granted' ? 'No marketing consent' : 'No META_ACCESS_TOKEN' }),
     ]);
 
+    // CRITICAL: If admin email failed, this is a serious issue - log details
     if (!emailSent) {
-      console.error('Failed to send callback notification email');
+      console.error('CRITICAL: Failed to send callback notification email!', {
+        adminEmail,
+        firstName,
+        lastName,
+        phone,
+        quoteId,
+        totalPrice,
+      });
     }
 
     console.log('Callback request processed:', {
@@ -186,11 +194,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
       marketingConsent,
     });
 
+    // If email failed but sheets saved, still return success for UX
+    // but include emailSent status so we can track the issue
     return new Response(
       JSON.stringify({
         success: true,
         message: 'Visszahívás kérés elküldve',
         eventId, // Return eventId for client-side Meta Pixel deduplication
+        emailSent, // Track if admin was notified
+        sheetsSaved, // Track if data was saved
       }),
       {
         status: 200,
