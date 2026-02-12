@@ -20,7 +20,7 @@ interface Props {
 const { title = 'Erősség összehasonlítás', items } = Astro.props;
 
 const defaultItems: ChartItem[] = [
-  { label: 'T12 0.4mm', value: 100 },
+  { label: 'T12 0.4mm', value: 100, annotation: '= alap (100%)' },
   { label: 'T14 0.4mm', value: 103 },
   { label: 'T20 0.4mm', value: 111 },
   { label: 'T25 0.4mm', value: 117 },
@@ -34,7 +34,7 @@ const maxValue = Math.max(...chartItems.map(i => i.value));
 
 <div class="strength-chart">
   {title && <h4 class="chart-title">{title}</h4>}
-  <p class="chart-subtitle">Relatív hajlítási ellenállás (egyenletesen megoszló terhelés)</p>
+  <p class="chart-subtitle">Relatív hajlítási ellenállás – T12 0.4mm = 100% (Eurocode 3, egyenletesen megoszló terhelés)</p>
 
   <div class="chart-bars">
     {chartItems.map((item) => (
