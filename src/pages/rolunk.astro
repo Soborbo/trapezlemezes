@@ -17,18 +17,18 @@ const extraSchema = {
 };
 
 const usps = [
-  { icon: '&#9878;', title: 'Erősebb lemez', desc: 'T18 0.5mm – 2x erősebb, mint a versenytársak 0.4mm-es lemezei' },
-  { icon: '&#9201;', title: '48 óra gyártás', desc: 'Rendeld ma, 2 napon belül szállítjuk' },
-  { icon: '&#9989;', title: '20 év garancia', desc: 'Mert tudjuk, hogy a minőség kitart' },
-  { icon: '&#128200;', title: 'Online kalkulátor', desc: '30 másodperc alatt pontos ár, mennyiség, szállítás' },
-  { icon: '&#128666;', title: 'Önköltségi szállítás', desc: 'Nem keresünk a szállításon – amennyibe nekünk kerül' },
-  { icon: '&#127480;&#127466;', title: 'Svéd 0.6mm', desc: 'Prémium svéd acél opció – akinek a legjobb kell' },
+  { icon: '&#9878;', title: 'Erősebb lemez', desc: '0.5, sőt akár 0.6mm-es lemezeket árulunk, amelyek jelentősen erősebbek, mint a gyakran kapható 0.25–0.4mm-es lemezek' },
+  { icon: '&#9201;', title: '48 óra', desc: '48 órán belül kész lehet. Rendeld meg ma, és akár holnap kiszállítjuk' },
+  { icon: '&#9989;', title: '20 év garancia', desc: 'Mert tisztában vagyunk a felhasznált anyagaink minőségével' },
+  { icon: '&#128200;', title: 'Online kalkulátor', desc: 'Számold ki kevesebb mint egy perc alatt, mennyibe fog kerülni a rendelésed – telefonálgatás nélkül' },
+  { icon: '&#128666;', title: 'Önköltségi szállítás', desc: 'Nem a szállításon akarunk meggazdagodni. Annyit kérünk, amennyibe nekünk kerül' },
+  { icon: '&#127480;&#127466;', title: 'Svéd 0.6mm acél', desc: 'Prémium svéd acél opció. Ha a szín nem kizáró tényező, prémium minőséget is kaphatsz alap áron' },
 ];
 ---
 
 <Layout
   title="Rólunk – A Trapezlemezes.hu története | Trapezlemezes.hu"
-  description="10 éve foglalkozunk trapézlemez tetőkkel. Tetőkészítőként kezdtük, ma gyártóként dolgozunk. Ismerd meg a történetünket."
+  description="Több mint egy évtizede foglalkozunk trapézlemezekkel. Tetőkészítőként kezdtük, ma gyártóként dolgozunk. Ismerd meg a történetünket."
   extraSchema={extraSchema}
 >
   <div class="page-container">
@@ -36,59 +36,76 @@ const usps = [
 
     <article class="about-page">
       <header class="hero-section">
-        <h1>Miért mi? 10 év tapasztalat, ami számít</h1>
+        <h1>Több mint egy évtized tapasztalat, ami számít</h1>
+        <div class="hero-image-placeholder">
+          <div class="placeholder-box">Kép: gyártósor / csapat munka közben</div>
+        </div>
       </header>
 
       <!-- Story 1 -->
       <section class="content-section">
         <h2>Tetőkészítőként kezdtük</h2>
         <p>
-          10 éve foglalkozunk trapézlemez tetőkkel és kerítésekkel. A kivitelezéssel kezdtünk – garázs tetők,
-          családi házak, kerítések. Élveztük a munkát, de egy dolog állandóan zavart:
+          Több mint 10 éve foglalkozunk trapézlemezekkel és kerítésekkel. Tetőkészítőként kezdtünk –
+          garázs tetők, családi házak, kerítések. Élveztük a munkát, de volt pár dolog, ami állandóan zavart:
         </p>
         <ul class="story-problems">
-          <li>Nem kaptunk jó minőségű alapanyagot</li>
-          <li>Csúsztak a munkák, mert a szállítások heteket késtek</li>
-          <li>Gyenge volt az anyagminőség – vékony lemezek, kevés horganyzás</li>
-          <li>Heteket kellett várni egy-egy szállítmányra</li>
+          <li>Ritkán kaptunk jó minőségű alapanyagot, és nehéz volt a beszerzése</li>
+          <li>Gyakran csúsztak a munkák, mert a szállítások heteket késtek</li>
+          <li>Sokszor kellett vékony lemezekkel dolgoznunk, amik nem álltak meg rendesen</li>
+          <li>A szín: gyakran nem kaptuk meg azt a színt, amit szerettünk volna, vagy heteket kellett rá várni</li>
         </ul>
         <p>
-          Meguntuk. Ha nem tudunk jó lemezt kapni, akkor gyártunk magunknak.
+          Meguntuk az ezzel való küzdelmet. Úgy gondoltuk, ha nem tudunk stabilan jó lemezt kapni,
+          akkor inkább gyártunk magunknak.
         </p>
+        <div class="content-image-placeholder">
+          <div class="placeholder-box">Kép: korai munkák / tetőkészítés</div>
+        </div>
       </section>
 
       <!-- Story 2 -->
       <section class="content-section">
         <h2>Elkezdtünk magunknak gyártani</h2>
         <p>
-          Mivel saját munkáinkhoz gyártottunk, nem volt kérdés: <strong>minőségi lemezt készítettünk.</strong>
-          0.5mm vastagság, 275 g/m2 horganyzás, rendesen festve. Nem azért, mert „prémium" akartunk lenni –
-          hanem mert tudtuk, mi kell ahhoz, hogy egy tető 20 évig kibírja.
+          Mivel saját munkáinkhoz gyártottuk, nem volt kérdés: <strong>kizárólag minőségi lemezt készítettünk,
+          minimum 0.5mm-es vastagságban.</strong> Nem azért, mert prémium kategóriába akartunk kerülni –
+          csak egyszerűen szerettük volna, hogy egy tető legalább húsz évig kibírja. És tapasztalatból tudtuk, mi kell ehhez.
         </p>
         <div class="quote-block">
           <blockquote>
             „Honnan van ez a lemez? Sokkal jobb, mint amit máshol kapunk!"
           </blockquote>
-          <p class="quote-attribution">– ügyfelek visszajelzése, akik először látták a lemezeink minőségét</p>
         </div>
         <p>
-          Az ügyfeleink észrevették a különbséget. Előbb a kivitelezők kérdezték, honnan van az anyag.
-          Aztán a szomszédok is akartak. Így lett üzlet belőle.
+          Az ügyfeleink gyorsan észrevették a különbséget. Előbb a kivitelezők kérdezték, honnan van az anyag.
+          Aztán a szomszédok is akartak belőle. Így alakult ki a Trapezlemezes.hu, mint trapézlemez-gyártó üzlet.
         </p>
+        <div class="content-image-placeholder">
+          <div class="placeholder-box">Kép: gyártás közben / minőségi lemez közelről</div>
+        </div>
       </section>
 
       <!-- Story 3 -->
       <section class="content-section">
-        <h2>Ma: Gyártó + 10 év kivitelezői tapasztalat</h2>
+        <h2>Ma: kizárólag trapézlemez gyártással foglalkozunk</h2>
         <p>
-          Ez a kombináció tesz minket mássá. Nem csak gyártunk lemezt – <strong>megértjük, hogy a kivitelezőnek
-          HOLNAPRA kell a lemez.</strong> Tudjuk, hogy az építkezésen nincs idő várni heteket. Tudjuk, hogy a vékony
-          lemez gondot okoz a szereléskor. Tudjuk, hogy a rossz horganyzás 3 év után rozsdát jelent.
+          Mivel mi is voltunk a másik oldalon, ismerjük mindkét oldal problémáit és nehézségeit.
+        </p>
+        <p>
+          <strong>Megértjük, hogy a kivitelezőnek sokszor holnapra kell a lemez.</strong>
+          Megértjük az ezzel kapcsolatos stresszt, szorongást és kapkodást. És itt vagyunk, hogy segítsünk.
+        </p>
+        <p>
+          Tudjuk, hogy egy építkezésen ha várni kell, sok folyamat akadhat el, és ez rengeteg problémát okoz.
+          Tudjuk, hogy a vékony lemez nemcsak a szereléskor okoz gondot, de a tartóssága is gyakran megkérdőjelezhető.
+          Tudjuk, milyen, amikor egy ügyfél pár éven belül felhív, hogy rozsdásodik a tető.
         </p>
         <div class="highlight-box">
           <p>
-            <strong>48 óra gyártás.</strong> Svéd minőség. <strong>20 év garancia.</strong>
-            Mert a kivitelező ideje is pénzt ér.
+            Ezeket a problémákat szerettük volna megoldani: <strong>kiváló minőségű alapanyagokkal</strong>, amire
+            akár 20 év garanciát is vállalhatunk. És a <strong>48 órán belüli gyártással</strong> – mert az idő pénz,
+            a kivitelező számára is.
           </p>
         </div>
       </section>
@@ -277,6 +294,31 @@ const usps = [
     color: var(--color-text-muted);
     line-height: 1.5;
     margin: 0;
+  }
+
+  /* Image Placeholders */
+  .hero-image-placeholder,
+  .content-image-placeholder {
+    margin: var(--spacing-lg) 0;
+  }
+
+  .placeholder-box {
+    background: #e2e8f0;
+    border: 2px dashed #94a3b8;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-3xl) var(--spacing-xl);
+    text-align: center;
+    color: #64748b;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+  }
+
+  .hero-image-placeholder .placeholder-box {
+    padding: var(--spacing-3xl) var(--spacing-xl);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Team Link */

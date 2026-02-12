@@ -91,7 +91,7 @@ export const strings = {
     calculator: 'Online árkalkulátor',
     calculatorShort: 'Kalkulátor',
     call: 'Hívjon most',
-    quote: 'Kérek árajánlatot',
+    quote: 'Online árkalkulátor',
     order: 'Megrendelem',
     learnMore: 'Részletek',
   },

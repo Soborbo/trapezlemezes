@@ -10,7 +10,7 @@ interface Props {
 const { currentPath = '/' } = Astro.props;
 
 const navLinks = [
-  { href: '/trapezlemez/', label: 'Trapézlemez', match: '/trapezlemez' },
+  { href: '/trapezlemez/', label: 'Vásárlás', match: '/trapezlemez' },
   { href: '/trapezlemez-tipusok/', label: 'Típusok', match: '/trapezlemez-tipusok' },
   { href: '/trapezlemez-teto/', label: 'Tető', match: '/trapezlemez-teto' },
   { href: '/trapezlemez-kerites/', label: 'Kerítés', match: '/trapezlemez-kerites' },
@@ -94,6 +94,15 @@ const navLinks = [
   </div>
 </header>
 
+<!-- Floating mobile menu trigger (visible before scroll) -->
+<button class="mobile-fab hide-desktop" id="mobile-fab" aria-label="Menü megnyitása">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
+</button>
+
 <style>
   .header {
     position: sticky;
@@ -104,7 +113,7 @@ const navLinks = [
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
 
-  /* Mobile: initially hidden until scrolled */
+  /* Mobile: show on scroll, but always accessible */
   @media (max-width: 768px) {
     .header {
       position: fixed;
@@ -114,9 +123,11 @@ const navLinks = [
       transform: translateY(-100%);
       opacity: 0;
       pointer-events: none;
+      transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
-    .header.scrolled {
+    .header.scrolled,
+    .header.menu-open {
       transform: translateY(0);
       opacity: 1;
       pointer-events: auto;
@@ -279,6 +290,32 @@ const navLinks = [
     }
   }
 
+  /* Floating mobile menu button */
+  .mobile-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 98;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .mobile-fab.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8);
+  }
+
   @media (min-width: 769px) and (max-width: 1024px) {
     .nav-link {
       font-size: 0.8rem;
@@ -295,30 +332,58 @@ const navLinks = [
   const menuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
   const header = document.querySelector('.header');
+  const fab = document.getElementById('mobile-fab');
+
+  function openMobileMenu() {
+    mobileMenu?.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (window.innerWidth <= 768) {
+      header?.classList.add('menu-open');
+      fab?.classList.add('hidden');
+    }
+  }
+
+  function closeMobileMenu() {
+    mobileMenu?.classList.remove('open');
+    document.body.style.overflow = '';
+    if (window.innerWidth <= 768) {
+      header?.classList.remove('menu-open');
+      handleScroll(); // Re-evaluate FAB visibility
+    }
+  }
 
   menuBtn?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('open');
-    const isOpen = mobileMenu?.classList.contains('open');
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-
-    // Force header to show when menu is opened
-    if (isOpen && window.innerWidth <= 768) {
-      header?.classList.add('scrolled');
+    if (mobileMenu?.classList.contains('open')) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
     }
+  });
+
+  // FAB also opens mobile menu
+  fab?.addEventListener('click', () => {
+    openMobileMenu();
   });
 
   // Mobile: show header only after scrolling one full viewport
   function handleScroll() {
     if (window.innerWidth <= 768) {
       const scrollThreshold = window.innerHeight;
-      if (window.scrollY >= scrollThreshold) {
+      const isScrolled = window.scrollY >= scrollThreshold;
+      if (isScrolled) {
         header?.classList.add('scrolled');
+        fab?.classList.add('hidden'); // hide FAB when header is visible
       } else {
         header?.classList.remove('scrolled');
+        // Show FAB when header is hidden (not scrolled yet)
+        if (!mobileMenu?.classList.contains('open')) {
+          fab?.classList.remove('hidden');
+        }
       }
     } else {
-      // On desktop, always show
+      // On desktop, always show header, hide FAB
       header?.classList.add('scrolled');
+      fab?.classList.add('hidden');
     }
   }
 
