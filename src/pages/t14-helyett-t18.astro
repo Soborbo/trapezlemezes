@@ -1,0 +1,493 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import StrengthChart from '../components/StrengthChart.astro';
+import ExperienceBlock from '../components/ExperienceBlock.astro';
+import TrustSignals from '../components/TrustSignals.astro';
+import CtaBox from '../components/CtaBox.astro';
+import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
+
+const title = 'T14 trapézlemez helyett T18 | Olcsóbb garázs tető | Trapezlemezes.hu';
+const description = 'T14 trapézlemezt keresel garázs tetőhöz? A T18 0.5mm erősebb, és a teljes projektköltség 20%-kal alacsonyabb.';
+
+const breadcrumbItems = [
+  { label: 'Típusok', href: '/trapezlemez' },
+  { label: 'T14 helyett T18' },
+];
+
+const comparisonRows = [
+  { label: 'Vastagság', competitor: '0.4mm', ours: '0.5mm', highlight: true },
+  { label: 'Ár', competitor: '~2500 Ft/m²', ours: '2240 Ft/m²', highlight: true },
+  { label: 'Erősség', competitor: '103%', ours: '208%', highlight: true },
+  { label: 'Garancia', competitor: '5-10 év', ours: '20 év', highlight: true },
+  { label: 'Gyártás', competitor: '1-3 hét', ours: '48 óra' },
+];
+
+const faqs = [
+  {
+    question: 'T14-es garázshoz elég volt eddig, miért váltsak?',
+    answer: 'A T14 0.4mm garázstetőhöz valóban működik, de a teljes projektköltség a T18 0.5mm-mel alacsonyabb. Kevesebb szelemen kell (100cm helyett 70cm távolság), ami olcsóbb faanyagot és kevesebb munkaórát jelent. Egy 30m²-es garázsnál ez ~33,000 Ft megtakarítás.',
+  },
+  {
+    question: 'Mekkora garázshoz jó a T18?',
+    answer: 'Bármilyen méretű lakossági garázshoz. A T18 0.5mm 100cm-es szelemen-távolsággal 6m fesztávig problémamentes. Ez lefedi az egyautós (3x6m), kétautós (6x6m) és a nagyobb műhely-garázsokat is.',
+  },
+  {
+    question: 'Mennyit spórolok a szelemeneken?',
+    answer: 'Kb. 25%-ot, ami egy 30m²-es garázsnál ~15,000 Ft megtakarítás csak a faanyagon. Ehhez jön a kevesebb munkaóra is, mert kevesebb szelement kell beépíteni – ez további ~10,000 Ft megtakarítás.',
+  },
+];
+
+const faqSchema = getFaqSchema(faqs);
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Főoldal', url: '/' },
+  { name: 'Típusok', url: '/trapezlemez' },
+  { name: 'T14 helyett T18', url: '/t14-helyett-t18' },
+]);
+
+const extraSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [faqSchema, breadcrumbSchema],
+};
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema}>
+  <div class="page-container">
+    <BreadcrumbNav items={breadcrumbItems} />
+
+    <article class="type-replacement">
+      <header class="hero-section">
+        <h1>T14 trapézlemez helyett válaszd a T18-at</h1>
+        <p class="hero-lead">
+          A T14 0.4mm a „középkategória" – de vajon tényleg megéri? Ha garázs tetőre keresel lemezt,
+          <strong>a T18 0.5mm-mel nemcsak erősebb, hanem összességében olcsóbb tetőt kapsz.</strong>
+        </p>
+      </header>
+
+      <!-- Problem Section -->
+      <section class="content-section">
+        <h2>A T14 rejtett költségei</h2>
+        <p>
+          A T14 0.4mm ára elsőre elfogadhatónak tűnik (~2500 Ft/m²), de a valós költség nem a lemezárban
+          rejlik. A gyengébb lemez sűrűbb alátámasztást igényel – és ez az, ami a teljes projektet drágítja.
+        </p>
+        <ul class="problem-list">
+          <li>70cm-es szelemen-távolság szükséges (T18: 100cm is elég)</li>
+          <li>Több faanyag = magasabb anyagköltség</li>
+          <li>Több szelemen = több munkaóra a tetőszerkezeten</li>
+          <li>0.4mm vastagság = rövidebb élettartam, korábbi csere</li>
+        </ul>
+      </section>
+
+      <!-- Solution Section -->
+      <section class="content-section">
+        <h2>A megoldás: T18 0.5mm – olcsóbb összköltség</h2>
+        <p>
+          A T18 0.5mm lemezár négyzetméterenként akár olcsóbb, mint a T14 0.4mm.
+          De a valódi megtakarítás a teljes projektben mutatkozik meg: kevesebb szelemen, kevesebb
+          munkaóra, és 20 év garancia a 0.5mm vastagságnak köszönhetően.
+        </p>
+      </section>
+
+      <!-- Comparison Table -->
+      <ComparisonTable
+        competitorName="T14 0.4mm"
+        ourName="T18 0.5mm"
+        rows={comparisonRows}
+      />
+
+      <!-- Unique Use Case: Garázs Tető Költségkalkuláció -->
+      <section class="content-section use-case-section">
+        <h2>Garázs tető – teljes projektköltség összehasonlítás</h2>
+        <p>
+          Egy tipikus 30m²-es garázs tetőnél (5x6m) a lemez ára a teljes költség kevesebb mint felét teszi ki.
+          A szelemen és a munkadíj döntően befolyásolja a végösszeget. Nézzük a számokat:
+        </p>
+
+        <div class="cost-comparison-table">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Költségelem</th>
+                  <th class="col-competitor">T14 0.4mm</th>
+                  <th class="col-ours">T18 0.5mm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="cell-label">Lemez (30m²)</td>
+                  <td>75,000 Ft</td>
+                  <td>67,200 Ft</td>
+                </tr>
+                <tr>
+                  <td class="cell-label">Szelemen faanyag</td>
+                  <td>45,000 Ft</td>
+                  <td>30,000 Ft</td>
+                </tr>
+                <tr>
+                  <td class="cell-label">Munkadíj</td>
+                  <td>40,000 Ft</td>
+                  <td>30,000 Ft</td>
+                </tr>
+                <tr class="total-row">
+                  <td class="cell-label">Összesen</td>
+                  <td>~160,000 Ft</td>
+                  <td class="savings-cell">~127,200 Ft</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="savings-badge">
+            <strong>20% megtakarítás</strong> – a T18-cal ~33,000 Ft-ot spórolsz egy 30m²-es garázson
+          </div>
+        </div>
+
+        <p>
+          A megtakarítás forrása egyszerű: a T18 0.5mm 100cm-es szelemen-távolsággal használható, szemben a T14
+          70cm-es igényével. Kevesebb szelemen = kevesebb fa = kevesebb munka.
+        </p>
+        <p>
+          Tetőépítésről bővebben: <a href="/trapezlemez-teto/">Trapézlemez tető útmutató</a>
+        </p>
+      </section>
+
+      <!-- Experience Block -->
+      <ExperienceBlock text="A garázs tetőnél a legtöbb embert a lemez ára érdekli, de a szelemen és a munka sokszor többe kerül, mint maga a lemez. A T18 0.5mm-mel mindkettőn spórolsz." />
+
+      <!-- Disadvantages Section -->
+      <section class="content-section transparency-section">
+        <h2>Hátrány? Legyünk transzparensek</h2>
+        <p>A T18 nem minden helyzetben ideális a T14 helyett. Két szituáció, ahol érdemes átgondolni:</p>
+        <div class="disadvantage-list">
+          <div class="disadvantage-item">
+            <h3>Meglévő T14 rendszerhez illesztés</h3>
+            <p>
+              Ha egy meglévő T14-es tetőt bővítesz vagy javítasz, a bordatávolság eltér a T18-tól.
+              A két profil nem illeszthető egymás mellé az átfedésnél. Ilyenkor vagy a teljes felületet
+              cseréled, vagy marad a T14.
+            </p>
+          </div>
+          <div class="disadvantage-item">
+            <h3>Alacsony profil esztétikai okokból</h3>
+            <p>
+              Ha kifejezetten alacsony, lapos megjelenésű lemezt keresel (pl. modern épület
+              homlokzatburkolatához), a T14 alacsonyabb bordája vizuálisan diszkrétebb.
+              Tetőnél ez ritkán szempont, de homlokzatnál előfordulhat.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="content-section faq-section">
+        <h2>Gyakran ismételt kérdések</h2>
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- Calculator CTA -->
+      <section class="content-section calculator-cta">
+        <h2>Kalkuláld ki a garázs tetőd költségét</h2>
+        <p>
+          Add meg a garázs méreteit, és azonnal megkapod a pontos lemezárat,
+          a szükséges mennyiséget és a szállítási költséget.
+        </p>
+        <a href="/kalkulator" class="btn-calculator">
+          Garázs tető kalkulátor
+        </a>
+      </section>
+
+      <!-- Trust Signals -->
+      <TrustSignals />
+
+      <!-- CTA Box -->
+      <div class="cta-wrapper">
+        <CtaBox title="Garázs tetőt tervezel? Segítünk!" />
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .type-replacement {
+    padding-bottom: var(--spacing-3xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--color-primary-dark);
+    line-height: 1.3;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-lead {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    line-height: 1.7;
+  }
+
+  /* Content Sections */
+  .content-section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .content-section h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  .content-section p {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .content-section a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .content-section a:hover {
+    text-decoration: underline;
+  }
+
+  /* Problem List */
+  .problem-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-md) 0;
+  }
+
+  .problem-list li {
+    position: relative;
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+  }
+
+  .problem-list li::before {
+    content: '\2717';
+    position: absolute;
+    left: 0;
+    color: #ef4444;
+    font-weight: 700;
+  }
+
+  /* Cost Comparison Table */
+  .cost-comparison-table {
+    margin: var(--spacing-xl) 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-bg-light);
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cost-comparison-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+  }
+
+  .cost-comparison-table th,
+  .cost-comparison-table td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cost-comparison-table thead th {
+    background: var(--color-bg-dark);
+    font-weight: 700;
+  }
+
+  .col-competitor {
+    color: var(--color-text-light);
+  }
+
+  .col-ours {
+    color: var(--color-primary-dark);
+  }
+
+  .cell-label {
+    font-weight: 600;
+  }
+
+  .total-row {
+    background: #e8f5e9;
+    font-weight: 700;
+  }
+
+  .total-row td {
+    border-bottom: none;
+  }
+
+  .savings-cell {
+    color: var(--color-primary-dark);
+    font-size: 1rem;
+  }
+
+  .savings-badge {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-primary);
+    color: var(--color-white);
+    text-align: center;
+    font-size: var(--font-size-sm);
+  }
+
+  /* Use Case Section */
+  .use-case-section h3 {
+    font-size: var(--font-size-xl);
+    color: var(--color-primary-dark);
+    margin: var(--spacing-lg) 0 var(--spacing-md);
+  }
+
+  /* Transparency Section */
+  .transparency-section .disadvantage-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+
+  .disadvantage-item {
+    background: #fffbeb;
+    border-left: 4px solid var(--color-warning);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--spacing-lg);
+  }
+
+  .disadvantage-item h3 {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .disadvantage-item p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* FAQ */
+  .faq-item {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    font-weight: 300;
+  }
+
+  .faq-item[open] summary::after {
+    content: '-';
+  }
+
+  .faq-answer {
+    padding: 0 var(--spacing-lg) var(--spacing-md);
+  }
+
+  .faq-answer p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Calculator CTA */
+  .calculator-cta {
+    text-align: center;
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+  }
+
+  .calculator-cta h2 {
+    border-bottom: none;
+    text-align: center;
+  }
+
+  .calculator-cta p {
+    max-width: 500px;
+    margin: 0 auto var(--spacing-lg);
+  }
+
+  .btn-calculator {
+    display: inline-block;
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+  }
+
+  .btn-calculator:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+  }
+
+  /* CTA Wrapper */
+  .cta-wrapper {
+    margin-top: var(--spacing-2xl);
+  }
+
+  @media (max-width: 640px) {
+    .cost-comparison-table th,
+    .cost-comparison-table td {
+      padding: var(--spacing-xs) var(--spacing-sm);
+      font-size: 0.8rem;
+    }
+  }
+</style>

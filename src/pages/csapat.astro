@@ -1,0 +1,239 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import CtaBox from '../components/CtaBox.astro';
+import { getBreadcrumbSchema } from '../config/schema';
+
+const breadcrumbs = [
+  { label: 'Rólunk', href: '/rolunk/' },
+  { label: 'Csapat' },
+];
+
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Főoldal', url: '/' },
+  { name: 'Rólunk', url: '/rolunk/' },
+  { name: 'Csapat', url: '/csapat/' },
+]);
+
+const extraSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [breadcrumbSchema],
+};
+
+const team = [
+  {
+    name: 'Farkas Roland',
+    initials: 'FR',
+    role: 'Ügyvezető',
+    education: 'Gépészmérnök (Budapesti Műszaki Főiskola)',
+    experience: '10+ év tapasztalat trapézlemez tetőkben',
+    quote: 'A minőség nem kompromisszum kérdése',
+  },
+  {
+    name: 'Péter Krisztián Ádám',
+    initials: 'PK',
+    role: 'Értékesítés',
+    education: null,
+    experience: 'Segít megtalálni a legjobb megoldást az Ön projektjéhez',
+    quote: null,
+  },
+];
+---
+
+<Layout
+  title="Csapatunk | Trapezlemezes.hu"
+  description="Ismerd meg a Trapezlemezes.hu csapatát. Farkas Roland gépészmérnök és tapasztalt szakembereink."
+  extraSchema={extraSchema}
+>
+  <div class="page-container">
+    <BreadcrumbNav items={breadcrumbs} />
+
+    <article class="team-page">
+      <header class="hero-section">
+        <h1>A csapat</h1>
+      </header>
+
+      <div class="team-grid">
+        {team.map((member) => (
+          <div class="team-card">
+            <div class="team-avatar">
+              <span class="avatar-initials">{member.initials}</span>
+            </div>
+            <div class="team-info">
+              <h2 class="team-name">{member.name}</h2>
+              <p class="team-role">{member.role}</p>
+              {member.education && (
+                <p class="team-education">{member.education}</p>
+              )}
+              <p class="team-experience">{member.experience}</p>
+              {member.quote && (
+                <blockquote class="team-quote">
+                  „{member.quote}"
+                </blockquote>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Back to About -->
+      <section class="back-section">
+        <a href="/rolunk/" class="back-link">
+          &larr; Vissza a Rólunk oldalra
+        </a>
+      </section>
+
+      <!-- CTA Box -->
+      <div class="cta-wrapper">
+        <CtaBox title="Kérdése van? Szívesen segítünk!" />
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .team-page {
+    padding-bottom: var(--spacing-3xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--color-primary-dark);
+    line-height: 1.3;
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* Team Grid */
+  .team-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
+
+  .team-card {
+    display: flex;
+    gap: var(--spacing-xl);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    align-items: flex-start;
+  }
+
+  @media (max-width: 640px) {
+    .team-card {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  /* Avatar */
+  .team-avatar {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .avatar-initials {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--color-white);
+    letter-spacing: 1px;
+  }
+
+  /* Team Info */
+  .team-info {
+    flex: 1;
+  }
+
+  .team-name {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary-dark);
+    margin: 0 0 var(--spacing-xs);
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .team-role {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0 0 var(--spacing-md);
+  }
+
+  .team-education {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin: 0 0 var(--spacing-xs);
+  }
+
+  .team-experience {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0 0 var(--spacing-md);
+  }
+
+  .team-quote {
+    font-size: var(--font-size-lg);
+    font-style: italic;
+    color: var(--color-primary-dark);
+    border-left: 3px solid var(--color-primary);
+    padding-left: var(--spacing-md);
+    margin: var(--spacing-md) 0 0;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 640px) {
+    .team-quote {
+      border-left: none;
+      border-top: 3px solid var(--color-primary);
+      padding-left: 0;
+      padding-top: var(--spacing-md);
+    }
+  }
+
+  /* Back Section */
+  .back-section {
+    margin-top: var(--spacing-2xl);
+    text-align: center;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+
+  .back-link:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  /* CTA Wrapper */
+  .cta-wrapper {
+    margin-top: var(--spacing-2xl);
+  }
+</style>

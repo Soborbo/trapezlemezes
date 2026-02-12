@@ -1,0 +1,322 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import ExperienceBlock from '../components/ExperienceBlock.astro';
+import TrustSignals from '../components/TrustSignals.astro';
+import CtaBox from '../components/CtaBox.astro';
+import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
+
+const title = 'Gyakran Ismételt Kérdések | Trapezlemezes.hu';
+const description = 'Trapézlemez GYIK: termékek, árak, szállítás, szerelés, garancia. Minden kérdésre válaszolunk.';
+
+const breadcrumbItems = [
+  { label: 'GYIK' },
+];
+
+const termekFaqs = [
+  {
+    question: 'Milyen vastag a lemez?',
+    answer: 'A standard T18 lemezünk 0.5mm vastag. A narancssárga termékvonalunk 0.6mm svéd acélból készül, ami extra tartósságot biztosít. Mi nem forgalmazunk 0.4mm-es vagy vékonyabb lemezt, mert azok nem felelnek meg a minőségi elvárásainknak.',
+  },
+  {
+    question: 'Mi az a T18 profil?',
+    answer: 'A T18 egy trapézlemez profiltípus, ahol a szám (18) a borda magasságát jelöli milliméterben. A 18mm-es bordamagasság ideális egyensúlyt teremt az erősség és az ár között – erősebb, mint a T12 vagy T14, de nem olyan drága, mint a T25 vagy T35 ipari profilok.',
+  },
+  {
+    question: 'Milyen alapanyagból készül?',
+    answer: 'Svéd és európai minőségű acélból, 275 g/m² horganyzással. Ez az EU-ban elérhető legmagasabb horganyzási kategóriák egyike. A horganyzás védi az acélt a korróziótól – minél vastagabb a cinkréteg, annál tovább tart a védelem.',
+  },
+  {
+    question: 'Hány színben érhető el?',
+    answer: '9+ szín érhető el raktárról: RAL 8017 (csokoládébarna), RAL 3011 (bordó), RAL 6005 (mohazöld), RAL 7016 (antracit szürke), RAL 9005 (fekete), RAL 5010 (kék), RAL 3009 (vörösbarna), RAL 8004 (terrakotta), és horganyzott natúr. Egyedi szín kérésre rendelhető.',
+  },
+  {
+    question: 'Van famintás trapézlemez?',
+    answer: 'Igen, prémium kategóriás famintás lemez is elérhető. Ez egy speciális bevonatú lemez, ami természetes fa hatást kelt, de a trapézlemez minden előnyét megtartja (tartósság, karbantartásmentesség, könnyű szerelés). Kerítéshez különösen népszerű választás.',
+  },
+];
+
+const arFaqs = [
+  {
+    question: 'Mennyibe kerül a trapézlemez?',
+    answer: 'A horganyzott natúr lemez 2240 Ft/m²-tól, a standard színes 2640 Ft/m²-tól, a famintás 2840 Ft/m²-tól indul. Az árak bruttók (ÁFA-t tartalmaznak). Pontos árajánlatért használja online kalkulátorunkat vagy hívjon minket.',
+  },
+  {
+    question: 'Hogyan rendelhetek?',
+    answer: 'Az online kalkulátorunkkal összeállíthatja a rendelését (méretek, színek, mennyiség), kosárba teheti, majd egy megrendelési szándéknyilatkozatot küld. Ezután felhívjuk, egyeztetjük a részleteket, és csak utána lesz végleges a rendelés. Nincs kötelezettség az online szándéknyilatkozat elküldésekor.',
+  },
+  {
+    question: 'Van mennyiségi kedvezmény?',
+    answer: 'Egyedi árajánlatot adunk nagyobb mennyiségekre. Hívjon a +36 1 300-92-06 számon, vagy kérjen online árajánlatot. Kivitelezőknek és viszonteladóknak külön feltételeket biztosítunk.',
+  },
+  {
+    question: 'Az ár tartalmazza az ÁFÁ-t?',
+    answer: 'Igen, az oldalon feltüntetett minden ár bruttó ár, amely tartalmazza a 27%-os ÁFÁ-t. Nincs rejtett költség – amit lát, azt fizeti (plusz szállítás, ha nem éri el az ingyenes szállítás határát).',
+  },
+  {
+    question: 'Mi az a szándéknyilatkozat?',
+    answer: 'Az online megrendelés valójában egy szándéknyilatkozat, nem végleges rendelés. Miután beküldi, felhívjuk, egyeztetjük a méreteket, színeket és szállítási időpontot. Csak a telefonos megerősítés után lesz végleges a rendelés. Ez azért jó, mert így nincs félrerendelés.',
+  },
+];
+
+const szallitasFaqs = [
+  {
+    question: 'Mennyibe kerül a szállítás?',
+    answer: 'Gazdaságos szállítás: 19 990 Ft (3-5 munkanap). Expressz szállítás: 39 990 Ft (1-2 munkanap). 250 m² felett a szállítás ingyenes mindenhova Magyarországon belül.',
+  },
+  {
+    question: 'Mennyi idő a szállítás?',
+    answer: 'Gazdaságos szállítás: 3-5 munkanap a gyártás után. Expressz szállítás: 1-2 munkanap a gyártás után. A gyártási idő raktári anyagból 48 óra. Egyedi méretekre és színekre 1-2 hét a gyártási idő.',
+  },
+  {
+    question: 'Lehet személyesen átvenni?',
+    answer: 'Igen, telephelyünkön személyesen is átvehető a rendelés. Cím: 1182 Budapest, Királyhágó utca 30. Nyitvatartás: hétfő-péntek 8:00-17:00. Személyes átvétel esetén nincs szállítási költség.',
+  },
+  {
+    question: 'Hová szállítanak?',
+    answer: 'Egész Magyarországra szállítunk, bármely településre. A szállítás daruzással történik, így nehezen megközelíthető helyszínekre is tudjuk vinni az anyagot. Budapesten és agglomerációban expressz szállítás is elérhető.',
+  },
+];
+
+const szerelesFaqs = [
+  {
+    question: 'Hány csavar kell négyzetméterenként?',
+    answer: 'Kb. 10 db/m², azaz 1 doboz csavar (250 db) kb. 25 m² rögzítéséhez elegendő. Szélnek kitett felületeknél (kerítés, tetőszél) érdemes 12-15 csavart használni négyzetméterenként.',
+  },
+  {
+    question: 'Mekkora a lemezek átfedése?',
+    answer: 'Oldalirányban a lemez teljes szélessége 116 cm, ebből a fedett (hasznos) szélesség 110 cm. A 6 cm a gyári átfedés. Hosszirányban (ha a tető hosszabb, mint egy lemez) minimum 15-20 cm átfedés szükséges.',
+  },
+  {
+    question: 'Lehet a lemezt vágni?',
+    answer: 'Igen, lemezollóval. NE használjon flexet (sarokcsiszolót) – a szikrák és a hő tönkreteszi a horganyzott és festett bevonatot, ami korai rozsdásodáshoz és garanciavesztéshez vezet. Kézi vagy elektromos lemezolló a helyes eszköz.',
+  },
+];
+
+const garanciaFaqs = [
+  {
+    question: 'Milyen garanciát adnak?',
+    answer: '20 év garanciát vállalunk a lemezeinkre. Ez nem reklámszöveg – a 0.5mm-es vastagság és a 275 g/m² horganyzás biztosítja, hogy a lemez valóban kibírja ezt az időt.',
+  },
+  {
+    question: 'Mire vonatkozik a garancia?',
+    answer: 'Anyaghibára, átrozsdásodásra és bevonat lepergésre. Nem vonatkozik mechanikai sérülésre (pl. horpadás), helytelen szerelésre (pl. flex-szel vágás, csavar túlhúzás) és természeti katasztrófára.',
+  },
+  {
+    question: 'Kell regisztrálni a garanciát?',
+    answer: 'Nem, nincs szükség külön regisztrációra. A vásárlás igazolása (számla) elegendő a garanciális igény érvényesítéséhez. Őrizze meg a számlát a garancia idejére.',
+  },
+];
+
+const allFaqs = [
+  ...termekFaqs,
+  ...arFaqs,
+  ...szallitasFaqs,
+  ...szerelesFaqs,
+  ...garanciaFaqs,
+];
+
+const faqSchema = getFaqSchema(allFaqs);
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Főoldal', url: '/' },
+  { name: 'GYIK', url: '/gyik' },
+]);
+
+const extraSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [faqSchema, breadcrumbSchema],
+};
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema}>
+  <div class="page-container">
+    <BreadcrumbNav items={breadcrumbItems} />
+
+    <article class="faq-page">
+      <header class="hero-section">
+        <h1>Gyakran Ismételt Kérdések</h1>
+        <p class="hero-lead">
+          Összegyűjtöttük a leggyakrabban feltett kérdéseket és válaszainkat. Ha nem találja itt a választ,
+          <strong>hívjon minket a +36 1 300-92-06 számon</strong> – örömmel segítünk.
+        </p>
+      </header>
+
+      <!-- Termékek és minőség -->
+      <section class="faq-category">
+        <h2>Termékek és minőség</h2>
+        {termekFaqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- Árak és rendelés -->
+      <section class="faq-category">
+        <h2>Árak és rendelés</h2>
+        {arFaqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- Szállítás -->
+      <section class="faq-category">
+        <h2>Szállítás</h2>
+        {szallitasFaqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- Szerelés -->
+      <section class="faq-category">
+        <h2>Szerelés</h2>
+        {szerelesFaqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- Garancia -->
+      <section class="faq-category">
+        <h2>Garancia</h2>
+        {garanciaFaqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- Trust Signals -->
+      <TrustSignals />
+
+      <!-- CTA -->
+      <div class="cta-wrapper">
+        <CtaBox title="Nem találta a választ? Hívjon minket!" />
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .faq-page {
+    padding-bottom: var(--spacing-3xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--color-primary-dark);
+    line-height: 1.3;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-lead {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    line-height: 1.7;
+  }
+
+  /* FAQ Categories */
+  .faq-category {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .faq-category h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  /* FAQ Items */
+  .faq-item {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .faq-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .faq-item summary {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    font-weight: 300;
+    flex-shrink: 0;
+  }
+
+  .faq-item[open] summary::after {
+    content: '-';
+  }
+
+  .faq-item[open] summary {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .faq-answer {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .faq-answer p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* CTA Wrapper */
+  .cta-wrapper {
+    margin-top: var(--spacing-2xl);
+  }
+</style>

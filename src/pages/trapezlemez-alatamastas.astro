@@ -1,0 +1,497 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import ExperienceBlock from '../components/ExperienceBlock.astro';
+import TrustSignals from '../components/TrustSignals.astro';
+import CtaBox from '../components/CtaBox.astro';
+import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
+
+const title = 'Trapézlemez alátámasztás – Szelemen távolság | Trapezlemezes.hu';
+const description = 'Trapézlemez alátámasztási útmutató: szelemen távolságok, Eurocode 3 számítások, alaktényező magyarázat.';
+
+const breadcrumbItems = [
+  { label: 'Alátámasztás' },
+];
+
+const faqs = [
+  {
+    question: 'Mi az alaktényező és miért fontos?',
+    answer: 'Az alaktényező (W) egy mérnöki mutató, ami megmutatja, mennyire ellenáll a lemez a hajlításnak. Minél nagyobb az alaktényező, annál merevebb a lemez, és annál nagyobb szelemen távolság alkalmazható. A képlet: W = I × t³ / 6, ahol I a profil inercianyomatéka, t a vastagság. Ezért hat a vastagság köbre emelve – a 0.5mm-es lemez 208%-kal erősebb, mint a 0.4mm-es.',
+  },
+  {
+    question: 'Mennyit spórolhatok a kevesebb szelemennel?',
+    answer: 'Egy 6 méteres tetőnél a T18 0.5mm-hez 6 db szelemen kell, míg a T12 0.4mm-hez 10 db. Ez 4 szelelennel kevesebb, ami anyagban, munkaórában és szerelési időben is megtakarítást jelent. Átlagosan 15-25%-os megtakarítás érhető el a tartószerkezeten – ami egy nagyobb projektnél több tízezer forintot is jelenthet.',
+  },
+  {
+    question: 'Kell statikus terv a trapézlemez tetőhöz?',
+    answer: 'Kisebb melléképületeknél (garázs, fészer, tároló) általában nem szükséges. Lakóépületeknél és 50 m² feletti tetőknél ajánlott, 100 m² felett pedig erősen javasolt. Az Eurocode 3 szabvány szerint a teherhordó szerkezetek méretezéséhez statikus terv szükséges – ez tartalmazza a hó- és szélterhelés számítását is.',
+  },
+];
+
+const faqSchema = getFaqSchema(faqs);
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Főoldal', url: '/' },
+  { name: 'Alátámasztás', url: '/trapezlemez-alatamastas' },
+]);
+
+const extraSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [faqSchema, breadcrumbSchema],
+};
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema}>
+  <div class="page-container">
+    <BreadcrumbNav items={breadcrumbItems} />
+
+    <article class="support-guide">
+      <header class="hero-section">
+        <h1>Trapézlemez alátámasztás – Szelemen távolságok</h1>
+        <p class="hero-lead">
+          A szelemen távolság meghatározza a tető tartósságát és a projekt összköltségét.
+          Túl sűrű szelemen = felesleges kiadás. Túl ritka = a lemez behajlik.
+          <strong>Itt megmutatjuk a pontos értékeket.</strong>
+        </p>
+      </header>
+
+      <!-- 1. Miért fontos az alátámasztás -->
+      <section class="content-section">
+        <h2>Miért fontos az alátámasztás?</h2>
+        <p>
+          A trapézlemez nem öntartó szerkezet – szükséges alatta egy tartóváz (szeleménrendszer), amely átveszi a terhelést.
+          Ha a szelemenek távolsága túl nagy, a lemez behajlik a saját súlya, a hó és a szél hatására. Az eredmény: állóvíz, korrózió, majd beázás.
+        </p>
+        <p>
+          A helyes szelemen távolság a lemez típusától, vastagságától és a várható terheléstől (hó, szél) függ.
+          Az alábbi táblázat az általános ajánlásokat tartalmazza átlagos magyarországi körülményekre.
+        </p>
+      </section>
+
+      <!-- 2. Szelemen távolságok táblázat -->
+      <section class="content-section">
+        <h2>Ajánlott szelemen távolságok</h2>
+        <div class="table-wrapper">
+          <table class="spec-table">
+            <thead>
+              <tr>
+                <th>Típus + vastagság</th>
+                <th>Max szelemen táv.</th>
+                <th>Szelemen db 6m-re</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>T12 0.4mm</td>
+                <td>60 cm</td>
+                <td>10 db</td>
+              </tr>
+              <tr>
+                <td>T14 0.4mm</td>
+                <td>70 cm</td>
+                <td>9 db</td>
+              </tr>
+              <tr>
+                <td>T20 0.4mm</td>
+                <td>80 cm</td>
+                <td>8 db</td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>T18 0.5mm</strong></td>
+                <td><strong>100 cm</strong></td>
+                <td><strong>6 db</strong></td>
+              </tr>
+              <tr>
+                <td>T18 0.6mm</td>
+                <td>120 cm</td>
+                <td>5 db</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">
+          A T18 0.5mm 100 cm-es szelemen távolságot tesz lehetővé – ez <strong>40%-kal kevesebb szelemen</strong>, mint a T12 0.4mm-nél.
+        </p>
+      </section>
+
+      <!-- 3. Alaktényező magyarázat -->
+      <section class="content-section">
+        <h2>Az alaktényező – Miért ennyire fontos a vastagság?</h2>
+        <p>
+          A trapézlemez hajlítási ellenállását az <strong>alaktényező (W)</strong> határozza meg.
+          Az Eurocode 3 szabvány szerint:
+        </p>
+        <div class="formula-box">
+          <p class="formula">W = I &times; t&sup3; / 6</p>
+          <p class="formula-desc">ahol <strong>I</strong> = profil inercianyomaték, <strong>t</strong> = vastagság (mm)</p>
+        </div>
+        <p>
+          A kulcs a <strong>t&sup3;</strong> (vastagság köbre emelve). Ez azt jelenti, hogy már 0.1mm vastagságnövelés
+          drámai erősségnövekedést eredményez:
+        </p>
+        <ul class="calc-list">
+          <li>0.4mm: 0.4&sup3; = <strong>0.064</strong></li>
+          <li>0.5mm: 0.5&sup3; = <strong>0.125</strong> (195% a 0.4mm-hez képest)</li>
+          <li>0.6mm: 0.6&sup3; = <strong>0.216</strong> (338% a 0.4mm-hez képest)</li>
+        </ul>
+        <p>
+          Ha ehhez hozzáadjuk a T18 profil magasabb bordáját (18mm vs 12mm), a teljes erősségkülönbség <strong>208%</strong> a T12 0.4mm-hez képest.
+        </p>
+      </section>
+
+      <!-- 4. ExperienceBlock -->
+      <ExperienceBlock text="A leggyakoribb hiba, hogy a szelemen távolságot nem tartják be. Eredmény: a lemez behajlik, állóvíz keletkezik, és 5 éven belül korrózió indul." />
+
+      <!-- 5. Miért kevesebb szelemen = olcsóbb projekt -->
+      <section class="content-section">
+        <h2>Kevesebb szelemen = olcsóbb projekt</h2>
+        <p>
+          Sokan csak a lemez árát nézik – pedig a tartószerkezet költsége gyakran meghaladja a lemezárát.
+          Ha erősebb lemezt veszel, <strong>kevesebb szelemen kell</strong>, ami csökkenti a teljes projektköltséget.
+        </p>
+        <div class="comparison-cards">
+          <div class="comparison-card weak">
+            <h3>T12 0.4mm – 6 méteres tető</h3>
+            <ul>
+              <li>Szelemen távolság: 60 cm</li>
+              <li>Szükséges szelenek: <strong>10 db</strong></li>
+              <li>Lemez ára alacsonyabb</li>
+              <li>Tartószerkezet ára: <strong>magasabb</strong></li>
+            </ul>
+          </div>
+          <div class="comparison-card strong">
+            <h3>T18 0.5mm – 6 méteres tető</h3>
+            <ul>
+              <li>Szelemen távolság: 100 cm</li>
+              <li>Szükséges szelenek: <strong>6 db</strong></li>
+              <li>Lemez ára hasonló</li>
+              <li>Tartószerkezet ára: <strong>alacsonyabb</strong></li>
+            </ul>
+          </div>
+        </div>
+        <p>
+          Az összesített költség (lemez + tartószerkezet + munka) a T18 0.5mm esetében gyakran <strong>15-25%-kal alacsonyabb</strong>,
+          mint a vékonyabb, olcsóbbnak tűnő lemezeknél. Ez a teljes projektköltség logika.
+        </p>
+      </section>
+
+      <!-- 6. FAQ -->
+      <section class="content-section faq-section">
+        <h2>Gyakran ismételt kérdések</h2>
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- 7. Crosslink -->
+      <section class="content-section crosslink-section">
+        <div class="crosslink-box">
+          <h3>T20-t fontolgatsz?</h3>
+          <p>Nézd meg a T20 vs T18 összehasonlítást – meglepő eredmény.</p>
+          <a href="/t20-helyett-t18/" class="crosslink-btn">T20 vs T18 összehasonlítás</a>
+        </div>
+      </section>
+
+      <!-- Trust Signals -->
+      <TrustSignals />
+
+      <!-- 8. CTA -->
+      <div class="cta-wrapper">
+        <CtaBox title="Segítünk kiszámolni a szelemen távolságot!" />
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .support-guide {
+    padding-bottom: var(--spacing-3xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--color-primary-dark);
+    line-height: 1.3;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-lead {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    line-height: 1.7;
+  }
+
+  /* Content Sections */
+  .content-section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .content-section h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  .content-section p {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .content-section a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .content-section a:hover {
+    text-decoration: underline;
+  }
+
+  /* Table */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: var(--spacing-lg) 0;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+  }
+
+  .spec-table thead {
+    background: var(--color-primary-dark);
+    color: var(--color-white);
+  }
+
+  .spec-table th {
+    padding: var(--spacing-md) var(--spacing-lg);
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .spec-table td {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-light);
+  }
+
+  .spec-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .spec-table .highlight-row {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+  }
+
+  .spec-table .highlight-row td {
+    color: var(--color-primary-dark);
+  }
+
+  .table-note {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--spacing-sm);
+  }
+
+  /* Formula Box */
+  .formula-box {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    text-align: center;
+    border: 2px solid var(--color-border);
+  }
+
+  .formula {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-xs);
+    font-family: 'Courier New', monospace;
+  }
+
+  .formula-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* Calculation List */
+  .calc-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-md) 0;
+  }
+
+  .calc-list li {
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Comparison Cards */
+  .comparison-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
+  }
+
+  @media (max-width: 600px) {
+    .comparison-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .comparison-card {
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+  }
+
+  .comparison-card.weak {
+    background: #fef2f2;
+    border-left: 4px solid #ef4444;
+  }
+
+  .comparison-card.strong {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border-left: 4px solid var(--color-primary);
+  }
+
+  .comparison-card h3 {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .comparison-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .comparison-card li {
+    padding: var(--spacing-xs) 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .comparison-card li:last-child {
+    border-bottom: none;
+  }
+
+  /* FAQ */
+  .faq-item {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    font-weight: 300;
+  }
+
+  .faq-item[open] summary::after {
+    content: '-';
+  }
+
+  .faq-answer {
+    padding: 0 var(--spacing-lg) var(--spacing-md);
+  }
+
+  .faq-answer p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Crosslink */
+  .crosslink-box {
+    background: linear-gradient(135deg, #e8f4f8 0%, #d0eef5 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+  }
+
+  .crosslink-box h3 {
+    font-size: var(--font-size-xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .crosslink-box p {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .crosslink-btn {
+    display: inline-block;
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--spacing-sm) var(--spacing-xl);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .crosslink-btn:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+  }
+
+  /* CTA Wrapper */
+  .cta-wrapper {
+    margin-top: var(--spacing-2xl);
+  }
+</style>

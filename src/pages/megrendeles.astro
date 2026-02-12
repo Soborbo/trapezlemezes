@@ -1,0 +1,577 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import OrderNotice from '../components/OrderNotice.astro';
+---
+
+<Layout title="Megrendeles | Trapezlemezes.hu" noindex>
+  <div class="order-page">
+    <div class="container">
+      <BreadcrumbNav items={[
+        { label: 'Kosar', href: '/kosar' },
+        { label: 'Megrendeles' },
+      ]} />
+
+      <h1>Megrendeles</h1>
+
+      <div class="order-layout">
+        <!-- Left column: Order summary -->
+        <div class="order-summary-col">
+          <div class="order-summary-card" id="order-summary">
+            <h2>Rendelesi osszesites</h2>
+            <div class="summary-loading">
+              <p>Betoltes...</p>
+            </div>
+          </div>
+
+          <OrderNotice />
+        </div>
+
+        <!-- Right column: Order form -->
+        <div class="order-form-col">
+          <div class="order-form-card">
+            <h2>Szamlazasi es szallitasi adatok</h2>
+
+            <form id="order-form" novalidate>
+              <div class="form-row form-row-2col">
+                <div class="form-group">
+                  <label for="last_name">Vezeteknev <span class="required">*</span></label>
+                  <input type="text" id="last_name" name="last_name" required autocomplete="family-name" />
+                </div>
+                <div class="form-group">
+                  <label for="first_name">Keresztnev <span class="required">*</span></label>
+                  <input type="text" id="first_name" name="first_name" required autocomplete="given-name" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="company">Cegnev <span class="optional">(opcionalis)</span></label>
+                <input type="text" id="company" name="company" autocomplete="organization" />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required autocomplete="email" />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Telefonszam <span class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="+36..." />
+              </div>
+
+              <div id="shipping-address-section">
+                <h3>Szallitasi cim</h3>
+
+                <div class="form-row form-row-2col">
+                  <div class="form-group">
+                    <label for="postcode">Iranyitoszam <span class="required">*</span></label>
+                    <input type="text" id="postcode" name="postcode" required pattern="[0-9]{4}" maxlength="4" inputmode="numeric" autocomplete="postal-code" />
+                  </div>
+                  <div class="form-group">
+                    <label for="city">Telepules <span class="required">*</span></label>
+                    <input type="text" id="city" name="city" required autocomplete="address-level2" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="street">Utca, hazszam <span class="required">*</span></label>
+                  <input type="text" id="street" name="street" required autocomplete="street-address" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="note">Megjegyzes <span class="optional">(opcionalis)</span></label>
+                <textarea id="note" name="note" rows="3" placeholder="Pl. szallitasi egyeztetes, kapunyitas, stb."></textarea>
+              </div>
+
+              <div class="form-group form-group-checkbox">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="gdpr" name="gdpr" required />
+                  <span>Elfogadom az <a href="/adatkezelesi-tajekoztato" target="_blank">adatkezelesi tajekoztatot</a> <span class="required">*</span></span>
+                </label>
+              </div>
+
+              <div id="form-error" class="form-error" style="display: none;"></div>
+
+              <button type="submit" class="btn-submit" id="submit-btn">
+                <span class="btn-text">Megrendeles leadasa</span>
+                <span class="btn-loading" style="display: none;">Kuldese folyamatban...</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .order-page {
+    padding: var(--spacing-lg) 0 var(--spacing-3xl);
+    background: var(--color-bg-light);
+    min-height: calc(100vh - 200px);
+  }
+
+  h1 {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-text);
+  }
+
+  .order-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .order-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Order summary column */
+  .order-summary-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .order-summary-card h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .summary-loading {
+    text-align: center;
+    padding: var(--spacing-md);
+    color: var(--color-text-muted);
+  }
+
+  :global(.order-item) {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-bg-light);
+  }
+
+  :global(.order-item:last-of-type) {
+    border-bottom: none;
+  }
+
+  :global(.order-item-info) {
+    flex: 1;
+  }
+
+  :global(.order-item-color) {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  :global(.order-item-details) {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+  }
+
+  :global(.order-item-price) {
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+    margin-left: var(--spacing-md);
+  }
+
+  :global(.order-divider) {
+    border: none;
+    border-top: 1px solid var(--color-bg-light);
+    margin: var(--spacing-sm) 0;
+  }
+
+  :global(.order-summary-row) {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-xs) 0;
+  }
+
+  :global(.order-summary-label) {
+    color: var(--color-text-light);
+  }
+
+  :global(.order-summary-value) {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  :global(.order-total-row) {
+    display: flex;
+    justify-content: space-between;
+    padding-top: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+    border-top: 2px solid var(--color-text);
+  }
+
+  :global(.order-total-label) {
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+  }
+
+  :global(.order-total-value) {
+    font-weight: 700;
+    font-size: var(--font-size-xl);
+    color: var(--color-secondary);
+  }
+
+  /* Order form column */
+  .order-form-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+  }
+
+  .order-form-card h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .order-form-card h3 {
+    font-size: var(--font-size-lg);
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-bg-light);
+  }
+
+  .form-row {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .form-row-2col > .form-group {
+    flex: 1;
+  }
+
+  @media (max-width: 500px) {
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
+  .form-group {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+  }
+
+  .required {
+    color: var(--color-accent);
+  }
+
+  .optional {
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    font-family: inherit;
+    transition: border-color var(--transition-fast);
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+  }
+
+  .form-group input.invalid,
+  .form-group textarea.invalid {
+    border-color: var(--color-accent);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+  }
+
+  /* Checkbox */
+  .form-group-checkbox {
+    margin-top: var(--spacing-md);
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    font-weight: 400 !important;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin-top: 3px;
+    flex-shrink: 0;
+    accent-color: var(--color-secondary);
+  }
+
+  .checkbox-label a {
+    color: var(--color-secondary);
+    text-decoration: underline;
+  }
+
+  .checkbox-label a:hover {
+    color: var(--color-secondary-dark);
+  }
+
+  /* Form error */
+  .form-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    color: #dc2626;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+  }
+
+  /* Submit button */
+  .btn-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: var(--color-primary);
+    color: var(--color-white);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-submit:hover {
+    background: var(--color-primary-dark);
+  }
+
+  .btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+</style>
+
+<script>
+  import { getCartSummary, formatPrice, clearCart } from '../lib/cart';
+
+  // --- Render order summary ---
+  const summaryContainer = document.getElementById('order-summary');
+  const shippingAddressSection = document.getElementById('shipping-address-section');
+
+  function renderOrderSummary() {
+    if (!summaryContainer) return;
+
+    const summary = getCartSummary();
+
+    if (summary.items.length === 0) {
+      window.location.href = '/kosar';
+      return;
+    }
+
+    const itemsHtml = summary.items.map(item => `
+      <div class="order-item">
+        <div class="order-item-info">
+          <div class="order-item-color">${item.colorLabel}</div>
+          <div class="order-item-details">
+            ${item.sqm} m² &times; ${formatPrice(item.pricePerSqm)}/m²
+            ${item.withScrews ? ' + csavar' : ''}
+          </div>
+        </div>
+        <div class="order-item-price">${formatPrice(item.totalPrice + item.screwCost)}</div>
+      </div>
+    `).join('');
+
+    const shippingLabel = summary.shippingType === 'gazdasagos'
+      ? 'Gazdasagos szallitas'
+      : summary.shippingType === 'expressz'
+        ? 'Expressz szallitas'
+        : 'Szemelyes atvetel';
+
+    summaryContainer.innerHTML = `
+      <h2>Rendelesi osszesites</h2>
+      ${itemsHtml}
+      <hr class="order-divider" />
+      <div class="order-summary-row">
+        <span class="order-summary-label">Lemezek (${summary.totalSqm} m²)</span>
+        <span class="order-summary-value">${formatPrice(summary.sheetSubtotal)}</span>
+      </div>
+      ${summary.screwTotal > 0 ? `
+        <div class="order-summary-row">
+          <span class="order-summary-label">Csavarok</span>
+          <span class="order-summary-value">${formatPrice(summary.screwTotal)}</span>
+        </div>
+      ` : ''}
+      <div class="order-summary-row">
+        <span class="order-summary-label">${shippingLabel}</span>
+        <span class="order-summary-value">${summary.shippingCost === 0 ? 'Ingyenes' : formatPrice(summary.shippingCost)}</span>
+      </div>
+      <div class="order-total-row">
+        <span class="order-total-label">Vegosszeg</span>
+        <span class="order-total-value">${formatPrice(summary.grandTotal)}</span>
+      </div>
+    `;
+
+    // Hide/show shipping address fields based on shipping type
+    if (shippingAddressSection) {
+      shippingAddressSection.style.display = summary.shippingType === 'sajat' ? 'none' : 'block';
+
+      // Toggle required attributes on address fields
+      const addressInputs = shippingAddressSection.querySelectorAll('input');
+      addressInputs.forEach(input => {
+        if (summary.shippingType === 'sajat') {
+          input.removeAttribute('required');
+        } else {
+          input.setAttribute('required', '');
+        }
+      });
+    }
+  }
+
+  renderOrderSummary();
+
+  // --- Form submission ---
+  const form = document.getElementById('order-form') as HTMLFormElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const formError = document.getElementById('form-error') as HTMLElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Reset error state
+    formError.style.display = 'none';
+    form.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+
+    // Validate form
+    const formData = new FormData(form);
+
+    if (!form.checkValidity()) {
+      // Mark invalid fields
+      form.querySelectorAll(':invalid').forEach(el => {
+        el.classList.add('invalid');
+      });
+      formError.textContent = 'Kerem, toltse ki az osszes kotelezo mezot.';
+      formError.style.display = 'block';
+      // Scroll to first invalid field
+      const firstInvalid = form.querySelector('.invalid') as HTMLElement;
+      firstInvalid?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Check GDPR
+    const gdprCheckbox = document.getElementById('gdpr') as HTMLInputElement;
+    if (!gdprCheckbox.checked) {
+      formError.textContent = 'Kerem, fogadja el az adatkezelesi tajekoztatot.';
+      formError.style.display = 'block';
+      return;
+    }
+
+    // Disable submit
+    submitBtn.disabled = true;
+    const btnText = submitBtn.querySelector('.btn-text') as HTMLElement;
+    const btnLoading = submitBtn.querySelector('.btn-loading') as HTMLElement;
+    if (btnText) btnText.style.display = 'none';
+    if (btnLoading) btnLoading.style.display = 'inline';
+
+    try {
+      const summary = getCartSummary();
+
+      const orderData = {
+        // Form data
+        last_name: formData.get('last_name') as string,
+        first_name: formData.get('first_name') as string,
+        company: formData.get('company') as string || '',
+        email: formData.get('email') as string,
+        phone: formData.get('phone') as string,
+        postcode: formData.get('postcode') as string || '',
+        city: formData.get('city') as string || '',
+        street: formData.get('street') as string || '',
+        note: formData.get('note') as string || '',
+        // Cart data
+        items: summary.items.map(item => ({
+          colorId: item.colorId,
+          colorLabel: item.colorLabel,
+          colorType: item.colorType,
+          sqm: item.sqm,
+          pricePerSqm: item.pricePerSqm,
+          totalPrice: item.totalPrice,
+          withScrews: item.withScrews,
+          screwCost: item.screwCost,
+          lengths: item.lengths || [],
+          source: item.source,
+        })),
+        shippingType: summary.shippingType,
+        shippingCost: summary.shippingCost,
+        sheetSubtotal: summary.sheetSubtotal,
+        screwTotal: summary.screwTotal,
+        grandTotal: summary.grandTotal,
+        totalSqm: summary.totalSqm,
+      };
+
+      const response = await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.orderId) {
+        // GTM dataLayer push
+        if (window.dataLayer) {
+          window.dataLayer.push({
+            event: 'order_submitted',
+            order_id: result.orderId,
+            value: summary.grandTotal,
+            currency: 'HUF',
+            items: summary.items.map(item => ({
+              item_name: item.colorLabel,
+              quantity: item.sqm,
+              price: item.totalPrice,
+            })),
+          });
+        }
+
+        // Clear cart and redirect
+        clearCart();
+        window.location.href = `/sikeres-megrendeles?id=${encodeURIComponent(result.orderId)}`;
+      } else {
+        throw new Error(result.error || 'Hiba tortent a megrendeles feldolgozasa soran.');
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Hiba tortent. Kerem, problja ujra.';
+      formError.textContent = message;
+      formError.style.display = 'block';
+      formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      submitBtn.disabled = false;
+      if (btnText) btnText.style.display = 'inline';
+      if (btnLoading) btnLoading.style.display = 'none';
+    }
+  });
+</script>

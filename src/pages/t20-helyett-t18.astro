@@ -1,0 +1,553 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import StrengthChart from '../components/StrengthChart.astro';
+import ExperienceBlock from '../components/ExperienceBlock.astro';
+import TrustSignals from '../components/TrustSignals.astro';
+import CtaBox from '../components/CtaBox.astro';
+import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
+
+const title = 'T20 trapézlemez helyett T18 0.5mm | 2\u00d7 erősebb | Trapezlemezes.hu';
+const description = 'T20 trapézlemez helyett válaszd a T18 0.5mm-et. Majdnem 2\u00d7 erősebb \u2013 Eurocode 3 számítással bizonyítjuk.';
+
+const breadcrumbItems = [
+  { label: 'Típusok', href: '/trapezlemez' },
+  { label: 'T20 helyett T18' },
+];
+
+const comparisonRows = [
+  { label: 'Vastagság', competitor: '0.4mm', ours: '0.5mm', highlight: true },
+  { label: 'Bordamagasság', competitor: '20mm', ours: '18mm' },
+  { label: 'Hajlítási ellenállás', competitor: '0.072', ours: '0.135', highlight: true },
+  { label: 'Relatív erősség', competitor: '100%', ours: '188%', highlight: true },
+  { label: 'Max alátámasztás', competitor: '80cm', ours: '100cm', highlight: true },
+  { label: 'Szelemen 6m-re', competitor: '8 db', ours: '6 db', highlight: true },
+];
+
+const strengthChartItems = [
+  { label: 'T20 0.4mm', value: 100 },
+  { label: 'T18 0.5mm', value: 188, highlight: true, annotation: 'Nálunk' },
+  { label: 'T18 0.6mm', value: 324, highlight: true, annotation: 'Svéd acél' },
+];
+
+const faqs = [
+  {
+    question: 'A T20-nak nagyobb a bordája, az nem számít?',
+    answer: 'De igen, de a vastagság KÖBRE emelve hat az erősségre, míg a bordamagasság csak lineárisan. Konkrétan: 0.5³/0.4³ = 1.953, vagyis a vastagság önmagában majdnem 2x-es erősséget ad. A T20 2mm-rel magasabb bordája ezt nem tudja kompenzálni.',
+  },
+  {
+    question: 'T20-as rendszerben cserélhetem T18-ra?',
+    answer: 'Új projektnél semmi akadálya. Meglévő T20-as tetőn bővítésnél vizsgálni kell, mert a bordatávolság eltér – a két profil nem illeszthető egymás mellé az átfedésnél. De ha az egész felületet cseréled, a T18 0.5mm-mel kevesebb szelemen is elég.',
+  },
+  {
+    question: 'Miért nem ír erről senki?',
+    answer: 'Mert a legtöbb forgalmazó vékony, olcsó lemezt árul. Nekik nem érdekük, hogy a vastagságról beszéljenek – hiszen a 0.4mm-es lemezen nagyobb a haszonkulcsuk. Mi ezért is döntöttünk úgy, hogy kizárólag 0.5mm-es lemezt gyártunk.',
+  },
+];
+
+const faqSchema = getFaqSchema(faqs);
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Főoldal', url: '/' },
+  { name: 'Típusok', url: '/trapezlemez' },
+  { name: 'T20 helyett T18', url: '/t20-helyett-t18' },
+]);
+
+const extraSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [faqSchema, breadcrumbSchema],
+};
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema}>
+  <div class="page-container">
+    <BreadcrumbNav items={breadcrumbItems} />
+
+    <article class="type-replacement">
+      <header class="hero-section">
+        <h1>T20 trapézlemez helyett T18 0.5mm – a meglepő matek</h1>
+        <p class="hero-lead">
+          Sokan gondolják, hogy a nagyobb bordamagasság = erősebb lemez. De a fizika másként működik.
+          <strong>A T18 0.5mm közel 2x erősebb, mint a T20 0.4mm – és ezt Eurocode 3 számítással bizonyítjuk.</strong>
+        </p>
+      </header>
+
+      <!-- Problem Section -->
+      <section class="content-section">
+        <h2>A „nagyobb borda = erősebb" tévhit</h2>
+        <p>
+          A T20 0.4mm 20mm-es bordamagassággal rendelkezik – 2mm-rel magasabb, mint a T18.
+          Elsőre logikusnak tűnik, hogy ez erősebb lemezt jelent. De a hajlítási ellenállás képletében
+          a vastagság a harmadik hatványon szerepel, míg a bordamagasság csak lineárisan.
+        </p>
+        <div class="math-box">
+          <h3>A képlet, ami mindent megmagyaráz</h3>
+          <p class="formula">
+            Hajlítási ellenállás ~ <strong>vastagság<sup>3</sup></strong> &times; bordamagasság
+          </p>
+          <p>
+            Ez azt jelenti, hogy <strong>0.1mm vastagságnövelés többet ad, mint 5-10mm bordanövelés.</strong>
+            A T18 0.5mm ezért erősebb, mint a T20, T25 vagy akár a T30 0.4mm-es verziója.
+          </p>
+        </div>
+        <ul class="problem-list">
+          <li>T20 0.4mm: hajlítási ellenállás = 0.072</li>
+          <li>T18 0.5mm: hajlítási ellenállás = 0.135 (188%!)</li>
+          <li>A 2mm bordakülönbség nem kompenzálja a vastagságkülönbséget</li>
+          <li>80cm-es szelemen-távolság kell a T20-hoz, 100cm elég a T18-hoz</li>
+        </ul>
+      </section>
+
+      <!-- Solution Section -->
+      <section class="content-section">
+        <h2>A megoldás: vastagság > bordamagasság</h2>
+        <p>
+          A T18 0.5mm-mel nem kompromisszumot kötsz – jobb lemezt kapsz.
+          A 0.5mm vastagság 188%-os relatív erősséget ad a T20 0.4mm-hez képest,
+          ami gyakorlatban ritkább szelemen-kiosztást, olcsóbb szerkezetet és hosszabb élettartamot jelent.
+        </p>
+      </section>
+
+      <!-- Comparison Table -->
+      <ComparisonTable
+        competitorName="T20 0.4mm"
+        ourName="T18 0.5mm"
+        rows={comparisonRows}
+      />
+
+      <!-- Strength Chart -->
+      <StrengthChart
+        title="T20 0.4mm vs T18 0.5mm vs T18 0.6mm"
+        items={strengthChartItems}
+      />
+
+      <!-- Unique Use Case: Alátámasztási Kalkulátor -->
+      <section class="content-section use-case-section">
+        <h2>Mennyi szelement spórolsz?</h2>
+        <p>
+          A szelemen-megtakarítás a T18 0.5mm egyik legnagyobb gyakorlati előnye. Az alábbi táblázat
+          mutatja, hogy különböző tetőhosszaknál hány szelement kell beépíteni T20 0.4mm-mel vs. T18 0.5mm-mel:
+        </p>
+
+        <div class="purlin-comparison-table">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tetőhossz</th>
+                  <th class="col-competitor">T20 0.4mm<br/><span class="col-sub">(80cm táv.)</span></th>
+                  <th class="col-ours">T18 0.5mm<br/><span class="col-sub">(100cm táv.)</span></th>
+                  <th>Megtakarítás</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="cell-label">6m tető</td>
+                  <td>8 db</td>
+                  <td class="cell-ours">6 db</td>
+                  <td class="cell-savings">2 szelemen</td>
+                </tr>
+                <tr>
+                  <td class="cell-label">8m tető</td>
+                  <td>11 db</td>
+                  <td class="cell-ours">9 db</td>
+                  <td class="cell-savings">2 szelemen</td>
+                </tr>
+                <tr>
+                  <td class="cell-label">12m tető</td>
+                  <td>16 db</td>
+                  <td class="cell-ours">13 db</td>
+                  <td class="cell-savings">3 szelemen</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="key-insight">
+          <p>
+            <strong>A kulcs:</strong> vastagság<sup>3</sup> &gt; bordamagasság.
+            A vastagság köbre emelve hat az erősségre, míg a bordamagasság csak lineárisan.
+            Ezért győz a vékonyabb profilú, de vastagabb T18 0.5mm.
+          </p>
+        </div>
+
+        <p>
+          Alátámasztásról bővebben: <a href="/trapezlemez-alatamastas/">Trapézlemez alátámasztási útmutató</a>
+        </p>
+      </section>
+
+      <!-- Experience Block -->
+      <ExperienceBlock text="A T20 0.4mm-nél gyakran látjuk, hogy a 80cm-es szelemen távolságot nem tartják be \u2192 lemez behajlik, csapadékvíz-pangás \u2192 korrózió 5 éven belül." />
+
+      <!-- Disadvantages Section -->
+      <section class="content-section transparency-section">
+        <h2>Hátrány? Legyünk transzparensek</h2>
+        <p>A T20-nak vannak helyzetek, ahol előnyös. Fontos, hogy tudd:</p>
+        <div class="disadvantage-list">
+          <div class="disadvantage-item">
+            <h3>Nagyobb borda = jobb csatlakozás bizonyos helyzetekben</h3>
+            <p>
+              A T20 20mm-es bordája bizonyos csatlakozási pontoknál (gerincelem, oromszegély)
+              stabilabb illeszkedést biztosít. Ha speciális profilú szegélyeket használsz, a magasabb
+              borda jobb takarást adhat.
+            </p>
+          </div>
+          <div class="disadvantage-item">
+            <h3>Meglévő T20 rendszer bővítése</h3>
+            <p>
+              Meglévő T20-as tetőn vagy kerítésen a bordatávolság eltér a T18-tól – a két profil
+              nem illeszthető egymás mellé. Bővítésnél vagy a teljes felületet cseréled, vagy marad a T20.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="content-section faq-section">
+        <h2>Gyakran ismételt kérdések</h2>
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- Calculator CTA -->
+      <section class="content-section calculator-cta">
+        <h2>Számold ki a szelemen-megtakarítást</h2>
+        <p>
+          Add meg a tető méreteit, és megmutatjuk, hány szelement spórolsz a T18 0.5mm-mel.
+          Pontos ár és szállítási idő azonnal.
+        </p>
+        <a href="/kalkulator" class="btn-calculator">
+          Szelemen kalkulátor megnyitása
+        </a>
+      </section>
+
+      <!-- Trust Signals -->
+      <TrustSignals />
+
+      <!-- CTA Box -->
+      <div class="cta-wrapper">
+        <CtaBox title="Kérdésed van a T20 vs T18 összehasonlításról?" />
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .type-replacement {
+    padding-bottom: var(--spacing-3xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--color-primary-dark);
+    line-height: 1.3;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-lead {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    line-height: 1.7;
+  }
+
+  /* Content Sections */
+  .content-section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .content-section h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  .content-section p {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .content-section a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .content-section a:hover {
+    text-decoration: underline;
+  }
+
+  /* Math Box */
+  .math-box {
+    background: linear-gradient(135deg, #ede9fe 0%, #e0e7ff 100%);
+    border-left: 4px solid #7c3aed;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+  }
+
+  .math-box h3 {
+    font-size: var(--font-size-lg);
+    color: #5b21b6;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .math-box p {
+    color: #4c1d95;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .math-box p:last-child {
+    margin-bottom: 0;
+  }
+
+  .formula {
+    font-size: var(--font-size-xl);
+    font-family: 'Georgia', serif;
+    text-align: center;
+    padding: var(--spacing-md) 0;
+  }
+
+  /* Problem List */
+  .problem-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-md) 0;
+  }
+
+  .problem-list li {
+    position: relative;
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+  }
+
+  .problem-list li::before {
+    content: '\2192';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  /* Purlin Comparison Table */
+  .purlin-comparison-table {
+    margin: var(--spacing-xl) 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-bg-light);
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .purlin-comparison-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+  }
+
+  .purlin-comparison-table th,
+  .purlin-comparison-table td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .purlin-comparison-table thead th {
+    background: var(--color-bg-dark);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .col-competitor {
+    color: var(--color-text-light);
+  }
+
+  .col-ours {
+    color: var(--color-primary-dark);
+  }
+
+  .col-sub {
+    font-weight: 400;
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+
+  .cell-label {
+    font-weight: 600;
+  }
+
+  .cell-ours {
+    color: var(--color-primary-dark);
+    font-weight: 700;
+  }
+
+  .cell-savings {
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  /* Key Insight */
+  .key-insight {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border-left: 4px solid var(--color-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+  }
+
+  .key-insight p {
+    margin: 0;
+    color: var(--color-primary-dark);
+  }
+
+  /* Transparency Section */
+  .transparency-section .disadvantage-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+
+  .disadvantage-item {
+    background: #fffbeb;
+    border-left: 4px solid var(--color-warning);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--spacing-lg);
+  }
+
+  .disadvantage-item h3 {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .disadvantage-item p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* FAQ */
+  .faq-item {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    font-weight: 300;
+  }
+
+  .faq-item[open] summary::after {
+    content: '-';
+  }
+
+  .faq-answer {
+    padding: 0 var(--spacing-lg) var(--spacing-md);
+  }
+
+  .faq-answer p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Calculator CTA */
+  .calculator-cta {
+    text-align: center;
+    background: linear-gradient(135deg, #ede9fe 0%, #e0e7ff 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+  }
+
+  .calculator-cta h2 {
+    border-bottom: none;
+    text-align: center;
+  }
+
+  .calculator-cta p {
+    max-width: 500px;
+    margin: 0 auto var(--spacing-lg);
+  }
+
+  .btn-calculator {
+    display: inline-block;
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+  }
+
+  .btn-calculator:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+  }
+
+  /* CTA Wrapper */
+  .cta-wrapper {
+    margin-top: var(--spacing-2xl);
+  }
+
+  @media (max-width: 640px) {
+    .purlin-comparison-table th,
+    .purlin-comparison-table td {
+      padding: var(--spacing-xs) var(--spacing-sm);
+      font-size: 0.8rem;
+    }
+
+    .formula {
+      font-size: var(--font-size-lg);
+    }
+  }
+</style>

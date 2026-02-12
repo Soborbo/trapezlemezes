@@ -1,0 +1,486 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BreadcrumbNav from '../../components/BreadcrumbNav.astro';
+import ComparisonTable from '../../components/ComparisonTable.astro';
+import StrengthChart from '../../components/StrengthChart.astro';
+import ExperienceBlock from '../../components/ExperienceBlock.astro';
+import TrustSignals from '../../components/TrustSignals.astro';
+import QuickOrder from '../../components/QuickOrder.astro';
+import CtaBox from '../../components/CtaBox.astro';
+import ProductCard from '../../components/ProductCard.astro';
+
+import { colors } from '../../calculator/config';
+import { basePrices } from '../../calculator/calculation';
+import { getFaqSchema } from '../../config/schema';
+
+// Product images
+import antracitImg from '../../assets/images/antracit-trapezlemez.jpg';
+import barnaImg from '../../assets/images/barna-trapezlemez.jpg';
+import vorosImg from '../../assets/images/voros-trapezlemez.jpg';
+import kekImg from '../../assets/images/kek-trapezlemez.jpg';
+import feherImg from '../../assets/images/feher-trapezlemez.jpg';
+import feketeImg from '../../assets/images/fekete-trapezlemez.jpg';
+import narancsImg from '../../assets/images/narancssarga-trapezlemez.jpg';
+import famintasImg from '../../assets/images/famintas-trapezlemez.jpg';
+import horganyzottImg from '../../assets/images/horganyzott-natur-trapezlemez.jpg';
+
+const imageMap: Record<string, ImageMetadata> = {
+  antracit: antracitImg,
+  barna: barnaImg,
+  voros: vorosImg,
+  kek: kekImg,
+  feher: feherImg,
+  fekete: feketeImg,
+  narancs: narancsImg,
+  famintas: famintasImg,
+  horganyzott: horganyzottImg,
+};
+
+const availableColors = colors.filter(c => c.available && imageMap[c.id]);
+
+// FAQ data
+const faqs = [
+  {
+    question: 'Milyen vastag a lemez?',
+    answer: 'Az összes lemezünk 0.5mm vastagságú (T18 profil). A narancssárga szín 0.6mm svéd acélból készül.',
+  },
+  {
+    question: 'Mennyi idő a gyártás?',
+    answer: 'Raktári anyagból 48 órán belül gyártunk. Egyedi színeknél ez eltérhet.',
+  },
+  {
+    question: 'Milyen garanciát adnak?',
+    answer: '20 év garanciát vállalunk minden lemezünkre. Ez szinte példa nélküli az iparágban.',
+  },
+  {
+    question: 'Hogyan működik a rendelés?',
+    answer: 'Online kalkulátorunkkal kiszámolja az árat, leadja a megrendelési szándéknyilatkozatot, majd 24 órán belül felhívjuk és véglegesítjük a részleteket.',
+  },
+  {
+    question: 'Mennyibe kerül a szállítás?',
+    answer: 'Gazdaságos: 19 990 Ft, Expressz: 39 990 Ft. 250 m² felett ingyenes! Önköltségi áron szállítunk.',
+  },
+  {
+    question: 'Lehet személyesen átvenni?',
+    answer: 'Igen, telephelyünkön (1182 Budapest, Királyhágó utca 30.) személyesen is átveheti a megrendelését.',
+  },
+];
+
+const faqSchema = getFaqSchema(faqs);
+
+// Comparison rows
+const comparisonRows = [
+  { label: 'Vastagság', competitor: '0.4mm', ours: '0.5mm', highlight: true },
+  { label: 'Hajlítási ellenállás', competitor: '0.072', ours: '0.135', highlight: true },
+  { label: 'Relatív erősség', competitor: '111%', ours: '208%', highlight: true },
+  { label: 'Ár', competitor: '~2600 Ft/m²', ours: '2240 Ft/m²' },
+  { label: 'Garancia', competitor: '5-10 év', ours: '20 év' },
+  { label: 'Gyártás', competitor: '1-3 hét', ours: '48 óra' },
+];
+---
+
+<Layout
+  title="Trapézlemez | T18 0.5mm gyártótól – Erősebb, olcsóbb | Trapezlemezes.hu"
+  description="Trapézlemez közvetlenül a gyártótól. T18 0.5mm – erősebb, mint máshol a 0.4mm. 48 óra gyártás, 20 év garancia. Online árkalkulátor."
+  noindex={false}
+  extraSchema={faqSchema}
+>
+  <div class="container">
+    <BreadcrumbNav items={[{ label: 'Trapézlemez' }]} />
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Trapézlemez gyártótól – 0.5mm a 0.4mm áráért</h1>
+        <p class="hero-subtitle">
+          T18 profilú trapézlemez közvetlenül a gyártótól. Erősebb, mint a versenytársak vékonyabb lemezei – mégsem drágább.
+        </p>
+        <div class="hero-ctas">
+          <a href="/kalkulator" class="btn btn-primary btn-lg">Online árkalkulátor</a>
+          <a href="tel:+3613009206" class="btn btn-accent btn-lg">Hívjon: +36 1 300-92-06</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USP Strip -->
+  <section class="usp-strip">
+    <div class="container">
+      <div class="usp-grid">
+        <div class="usp-item">
+          <span class="usp-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </span>
+          <div class="usp-text">
+            <strong>0.5mm vastagság</strong>
+            <span>Erősebb, mint máshol a 0.4mm</span>
+          </div>
+        </div>
+        <div class="usp-item">
+          <span class="usp-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </span>
+          <div class="usp-text">
+            <strong>48 óra gyártás</strong>
+            <span>Raktári anyagból, nem kell heteket várni</span>
+          </div>
+        </div>
+        <div class="usp-item">
+          <span class="usp-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </span>
+          <div class="usp-text">
+            <strong>20 év garancia</strong>
+            <span>Szinte példa nélküli az iparágban</span>
+          </div>
+        </div>
+        <div class="usp-item">
+          <span class="usp-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </span>
+          <div class="usp-text">
+            <strong>Online kalkulátor</strong>
+            <span>Azonnali ár, nem kell telefonálni</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Color Grid -->
+  <section class="section" id="szinek">
+    <div class="container">
+      <h2>Színek és árak</h2>
+      <div class="product-grid">
+        {availableColors.map((color) => {
+          const price = basePrices[color.type] || basePrices.standard;
+          return (
+            <ProductCard
+              colorId={color.id}
+              colorLabel={color.label}
+              ral={color.ral}
+              imageSrc={imageMap[color.id]}
+              pricePerSqm={price}
+              colorType={color.type}
+              available={color.available}
+              badge={color.type === 'promo' ? 'Akciós' : undefined}
+            />
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator CTA -->
+  <section class="section calculator-cta-section">
+    <div class="container">
+      <div class="calculator-cta-box">
+        <h2>Számolja ki a projekt költségét</h2>
+        <p>Kalkulátorunk azonnal kiszámolja a pontos árat. Nem kell telefonálni, nem kell várakozni.</p>
+        <a href="/kalkulator" class="btn btn-primary btn-lg calculator-cta-btn">Online árkalkulátor</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Order -->
+  <section class="section">
+    <div class="container">
+      <QuickOrder />
+    </div>
+  </section>
+
+  <!-- Comparison Section -->
+  <section class="section" id="osszehasonlitas">
+    <div class="container">
+      <h2>Miért erősebb a T18 0.5mm?</h2>
+      <ComparisonTable
+        competitorName="T20 0.4mm"
+        ourName="T18 0.5mm nálunk"
+        rows={comparisonRows}
+      />
+    </div>
+  </section>
+
+  <!-- Strength Chart -->
+  <section class="section">
+    <div class="container">
+      <StrengthChart />
+    </div>
+  </section>
+
+  <!-- Experience Block -->
+  <section class="section">
+    <div class="container">
+      <ExperienceBlock text="A vastagság számít, nem a bordamagasság. A vastagság KÖBRE emelve hat az erősségre – ezért a T18 0.5mm-ünk erősebb, mint a legtöbb versenytárs T20 vagy T25 0.4mm-es lemezes." />
+    </div>
+  </section>
+
+  <!-- Trust Signals -->
+  <section class="section" id="rolunk">
+    <div class="container">
+      <h2>Miért minket válasszon?</h2>
+      <TrustSignals />
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section faq-section" id="gyik">
+    <div class="container">
+      <h2>Gyakran ismételt kérdések</h2>
+      <div class="faq-list">
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary class="faq-question">{faq.question}</summary>
+            <p class="faq-answer">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="section">
+    <div class="container">
+      <CtaBox />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #0e2a42 0%, #1a3d5c 100%);
+    color: var(--color-white);
+    padding: var(--spacing-3xl) 0;
+    text-align: center;
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-size: var(--font-size-4xl);
+    margin: 0 0 var(--spacing-md);
+    line-height: 1.2;
+    color: var(--color-white);
+  }
+
+  .hero-subtitle {
+    font-size: var(--font-size-lg);
+    opacity: 0.9;
+    margin: 0 0 var(--spacing-xl);
+    line-height: 1.6;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* USP Strip */
+  .usp-strip {
+    background: var(--color-bg-light);
+    padding: var(--spacing-xl) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .usp-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg);
+  }
+
+  .usp-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .usp-icon {
+    flex-shrink: 0;
+    color: var(--color-primary);
+    margin-top: 2px;
+  }
+
+  .usp-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .usp-text strong {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+  }
+
+  .usp-text span {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.4;
+  }
+
+  /* Sections */
+  .section {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .section h2 {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  /* Product Grid */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+  }
+
+  /* Calculator CTA */
+  .calculator-cta-section {
+    background: var(--color-bg-light);
+  }
+
+  .calculator-cta-box {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .calculator-cta-box h2 {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .calculator-cta-box p {
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-xl);
+    font-size: var(--font-size-lg);
+    line-height: 1.6;
+  }
+
+  .calculator-cta-btn {
+    display: inline-flex;
+  }
+
+  /* FAQ Section */
+  .faq-section {
+    background: var(--color-bg-light);
+  }
+
+  .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .faq-item {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: box-shadow var(--transition-fast, 0.2s);
+  }
+
+  .faq-item:hover {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .faq-item[open] {
+    box-shadow: var(--shadow-md);
+  }
+
+  .faq-question {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: '-';
+  }
+
+  .faq-answer {
+    padding: 0 var(--spacing-lg) var(--spacing-lg);
+    margin: 0;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    font-size: var(--font-size-sm);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .usp-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .hero h1 {
+      font-size: var(--font-size-3xl);
+    }
+
+    .hero-ctas {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-ctas .btn {
+      width: 100%;
+      max-width: 320px;
+      justify-content: center;
+    }
+
+    .section {
+      padding: var(--spacing-2xl) 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .usp-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .product-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+      font-size: var(--font-size-2xl);
+    }
+  }
+</style>

@@ -1,0 +1,282 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import StrengthChart from '../components/StrengthChart.astro';
+import DecisionTree from '../components/DecisionTree.astro';
+import CtaBox from '../components/CtaBox.astro';
+import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
+
+const faqs = [
+  { question: 'Melyik trapézlemez típus a legerősebb?', answer: 'Lakossági felhasználásra a T18 0.5mm a legerősebb elérhető opció – erősebb, mint a T12, T14, T20 vagy T25 0.4mm-es változatok.' },
+  { question: 'Mi a különbség a T12, T14, T18, T20 és T25 között?', answer: 'A szám a bordamagasságot jelöli milliméterben. De a teherbírást elsősorban a vastagság határozza meg (köbre emelve), nem a bordamagasság.' },
+  { question: 'Melyik típus kell tetőhöz?', answer: 'Lakossági tetőhöz (garázs, ház, tároló) a T18 0.5mm ideális. 4m+ fesztávú ipari csarnokhoz T25 vagy erősebb profil szükséges.' },
+  { question: 'Melyik típus kell kerítéshez?', answer: 'Kerítéshez a T18 0.5mm tökéletes – erős szélterhelésben is, nem horpad be, és olcsóbb, mint a versenytársak T12 vagy T14 lemezei.' },
+];
+
+const breadcrumbs = [{ label: 'Típusok', href: '/trapezlemez-tipusok/' }];
+
+const faqSchema = getFaqSchema(faqs);
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Főoldal', url: '/' },
+  { name: 'Típusok', url: '/trapezlemez-tipusok/' },
+]);
+
+const extraSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [faqSchema, breadcrumbSchema],
+};
+
+const replacementPages = [
+  {
+    href: '/t12-helyett-t18/',
+    title: 'T12 helyett T18',
+    description: 'T12 kerítéshez? Van jobb. A T18 0.5mm több mint 2x erősebb, szinte ugyanannyiért.',
+  },
+  {
+    href: '/t14-helyett-t18/',
+    title: 'T14 helyett T18',
+    description: 'T14 garázs tetőhöz? Olcsóbb megoldás. A T18 0.5mm erősebb és megbízhatóbb.',
+  },
+  {
+    href: '/t20-helyett-t18/',
+    title: 'T20 helyett T18',
+    description: 'T20 a népszerű? A T18 0.5mm 2x erősebb, mint a T20 0.4mm – és olcsóbb.',
+  },
+  {
+    href: '/t25-helyett-t18/',
+    title: 'T25 helyett T18',
+    description: 'T25 mikor kell tényleg? Csak 4m+ fesztávnál. Lakossági projektnél a T18 0.5mm bőven elég.',
+  },
+];
+---
+
+<Layout
+  title="Trapézlemez típusok összehasonlítás | T12, T14, T18, T20, T25 | Trapezlemezes.hu"
+  description="Melyik trapézlemez kell neked? Összehasonlítás: T12 vs T14 vs T18 vs T20 vs T25. Interaktív döntési fa és Eurocode 3 számítások."
+  extraSchema={extraSchema}
+>
+  <div class="page-container">
+    <BreadcrumbNav items={breadcrumbs} />
+
+    <article class="types-page">
+      <header class="hero-section">
+        <h1>Trapézlemez típusok – Melyik kell neked?</h1>
+        <p class="hero-lead">
+          Sokan gondolják, hogy a nagyobb bordamagasság = erősebb lemez. <strong>Ez nem igaz.</strong>
+          A teherbírást elsősorban a vastagság határozza meg – mégpedig köbre emelve. Egy T18 0.5mm-es lemez
+          erősebb, mint bármelyik 0.4mm-es T12, T14, T20 vagy T25. Alább megmutatjuk, miért.
+        </p>
+      </header>
+
+      <!-- Decision Tree -->
+      <DecisionTree />
+
+      <!-- Full Comparison Table -->
+      <section class="content-section">
+        <h2>Teljes összehasonlítás</h2>
+        <p>
+          Az alábbi táblázatban az összes népszerű trapézlemez típust összehasonlítjuk – Eurocode 3 (MSZ EN 1993-1-3) alapján számolva.
+          Figyeld meg, hogy a T18 0.5mm minden 0.4mm-es típusnál erősebb, függetlenül a bordamagasságtól.
+        </p>
+        <ComparisonTable
+          competitorName=""
+          ourName=""
+          rows={[]}
+          showAll={true}
+        />
+      </section>
+
+      <!-- Strength Chart -->
+      <StrengthChart />
+
+      <!-- Type Replacement Cards -->
+      <section class="content-section">
+        <h2>Típus-helyettesítés</h2>
+        <p>
+          Melyik típust fontolgatod? Válaszd ki az alábbiak közül, és megmutatjuk,
+          miért érdemes a T18 0.5mm-et választani helyette.
+        </p>
+
+        <div class="replacement-grid">
+          {replacementPages.map((page) => (
+            <a href={page.href} class="replacement-card">
+              <h3 class="replacement-title">{page.title}</h3>
+              <p class="replacement-desc">{page.description}</p>
+              <span class="replacement-link">Részletek &rarr;</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="content-section faq-section">
+        <h2>Gyakran ismételt kérdések</h2>
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- CTA Box -->
+      <div class="cta-wrapper">
+        <CtaBox title="Nem tudod melyik típust válaszd? Segítünk!" />
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .types-page {
+    padding-bottom: var(--spacing-3xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--color-primary-dark);
+    line-height: 1.3;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-lead {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    line-height: 1.7;
+  }
+
+  /* Content Sections */
+  .content-section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .content-section h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  .content-section p {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* Replacement Cards Grid */
+  .replacement-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+
+  @media (max-width: 640px) {
+    .replacement-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .replacement-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .replacement-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .replacement-title {
+    font-size: var(--font-size-xl);
+    color: var(--color-primary-dark);
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .replacement-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0 0 var(--spacing-md);
+    flex: 1;
+  }
+
+  .replacement-link {
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  /* FAQ */
+  .faq-item {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    font-weight: 300;
+  }
+
+  .faq-item[open] summary::after {
+    content: '-';
+  }
+
+  .faq-answer {
+    padding: 0 var(--spacing-lg) var(--spacing-md);
+  }
+
+  .faq-answer p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* CTA Wrapper */
+  .cta-wrapper {
+    margin-top: var(--spacing-2xl);
+  }
+</style>

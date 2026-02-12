@@ -1,0 +1,147 @@
+---
+/**
+ * ProductCard - Termék kártya a /trapezlemez/ oldalhoz
+ *
+ * Szín + ár + "Kosárba" gomb megjelenítése.
+ */
+
+interface Props {
+  colorId: string;
+  colorLabel: string;
+  ral?: string;
+  imageSrc: ImageMetadata;
+  pricePerSqm: number;
+  colorType: string;
+  available?: boolean;
+  badge?: string;
+}
+
+import { SmallImage } from './images';
+
+const {
+  colorId,
+  colorLabel,
+  ral,
+  imageSrc,
+  pricePerSqm,
+  colorType,
+  available = true,
+  badge,
+} = Astro.props;
+
+const formattedPrice = new Intl.NumberFormat('hu-HU').format(pricePerSqm);
+---
+
+<div class:list={['product-card', { 'product-card--unavailable': !available }]} data-color-id={colorId} data-color-type={colorType} data-price={pricePerSqm}>
+  <div class="product-image">
+    <SmallImage src={imageSrc} alt={`${colorLabel} trapézlemez`} />
+    {badge && <span class="product-badge">{badge}</span>}
+  </div>
+  <div class="product-info">
+    <h3 class="product-name">{colorLabel}</h3>
+    {ral && <p class="product-ral">{ral}</p>}
+    <p class="product-price">
+      <span class="price-value">{formattedPrice}</span>
+      <span class="price-unit">Ft/m²</span>
+    </p>
+  </div>
+  {available && (
+    <button
+      class="btn btn-primary product-cart-btn"
+      data-action="quick-add"
+      data-color-id={colorId}
+      data-price-per-sqm={pricePerSqm}
+    >
+      Kosárba
+    </button>
+  )}
+  {!available && (
+    <p class="product-unavailable">Jelenleg nem elérhető</p>
+  )}
+</div>
+
+<style>
+  .product-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .product-card--unavailable {
+    opacity: 0.6;
+  }
+
+  .product-image {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+
+  .product-badge {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    background: var(--color-accent);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+  }
+
+  .product-info {
+    padding: var(--spacing-md);
+    flex: 1;
+  }
+
+  .product-name {
+    margin: 0 0 var(--spacing-xs);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+  }
+
+  .product-ral {
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .product-price {
+    margin: 0;
+  }
+
+  .price-value {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-primary-dark);
+  }
+
+  .price-unit {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    margin-left: 2px;
+  }
+
+  .product-cart-btn {
+    margin: 0 var(--spacing-md) var(--spacing-md);
+    width: calc(100% - 2 * var(--spacing-md));
+  }
+
+  .product-unavailable {
+    margin: 0 var(--spacing-md) var(--spacing-md);
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+</style>

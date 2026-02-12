@@ -1,0 +1,60 @@
+---
+/**
+ * TrustSignals - Bizalmi jelek blokk
+ */
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+
+const signals = [
+  { icon: 'engineer', text: 'Gépészmérnök vezette cég (Farkas Roland, BMF)' },
+  { icon: 'experience', text: '10+ év tetőkészítői tapasztalat' },
+  { icon: 'fast', text: '48 óra gyártás raktári anyagból' },
+  { icon: 'warranty', text: '20 év garancia' },
+  { icon: 'phone', text: 'Tanult, kedves emberek veszik fel a telefont' },
+];
+---
+
+<div class:list={['trust-signals', { 'trust-signals--compact': compact }]}>
+  {signals.map((signal) => (
+    <div class="trust-item">
+      <span class="trust-check" aria-hidden="true">&#10003;</span>
+      <span>{signal.text}</span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .trust-signals {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+  }
+
+  .trust-signals--compact {
+    padding: var(--spacing-md);
+    gap: var(--spacing-xs);
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+  }
+
+  .trust-check {
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+</style>

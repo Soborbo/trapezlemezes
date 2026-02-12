@@ -1,0 +1,446 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import ExperienceBlock from '../components/ExperienceBlock.astro';
+import TrustSignals from '../components/TrustSignals.astro';
+import CtaBox from '../components/CtaBox.astro';
+import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
+
+const title = 'Trapézlemez kerítés – Útmutató és tippek | Trapezlemezes.hu';
+const description = 'Trapézlemez kerítés építés útmutató. Anyagválasztás, szerelés, szélterhelés. T18 0.5mm – erősebb kerítés, olcsóbban.';
+
+const breadcrumbItems = [
+  { label: 'Kerítés' },
+];
+
+const faqs = [
+  {
+    question: 'Ki szerelhet trapézlemez kerítést?',
+    answer: 'Bárki, aki rendelkezik alapvető barkácseszközökkel (csavarbehajtó, vízmérték, mérőszalag). Nem kell hozzá szakképesítés. Két ember egy átlagos kerítést (20-30 fm) egy hétvége alatt felépít.',
+  },
+  {
+    question: 'Milyen magas lehet a trapézlemez kerítés?',
+    answer: 'Általában 1.5-2 méter a leggyakoribb magasság. 2 méter felett érdemes statikust bevonni, mert a szélterhelés jelentősen nő. Egyes településeken helyi rendelet szabályozza a maximális kerítésmagasságot – érdemes az önkormányzatnál érdeklődni.',
+  },
+  {
+    question: 'Mennyibe kerül egy trapézlemez kerítés?',
+    answer: 'A lemez ára 2240 Ft/m²-tól indul. Egy átlagos 30 fm hosszú, 1.8m magas kerítés lemezigénye kb. 54 m², ami kb. 120 000-150 000 Ft lemezköltséget jelent. Ehhez jön az oszlop, léc, csavar és esetleg az alapozás költsége.',
+  },
+  {
+    question: 'Melyik szín a legnépszerűbb kerítéshez?',
+    answer: 'A RAL 8017 (csokoládébarna) és a RAL 7016 (antracit szürke) a két legnépszerűbb kerítésszín. A horganyzott natúr is gyakori választás, különösen gazdasági épületek mellé. Összesen 9+ szín érhető el.',
+  },
+];
+
+const faqSchema = getFaqSchema(faqs);
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Főoldal', url: '/' },
+  { name: 'Kerítés', url: '/trapezlemez-kerites' },
+]);
+
+const extraSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [faqSchema, breadcrumbSchema],
+};
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema}>
+  <div class="page-container">
+    <BreadcrumbNav items={breadcrumbItems} />
+
+    <article class="fence-guide">
+      <header class="hero-section">
+        <h1>Trapézlemez kerítés – Amit tudni kell</h1>
+        <p class="hero-lead">
+          A trapézlemez kerítés az egyik leggyorsabban épülő és legolcsóbb kerítésmegoldás.
+          Ha jó anyagot választasz, <strong>évtizedekig gondtalan lesz</strong> – ha rosszat, pár éven belül cserélheted. Itt megmutatjuk, mire figyelj.
+        </p>
+      </header>
+
+      <!-- 1. Miért trapézlemez kerítés? -->
+      <section class="content-section">
+        <h2>Miért trapézlemez kerítés?</h2>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <span class="benefit-icon" aria-hidden="true">&#10003;</span>
+            <h3>Olcsó</h3>
+            <p>A trapézlemez kerítés anyagköltsége töredéke a kő-, beton- vagy kovácsoltvas kerítésnek. Egy 30 fm-es kerítés lemezanyaga akár 120 000 Ft-tól megoldható.</p>
+          </div>
+          <div class="benefit-card">
+            <span class="benefit-icon" aria-hidden="true">&#10003;</span>
+            <h3>Tartós</h3>
+            <p>A 275 g/m² horganyzott, festett acéllemez 20-30 évig is kitart. Mi 20 év garanciát vállalunk – mert tudjuk, hogy a lemez kibírja.</p>
+          </div>
+          <div class="benefit-card">
+            <span class="benefit-icon" aria-hidden="true">&#10003;</span>
+            <h3>Gyors szerelés</h3>
+            <p>Két ember egy hétvége alatt felépít egy átlagos méretű kerítést. Nincs ragasztás, száradás – csak csavarozás.</p>
+          </div>
+          <div class="benefit-card">
+            <span class="benefit-icon" aria-hidden="true">&#10003;</span>
+            <h3>Karbantartásmentes</h3>
+            <p>Nem kell festeni, kezelni, javítani. Felrakod és elfelejted. Évente egyszer rápillantasz, de nem lesz vele dolgod.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Anyagválasztás -->
+      <section class="content-section">
+        <h2>Anyagválasztás – Melyik lemezt válaszd?</h2>
+        <p>
+          Kerítéshez a <strong>T18 0.5mm</strong> profilt ajánljuk. Miért? Mert a kerítés teljes felületével fogja a szelet, és a vékonyabb lemezek (T12 0.4mm) könnyen deformálódnak.
+        </p>
+        <div class="recommendation-box">
+          <h3>Miért erősebb a T18 0.5mm?</h3>
+          <p>Az erősség a vastagság köbével arányos. A 0.5mm lemez <strong>208%-kal erősebb</strong> a 0.4mm-es változatnál – ez nem marketing, hanem anyagtudomány. Kerítésnél ez a különbség kritikus, mert a szélterhelés könnyen hullámossá teszi a vékony lemezt.</p>
+          <p>Ráadásul a vastagabb horganyzott réteg lassabban kopik, így a kerítés alsó része – ami állandóan ki van téve a nedvességnek, fröcskölő víznek – sokkal tovább bírja.</p>
+        </div>
+      </section>
+
+      <!-- 3. Szerelési útmutató röviden -->
+      <section class="content-section">
+        <h2>Szerelési útmutató röviden</h2>
+        <div class="steps-list">
+          <div class="step-item">
+            <span class="step-number">1</span>
+            <div class="step-content">
+              <h3>Oszlopok</h3>
+              <p>Zártszelvény oszlopokat (60x40mm vagy 60x60mm) betonozz le 60-80 cm mélyre, 2.5-3 méterenként. Vízmértékkel ellenőrizd a függőlegességet, mielőtt a beton megköt.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <span class="step-number">2</span>
+            <div class="step-content">
+              <h3>Lécek</h3>
+              <p>Vízszintes tartóléceket (40x20mm zártszelvény) hegeszd vagy csavarozd az oszlopokra – felül, alul és középen. Ezekre jön a trapézlemez.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <span class="step-number">3</span>
+            <div class="step-content">
+              <h3>Csavarozás</h3>
+              <p>A lemezeket önfúró csavarokkal rögzítsd a lécekhez. A csavar a hullámvölgybe megy, kb. 30 cm-enként. Ne húzd túl – az EPDM alátét csak éppen lapuljon el.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. ExperienceBlock -->
+      <ExperienceBlock text="Kerítésnél a szélterhelés a legnagyobb ellenség. A 0.5mm-es lemez itt hatalmas előnyt jelent." />
+
+      <!-- 5. Szélterhelés -->
+      <section class="content-section">
+        <h2>Szélterhelés fontossága</h2>
+        <p>
+          A kerítés – ellentétben a tetővel – egy függőleges felület, ami teljes szélességével fogja a szelet. Egy 2 méteres kerítésen a szélnyomás elérheti a <strong>0.5-1.0 kN/m²</strong> értéket, ami jelentős terhelést jelent.
+        </p>
+        <p>
+          A vékonyabb, alacsonyabb profilú lemezek (T12 0.4mm) ebben a helyzetben könnyen behajlanak, hullámossá válnak, és idővel a csavaroknál is meggyengülhetnek. A <strong>T18 0.5mm</strong> profil a magasabb bordamagassággal és vastagabb anyaggal sokkal jobban ellenáll ezeknek az erőknek.
+        </p>
+        <div class="info-box">
+          <p><strong>Tipp:</strong> Ha a kerítés különösen szélnek kitett helyen áll (domboldal, nyílt terep), érdemes sűríteni az oszloptávolságot 2 méterre, és extra lécet beiktatni középen.</p>
+        </div>
+      </section>
+
+      <!-- 6. FAQ -->
+      <section class="content-section faq-section">
+        <h2>Gyakran ismételt kérdések</h2>
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- 7. Link to T12 vs T18 -->
+      <section class="content-section crosslink-section">
+        <div class="crosslink-box">
+          <h3>Kerítéshez T12-t keresel?</h3>
+          <p>Nézd meg, miért ajánljuk helyette a T18-at – <strong>erősebb és szinte ugyanannyiba kerül.</strong></p>
+          <a href="/t12-helyett-t18/" class="crosslink-btn">T12 vs T18 összehasonlítás</a>
+        </div>
+      </section>
+
+      <!-- Trust Signals -->
+      <TrustSignals />
+
+      <!-- 8. CTA -->
+      <div class="cta-wrapper">
+        <CtaBox title="Kerítést építene? Segítünk a tervezésben!" />
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .fence-guide {
+    padding-bottom: var(--spacing-3xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--color-primary-dark);
+    line-height: 1.3;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-lead {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    line-height: 1.7;
+  }
+
+  /* Content Sections */
+  .content-section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .content-section h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  .content-section p {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .content-section a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .content-section a:hover {
+    text-decoration: underline;
+  }
+
+  /* Benefits Grid */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+
+  @media (max-width: 600px) {
+    .benefits-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .benefit-card {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    border-left: 4px solid var(--color-primary);
+  }
+
+  .benefit-icon {
+    display: inline-block;
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .benefit-card h3 {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .benefit-card p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Recommendation Box */
+  .recommendation-box {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    border-left: 4px solid var(--color-primary);
+  }
+
+  .recommendation-box h3 {
+    font-size: var(--font-size-xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .recommendation-box p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .recommendation-box p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Steps List */
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+  }
+
+  .step-item {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: flex-start;
+  }
+
+  .step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    flex-shrink: 0;
+  }
+
+  .step-content h3 {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .step-content p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Info Box */
+  .info-box {
+    background: #f0f9ff;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-md) 0;
+    border-left: 4px solid #0ea5e9;
+  }
+
+  .info-box p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* FAQ */
+  .faq-item {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    font-weight: 300;
+  }
+
+  .faq-item[open] summary::after {
+    content: '-';
+  }
+
+  .faq-answer {
+    padding: 0 var(--spacing-lg) var(--spacing-md);
+  }
+
+  .faq-answer p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Crosslink */
+  .crosslink-box {
+    background: linear-gradient(135deg, #e8f4f8 0%, #d0eef5 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+  }
+
+  .crosslink-box h3 {
+    font-size: var(--font-size-xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .crosslink-box p {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .crosslink-btn {
+    display: inline-block;
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--spacing-sm) var(--spacing-xl);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .crosslink-btn:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+  }
+
+  /* CTA Wrapper */
+  .cta-wrapper {
+    margin-top: var(--spacing-2xl);
+  }
+</style>

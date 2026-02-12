@@ -1,0 +1,150 @@
+---
+/**
+ * StrengthChart - Vizuális erősség sávdiagram (CSS-alapú)
+ *
+ * A típus-helyettesítő oldalakon és a hub oldalon használjuk.
+ */
+
+interface ChartItem {
+  label: string;
+  value: number;
+  highlight?: boolean;
+  annotation?: string;
+}
+
+interface Props {
+  items?: ChartItem[];
+  title?: string;
+}
+
+const { title = 'Erősség összehasonlítás', items } = Astro.props;
+
+const defaultItems: ChartItem[] = [
+  { label: 'T12 0.4mm', value: 100 },
+  { label: 'T14 0.4mm', value: 103 },
+  { label: 'T20 0.4mm', value: 111 },
+  { label: 'T25 0.4mm', value: 117 },
+  { label: 'T18 0.5mm', value: 208, highlight: true, annotation: 'Nálunk' },
+  { label: 'T18 0.6mm', value: 358, highlight: true, annotation: 'Svéd acél' },
+];
+
+const chartItems = items || defaultItems;
+const maxValue = Math.max(...chartItems.map(i => i.value));
+---
+
+<div class="strength-chart">
+  {title && <h4 class="chart-title">{title}</h4>}
+  <p class="chart-subtitle">Relatív hajlítási ellenállás (egyenletesen megoszló terhelés)</p>
+
+  <div class="chart-bars">
+    {chartItems.map((item) => (
+      <div class:list={['chart-row', { 'chart-row--highlight': item.highlight }]}>
+        <span class="chart-label">{item.label}</span>
+        <div class="chart-bar-wrapper">
+          <div
+            class:list={['chart-bar', { 'chart-bar--highlight': item.highlight }]}
+            style={`width: ${(item.value / maxValue) * 100}%`}
+          >
+            <span class="chart-value">{item.value}%</span>
+          </div>
+          {item.annotation && (
+            <span class="chart-annotation">{item.annotation}</span>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .strength-chart {
+    margin: var(--spacing-xl) 0;
+    padding: var(--spacing-lg);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+  }
+
+  .chart-title {
+    margin: 0 0 var(--spacing-xs);
+    font-size: var(--font-size-lg);
+  }
+
+  .chart-subtitle {
+    margin: 0 0 var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .chart-bars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .chart-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .chart-label {
+    min-width: 90px;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .chart-row--highlight .chart-label {
+    font-weight: 700;
+    color: var(--color-primary-dark);
+  }
+
+  .chart-bar-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .chart-bar {
+    height: 28px;
+    background: var(--color-text-muted);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: var(--spacing-sm);
+    min-width: 50px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .chart-bar--highlight {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  }
+
+  .chart-value {
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .chart-annotation {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 480px) {
+    .chart-label {
+      min-width: 70px;
+      font-size: 0.75rem;
+    }
+
+    .chart-bar {
+      height: 22px;
+    }
+  }
+</style>

@@ -1,0 +1,373 @@
+---
+/**
+ * DecisionTree - Interaktív döntési fa (vanilla JS)
+ *
+ * "Melyik trapézlemez kell neked?" - lépésről lépésre
+ */
+---
+
+<div class="decision-tree" id="decision-tree">
+  <h3 class="dt-title">Melyik trapézlemez kell neked?</h3>
+  <p class="dt-subtitle">Válaszolj 2-3 kérdésre és megmondjuk!</p>
+
+  <!-- Step 1: Mire kell? -->
+  <div class="dt-step" data-step="1">
+    <p class="dt-question">Mire kell a trapézlemez?</p>
+    <div class="dt-options">
+      <button class="dt-option" data-next="2" data-use="teto">
+        <span class="dt-option-icon">&#9751;</span>
+        <span class="dt-option-label">Tető</span>
+      </button>
+      <button class="dt-option" data-next="3-result" data-result="t18" data-use="kerites">
+        <span class="dt-option-icon">&#9608;</span>
+        <span class="dt-option-label">Kerítés</span>
+      </button>
+      <button class="dt-option" data-next="3-result" data-result="t18" data-use="fal">
+        <span class="dt-option-icon">&#9632;</span>
+        <span class="dt-option-label">Falburkolat</span>
+      </button>
+      <button class="dt-option" data-next="2b" data-use="ipari">
+        <span class="dt-option-icon">&#9881;</span>
+        <span class="dt-option-label">Ipari csarnok</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 2: Tető - Lakossági vagy ipari? -->
+  <div class="dt-step" data-step="2" style="display: none;">
+    <p class="dt-question">Mekkora a tető fesztávja (alátámasztás nélküli távolság)?</p>
+    <div class="dt-options">
+      <button class="dt-option" data-next="3-result" data-result="t18">
+        <span class="dt-option-label">4 méter alatt</span>
+        <span class="dt-option-desc">Lakóház, garázs, tároló, melléképület</span>
+      </button>
+      <button class="dt-option" data-next="3-result" data-result="t25">
+        <span class="dt-option-label">4 méter felett</span>
+        <span class="dt-option-desc">Ipari csarnok, nagy raktár</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 2b: Ipari -->
+  <div class="dt-step" data-step="2b" style="display: none;">
+    <p class="dt-question">Mekkora a csarnok fesztávja?</p>
+    <div class="dt-options">
+      <button class="dt-option" data-next="3-result" data-result="t18">
+        <span class="dt-option-label">4 méter alatt</span>
+        <span class="dt-option-desc">Kisebb műhely, raktár</span>
+      </button>
+      <button class="dt-option" data-next="3-result" data-result="t25plus">
+        <span class="dt-option-label">4 méter felett</span>
+        <span class="dt-option-desc">Nagy csarnok, statikus terv szükséges</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="dt-step dt-result" data-step="3-result" style="display: none;">
+    <!-- T18 result -->
+    <div class="dt-result-content" data-result="t18" style="display: none;">
+      <div class="dt-result-badge dt-result-badge--success">
+        <span>&#10003;</span>
+      </div>
+      <h4 class="dt-result-title">T18 0.5mm – tökéletes választás!</h4>
+      <p class="dt-result-text">
+        A T18 0.5mm minden lakossági igényt kielégít:
+        erősebb, mint a legtöbb versenytárs vastagabb bordás lemezes,
+        és nálunk <strong>olcsóbban</strong> kapod.
+      </p>
+      <div class="dt-result-actions">
+        <a href="/kalkulator" class="btn btn-primary btn-lg">Kalkulátor</a>
+        <a href="/trapezlemez/" class="btn btn-outline">Termék részletek</a>
+      </div>
+    </div>
+
+    <!-- T25 result -->
+    <div class="dt-result-content" data-result="t25" style="display: none;">
+      <div class="dt-result-badge dt-result-badge--warning">
+        <span>&#9888;</span>
+      </div>
+      <h4 class="dt-result-title">T25 vagy erősebb profil lehet szükséges</h4>
+      <p class="dt-result-text">
+        4 méter feletti fesztávnál a T25 vagy erősebb profil ajánlott.
+        <strong>Mi nem árulunk T25-öt</strong> – egy dolgot csinálunk nagyon jól, a T18-at.
+        De ha a fesztáv éppen 4m körüli, a T18 0.5mm-ünk még bőven megfelelhet!
+      </p>
+      <div class="dt-result-actions">
+        <a href="/t25-helyett-t18/" class="btn btn-outline">T25 vs T18 összehasonlítás</a>
+        <a href="/kalkulator" class="btn btn-primary">Kalkulátor kipróbálása</a>
+      </div>
+    </div>
+
+    <!-- T25+ (ipari) result -->
+    <div class="dt-result-content" data-result="t25plus" style="display: none;">
+      <div class="dt-result-badge dt-result-badge--warning">
+        <span>&#9888;</span>
+      </div>
+      <h4 class="dt-result-title">Ipari profilra van szüksége (T25+)</h4>
+      <p class="dt-result-text">
+        Nagy fesztávú ipari csarnokhoz T25 vagy erősebb profil szükséges,
+        statikus terv alapján. <strong>Mi a T18-ra specializálódtunk</strong>,
+        ipari profillal nem foglalkozunk.
+      </p>
+      <p class="dt-result-subtext">
+        Ha lakossági projekted van (garázs, tároló, ház), a T18 0.5mm-ünk tökéletes választás!
+      </p>
+      <div class="dt-result-actions">
+        <a href="/kalkulator" class="btn btn-primary">Kalkulátor (lakossági projekt)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back / Reset -->
+  <div class="dt-controls" id="dt-controls" style="display: none;">
+    <button class="dt-back-btn" id="dt-back">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Vissza
+    </button>
+    <button class="dt-reset-btn" id="dt-reset">Újra kezdem</button>
+  </div>
+</div>
+
+<style>
+  .decision-tree {
+    padding: var(--spacing-xl);
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    max-width: 600px;
+    margin: var(--spacing-xl) auto;
+  }
+
+  .dt-title {
+    margin: 0 0 var(--spacing-xs);
+    font-size: var(--font-size-2xl);
+    text-align: center;
+  }
+
+  .dt-subtitle {
+    margin: 0 0 var(--spacing-xl);
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .dt-question {
+    font-weight: 600;
+    font-size: var(--font-size-lg);
+    margin: 0 0 var(--spacing-md);
+  }
+
+  .dt-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .dt-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-lg) var(--spacing-md);
+    background: var(--color-bg-light);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-family: inherit;
+    font-size: var(--font-size-base);
+  }
+
+  .dt-option:hover {
+    border-color: var(--color-primary);
+    background: #e8f5e9;
+  }
+
+  .dt-option-icon {
+    font-size: 1.5rem;
+  }
+
+  .dt-option-label {
+    font-weight: 600;
+  }
+
+  .dt-option-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  /* Results */
+  .dt-result-content {
+    text-align: center;
+  }
+
+  .dt-result-badge {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto var(--spacing-md);
+  }
+
+  .dt-result-badge--success {
+    background: #e8f5e9;
+    color: var(--color-primary);
+  }
+
+  .dt-result-badge--warning {
+    background: #fff3e0;
+    color: #f57c00;
+  }
+
+  .dt-result-title {
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--font-size-xl);
+  }
+
+  .dt-result-text {
+    margin: 0 0 var(--spacing-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+  }
+
+  .dt-result-subtext {
+    margin: 0 0 var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .dt-result-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: var(--spacing-lg);
+  }
+
+  .dt-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .dt-back-btn,
+  .dt-reset-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    transition: all var(--transition-fast);
+  }
+
+  .dt-back-btn:hover,
+  .dt-reset-btn:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
+  }
+
+  @media (max-width: 480px) {
+    .dt-options {
+      grid-template-columns: 1fr;
+    }
+
+    .decision-tree {
+      padding: var(--spacing-lg);
+    }
+  }
+</style>
+
+<script>
+  const tree = document.getElementById('decision-tree');
+  const controls = document.getElementById('dt-controls');
+  const backBtn = document.getElementById('dt-back');
+  const resetBtn = document.getElementById('dt-reset');
+
+  if (tree) {
+    const history: string[] = ['1'];
+
+    function showStep(stepId: string, result?: string) {
+      // Hide all steps
+      tree!.querySelectorAll('.dt-step').forEach((el) => {
+        (el as HTMLElement).style.display = 'none';
+      });
+
+      // Show target step
+      const step = tree!.querySelector(`[data-step="${stepId}"]`) as HTMLElement;
+      if (step) {
+        step.style.display = 'block';
+
+        // If result step, show the right result content
+        if (result) {
+          step.querySelectorAll('.dt-result-content').forEach((el) => {
+            (el as HTMLElement).style.display = 'none';
+          });
+          const resultContent = step.querySelector(`[data-result="${result}"]`) as HTMLElement;
+          if (resultContent) {
+            resultContent.style.display = 'block';
+          }
+        }
+      }
+
+      // Show/hide controls
+      if (controls) {
+        controls.style.display = history.length > 1 || stepId !== '1' ? 'flex' : 'none';
+      }
+    }
+
+    // Option click handler
+    tree.addEventListener('click', (e) => {
+      const option = (e.target as HTMLElement).closest('.dt-option') as HTMLElement;
+      if (!option) return;
+
+      const nextStep = option.dataset.next;
+      const result = option.dataset.result;
+      if (!nextStep) return;
+
+      history.push(nextStep);
+      showStep(nextStep, result);
+
+      // GTM event
+      if (window.dataLayer) {
+        window.dataLayer.push({
+          event: 'decision_tree_step',
+          step: nextStep,
+          result: result || undefined,
+          use_case: option.dataset.use || undefined,
+        });
+      }
+    });
+
+    // Back button
+    backBtn?.addEventListener('click', () => {
+      if (history.length > 1) {
+        history.pop();
+        showStep(history[history.length - 1]);
+      }
+    });
+
+    // Reset button
+    resetBtn?.addEventListener('click', () => {
+      history.length = 0;
+      history.push('1');
+      showStep('1');
+    });
+
+    // Init: show step 1
+    showStep('1');
+  }
+</script>

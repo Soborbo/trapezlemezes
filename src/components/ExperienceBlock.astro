@@ -1,0 +1,53 @@
+---
+/**
+ * ExperienceBlock - E-E-A-T "10 év tapasztalatból" callout
+ */
+
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<aside class="experience-block">
+  <div class="experience-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="16" x2="12" y2="12"/>
+      <line x1="12" y1="8" x2="12.01" y2="8"/>
+    </svg>
+  </div>
+  <p>
+    <strong>10 év tetőkészítői tapasztalatból:</strong>{' '}
+    {text}
+  </p>
+</aside>
+
+<style>
+  .experience-block {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border-left: 4px solid var(--color-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-xl) 0;
+  }
+
+  .experience-icon {
+    flex-shrink: 0;
+    color: var(--color-primary);
+    margin-top: 2px;
+  }
+
+  .experience-block p {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--color-text);
+  }
+
+  .experience-block strong {
+    color: var(--color-primary-dark);
+  }
+</style>

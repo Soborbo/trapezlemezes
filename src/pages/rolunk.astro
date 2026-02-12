@@ -1,0 +1,308 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import CtaBox from '../components/CtaBox.astro';
+import { getBreadcrumbSchema } from '../config/schema';
+
+const breadcrumbs = [{ label: 'Rólunk' }];
+
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Főoldal', url: '/' },
+  { name: 'Rólunk', url: '/rolunk/' },
+]);
+
+const extraSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [breadcrumbSchema],
+};
+
+const usps = [
+  { icon: '&#9878;', title: 'Erősebb lemez', desc: 'T18 0.5mm – 2x erősebb, mint a versenytársak 0.4mm-es lemezei' },
+  { icon: '&#9201;', title: '48 óra gyártás', desc: 'Rendeld ma, 2 napon belül szállítjuk' },
+  { icon: '&#9989;', title: '20 év garancia', desc: 'Mert tudjuk, hogy a minőség kitart' },
+  { icon: '&#128200;', title: 'Online kalkulátor', desc: '30 másodperc alatt pontos ár, mennyiség, szállítás' },
+  { icon: '&#128666;', title: 'Önköltségi szállítás', desc: 'Nem keresünk a szállításon – amennyibe nekünk kerül' },
+  { icon: '&#127480;&#127466;', title: 'Svéd 0.6mm', desc: 'Prémium svéd acél opció – akinek a legjobb kell' },
+];
+---
+
+<Layout
+  title="Rólunk – A Trapezlemezes.hu története | Trapezlemezes.hu"
+  description="10 éve foglalkozunk trapézlemez tetőkkel. Tetőkészítőként kezdtük, ma gyártóként dolgozunk. Ismerd meg a történetünket."
+  extraSchema={extraSchema}
+>
+  <div class="page-container">
+    <BreadcrumbNav items={breadcrumbs} />
+
+    <article class="about-page">
+      <header class="hero-section">
+        <h1>Miért mi? 10 év tapasztalat, ami számít</h1>
+      </header>
+
+      <!-- Story 1 -->
+      <section class="content-section">
+        <h2>Tetőkészítőként kezdtük</h2>
+        <p>
+          10 éve foglalkozunk trapézlemez tetőkkel és kerítésekkel. A kivitelezéssel kezdtünk – garázs tetők,
+          családi házak, kerítések. Élveztük a munkát, de egy dolog állandóan zavart:
+        </p>
+        <ul class="story-problems">
+          <li>Nem kaptunk jó minőségű alapanyagot</li>
+          <li>Csúsztak a munkák, mert a szállítások heteket késtek</li>
+          <li>Gyenge volt az anyagminőség – vékony lemezek, kevés horganyzás</li>
+          <li>Heteket kellett várni egy-egy szállítmányra</li>
+        </ul>
+        <p>
+          Meguntuk. Ha nem tudunk jó lemezt kapni, akkor gyártunk magunknak.
+        </p>
+      </section>
+
+      <!-- Story 2 -->
+      <section class="content-section">
+        <h2>Elkezdtünk magunknak gyártani</h2>
+        <p>
+          Mivel saját munkáinkhoz gyártottunk, nem volt kérdés: <strong>minőségi lemezt készítettünk.</strong>
+          0.5mm vastagság, 275 g/m2 horganyzás, rendesen festve. Nem azért, mert „prémium" akartunk lenni –
+          hanem mert tudtuk, mi kell ahhoz, hogy egy tető 20 évig kibírja.
+        </p>
+        <div class="quote-block">
+          <blockquote>
+            „Honnan van ez a lemez? Sokkal jobb, mint amit máshol kapunk!"
+          </blockquote>
+          <p class="quote-attribution">– ügyfelek visszajelzése, akik először látták a lemezeink minőségét</p>
+        </div>
+        <p>
+          Az ügyfeleink észrevették a különbséget. Előbb a kivitelezők kérdezték, honnan van az anyag.
+          Aztán a szomszédok is akartak. Így lett üzlet belőle.
+        </p>
+      </section>
+
+      <!-- Story 3 -->
+      <section class="content-section">
+        <h2>Ma: Gyártó + 10 év kivitelezői tapasztalat</h2>
+        <p>
+          Ez a kombináció tesz minket mássá. Nem csak gyártunk lemezt – <strong>megértjük, hogy a kivitelezőnek
+          HOLNAPRA kell a lemez.</strong> Tudjuk, hogy az építkezésen nincs idő várni heteket. Tudjuk, hogy a vékony
+          lemez gondot okoz a szereléskor. Tudjuk, hogy a rossz horganyzás 3 év után rozsdát jelent.
+        </p>
+        <div class="highlight-box">
+          <p>
+            <strong>48 óra gyártás.</strong> Svéd minőség. <strong>20 év garancia.</strong>
+            Mert a kivitelező ideje is pénzt ér.
+          </p>
+        </div>
+      </section>
+
+      <!-- USP Grid -->
+      <section class="content-section">
+        <h2>Miért válassz minket?</h2>
+        <div class="usp-grid">
+          {usps.map((usp) => (
+            <div class="usp-card">
+              <span class="usp-icon" set:html={usp.icon} />
+              <h3 class="usp-title">{usp.title}</h3>
+              <p class="usp-desc">{usp.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Team Link -->
+      <section class="content-section team-link-section">
+        <a href="/csapat/" class="team-link">
+          Ismerd meg a csapatunkat &rarr;
+        </a>
+      </section>
+
+      <!-- CTA Box -->
+      <div class="cta-wrapper">
+        <CtaBox title="Kérdése van? Hívjon bizalommal!" />
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .about-page {
+    padding-bottom: var(--spacing-3xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--color-primary-dark);
+    line-height: 1.3;
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* Content Sections */
+  .content-section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .content-section h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  .content-section p {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* Story Problems List */
+  .story-problems {
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-md) 0;
+  }
+
+  .story-problems li {
+    position: relative;
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+  }
+
+  .story-problems li::before {
+    content: '\2717';
+    position: absolute;
+    left: 0;
+    color: #ef4444;
+    font-weight: 700;
+  }
+
+  /* Quote Block */
+  .quote-block {
+    background: var(--color-bg-light);
+    border-left: 4px solid var(--color-primary);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    padding: var(--spacing-lg) var(--spacing-xl);
+    margin: var(--spacing-lg) 0;
+  }
+
+  .quote-block blockquote {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    font-style: italic;
+    line-height: 1.5;
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .quote-attribution {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin: 0 !important;
+  }
+
+  /* Highlight Box */
+  .highlight-box {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    margin: var(--spacing-lg) 0;
+    text-align: center;
+  }
+
+  .highlight-box p {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary-dark);
+    margin: 0;
+  }
+
+  /* USP Grid */
+  .usp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+
+  @media (max-width: 768px) {
+    .usp-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .usp-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .usp-card {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    text-align: center;
+    transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .usp-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .usp-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .usp-title {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary-dark);
+    margin: 0 0 var(--spacing-xs);
+  }
+
+  .usp-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Team Link */
+  .team-link-section {
+    text-align: center;
+  }
+
+  .team-link {
+    display: inline-block;
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: var(--spacing-md) var(--spacing-xl);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+
+  .team-link:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  /* CTA Wrapper */
+  .cta-wrapper {
+    margin-top: var(--spacing-2xl);
+  }
+</style>

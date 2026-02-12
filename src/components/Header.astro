@@ -1,12 +1,21 @@
 ---
 import { Logo } from './images';
 import logo from '../assets/images/logo.png';
+import CartButton from './CartButton.astro';
 
 interface Props {
   currentPath?: string;
 }
 
 const { currentPath = '/' } = Astro.props;
+
+const navLinks = [
+  { href: '/trapezlemez/', label: 'Trapézlemez', match: '/trapezlemez' },
+  { href: '/trapezlemez-tipusok/', label: 'Típusok', match: '/trapezlemez-tipusok' },
+  { href: '/trapezlemez-teto/', label: 'Tető', match: '/trapezlemez-teto' },
+  { href: '/trapezlemez-kerites/', label: 'Kerítés', match: '/trapezlemez-kerites' },
+  { href: '/rolunk/', label: 'Rólunk', match: '/rolunk' },
+];
 ---
 
 <header class="header">
@@ -16,18 +25,30 @@ const { currentPath = '/' } = Astro.props;
         <Logo src={logo} alt="Trapezlemezes.hu" width={106} height={49} priority />
       </a>
 
-      <div class="nav-center hide-mobile">
-        <a href="tel:+3613009206" class="phone-link">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Desktop nav links -->
+      <div class="nav-links hide-mobile">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={['nav-link', { active: currentPath.startsWith(link.match) }]}
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+
+      <div class="nav-right">
+        <a href="tel:+3613009206" class="phone-link hide-mobile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
           </svg>
           <span>+36 1 300-92-06</span>
         </a>
-      </div>
 
-      <div class="nav-right">
-        <a href="/kalkulator" class="btn btn-primary btn-cta">
-          ONLINE ÁRKALKULÁTOR
+        <CartButton />
+
+        <a href="/kalkulator" class="btn btn-primary btn-cta hide-mobile">
+          KALKULÁTOR
         </a>
 
         <button class="mobile-menu-btn hide-desktop" aria-label="Menü" id="mobile-menu-btn">
@@ -45,9 +66,24 @@ const { currentPath = '/' } = Astro.props;
   <div class="mobile-menu" id="mobile-menu">
     <div class="mobile-menu-content">
       <a href="/" class={currentPath === '/' ? 'active' : ''}>Főoldal</a>
-      <a href="/trapezlemez-arak" class={currentPath === '/trapezlemez-arak' ? 'active' : ''}>Trapézlemez árak</a>
-      <a href="/trapezlemez-teto" class={currentPath === '/trapezlemez-teto' ? 'active' : ''}>Trapézlemez tető</a>
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class={currentPath.startsWith(link.match) ? 'active' : ''}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a href="/gyik/" class={currentPath.startsWith('/gyik') ? 'active' : ''}>GYIK</a>
+      <a href="/szallitas/" class={currentPath.startsWith('/szallitas') ? 'active' : ''}>Szállítás</a>
       <a href="/kalkulator" class="btn btn-primary">ONLINE ÁRKALKULÁTOR</a>
+      <a href="/kosar" class="mobile-cart-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        Kosár
+      </a>
       <a href="tel:+3613009206" class="phone-link mobile-phone">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
@@ -92,28 +128,53 @@ const { currentPath = '/' } = Astro.props;
     align-items: center;
     justify-content: space-between;
     height: 70px;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
   }
 
   .logo-link {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
   }
 
-  .nav-center {
-    flex: 1;
+  /* Desktop nav links */
+  .nav-links {
     display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex: 1;
     justify-content: center;
+  }
+
+  .nav-link {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+  }
+
+  .nav-link:hover {
+    color: var(--color-primary);
+    background: #e8f5e9;
+  }
+
+  .nav-link.active {
+    color: var(--color-primary);
+    font-weight: 600;
   }
 
   .phone-link {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-xs);
     color: var(--color-accent);
     font-weight: 700;
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-sm);
     transition: color var(--transition-fast);
+    white-space: nowrap;
   }
 
   .phone-link:hover {
@@ -127,33 +188,24 @@ const { currentPath = '/' } = Astro.props;
   .nav-right {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
+    flex-shrink: 0;
   }
 
   .btn-cta {
     white-space: nowrap;
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-xs) var(--spacing-md);
     animation: cta-attention 20s infinite;
   }
 
   @keyframes cta-attention {
-    0%, 95% {
-      transform: scale(1);
-    }
-    96% {
-      transform: scale(1.08);
-    }
-    97% {
-      transform: scale(0.95);
-    }
-    98% {
-      transform: scale(1.05);
-    }
-    99% {
-      transform: scale(0.98);
-    }
-    100% {
-      transform: scale(1);
-    }
+    0%, 95% { transform: scale(1); }
+    96% { transform: scale(1.08); }
+    97% { transform: scale(0.95); }
+    98% { transform: scale(1.05); }
+    99% { transform: scale(0.98); }
+    100% { transform: scale(1); }
   }
 
   .mobile-menu-btn {
@@ -205,6 +257,15 @@ const { currentPath = '/' } = Astro.props;
     text-align: center;
   }
 
+  .mobile-cart-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    border-bottom: none !important;
+    color: var(--color-text) !important;
+  }
+
   .mobile-phone {
     justify-content: center;
     border-bottom: none !important;
@@ -213,8 +274,19 @@ const { currentPath = '/' } = Astro.props;
 
   @media (max-width: 640px) {
     .btn-cta {
-      padding: var(--spacing-sm) var(--spacing-md);
-      font-size: var(--font-size-sm);
+      padding: var(--spacing-xs) var(--spacing-sm);
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .nav-link {
+      font-size: 0.8rem;
+      padding: var(--spacing-xs) 4px;
+    }
+
+    .phone-link span {
+      display: none;
     }
   }
 </style>

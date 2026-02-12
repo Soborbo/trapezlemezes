@@ -4,10 +4,58 @@ const currentYear = new Date().getFullYear();
 
 <footer class="footer">
   <div class="container">
-    <div class="footer-content">
+    <div class="footer-columns">
+      <div class="footer-col">
+        <h4 class="footer-heading">Termékek</h4>
+        <ul class="footer-links">
+          <li><a href="/trapezlemez/">Trapézlemez</a></li>
+          <li><a href="/trapezlemez-tipusok/">Típusok összehasonlítás</a></li>
+          <li><a href="/kalkulator">Árkalkulátor</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-heading">Útmutatók</h4>
+        <ul class="footer-links">
+          <li><a href="/trapezlemez-teto/">Tető útmutató</a></li>
+          <li><a href="/trapezlemez-kerites/">Kerítés útmutató</a></li>
+          <li><a href="/trapezlemez-szereles/">Szerelési útmutató</a></li>
+          <li><a href="/trapezlemez-alatamastas/">Alátámasztás</a></li>
+          <li><a href="/gyik/">GYIK</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-heading">Cégünk</h4>
+        <ul class="footer-links">
+          <li><a href="/rolunk/">Rólunk</a></li>
+          <li><a href="/csapat/">Csapat</a></li>
+          <li><a href="/referenciak/">Referenciák</a></li>
+          <li><a href="/velemenyek/">Vélemények</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-heading">Információ</h4>
+        <ul class="footer-links">
+          <li><a href="/szallitas/">Szállítás</a></li>
+          <li><a href="/aszf/">ÁSZF</a></li>
+          <li><a href="/visszarules/">Visszárulés</a></li>
+          <li><a href="/adatkezelesi-tajekoztato">Adatkezelés</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-contact">
+      <p>
+        <a href="tel:+3613009206" class="footer-phone">+36 1 300-92-06</a>
+        &nbsp;|&nbsp;
+        <a href="mailto:info@trapezlemezes.hu">info@trapezlemezes.hu</a>
+        &nbsp;|&nbsp;
+        <span>1182 Budapest, Királyhágó utca 30.</span>
+      </p>
+    </div>
+
+    <div class="footer-bottom">
       <p class="copyright">
-        Copyright &copy; {currentYear} Trapezlemezes.hu |
-        <a href="/adatkezelesi-tajekoztato">Adatkezelési Tájékoztató</a>
+        Copyright &copy; {currentYear} Trapezlemezes.hu – Minden jog fenntartva.
       </p>
     </div>
   </div>
@@ -15,27 +63,98 @@ const currentYear = new Date().getFullYear();
 
 <style>
   .footer {
-    background: var(--color-bg-light);
-    padding: var(--spacing-lg) 0;
+    background: #1a2332;
+    color: rgba(255, 255, 255, 0.8);
+    padding: var(--spacing-3xl) 0 var(--spacing-lg);
     margin-top: auto;
   }
 
-  .footer-content {
+  .footer-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-xl);
+    padding-bottom: var(--spacing-2xl);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-heading {
+    color: #fff;
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 var(--spacing-md);
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .footer-links a {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: var(--font-size-sm);
+    transition: color var(--transition-fast);
+  }
+
+  .footer-links a:hover {
+    color: #fff;
+  }
+
+  .footer-contact {
+    padding: var(--spacing-lg) 0;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-contact p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .footer-contact a {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .footer-contact a:hover {
+    color: #fff;
+  }
+
+  .footer-phone {
+    font-weight: 700;
+    color: var(--color-accent) !important;
+  }
+
+  .footer-bottom {
+    padding-top: var(--spacing-lg);
     text-align: center;
   }
 
   .copyright {
     margin: 0;
-    font-size: var(--font-size-sm);
-    color: var(--color-text-light);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
   }
 
-  .copyright a {
-    color: var(--color-text-light);
-    text-decoration: underline;
+  @media (max-width: 768px) {
+    .footer-columns {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-lg);
+    }
   }
 
-  .copyright a:hover {
-    color: var(--color-primary);
+  @media (max-width: 480px) {
+    .footer-columns {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-contact p {
+      line-height: 2;
+    }
   }
 </style>

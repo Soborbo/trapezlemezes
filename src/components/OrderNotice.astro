@@ -1,0 +1,93 @@
+---
+/**
+ * OrderNotice - "Ez szándéknyilatkozat" info doboz
+ */
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<div class:list={['order-notice', { 'order-notice--compact': compact }]}>
+  <div class="notice-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width={compact ? 20 : 24} height={compact ? 20 : 24} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </svg>
+  </div>
+  <div class="notice-content">
+    {compact ? (
+      <p class="notice-text">
+        <strong>Ez szándéknyilatkozat</strong>, nem végleges megrendelés. A végleges rendelés csak telefonos egyeztetés után jön létre.
+      </p>
+    ) : (
+      <>
+        <p class="notice-title">Ez szándéknyilatkozat</p>
+        <p class="notice-text">
+          A végleges megrendelés csak telefonos egyeztetés után jön létre.
+          Felhívjuk Önt <strong>24 órán belül</strong>, és közösen véglegesítjük a részleteket:
+          pontos méreteket, szállítási időpontot és fizetési módot.
+        </p>
+        <p class="notice-text notice-reassure">
+          Nem kell félnie – amíg nem beszéltünk, nincs semmiféle kötelezettsége.
+        </p>
+      </>
+    )}
+  </div>
+</div>
+
+<style>
+  .order-notice {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, #e3f2fd 0%, #e8eaf6 100%);
+    border-left: 4px solid var(--color-secondary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--spacing-lg) 0;
+  }
+
+  .order-notice--compact {
+    padding: var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+
+  .notice-icon {
+    flex-shrink: 0;
+    color: var(--color-secondary);
+    margin-top: 2px;
+  }
+
+  .notice-content {
+    flex: 1;
+  }
+
+  .notice-title {
+    margin: 0 0 var(--spacing-xs);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    color: var(--color-secondary-dark);
+  }
+
+  .notice-text {
+    margin: 0 0 var(--spacing-sm);
+    line-height: 1.6;
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+  }
+
+  .notice-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .notice-reassure {
+    font-style: italic;
+    color: var(--color-text-light);
+  }
+
+  .order-notice--compact .notice-text {
+    margin: 0;
+    font-size: var(--font-size-sm);
+  }
+</style>

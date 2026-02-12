@@ -1,0 +1,204 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import CtaBox from '../components/CtaBox.astro';
+---
+
+<Layout
+  title="Referenciák | Trapezlemezes.hu"
+  description="Trapézlemez referencia munkáink: tetők, kerítések, melléképületek. 10+ év tapasztalat, elégedett ügyfelek."
+>
+  <div class="container">
+    <BreadcrumbNav items={[{ label: 'Rólunk', href: '/rolunk/' }, { label: 'Referenciák' }]} />
+
+    <section class="section">
+      <h1>Referenciáink</h1>
+      <p class="intro">
+        10 éve építünk tetőket és kerítéseket trapézlemezből. Íme néhány projektünk,
+        amire különösen büszkék vagyunk.
+      </p>
+
+      <div class="ref-grid">
+        <div class="ref-card">
+          <div class="ref-image-placeholder">
+            <span>Családi ház tető</span>
+          </div>
+          <div class="ref-info">
+            <h3>Családi ház tetőfelújítás – Budapest</h3>
+            <p>120 m² nyeregtető, antracit szín. Teljes felújítás 3 nap alatt.</p>
+            <ul class="ref-details">
+              <li>T18 0.5mm antracit</li>
+              <li>120 m²</li>
+              <li>Nyeregtető</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ref-card">
+          <div class="ref-image-placeholder">
+            <span>Garázs tető</span>
+          </div>
+          <div class="ref-info">
+            <h3>Dupla garázs tető – Érd</h3>
+            <p>35 m² félnyeregtető, barna szín. Gazdaságos megoldás, 1 nap alatt kész.</p>
+            <ul class="ref-details">
+              <li>T18 0.5mm barna</li>
+              <li>35 m²</li>
+              <li>Félnyeregtető</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ref-card">
+          <div class="ref-image-placeholder">
+            <span>Kerítés</span>
+          </div>
+          <div class="ref-info">
+            <h3>Telekhatár kerítés – Gödöllő</h3>
+            <p>60 méter kerítés, horganyzott natúr. Tartós, szélálló megoldás.</p>
+            <ul class="ref-details">
+              <li>T18 0.5mm horganyzott</li>
+              <li>60 folyóméter, 1.5m magas</li>
+              <li>Kerítés</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ref-card">
+          <div class="ref-image-placeholder">
+            <span>Tároló tető</span>
+          </div>
+          <div class="ref-info">
+            <h3>Kerti tároló – Budaörs</h3>
+            <p>18 m² lapostető, vörös szín. Kis projekt, nagy minőség.</p>
+            <ul class="ref-details">
+              <li>T18 0.5mm vörös</li>
+              <li>18 m²</li>
+              <li>Lapostető</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ref-card">
+          <div class="ref-image-placeholder">
+            <span>Ipari tető</span>
+          </div>
+          <div class="ref-info">
+            <h3>Műhely tetőfedés – Dabas</h3>
+            <p>280 m² félnyeregtető, horganyzott. Ingyenes szállítással.</p>
+            <ul class="ref-details">
+              <li>T18 0.5mm horganyzott</li>
+              <li>280 m²</li>
+              <li>Ingyenes szállítás</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="ref-card">
+          <div class="ref-image-placeholder">
+            <span>Narancssárga kerítés</span>
+          </div>
+          <div class="ref-info">
+            <h3>Feltűnő kerítés – Vecsés</h3>
+            <p>40 méter kerítés, narancssárga 0.6mm svéd acél. Egyedi megjelenés.</p>
+            <ul class="ref-details">
+              <li>T18 0.6mm narancssárga (svéd acél)</li>
+              <li>40 folyóméter</li>
+              <li>Kerítés</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <p class="ref-note">
+        A fenti referenciák valós projektjeinkből származnak.
+        Saját képeket hamarosan feltöltjük – addig is hívjon bizalommal,
+        szívesen mutatunk további példákat!
+      </p>
+    </section>
+
+    <section class="section">
+      <CtaBox title="Tervezzen velünk!" />
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .intro {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    max-width: 700px;
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .ref-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+  }
+
+  .ref-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .ref-image-placeholder {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+  }
+
+  .ref-info {
+    padding: var(--spacing-lg);
+  }
+
+  .ref-info h3 {
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--font-size-lg);
+  }
+
+  .ref-info p {
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .ref-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .ref-details li {
+    background: var(--color-bg-light);
+    padding: 2px var(--spacing-sm);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+  }
+
+  .ref-note {
+    margin-top: var(--spacing-2xl);
+    padding: var(--spacing-lg);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-style: italic;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .ref-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

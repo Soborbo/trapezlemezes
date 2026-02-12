@@ -1,0 +1,250 @@
+---
+/**
+ * QuickOrder - Gyors "kosárba" form termékoldalakra
+ *
+ * m² + szín kiválasztás → kosárba.
+ * Másodlagos CTA a kalkulátor mellett.
+ */
+
+import { colors } from '../calculator/config';
+import { basePrices } from '../calculator/calculation';
+
+const availableColors = colors.filter(c => c.available);
+---
+
+<div class="quick-order" id="quick-order">
+  <h3 class="quick-order-title">Gyors rendelés</h3>
+  <p class="quick-order-subtitle">Tudja mit szeretne? Rakja kosárba közvetlenül!</p>
+
+  <form class="quick-order-form" id="quick-order-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="quick-sqm">Terület (m²)</label>
+        <input
+          type="number"
+          id="quick-sqm"
+          name="sqm"
+          min="1"
+          max="10000"
+          step="0.1"
+          placeholder="pl. 50"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="quick-color">Szín</label>
+        <select id="quick-color" name="colorId" required>
+          {availableColors.map((color) => {
+            const price = basePrices[color.type] || basePrices.standard;
+            return (
+              <option value={color.id} data-price={price}>
+                {color.label}{color.ral ? ` (${color.ral})` : ''} – {new Intl.NumberFormat('hu-HU').format(price)} Ft/m²
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label class="checkbox-label">
+        <input type="checkbox" id="quick-screws" name="withScrews" />
+        <span>Csavar is kell (+5 990 Ft/doboz, 25m²-enként)</span>
+      </label>
+    </div>
+
+    <div class="quick-order-summary" id="quick-order-summary" style="display: none;">
+      <span class="summary-text">Becsült ár: <strong id="quick-price-display">0 Ft</strong></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg quick-order-submit">
+      Kosárba
+    </button>
+  </form>
+
+  <p class="quick-order-alt">
+    vagy használja a <a href="/kalkulator">részletes kalkulátorunkat</a> pontos árajánlathoz
+  </p>
+</div>
+
+<style>
+  .quick-order {
+    padding: var(--spacing-xl);
+    background: var(--color-white);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin: var(--spacing-xl) 0;
+  }
+
+  .quick-order-title {
+    margin: 0 0 var(--spacing-xs);
+    font-size: var(--font-size-xl);
+  }
+
+  .quick-order-subtitle {
+    margin: 0 0 var(--spacing-lg);
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+  }
+
+  .quick-order-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .form-row {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .form-group label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    font-family: inherit;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+
+  .quick-order-summary {
+    padding: var(--spacing-md);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    text-align: center;
+  }
+
+  .summary-text {
+    font-size: var(--font-size-sm);
+  }
+
+  .summary-text strong {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary-dark);
+  }
+
+  .quick-order-submit {
+    width: 100%;
+  }
+
+  .quick-order-alt {
+    margin: var(--spacing-md) 0 0;
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .quick-order-alt a {
+    font-weight: 600;
+  }
+
+  @media (max-width: 480px) {
+    .form-row {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  import { quickAddToCart, formatPrice } from '../lib/cart';
+  import { calculateScrewCost } from '../calculator/calculation';
+
+  const form = document.getElementById('quick-order-form') as HTMLFormElement;
+  const sqmInput = document.getElementById('quick-sqm') as HTMLInputElement;
+  const colorSelect = document.getElementById('quick-color') as HTMLSelectElement;
+  const screwsCheckbox = document.getElementById('quick-screws') as HTMLInputElement;
+  const summaryEl = document.getElementById('quick-order-summary') as HTMLDivElement;
+  const priceDisplay = document.getElementById('quick-price-display') as HTMLElement;
+
+  function updateSummary() {
+    const sqm = parseFloat(sqmInput.value);
+    if (!sqm || sqm <= 0) {
+      summaryEl.style.display = 'none';
+      return;
+    }
+
+    const selectedOption = colorSelect.selectedOptions[0];
+    const pricePerSqm = parseInt(selectedOption?.dataset.price || '2240', 10);
+    let total = Math.round(sqm * pricePerSqm);
+
+    if (screwsCheckbox.checked) {
+      total += calculateScrewCost(sqm).price;
+    }
+
+    priceDisplay.textContent = formatPrice(total);
+    summaryEl.style.display = 'block';
+  }
+
+  sqmInput?.addEventListener('input', updateSummary);
+  colorSelect?.addEventListener('change', updateSummary);
+  screwsCheckbox?.addEventListener('change', updateSummary);
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const sqm = parseFloat(sqmInput.value);
+    if (!sqm || sqm <= 0) return;
+
+    const colorId = colorSelect.value;
+    const withScrews = screwsCheckbox.checked;
+
+    quickAddToCart(sqm, colorId, withScrews);
+
+    // Feedback
+    const submitBtn = form.querySelector('.quick-order-submit') as HTMLButtonElement;
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Hozzáadva!';
+    submitBtn.style.background = '#16a34a';
+    setTimeout(() => {
+      submitBtn.textContent = originalText;
+      submitBtn.style.background = '';
+    }, 2000);
+
+    // GTM event
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event: 'add_to_cart',
+        ecommerce: {
+          currency: 'HUF',
+          value: Math.round(sqm * parseInt(colorSelect.selectedOptions[0]?.dataset.price || '2240', 10)),
+          items: [{ item_name: `T18 0.5mm - ${colorId}`, quantity: sqm }],
+        },
+      });
+    }
+  });
+</script>

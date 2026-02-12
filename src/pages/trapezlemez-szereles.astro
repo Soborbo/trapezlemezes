@@ -1,0 +1,343 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import ExperienceBlock from '../components/ExperienceBlock.astro';
+import TrustSignals from '../components/TrustSignals.astro';
+import CtaBox from '../components/CtaBox.astro';
+import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
+
+const title = 'Trapézlemez szerelés – Útmutató | Trapezlemezes.hu';
+const description = 'Trapézlemez szerelési útmutató: csavarozás, vágás, átfedés. Praktikus tippek 10 év tapasztalattal.';
+
+const breadcrumbItems = [
+  { label: 'Szerelés' },
+];
+
+const faqs = [
+  {
+    question: 'Hány csavar kell négyzetméterenként?',
+    answer: 'Általában 8-10 db/m² az ajánlott. Egy 250 darabos csavardoboz kb. 25 m² rögzítéséhez elegendő. Szélnek kitett területeken (kerítés, szélső tetőszél) érdemes 12-15 csavart használni négyzetméterenként.',
+  },
+  {
+    question: 'Lehet flex-szel vágni a trapézlemezt?',
+    answer: 'NEM ajánljuk! A flex (sarokcsiszoló) szikrái 300-400°C-ra hevítik a vágási felületet, ami leégeti a horganyzott és festett bevonatot. Az eredmény: néhány hónapon belül rozsda indul a vágásnál. Használj lemezollót vagy speciális elektromos lemezollót – ezek hidegen vágnak és nem károsítják a bevonatot.',
+  },
+  {
+    question: 'Kell alátétfólia a trapézlemez alá?',
+    answer: 'Fűtött épületeknél (lakás, műhely) mindenképpen ajánlott párazáró fólia, mert a hőmérsékletkülönbség páralecsapódást okoz a lemez belső oldalán. Fűtetlen épületeknél (garázs, fészer, nyitott tároló) általában nem szükséges.',
+  },
+  {
+    question: 'Mekkora átfedés szükséges a lemezek között?',
+    answer: 'Oldalirányban a gyári átfedés elegendő: a lemez 116 cm teljes szélességéből 110 cm a hasznos fedett szélesség, a maradék 6 cm az átfedés. Hosszirányban (ha a tető hosszabb, mint egy lemez) minimum 15-20 cm átfedés szükséges, és a felső lemez takarja az alsót.',
+  },
+];
+
+const faqSchema = getFaqSchema(faqs);
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Főoldal', url: '/' },
+  { name: 'Szerelés', url: '/trapezlemez-szereles' },
+]);
+
+const extraSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [faqSchema, breadcrumbSchema],
+};
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema}>
+  <div class="page-container">
+    <BreadcrumbNav items={breadcrumbItems} />
+
+    <article class="install-guide">
+      <header class="hero-section">
+        <h1>Trapézlemez szerelés – Útmutató</h1>
+        <p class="hero-lead">
+          A trapézlemez szerelése egyszerű – de van pár dolog, amit ha elrontasz, évekig bosszankodni fogsz miatta.
+          Itt összegyűjtöttük a <strong>legfontosabb tudnivalókat 10 év tapasztalat alapján.</strong>
+        </p>
+      </header>
+
+      <!-- 1. Szükséges eszközök -->
+      <section class="content-section">
+        <h2>Szükséges eszközök</h2>
+        <p>Mielőtt nekiállsz, győződj meg róla, hogy kéznél van minden:</p>
+        <div class="tools-grid">
+          <div class="tool-card">
+            <h3>Csavarbehajtó</h3>
+            <p>Akkumulátoros csavarbehajtó forgatónyomaték-beállítással. A nyomatékhatárolás kritikus – a csavar túlhúzása a leggyakoribb hiba.</p>
+          </div>
+          <div class="tool-card">
+            <h3>Lemezolló</h3>
+            <p>Kézi vagy elektromos lemezolló a lemezek vágásához. NE használj flexet – tönkreteszi a bevonatot és garanciavesztéssel jár.</p>
+          </div>
+          <div class="tool-card">
+            <h3>Mérőszalag</h3>
+            <p>Legalább 5 méteres mérőszalag. A pontos mérés a jó eredmény alapja – a 110 cm hasznos szélességgel számolj.</p>
+          </div>
+          <div class="tool-card">
+            <h3>Kesztyű</h3>
+            <p>Vágásbiztos munkakesztyű. A trapézlemez széle éles – kesztyű nélkül garantált a sérülés.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Szerelés lépésről lépésre -->
+      <section class="content-section">
+        <h2>Szerelés lépésről lépésre</h2>
+
+        <div class="step-block">
+          <h3>1. Alátámasztás előkészítése (szelemen távolságok)</h3>
+          <p>
+            A szelem távolságot a lemez típusa és vastagsága határozza meg. A T18 0.5mm lemeznél az ajánlott szelemen távolság <strong>maximum 100 cm</strong>. Ha ezt túlléped, a lemez behajlik és állóvíz keletkezik rajta.
+          </p>
+          <p>
+            6 méteres tetőhossznál ez 6 szelemet jelent – szemben a T12 0.4mm 10 szelemenével. Kevesebb szelemen = kevesebb anyag és munka = <strong>olcsóbb tartószerkezet</strong>.
+          </p>
+        </div>
+
+        <div class="step-block">
+          <h3>2. Lemezek fektetése (átfedés, irány)</h3>
+          <p>
+            A lemezeket <strong>alulról felfelé</strong> helyezd el, hogy a felső lemez takarja az alsót (vízelvezetés). Az oldalirányú fektetés mindig az uralkodó széliránynak háttal történjen – így a szél nem tud a lemez alá nyúlni.
+          </p>
+          <p>
+            A szélső lemez legyen mindig a szélfogó oldal felé zárva. Az oldalátfedés 6 cm (a gyári profilnak megfelelően).
+          </p>
+        </div>
+
+        <div class="step-block highlight">
+          <h3>3. Csavarozás – a legfontosabb lépés</h3>
+          <p>
+            A csavar mindig a <strong>hullámvölgybe</strong> kerül, nem a gerincre. Ez biztosítja a legjobb tömítést és a lemez a szelemenhez szorítását.
+          </p>
+          <ul>
+            <li><strong>Mennyiség:</strong> ~10 db/m² (1 doboz = 250 db = 25 m²)</li>
+            <li><strong>Nyomaték:</strong> Az EPDM alátét éppen lapuljon el – ne húzd túl!</li>
+            <li><strong>Szélső sor:</strong> Minden hullámvölgybe csavar kerül</li>
+            <li><strong>Belső sorok:</strong> Minden második hullámvölgybe elegendő</li>
+          </ul>
+        </div>
+
+        <div class="step-block">
+          <h3>4. Szegőlemezek, oromlemezek</h3>
+          <p>
+            A tetőszélek, orom és eresz lezárásához szegőlemezek szükségesek. Ezek védik a lemez szélét a szél alá nyúlástól és az esztétikus megjelenést is biztosítják.
+          </p>
+          <p>
+            A szegőlemezeket a trapézlemez felső felszínére csavarozd, minimum 5 cm-es átfedéssel. Használj tömítőszalagot a szegő és a trapézlemez találkozásánál.
+          </p>
+        </div>
+      </section>
+
+      <!-- 3. ExperienceBlock -->
+      <ExperienceBlock text="A leggyakoribb hiba a csavar túlhúzása. Az EPDM alátét csak éppen lapuljon el – ha túlhúzod, berepedezik és beázik." />
+
+      <!-- Trust Signals -->
+      <TrustSignals />
+
+      <!-- 4. FAQ -->
+      <section class="content-section faq-section">
+        <h2>Gyakran ismételt kérdések</h2>
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- 5. CTA -->
+      <div class="cta-wrapper">
+        <CtaBox title="Szerelési kérdése van? Hívjon minket!" />
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .install-guide {
+    padding-bottom: var(--spacing-3xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--color-primary-dark);
+    line-height: 1.3;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-lead {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    line-height: 1.7;
+  }
+
+  /* Content Sections */
+  .content-section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .content-section h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  .content-section p {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* Tools Grid */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+
+  @media (max-width: 600px) {
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .tool-card {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+  }
+
+  .tool-card h3 {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .tool-card p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Step Blocks */
+  .step-block {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .step-block.highlight {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border-left: 4px solid var(--color-primary);
+  }
+
+  .step-block h3 {
+    font-size: var(--font-size-xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .step-block p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .step-block p:last-child {
+    margin-bottom: 0;
+  }
+
+  .step-block ul {
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-sm) 0 0;
+  }
+
+  .step-block li {
+    padding: var(--spacing-xs) 0;
+    padding-left: var(--spacing-lg);
+    position: relative;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+  }
+
+  .step-block li::before {
+    content: '\2713';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  /* FAQ */
+  .faq-item {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    font-weight: 300;
+  }
+
+  .faq-item[open] summary::after {
+    content: '-';
+  }
+
+  .faq-answer {
+    padding: 0 var(--spacing-lg) var(--spacing-md);
+  }
+
+  .faq-answer p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* CTA Wrapper */
+  .cta-wrapper {
+    margin-top: var(--spacing-2xl);
+  }
+</style>

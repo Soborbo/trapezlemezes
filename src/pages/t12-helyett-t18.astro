@@ -1,0 +1,417 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import StrengthChart from '../components/StrengthChart.astro';
+import ExperienceBlock from '../components/ExperienceBlock.astro';
+import TrustSignals from '../components/TrustSignals.astro';
+import CtaBox from '../components/CtaBox.astro';
+import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
+
+const title = 'T12 trapézlemez helyett T18 | Erősebb, olcsóbb | Trapezlemezes.hu';
+const description = 'T12 trapézlemezt keresel? A T18 0.5mm ERŐSEBB és OLCSÓBB. 48 óra gyártás, 20 év garancia.';
+
+const breadcrumbItems = [
+  { label: 'Típusok', href: '/trapezlemez' },
+  { label: 'T12 helyett T18' },
+];
+
+const comparisonRows = [
+  { label: 'Vastagság', competitor: '0.4mm', ours: '0.5mm', highlight: true },
+  { label: 'Ár', competitor: '~2200 Ft/m²', ours: '2240 Ft/m²' },
+  { label: 'Erősség', competitor: '100%', ours: '208%', highlight: true },
+  { label: 'Garancia', competitor: '5-10 év', ours: '20 év', highlight: true },
+  { label: 'Gyártás', competitor: '1-3 hét', ours: '48 óra' },
+];
+
+const faqs = [
+  {
+    question: 'T12-es kerítéshez elég erős?',
+    answer: 'Igen, de a T18 0.5mm erősebb ÉS olcsóbb nálunk. A 208%-os relatív erősség azt jelenti, hogy a T18 0.5mm több mint kétszer annyi terhelést bír, mint a T12 0.4mm – ugyanazért az árért.',
+  },
+  {
+    question: 'T12-es lécekre felrakható a T18?',
+    answer: 'Igen, a rögzítési rendszer kompatibilis. Ugyanazokat a facsavarokat vagy önfúró csavarokat használhatod, a rögzítési pontok távolsága nem változik. A T18 szélessége szintén 116 cm (110 cm hasznos).',
+  },
+  {
+    question: 'Mennyivel nehezebb a T18?',
+    answer: '~25%-kal, ami m²-enként kb. 1 kg különbség. Kerítésnél ez elhanyagolható, mert a lemez függőlegesen áll, tehát a súlya nem a rögzítési pontokra nehezedik, hanem az alsó lécre támaszkodik.',
+  },
+];
+
+const faqSchema = getFaqSchema(faqs);
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Főoldal', url: '/' },
+  { name: 'Típusok', url: '/trapezlemez' },
+  { name: 'T12 helyett T18', url: '/t12-helyett-t18' },
+]);
+
+const extraSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [faqSchema, breadcrumbSchema],
+};
+---
+
+<Layout title={title} description={description} extraSchema={extraSchema}>
+  <div class="page-container">
+    <BreadcrumbNav items={breadcrumbItems} />
+
+    <article class="type-replacement">
+      <header class="hero-section">
+        <h1>T12 trapézlemez helyett válaszd a T18-at</h1>
+        <p class="hero-lead">
+          A T12 0.4mm a leggyengébb trapézlemez a piacon. Ha eddig ezt fontolgattad, van egy jobb megoldásunk:
+          <strong>a T18 0.5mm több mint 2x erősebb, és szinte ugyanannyiba kerül.</strong>
+        </p>
+      </header>
+
+      <!-- Problem Section -->
+      <section class="content-section">
+        <h2>Miért nem javasoljuk a T12-t?</h2>
+        <p>
+          A T12 profil 12mm-es bordamagassággal rendelkezik – ez a legkisebb a piacon elérhető trapézlemezek közül.
+          A legtöbb forgalmazó ráadásul 0.4mm vastagságban kínálja, ami azt jelenti, hogy a lemez könnyen
+          behorpad, hajlik, és erős szélben akár ki is tépődhet a rögzítésből.
+        </p>
+        <ul class="problem-list">
+          <li>Alacsony bordamagasság = gyenge hajlítási ellenállás</li>
+          <li>0.4mm vastagság = vékony horganyzott réteg, korai korrózió</li>
+          <li>Sűrűbb szelemen-távolság szükséges (60cm), ami drágább szerkezetet jelent</li>
+          <li>Kerítésnél a szélterhelés könnyen deformálja</li>
+        </ul>
+      </section>
+
+      <!-- Solution Section -->
+      <section class="content-section">
+        <h2>A megoldás: T18 0.5mm</h2>
+        <p>
+          A T18 profil 18mm-es bordamagassággal és 0.5mm vastagságú acéllal készül. Ez a kombináció
+          <strong>208%-os relatív erősséget</strong> ad a T12 0.4mm-hez képest. A vastagság köbre emelve hat
+          az erősségre – ezért a 0.1mm különbség ilyen drámai eredményt hoz.
+        </p>
+      </section>
+
+      <!-- Comparison Table -->
+      <ComparisonTable
+        competitorName="T12 0.4mm"
+        ourName="T18 0.5mm"
+        rows={comparisonRows}
+      />
+
+      <!-- Unique Use Case: Kerítés -->
+      <section class="content-section use-case-section">
+        <h2>Kerítéshez ideális</h2>
+        <p>
+          A kerítésnél a legnagyobb kihívás a szélterhelés. Egy átlagos magyarországi kerítés 1.5-2m magas,
+          és teljes felületével fogja a szelet. A T12 0.4mm ezen a terhelésen könnyen meghajlik, hullámossá
+          válik, és az esztétikai kár mellett a szerkezeti integritás is romlik.
+        </p>
+        <div class="use-case-details">
+          <h3>Miért jobb a T18 0.5mm kerítéshez?</h3>
+          <ul>
+            <li><strong>Szélterhelés:</strong> A 208%-os erősség azt jelenti, hogy erős szélben sem deformálódik a lemez. Nem lesz hullámosság, nem kell utólag egyengetni.</li>
+            <li><strong>Behorpadás:</strong> A vastagabb anyag ellenáll a mechanikai sérüléseknek – nem horpad be, ha hozzáér egy labda, egy létra vagy az élő sövény.</li>
+            <li><strong>Egyszerű telepítés:</strong> Ugyanazok a csavarok, ugyanaz a rögzítési rendszer. Nem kell speciális szerszám vagy módosított lécezés.</li>
+            <li><strong>Tartósság:</strong> A vastagabb horganyzott réteg 20+ évig véd a korróziótól – kerítésnél ez különösen fontos, mert az alsó rész állandóan ki van téve a nedvességnek.</li>
+          </ul>
+        </div>
+        <p>
+          Kerítés építéséről bővebben: <a href="/trapezlemez-kerites/">Trapézlemez kerítés útmutató</a>
+        </p>
+      </section>
+
+      <!-- Experience Block -->
+      <ExperienceBlock text="Kerítésnél a szélterhelés sokszor nagyobb gondot okoz, mint a hóterhelés. A vastagabb lemez itt különösen fontos." />
+
+      <!-- Disadvantages Section -->
+      <section class="content-section transparency-section">
+        <h2>Hátrány? Legyünk transzparensek</h2>
+        <p>Nem állítjuk, hogy a T18 mindenre jobb. Íme a helyzetek, ahol a T12 előnyben lehet:</p>
+        <div class="disadvantage-list">
+          <div class="disadvantage-item">
+            <h3>Esztétika: alacsony bordamagasság kell</h3>
+            <p>
+              Ha kifejezetten lapos, szinte sima felületet szeretnél (pl. beltéri burkolat, dekorációs elem),
+              a T12 alacsonyabb bordája vizuálisan diszkrétebb. Ez ritka igény, de előfordul.
+            </p>
+          </div>
+          <div class="disadvantage-item">
+            <h3>Súly: T18 0.5mm ~25%-kal nehezebb</h3>
+            <p>
+              A vastagabb anyag természetesen nehezebb. Kerítésnél és tetőnél ez jellemzően nem számít,
+              de ha könnyű ideiglenes szerkezetet építesz, a T12 0.4mm könnyebb.
+            </p>
+          </div>
+          <div class="disadvantage-item">
+            <h3>Meglévő T12 rendszerhez illesztés</h3>
+            <p>
+              Ha egy meglévő T12-es kerítést vagy tetőt bővítesz, a bordatávolság különbözik –
+              a T12 és T18 profilok nem illeszkednek egymáshoz az átfedésnél.
+              Ilyenkor vagy a teljes felületet cseréled, vagy marad a T12.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="content-section faq-section">
+        <h2>Gyakran ismételt kérdések</h2>
+        {faqs.map((faq) => (
+          <details class="faq-item">
+            <summary>{faq.question}</summary>
+            <div class="faq-answer">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      <!-- Calculator CTA -->
+      <section class="content-section calculator-cta">
+        <h2>Számold ki, mennyit spórolsz</h2>
+        <p>
+          Kalkulátorunkkal 30 másodperc alatt megtudod a pontos árat és a szükséges mennyiséget.
+          Azonnal küldünk árajánlatot, szállítási idővel együtt.
+        </p>
+        <a href="/kalkulator" class="btn-calculator">
+          Online kalkulátor megnyitása
+        </a>
+      </section>
+
+      <!-- Trust Signals -->
+      <TrustSignals />
+
+      <!-- CTA Box -->
+      <div class="cta-wrapper">
+        <CtaBox title="Kérdésed van a T12 → T18 váltásról?" />
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .type-replacement {
+    padding-bottom: var(--spacing-3xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--color-primary-dark);
+    line-height: 1.3;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-lead {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    line-height: 1.7;
+  }
+
+  /* Content Sections */
+  .content-section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .content-section h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  .content-section p {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .content-section a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .content-section a:hover {
+    text-decoration: underline;
+  }
+
+  /* Problem List */
+  .problem-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-md) 0;
+  }
+
+  .problem-list li {
+    position: relative;
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+  }
+
+  .problem-list li::before {
+    content: '\2717';
+    position: absolute;
+    left: 0;
+    color: #ef4444;
+    font-weight: 700;
+  }
+
+  /* Use Case Section */
+  .use-case-details {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+  }
+
+  .use-case-details h3 {
+    font-size: var(--font-size-xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .use-case-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .use-case-details li {
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-light);
+    line-height: 1.6;
+  }
+
+  .use-case-details li:last-child {
+    border-bottom: none;
+  }
+
+  /* Transparency Section */
+  .transparency-section .disadvantage-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+
+  .disadvantage-item {
+    background: #fffbeb;
+    border-left: 4px solid var(--color-warning);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--spacing-lg);
+  }
+
+  .disadvantage-item h3 {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .disadvantage-item p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* FAQ */
+  .faq-item {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+    overflow: hidden;
+  }
+
+  .faq-item summary {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    font-weight: 300;
+  }
+
+  .faq-item[open] summary::after {
+    content: '-';
+  }
+
+  .faq-answer {
+    padding: 0 var(--spacing-lg) var(--spacing-md);
+  }
+
+  .faq-answer p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Calculator CTA */
+  .calculator-cta {
+    text-align: center;
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+  }
+
+  .calculator-cta h2 {
+    border-bottom: none;
+    text-align: center;
+  }
+
+  .calculator-cta p {
+    max-width: 500px;
+    margin: 0 auto var(--spacing-lg);
+  }
+
+  .btn-calculator {
+    display: inline-block;
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: var(--spacing-md) var(--spacing-xl);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+  }
+
+  .btn-calculator:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+  }
+
+  /* CTA Wrapper */
+  .cta-wrapper {
+    margin-top: var(--spacing-2xl);
+  }
+</style>

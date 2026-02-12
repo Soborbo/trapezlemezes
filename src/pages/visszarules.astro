@@ -1,0 +1,91 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+---
+
+<Layout
+  title="Visszárulési tájékoztató | Trapezlemezes.hu"
+  description="Trapezlemezes.hu visszárulési és elállási feltételek. Méretre vágott termékek kezelése."
+>
+  <div class="container container-narrow">
+    <BreadcrumbNav items={[{ label: 'Visszárulés' }]} />
+
+    <article class="section legal-page">
+      <h1>Visszárulési tájékoztató</h1>
+      <p class="legal-updated">Hatályos: 2026. február 1-től</p>
+
+      <h2>Fontos tudnivalók</h2>
+      <p>
+        A trapézlemezek <strong>méretre vágott termékek</strong>, amelyek a 45/2014. (II. 26.)
+        Korm. rendelet 29. § (1) bekezdés c) pontja alapján a fogyasztó és vállalkozás közötti
+        szerződések részletes szabályairól szóló jogszabály szerint <strong>nem vonhatók vissza</strong>,
+        mivel az áru a fogyasztó személyéhez igazított (egyedi méretre vágott).
+      </p>
+
+      <h2>Mikor lehetséges a visszárulás?</h2>
+      <p>Az alábbi esetekben visszavesszük a terméket:</p>
+      <ul>
+        <li><strong>Gyári hiba:</strong> Ha a termék gyártási hibás (rossz szín, sérült bevonat, méreteltérés), teljes áron visszavesszük vagy kicseréljük.</li>
+        <li><strong>Szállítási sérülés:</strong> Ha a szállítás során sérült a termék, átvételkor jelezze a futárnak és nekünk. Cserét biztosítunk.</li>
+        <li><strong>Megrendelési hiba (miénk):</strong> Ha mi tévedtünk (rossz szín, méret), természetesen cserélünk.</li>
+      </ul>
+
+      <h2>Mikor NEM lehetséges a visszárulás?</h2>
+      <ul>
+        <li>Méretre vágott, hibátlan termék esetén (egyedi megrendelés)</li>
+        <li>Felszerelt, használt termék esetén</li>
+        <li>Ha az átvételtől számított 3 munkanapnál később jelzi a problémát</li>
+      </ul>
+
+      <h2>Reklamáció bejelentése</h2>
+      <p>Reklamációját az alábbi módokon jelezheti:</p>
+      <ul>
+        <li>Telefon: <a href="tel:+3613009206">+36 1 300-92-06</a> (H-P 8:00-17:00)</li>
+        <li>Email: <a href="mailto:info@trapezlemezes.hu">info@trapezlemezes.hu</a></li>
+      </ul>
+      <p>
+        Kérjük, mellékelje a rendelésszámot és a termék állapotát dokumentáló fényképeket.
+        Reklamációját 5 munkanapon belül elbíráljuk.
+      </p>
+
+      <h2>A szándéknyilatkozat visszavonása</h2>
+      <p>
+        Mivel az online megrendelés <strong>szándéknyilatkozat</strong>, a telefonos egyeztetésig
+        bármikor következmények nélkül visszavonhatja. Egyszerűen szóljon a hívás során,
+        vagy írjon nekünk emailt.
+      </p>
+
+      <h2>Garancia</h2>
+      <p>
+        Termékeinkre <strong>20 év garanciát</strong> vállalunk. A garancia az anyaghibára,
+        átrozsdásodásra és a bevonat lepergésére vonatkozik. A garancia feltétele a szakszerű
+        beszerelés és normál használat. Részleteket az <a href="/aszf/">ÁSZF</a> tartalmazza.
+      </p>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .legal-page {
+    line-height: 1.8;
+  }
+
+  .legal-page h2 {
+    margin-top: var(--spacing-2xl);
+    font-size: var(--font-size-xl);
+  }
+
+  .legal-updated {
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .legal-page ul {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .legal-page li {
+    margin-bottom: var(--spacing-sm);
+  }
+</style>

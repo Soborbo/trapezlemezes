@@ -16,9 +16,17 @@ export default defineConfig({
       entrypoint: 'astro/assets/services/sharp'
     }
   },
+  redirects: {
+    '/trapezlemez-arak/': '/trapezlemez/',
+  },
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/koszonjuk') && !page.includes('/ajanlat'),
+      filter: (page) =>
+        !page.includes('/koszonjuk') &&
+        !page.includes('/ajanlat') &&
+        !page.includes('/kosar') &&
+        !page.includes('/megrendeles') &&
+        !page.includes('/sikeres-megrendeles'),
     }),
     tracking({
       gtmId: 'GTM-MPGKFHFX',

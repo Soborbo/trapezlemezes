@@ -1,0 +1,129 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+---
+
+<Layout
+  title="Általános Szerződési Feltételek | Trapezlemezes.hu"
+  description="Trapezlemezes.hu ÁSZF – Általános Szerződési Feltételek. Rendelés, szállítás, garancia, fizetés feltételei."
+>
+  <div class="container container-narrow">
+    <BreadcrumbNav items={[{ label: 'ÁSZF' }]} />
+
+    <article class="section legal-page">
+      <h1>Általános Szerződési Feltételek</h1>
+      <p class="legal-updated">Hatályos: 2026. február 1-től</p>
+
+      <h2>1. Általános rendelkezések</h2>
+      <p>
+        Jelen Általános Szerződési Feltételek (a továbbiakban: ÁSZF) a Trapezlemezes.hu
+        (üzemeltető: Farkas Roland egyéni vállalkozó, székhely: 1182 Budapest, Királyhágó utca 30.,
+        adószám: 32249833-2-43, nyilvántartási szám: 01-09-414203) által üzemeltetett
+        trapezlemezes.hu weboldal használatára és az azon keresztül történő megrendelésekre vonatkoznak.
+      </p>
+
+      <h2>2. Megrendelés</h2>
+      <p>
+        A weboldalon leadott megrendelés <strong>szándéknyilatkozatnak</strong> minősül,
+        nem végleges megrendelésnek. A végleges megrendelés a telefonos egyeztetés során jön létre,
+        amelyet munkatársunk 24 órán belül kezdeményez.
+      </p>
+      <p>
+        A megrendelés folyamata:
+      </p>
+      <ol>
+        <li>Online szándéknyilatkozat leadása (kalkulátor vagy kosár)</li>
+        <li>Automatikus visszaigazolás emailben</li>
+        <li>Telefonos egyeztetés 24 órán belül</li>
+        <li>Végleges megrendelés szóbeli megerősítése</li>
+        <li>Gyártás és szállítás</li>
+      </ol>
+
+      <h2>3. Árak</h2>
+      <p>
+        A weboldalon feltüntetett árak bruttó árak, az ÁFÁ-t tartalmazzák.
+        Az árak tájékoztató jellegűek, a végleges árat a telefonos egyeztetés során véglegesítjük.
+        Az árak előzetes értesítés nélkül változhatnak.
+      </p>
+
+      <h2>4. Szállítás</h2>
+      <p>Szállítási opciók:</p>
+      <ul>
+        <li><strong>Gazdaságos szállítás:</strong> 19 990 Ft, 3-5 munkanap</li>
+        <li><strong>Expressz szállítás:</strong> 39 990 Ft, 1-2 munkanap</li>
+        <li><strong>Ingyenes szállítás:</strong> 250 m² feletti rendelés esetén</li>
+        <li><strong>Személyes átvétel:</strong> 1182 Budapest, Királyhágó utca 30.</li>
+      </ul>
+      <p>
+        A szállítási határidő a gyártás befejezésétől számítódik.
+        A gyártási idő raktári anyag esetén 48 óra.
+      </p>
+
+      <h2>5. Fizetés</h2>
+      <p>
+        A fizetés módját a telefonos egyeztetés során beszéljük meg.
+        Előre utalás, utánvét vagy készpénz (személyes átvétel esetén).
+      </p>
+
+      <h2>6. Garancia</h2>
+      <p>
+        Termékeinkre <strong>20 év garanciát</strong> vállalunk az anyaghibára,
+        átrozsdásodásra és bevonat lepergésre vonatkozóan.
+        A garancia feltétele a szakszerű beszerelés és normál használat.
+      </p>
+
+      <h2>7. Elállási jog</h2>
+      <p>
+        Mivel a termékek méretre vágottak (egyedi megrendelés), az elállási jog korlátozott.
+        Részletekért lásd a <a href="/visszarules/">visszárulési tájékoztatót</a>.
+      </p>
+
+      <h2>8. Reklamáció</h2>
+      <p>
+        Reklamációját a következő elérhetőségeken fogadjuk:
+      </p>
+      <ul>
+        <li>Email: <a href="mailto:info@trapezlemezes.hu">info@trapezlemezes.hu</a></li>
+        <li>Telefon: <a href="tel:+3613009206">+36 1 300-92-06</a></li>
+        <li>Levél: 1182 Budapest, Királyhágó utca 30.</li>
+      </ul>
+
+      <h2>9. Adatkezelés</h2>
+      <p>
+        Az adatkezelés részleteit az <a href="/adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a> tartalmazza.
+      </p>
+
+      <h2>10. Egyéb rendelkezések</h2>
+      <p>
+        A jelen ÁSZF-ben nem szabályozott kérdésekben a Polgári Törvénykönyv és a vonatkozó
+        magyar jogszabályok rendelkezései az irányadók.
+      </p>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .legal-page {
+    line-height: 1.8;
+  }
+
+  .legal-page h2 {
+    margin-top: var(--spacing-2xl);
+    font-size: var(--font-size-xl);
+  }
+
+  .legal-updated {
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .legal-page ol,
+  .legal-page ul {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .legal-page li {
+    margin-bottom: var(--spacing-sm);
+  }
+</style>
