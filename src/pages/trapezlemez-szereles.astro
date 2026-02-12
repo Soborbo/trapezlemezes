@@ -2,40 +2,47 @@
 import Layout from '../layouts/Layout.astro';
 import BreadcrumbNav from '../components/BreadcrumbNav.astro';
 import ExperienceBlock from '../components/ExperienceBlock.astro';
-import TrustSignals from '../components/TrustSignals.astro';
 import CtaBox from '../components/CtaBox.astro';
 import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
 
-const title = 'Trapézlemez szerelés – Útmutató | Trapezlemezes.hu';
-const description = 'Trapézlemez szerelési útmutató: csavarozás, vágás, átfedés. Praktikus tippek több mint egy évtized tapasztalattal.';
+const title = 'Trapézlemez szerelési útmutató – A tervezéstől a karbantartásig | Trapezlemezes.hu';
+const description = 'Teljes trapézlemez szerelési útmutató: típusválasztás, rögzítés, vágás, átfedés, szigetelés, szegélyek, karbantartás. Frissítve: 2025.';
 
 const breadcrumbItems = [
-  { label: 'Szerelés' },
+  { label: 'Szerelési útmutató' },
 ];
 
 const faqs = [
   {
     question: 'Hány csavar kell négyzetméterenként?',
-    answer: 'Általában 8-10 db/m² az ajánlott. Egy 250 darabos csavardoboz kb. 25 m² rögzítéséhez elegendő. Szélnek kitett területeken (kerítés, szélső tetőszél) érdemes 12-15 csavart használni négyzetméterenként.',
+    answer: 'Standard tetőfedésnél 5-6 db/m², falburkolatnál 3-5 db/m². Eresz, gerinc és keresztcsatlakozásnál minden második hullámba csavar kerül. Szélnek kitett területeken a sűrűséget növelni kell. Ajánlott 10-15% tartalék.',
   },
   {
     question: 'Lehet flex-szel vágni a trapézlemezt?',
-    answer: 'NEM ajánljuk! A flex (sarokcsiszoló) szikrái 300-400°C-ra hevítik a vágási felületet, ami leégeti a horganyzott és festett bevonatot. Az eredmény: néhány hónapon belül rozsda indul a vágásnál. Használj lemezollót vagy speciális elektromos lemezollót – ezek hidegen vágnak és nem károsítják a bevonatot.',
+    answer: 'NEM! A flex (sarokcsiszoló) használata kerülendő és a legtöbb gyártó garanciafeltételei kizárják. A szikrák tönkreteszik a cink korrózióvédelmet, a festékbevonatot, és a fedetlen acél 1-2 éven belül rozsdásodik. Használjon nibblert, elektromos lemezollót vagy kézi lemezollót.',
   },
   {
-    question: 'Kell alátétfólia a trapézlemez alá?',
-    answer: 'Fűtött épületeknél (lakás, műhely) mindenképpen ajánlott párazáró fólia, mert a hőmérsékletkülönbség páralecsapódást okoz a lemez belső oldalán. Fűtetlen épületeknél (garázs, fészer, nyitott tároló) általában nem szükséges.',
+    question: 'Kell fólia a trapézlemez alá?',
+    answer: 'Fűtött épületeknél párazáró fólia a belső oldalra és páraáteresztő fólia a külső oldalra KÖTELEZŐ. Fűtetlen épületeknél antikondenzációs filc ajánlott a páralecsapódás ellen.',
   },
   {
-    question: 'Mekkora átfedés szükséges a lemezek között?',
-    answer: 'Oldalirányban a gyári átfedés elegendő: a lemez 116 cm teljes szélességéből 110 cm a hasznos fedett szélesség, a maradék 6 cm az átfedés. Hosszirányban (ha a tető hosszabb, mint egy lemez) minimum 15-20 cm átfedés szükséges, és a felső lemez takarja az alsót.',
+    question: 'Mekkora átfedés szükséges?',
+    answer: 'Oldalirányban: egy teljes hullám (gyári profil). Hosszirányban: 14° felett min. 150 mm, 14° alatt min. 200 mm + tömítőcsík. Falburkolatnál min. 100 mm.',
+  },
+  {
+    question: 'Mi a minimális tetőhajlásszög?',
+    answer: '35 mm alatti profiloknál (T8-T20) minimum 6° (≈10%), 35 mm felett (T35+) minimum 4° (≈7%). Alacsony lejtésnél fokozott tömítés szükséges.',
+  },
+  {
+    question: 'Milyen vastagságú lemezt válasszak?',
+    answer: 'Lakossági célra 0,45-0,60 mm az ajánlott. A 0,5 mm-es T18 profil több mint kétszer erősebb, mint a 0,4 mm-es versenytársak. Ipari alkalmazásnál 0,75-1,25 mm.',
   },
 ];
 
 const faqSchema = getFaqSchema(faqs);
 const breadcrumbSchema = getBreadcrumbSchema([
   { name: 'Főoldal', url: '/' },
-  { name: 'Szerelés', url: '/trapezlemez-szereles' },
+  { name: 'Szerelési útmutató', url: '/trapezlemez-szereles' },
 ]);
 
 const extraSchema = {
@@ -48,95 +55,727 @@ const extraSchema = {
   <div class="page-container">
     <BreadcrumbNav items={breadcrumbItems} />
 
-    <article class="install-guide">
-      <header class="hero-section">
-        <h1>Trapézlemez szerelés – Útmutató</h1>
-        <p class="hero-lead">
-          A trapézlemez szerelése egyszerű – de van pár dolog, amit ha elrontasz, évekig bosszankodni fogsz miatta.
-          Itt összegyűjtöttük a <strong>legfontosabb tudnivalókat több mint egy évtized tapasztalat alapján.</strong>
+    <article class="guide">
+      <!-- Hero -->
+      <header class="guide-hero">
+        <p class="guide-update">Frissítve: 2025 – Javított kiadás</p>
+        <h1>Trapézlemez szerelési útmutató</h1>
+        <p class="guide-subtitle">A tervezéstől a karbantartásig</p>
+        <p class="guide-intro">
+          A trapézlemez az egyik legsokoldalúbb és leggazdaságosabb építőanyag tetőfedésre, falburkolásra és kerítésépítésre.
+          Megfelelő rétegrend, rögzítés és karbantartás mellett, normál környezetben tipikusan <strong>25–50 év közötti élettartam</strong> érhető el;
+          agresszív környezetben (tengerpart, állattartás, ipari légszennyezés) ez jelentősen rövidebb.
         </p>
+        <p class="guide-intro">
+          Ez az útmutató a tervezés, anyagválasztás, szerelés, kiegészítők, munkabiztonság és karbantartás minden lényeges kérdését tárgyalja – a magyar szabványoknak és a gyártói előírásoknak megfelelően.
+        </p>
+        <div class="guide-hero-img placeholder-img">
+          <span>Trapézlemez tetőszerelés - kép helye</span>
+        </div>
       </header>
 
-      <!-- 1. Szükséges eszközök -->
-      <section class="content-section">
-        <h2>Szükséges eszközök</h2>
-        <p>Mielőtt nekiállsz, győződj meg róla, hogy kéznél van minden:</p>
-        <div class="tools-grid">
-          <div class="tool-card">
-            <h3>Csavarbehajtó</h3>
-            <p>Akkumulátoros csavarbehajtó forgatónyomaték-beállítással. A nyomatékhatárolás kritikus – a csavar túlhúzása a leggyakoribb hiba.</p>
+      <!-- Table of Contents -->
+      <nav class="toc">
+        <h2>Tartalomjegyzék</h2>
+        <ol class="toc-list">
+          <li><a href="#tipusok">Trapézlemez típusok és felhasználási területek</a></li>
+          <li><a href="#anyag">Anyagjellemzők: acéltól a bevonatokig</a></li>
+          <li><a href="#korrozio">Korróziós környezeti osztályok</a></li>
+          <li><a href="#elokeszulet">Előkészületek</a></li>
+          <li><a href="#hajlasszog">Minimális tetőhajlásszög</a></li>
+          <li><a href="#szereles-sorrend">A szerelés sorrendje</a></li>
+          <li><a href="#rogzites">Rögzítési technikák</a></li>
+          <li><a href="#atfedes">Átfedések: a vízmentesség kulcsa</a></li>
+          <li><a href="#tomites">Vízszigetelés és tömítőanyagok</a></li>
+          <li><a href="#antikondenz">Antikondenzációs filc</a></li>
+          <li><a href="#szegely">Gerincelemek, szegélyek, cseppentők</a></li>
+          <li><a href="#szigeteles">Hő- és hangszigetelés</a></li>
+          <li><a href="#hofogo">Hófogók</a></li>
+          <li><a href="#szellozes">Szellőzés és párazárás</a></li>
+          <li><a href="#munkabiz">Munkabiztonsági követelmények</a></li>
+          <li><a href="#vagas">Vágás: a flex a leggyakoribb hiba</a></li>
+          <li><a href="#tarolas">Tárolás és szállítás</a></li>
+          <li><a href="#karbantartas">Karbantartás és élettartam</a></li>
+          <li><a href="#szabvany">CE jelölés és magyar szabványok</a></li>
+          <li><a href="#hibak">A leggyakoribb hibák</a></li>
+        </ol>
+      </nav>
+
+      <!-- 1. Típusok -->
+      <section class="guide-section" id="tipusok">
+        <h2>1. Trapézlemez típusok és felhasználási területek</h2>
+        <p>
+          A trapézlemezek profilozott fémlemezek, amelyeket hidegen hajlítanak (roll-forming eljárás) a kívánt trapéz alakú bordázatba. A bordamagasság határozza meg a lemez teherbírását és alkalmazási területét.
+        </p>
+        <p>
+          A trapézlemezek elnevezésében a betű (K vagy T) a gyártó jelölési rendszerét, a szám pedig a bordamagasságot milliméterben jelöli. A Pascal Kft. (Vésztő) K jelölést használ, míg a legtöbb magyar gyártó T jelölést alkalmaz.
+        </p>
+
+        <h3>Profilok és alkalmazásuk</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Típus</th>
+                <th>Bordamagasság</th>
+                <th>Fedőszélesség</th>
+                <th>Fő alkalmazás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>T7–T8</td><td>7–8 mm</td><td>~1100–1177 mm</td><td>Falburkolat, kerítésbetét, álmennyezet</td></tr>
+              <tr><td>K10 / T10</td><td>10 mm</td><td>~1040 mm</td><td>Tetőfedés (melléképületek), falburkolat, kerítés</td></tr>
+              <tr><td>T14</td><td>14 mm</td><td>~1100–1110 mm</td><td>Tető és homlokzat, garázsajtók</td></tr>
+              <tr class="row-highlight"><td><strong>T18</strong></td><td><strong>18 mm</strong></td><td><strong>~1100–1127 mm</strong></td><td><strong>A legnépszerűbb lakossági profil</strong></td></tr>
+              <tr><td>K20 / T20</td><td>20 mm</td><td>~1060–1120 mm</td><td>Lakóház és könnyű ipari tető, falburkolat</td></tr>
+              <tr><td>K35 / T35</td><td>35 mm</td><td>~1000–1050 mm</td><td>Ipari és mezőgazdasági tetők, zsaluzat</td></tr>
+              <tr><td>T40–T50</td><td>40–50 mm</td><td>~1000–1055 mm</td><td>Kis lejtésű ipari tetők, csarnokok</td></tr>
+              <tr><td>T55–T160</td><td>55–160 mm</td><td>változó</td><td>Nagy fesztávú teherhordó szerkezetek</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="placeholder-img">
+          <span>Trapézlemez profil keresztmetszetek összehasonlítása - kép helye</span>
+        </div>
+
+        <h3>Pascal Kft. (Vésztő) termékcsalád</h3>
+        <p>A Pascal Kft. 1993 óta gyárt trapézlemezeket Vésztőn (Békési út 79–81.). Három fő profilt kínál:</p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Termék</th>
+                <th>Profilmag.</th>
+                <th>Fedőszél.</th>
+                <th>Vastagság</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>K10.80.1040</td><td>10 mm</td><td>1040 mm</td><td>0,35–0,65 mm</td></tr>
+              <tr><td>K20.1170.1120</td><td>20 mm</td><td>1120 mm</td><td>0,40–0,55 mm</td></tr>
+              <tr><td>K35.207.1035</td><td>35 mm</td><td>1035 mm</td><td>0,40–0,55 mm</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Standard készletméretek: 1,7 m, 2 m, 2,5 m és 3 m. Egyedi megrendelésre akár 6–8 m-es lemezek is gyárthatók.
+          I. osztályú minőségnél 5 év garancia. Súly: ~4,5 kg/m² (0,5 mm vastagságnál).
+        </p>
+      </section>
+
+      <!-- 2. Anyagjellemzők -->
+      <section class="guide-section" id="anyag">
+        <h2>2. Anyagjellemzők: acéltól a bevonatokig</h2>
+
+        <h3>Alapanyag és vastagság</h3>
+        <p>
+          A trapézlemezek alapanyaga bevonatos, hidegen hengerelt acél az EN 10346 szabvány szerint.
+          A burkolati célú lemezeknél jellemző minőség a <strong>DX51D+Z</strong> (alap minőség), míg a teherhordó profiloknál magasabb folyáshatárú típusokat alkalmaznak (S250GD, S280GD, S320GD).
+        </p>
+        <p>
+          Lakossági célú lemezek vastagsága <strong>0,40–0,60 mm</strong>, ipari alkalmazásoknál <strong>0,75–1,25 mm</strong>.
+          0,5 mm-es lemez tömege: ~4,5–5,0 kg/m² – összehasonlításképpen a betoncserép 40–50 kg/m² terhelést jelent.
+        </p>
+
+        <h3>Korrózióvédelem: horganyzás</h3>
+        <ul class="feature-list">
+          <li><strong>Z100:</strong> minimum 100 g/m² cinkréteg – standard színes lemezek alapja</li>
+          <li><strong>Z275:</strong> 275 g/m² cinkréteg – prémium védelem, hosszabb élettartam</li>
+          <li><strong>Alucink (AZ150/AZ185):</strong> alumínium-cink ötvözet bevonat – kiváló korrózióállóság</li>
+        </ul>
+
+        <h3>Festékbevonatok</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Bevonat típus</th>
+                <th>Vastagság</th>
+                <th>Várható élettartam*</th>
+                <th>Jellemző</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Fényes poliészter (PE)</td><td>25 µm</td><td>~20–25 év</td><td>Standard, széles RAL választék</td></tr>
+              <tr><td>Matt poliészter</td><td>35 µm</td><td>~25–30 év</td><td>Szemcsés textúra, jobb UV-állóság</td></tr>
+              <tr><td>PURLAK / PURMAT</td><td>50 µm</td><td>~30–35 év</td><td>Kiváló mechanikai ellenállás</td></tr>
+              <tr><td>PVDF</td><td>változó</td><td>~40+ év</td><td>Legállóbb, homlokzatokra ajánlott</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">*Normál környezetben (C2–C3 korróziós osztály), megfelelő karbantartással. Agresszív környezetben (C4–C5) az élettartam jelentősen rövidebb.</p>
+
+        <div class="placeholder-img">
+          <span>Festékbevonat rétegek keresztmetszete - kép helye</span>
+        </div>
+      </section>
+
+      <!-- 3. Korróziós osztályok -->
+      <section class="guide-section" id="korrozio">
+        <h2>3. Korróziós környezeti osztályok (EN ISO 12944)</h2>
+        <p>A korróziós környezet döntően befolyásolja a cink + bevonat választást és az élettartamot. A választásnál mindig figyelembe kell venni a beépítési helyszín korróziós osztályát:</p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Osztály</th>
+                <th>Környezet</th>
+                <th>Példa</th>
+                <th>Ajánlott min. védelem</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>C1</td><td>Nagyon alacsony</td><td>Fűtött belső terek</td><td>Z100 + PE 25µm</td></tr>
+              <tr><td>C2</td><td>Alacsony</td><td>Vidéki, alacsony szennyezés</td><td>Z100 + PE 25µm</td></tr>
+              <tr class="row-highlight"><td><strong>C3</strong></td><td><strong>Közepes</strong></td><td><strong>Városi, mérsékelt ipari</strong></td><td><strong>Z275 + PE 25µm vagy matt 35µm</strong></td></tr>
+              <tr><td>C4</td><td>Magas</td><td>Ipari, mérsékelt sós levegő</td><td>Z275 + PURLAK 50µm / Alucink</td></tr>
+              <tr><td>C5</td><td>Nagyon magas</td><td>Tengerpart, erős ipari</td><td>Alucink + PVDF vagy alumínium</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4. Előkészületek -->
+      <section class="guide-section" id="elokeszulet">
+        <h2>4. Előkészületek: a szerelés sikere itt dől el</h2>
+
+        <h3>Tetőszerkezet ellenőrzése</h3>
+        <p>A trapézlemez felhelyezése előtt három alapvető geometriai ellenőrzést kell elvégezni:</p>
+        <ul class="feature-list">
+          <li><strong>Átlók mérése:</strong> a két átlónak azonos hosszúságúnak kell lennie (derékszögűség)</li>
+          <li><strong>Síkok egyenessége:</strong> kizárja a homorú vagy domború felületet</li>
+          <li><strong>Derékszög az ereszvonalon:</strong> ha az első lemez ferdén áll, a teljes tetőfedés „fogazottá" válik</li>
+        </ul>
+
+        <div class="placeholder-img">
+          <span>Tetőszerkezet átlós mérése - kép helye</span>
+        </div>
+
+        <h3>Szelemen-távolságok</h3>
+        <p>A szelementávolságot a profilmagasság, a lemezvastagság, a terhelés (hó, szél) és a statikai számítás határozza meg. Az alábbi értékek tájékoztató jellegűek:</p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Profil</th>
+                <th>Ajánlott max. szelemenköz</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight"><td><strong>T18 (18 mm)</strong></td><td><strong>60–100 cm</strong></td></tr>
+              <tr><td>T35 (35 mm)</td><td>120–150 cm</td></tr>
+              <tr><td>T45–T50</td><td>150–250 cm</td></tr>
+              <tr><td>T55–T100+</td><td>200–300 cm</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. Hajlásszög -->
+      <section class="guide-section" id="hajlasszog">
+        <h2>5. Minimális tetőhajlásszög</h2>
+        <p>A trapézlemez egyik legnagyobb előnye, hogy a hagyományos cserépfedéshez képest (min. 22°) lényegesen kisebb lejtésnél is alkalmazható:</p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Profilmagasság</th>
+                <th>Minimális dőlésszög</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>&lt; 35 mm (T8–T20)</td><td>min. 6° (≈10%)</td></tr>
+              <tr><td>≥ 35 mm (T35+)</td><td>min. 4° (≈7%)</td></tr>
+              <tr><td>Keresztcsatlakozásoknál</td><td>min. 8–10°</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout--warning">
+          <strong>Fontos:</strong> Alacsony lejtésnél (&lt; 14°) a hosszirányú átfedést minimum 200 mm-re kell növelni és tömítőcsíkkal kell kiegészíteni.
+          Sok szakember 8° minimum dőlésszöget ajánl általánosan. Az ideális tartomány <strong>15–25°</strong>.
+        </div>
+      </section>
+
+      <!-- 6. Szerelés sorrendje -->
+      <section class="guide-section" id="szereles-sorrend">
+        <h2>6. A szerelés sorrendje</h2>
+
+        <h3>Irány és kiindulópont</h3>
+        <p>
+          A trapézlemez szerelését mindig az <strong>ereszvonaltól felfelé</strong>, a gerinc irányába kell végezni.
+          Az oldalirányú haladás az uralkodó széljárással szemben történik – ez biztosítja, hogy az átfedési élek a szél felől legyenek fedve.
+        </p>
+
+        <h3>Fektetési sorrend</h3>
+        <ol class="numbered-list">
+          <li>Az első lemezt az ereszvonalnál, az oromfal vagy a tető szélénél kell elhelyezni, merőlegesen az eresz vonalára</li>
+          <li>Néhány csavarral ideiglenesen rögzíteni kell</li>
+          <li>A második lemez mellé kerül, egy hullám szélességű átfedéssel</li>
+          <li>Ha a lejtő hossza meghaladja a lemezhosszt, a harmadik lemez az első fölé kerül (megfelelő átfedéssel)</li>
+          <li>Mindig az alsó sor készül el először, utána következik a felső</li>
+        </ol>
+
+        <div class="placeholder-img">
+          <span>Lemezfektetési sorrend és irány - kép helye</span>
+        </div>
+
+        <h3>Kiegészítők helyes sorrendje</h3>
+        <p>A teljes tetőfedés sorrendje:</p>
+        <ol class="numbered-list compact">
+          <li>Tetőfólia</li>
+          <li>Lécek és ellenlécek</li>
+          <li>Cseppentőlemez (eresszegély)</li>
+          <li>Oromszegély</li>
+          <li>Alsó falszegély</li>
+          <li>Trapézlemez táblák</li>
+          <li>Felső falszegély</li>
+          <li>Vápaszegély</li>
+          <li>Gerincelem tömítőprofillal</li>
+          <li>Hófogók</li>
+          <li>Javítófesték</li>
+          <li>Tisztítás</li>
+        </ol>
+
+        <div class="callout callout--info">
+          <strong>Időjárási feltételek:</strong> A szerelést NEM szabad végezni erős szélben (&gt;32 km/h), esőben, hóesésben, sűrű ködben vagy fagyos felületen.
+          A tömítési munkálatokhoz minimum 4 °C környezeti hőmérséklet szükséges.
+        </div>
+      </section>
+
+      <!-- 7. Rögzítés -->
+      <section class="guide-section" id="rogzites">
+        <h2>7. Rögzítési technikák</h2>
+
+        <h3>Csavartípusok</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Csavar típus</th>
+                <th>Méret</th>
+                <th>Alkalmazás</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Bádogos csavar (fa alátétre)</td><td>4,8 × 35 mm</td><td>Faszerkezethez rögzítés</td></tr>
+              <tr><td>Önmetsző csavar (vékony fém)</td><td>4,8 × 19 mm</td><td>Vékony acél szelemenhez</td></tr>
+              <tr><td>Önmetsző csavar (vastag fém)</td><td>5,5 × 25 / 6,3 × 32 mm</td><td>Vastagabb acél tartóhoz</td></tr>
+              <tr><td>Fűzőcsavar (lemez–lemez)</td><td>4,8 × 19–20 mm</td><td>Átfedéseknél lemezek összefogása</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Minden rögzítőcsavarnak <strong>EPDM (vulkanizált gumi) tömítőalátéttel</strong> kell rendelkeznie a fém alátét alatt.
+          Az EPDM biztosítja a vízzáró tömítést, UV-álló és hosszú távon rugalmas marad.
+        </p>
+
+        <div class="placeholder-img">
+          <span>Csavartípusok EPDM alátéttel - kép helye</span>
+        </div>
+
+        <h3>Hová kell csavarozni?</h3>
+        <div class="callout callout--highlight">
+          Tetőfedésnél a rögzítés <strong>MINDIG a hullámvölgybe</strong> (alsó hullámba) történik.
+          A hullámvölgy fekszik közvetlenül a szelemenen, és a csavar a lemezt szorosan a tartószerkezethez húzza.
+          <strong>A hullámtetőre csavarozás deformálná a lemezt.</strong>
+          A fűzőcsavarok az átfedéseknél a bordatetőn kerülnek elhelyezésre, 300–500 mm távolsággal.
+        </div>
+
+        <h3>Rögzítési pontsűrűség</h3>
+        <ul class="feature-list">
+          <li><strong>Standard:</strong> 5–6 csavar/m² tetőn, 3–5 csavar/m² falon</li>
+          <li><strong>Eresz, gerinc és keresztcsatlakozásnál:</strong> minden második hullámba csavar</li>
+          <li><strong>Közbülső léceknél:</strong> minden harmadik hullámba</li>
+          <li><strong>Szélnek kitett területeken:</strong> a csavarsűrűséget növelni kell</li>
+          <li><strong>Tartalék:</strong> ajánlott 10–15% tartalék csavar beszerzése</li>
+        </ul>
+
+        <h3>A helyes csavarozás technikája</h3>
+        <p>
+          A csavart merőlegesen kell behajtani. Akkumulátoros csavarozóval, <strong>3–5 Nm nyomatékra</strong> beállított nyomatékkorlátozóval kell dolgozni.
+          A helyes meghúzás jele: az EPDM alátét láthatóan összenyomódik és kissé „kibuggyan", de a lemezfelület nem deformálódik.
+          <strong>Soha ne fúrjunk előre lyukat</strong> önmetsző csavarokhoz.
+        </p>
+
+        <div class="placeholder-img">
+          <span>Helyes vs helytelen csavarbehajtás - kép helye</span>
+        </div>
+      </section>
+
+      <!-- 8. Átfedések -->
+      <section class="guide-section" id="atfedes">
+        <h2>8. Átfedések: a vízmentesség kulcsa</h2>
+
+        <h3>Hosszirányú átfedés</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Tetőhajlás</th>
+                <th>Minimális átfedés</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>&gt; 14° (&gt;25%)</td><td>min. 150 mm</td></tr>
+              <tr><td>≤ 14° (≤25%)</td><td>min. 200 mm</td></tr>
+              <tr><td>Falburkolat</td><td>min. 100 mm</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>10° alatti lejtésnél két sor tömítőszalag szükséges, 10° felett egy sor elegendő. A csatlakozási pontokat eltolva (sakktábla-szerűen) kell elrendezni, soha nem egy vonalba.</p>
+
+        <h3>Oldalirányú átfedés</h3>
+        <p>
+          Az oldalirányú átfedés egy teljes hullám szélességű – a profilozott szél kialakítása (vízorr/kapilláris horony) biztosítja a vízzárást.
+          Az átfedést fűzőcsavarral kell rögzíteni 300–500 mm osztással.
+        </p>
+
+        <h3>Tömítés az átfedéseknél</h3>
+        <p>
+          Az átfedéseknél <strong>butilszalag</strong> vagy <strong>PURS szivacstömítő szalag</strong> alkalmazandó.
+          A szivacs kitöltőprofilok (closure strip) a trapéz alakhoz igazodó habszivacs elemek, amelyek az eresz, a gerinc és a szegélycsatlakozásoknál zárják le a profil nyílásait.
+        </p>
+      </section>
+
+      <!-- 9. Vízszigetelés -->
+      <section class="guide-section" id="tomites">
+        <h2>9. Vízszigetelés és tömítőanyagok</h2>
+
+        <h3>Miért nem javasolt az ecetsavas szilikon?</h3>
+        <div class="callout callout--danger">
+          <strong>Főszabály: ha a tömítőanyag ecetes szagú, NE használja fémfelületen!</strong>
+          <p>
+            A hagyományos (acetoxis) szilikon tömítőanyag a kötés során ecetsavat szabadít fel, amely kémiai reakcióba lép a cinkréteggel és fehérrozsda képződését okozza.
+            Emellett ha egyszer felvitték, sem festék, sem újabb tömítőanyag nem tapad a szilikonnal szennyezett felületre.
+          </p>
+        </div>
+
+        <h3>Ajánlott tömítőanyagok</h3>
+        <ul class="feature-list">
+          <li><strong>Neutrális (semleges) szilikon:</strong> nem tartalmaz ecetsavat, fémfelületen biztonságosan alkalmazható</li>
+          <li><strong>Poliuretán tömítő:</strong> rugalmas, festhető, vízálló, kitűnő tapadás fémekhez</li>
+          <li><strong>Butilszalag:</strong> az átfedéseknél és csatlakozásoknál elsődlegesen ajánlott – tartósan rugalmas, nem keményedik, alkalmazkodik a hőtáguláshoz</li>
+        </ul>
+      </section>
+
+      <!-- 10. Antikondenzációs filc -->
+      <section class="guide-section" id="antikondenz">
+        <h2>10. Antikondenzációs filc</h2>
+        <p>
+          A fém kiváló hővezető: amikor a meleg, párás belső levegő eléri a lehűlt lemezfelületet, a harmatpont alá hűlve a pára vízcseppekként lecsapódik.
+          Hőszigetelés nélküli épületeknél (raktárak, garázsok, istállók) ez a kondenzvíz az alatta tárolt anyagokra csepeg.
+        </p>
+        <p>
+          Az antikondenzációs filc (legismertebb márka: DR!PSTOP) egy ~1 mm vastag poliészter (PES) szálszerkezetű membrán, amelyet a lemez belső felületére ragasztanak.
+          A filc mikrozsebei akár <strong>500 g/m² nedvességet</strong> képesek felszívni 6 óra alatt. Nappal a felszívott nedvesség visszapárolog.
+        </p>
+        <div class="callout callout--info">
+          <strong>Fontos:</strong> A filcet gyárilag kell kasírozni (a lapos acélszalagra ragasztják, majd utána profilálják). Helyszíni utólagos felragasztás nem ajánlott.
+          Az eresz és gerinc alátámasztási sávjából a filcet el kell távolítani.
+        </div>
+
+        <div class="placeholder-img">
+          <span>Antikondenzációs filces lemez keresztmetszete - kép helye</span>
+        </div>
+      </section>
+
+      <!-- 11. Szegélyek -->
+      <section class="guide-section" id="szegely">
+        <h2>11. Gerincelemek, szegélyek, cseppentők</h2>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>Gerincelem</h3>
+            <p>A tető csúcsvonalát zárja le. Standard hossz: 2000 mm/db, ~150 mm átfedéssel. A gerincelem és a trapézlemez közötti résbe <strong>tömítőprofilt</strong> (habszivacs záróelemet) kell behelyezni. Rögzítés: minden második hullámbordán, ~300 mm osztással.</p>
+            <p>A <strong>szellőző gerincelem</strong> lehetővé teszi a természetes légáramlást, miközben megakadályozza az eső bejutását. Szellőzőrés: 5–10 cm, min. 200 cm²/fm.</p>
           </div>
-          <div class="tool-card">
-            <h3>Lemezolló</h3>
-            <p>Kézi vagy elektromos lemezolló a lemezek vágásához. NE használj flexet – tönkreteszi a bevonatot és garanciavesztéssel jár.</p>
+          <div class="info-card">
+            <h3>Oromszegély</h3>
+            <p>A tető oldaldeszkázását fedi és védi. Standard magasság: 5 cm, hossz: 2000 mm. ~50 mm átfedéssel, ~300 mm csavartávolsággal.</p>
           </div>
-          <div class="tool-card">
-            <h3>Mérőszalag</h3>
-            <p>Legalább 5 méteres mérőszalag. A pontos mérés a jó eredmény alapja – a 110 cm hasznos szélességgel számolj.</p>
+          <div class="info-card">
+            <h3>Falszegély</h3>
+            <p>A fal és a tető csatlakozási vonalát zárja le. Két rétegben: az <strong>alsó falszegély</strong> a lemezek előtt, a <strong>felső</strong> a lemezek után. A falszegélyt a falhoz kell rögzíteni (nem a tetőhöz), hogy a hőtágulás ne okozzon sérülést.</p>
           </div>
-          <div class="tool-card">
-            <h3>Kesztyű</h3>
-            <p>Vágásbiztos munkakesztyű. A trapézlemez széle éles – kesztyű nélkül garantált a sérülés.</p>
+          <div class="info-card">
+            <h3>Cseppentőlemez (eresszegély)</h3>
+            <p>Az első szegélyelem. A csapadékot az ereszcsatornába vezeti. ~50 mm átfedéssel, ~300 mm csavartávolsággal. Túlnyúlás a homlokdeszkától: ~6–12 mm.</p>
+          </div>
+        </div>
+
+        <div class="placeholder-img">
+          <span>Szegélyezés összefoglaló rajz - kép helye</span>
+        </div>
+      </section>
+
+      <!-- 12. Szigetelés -->
+      <section class="guide-section" id="szigeteles">
+        <h2>12. Hő- és hangszigetelés</h2>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>Kőzetgyapot</h3>
+            <p>Kiváló hő- és hangszigetelés, <strong>A1 tűzvédelmi osztályú</strong> (nem éghető), jó páraáteresztő. Javasolt vastagság: min. 150 mm (tetőn), min. 120 mm (falon).</p>
+          </div>
+          <div class="info-card">
+            <h3>PIR/PUR panelek</h3>
+            <p>Lényegesen jobb hővezetési tényező – vékonyabb réteggel azonos U-érték. A szendvicspanel gyárilag összeépített megoldás: két fém burkolat között PIR/PUR vagy kőzetgyapot mag.</p>
+          </div>
+          <div class="info-card">
+            <h3>EPS és XPS</h3>
+            <p>Trapézlemezes tetőknél a kőzetgyapot és a PIR az elsődlegesen javasolt. Az EPS költséghatékony, de alacsony tűzállóságú (E osztály). Az XPS jobb nedvességállóságú, de elsősorban lábazati szigetelésre ajánlott.</p>
           </div>
         </div>
       </section>
 
-      <!-- 2. Szerelés lépésről lépésre -->
-      <section class="content-section">
-        <h2>Szerelés lépésről lépésre</h2>
+      <!-- 13. Hófogók -->
+      <section class="guide-section" id="hofogo">
+        <h2>13. Hófogók</h2>
+        <p>
+          Az OTÉK 60. § (2) bekezdése szerint <strong>25–75° hajlásszögű tetőt hófogósorral kell ellátni</strong>, ha az eresz élvonala közlekedésre szolgáló területtel határos és a magasság 6 m-nél nagyobb.
+          Helyi előírás, társasházi szabály vagy kezelői előírás felülírhatja az általános szabályokat.
+        </p>
+        <p>Típusok:</p>
+        <ul class="feature-list">
+          <li><strong>Hófogó kampó:</strong> 1,5–2,0 db/m²</li>
+          <li><strong>Hófogó rács:</strong> 3–4 méterenként</li>
+          <li><strong>Hófogó cső:</strong> 2–3 párhuzamos cső konzolokra</li>
+        </ul>
+        <p>A sima felületű fémlemez tetőn a hócsúszás kockázata fokozott, ezért sűrűbb elhelyezés ajánlott.</p>
+      </section>
 
-        <div class="step-block">
-          <h3>1. Alátámasztás előkészítése (szelemen távolságok)</h3>
-          <p>
-            A szelem távolságot a lemez típusa és vastagsága határozza meg. A T18 0.5mm lemeznél az ajánlott szelemen távolság <strong>maximum 100 cm</strong>. Ha ezt túlléped, a lemez behajlik és állóvíz keletkezik rajta.
-          </p>
-          <p>
-            6 méteres tetőhossznál ez 6 szelemet jelent – szemben a T12 0.4mm 10 szelemenével. Kevesebb szelemen = kevesebb anyag és munka = <strong>olcsóbb tartószerkezet</strong>.
-          </p>
+      <!-- 14. Szellőzés -->
+      <section class="guide-section" id="szellozes">
+        <h2>14. Szellőzés és párazárás</h2>
+
+        <div class="info-grid cols-3">
+          <div class="info-card">
+            <h3>Párazáró fólia (meleg oldal)</h3>
+            <p>MINDIG a hőszigetelés belső (meleg) oldalára kerül. Átfedés: min. 10 cm, öntapadó szalaggal légzáróan ragasztva. <strong>Minden szivárgási pont potenciális penészforrás.</strong></p>
+          </div>
+          <div class="info-card">
+            <h3>Páraáteresztő fólia (hideg oldal)</h3>
+            <p>A hőszigetelés külső oldalára, közvetlenül a trapézlemez alá. Átengedi a nedvességet kifelé (diffúzió), de megakadályozza a csapadékvíz bejutását. Átlapolás: min. 10–15 cm.</p>
+          </div>
+          <div class="info-card">
+            <h3>Szellőzőrés</h3>
+            <p>Hőszigetelt szerkezeteknél <strong>min. 40 mm szellőzőrés</strong> szükséges. A levegő az eresznél beáramlik, a gerincszellőzőn távozik. Felület: min. 200 cm²/fm.</p>
+          </div>
         </div>
 
-        <div class="step-block">
-          <h3>2. Lemezek fektetése (átfedés, irány)</h3>
-          <p>
-            A lemezeket <strong>alulról felfelé</strong> helyezd el, hogy a felső lemez takarja az alsót (vízelvezetés). Az oldalirányú fektetés mindig az uralkodó széliránynak háttal történjen – így a szél nem tud a lemez alá nyúlni.
-          </p>
-          <p>
-            A szélső lemez legyen mindig a szélfogó oldal felé zárva. Az oldalátfedés 6 cm (a gyári profilnak megfelelően).
-          </p>
+        <div class="callout callout--danger">
+          <strong>A szellőzés nélküli hőszigetelt trapézlemezes tető garantáltan károsodik!</strong>
         </div>
 
-        <div class="step-block highlight">
-          <h3>3. Csavarozás – a legfontosabb lépés</h3>
-          <p>
-            A csavar mindig a <strong>hullámvölgybe</strong> kerül, nem a gerincre. Ez biztosítja a legjobb tömítést és a lemez a szelemenhez szorítását.
-          </p>
+        <div class="placeholder-img">
+          <span>Hőszigetelt tetőszerkezet rétegrendje - kép helye</span>
+        </div>
+      </section>
+
+      <!-- 15. Munkabiztonság -->
+      <section class="guide-section" id="munkabiz">
+        <h2>15. Munkabiztonsági követelmények</h2>
+        <p>
+          A magasban végzett munkát az 1993. évi XCIII. törvény és a 4/2002. (II. 20.) SzCsM–EüM rendelet szabályozza.
+          <strong>1 méter magasságkülönbség felett már leesés elleni védelem szükséges.</strong>
+        </p>
+
+        <h3>Kötelező védőfelszerelés</h3>
+        <ul class="feature-list">
+          <li><strong>Munkavédelmi sisak</strong></li>
+          <li><strong>Testheveder</strong> és zuhanásgátló energiaelnyelővel</li>
+          <li><strong>Munkavédelmi cipő:</strong> csúszásmentes talp, acél orrmerevítő</li>
+          <li><strong>Vágásálló kesztyű</strong> (a vágott lemezélek rendkívül élesek!)</li>
+          <li><strong>Védőszemüveg</strong> vágásnál és fúrásnál</li>
+        </ul>
+
+        <h3>Járás a tetőn</h3>
+        <div class="callout callout--warning">
+          Kizárólag a <strong>hullámvölgyekben</strong> szabad lépni, közvetlenül a szelemenek felett.
+          A szelemenek közötti lépés tartós horpadást okoz. Puha talpú cipőt kell viselni, a talp legyen tisztán (fémszemcsék karcolják a bevonatot).
+        </div>
+      </section>
+
+      <!-- 16. Vágás -->
+      <section class="guide-section" id="vagas">
+        <h2>16. Vágás: a flex a leggyakoribb hiba</h2>
+
+        <div class="callout callout--danger">
+          <strong>Sarokcsiszoló (flex) használata kerülendő!</strong>
+          <p>A flex használata acél trapézlemezeknél általánosan kerülendő és a legtöbb gyártó garanciafeltételei kizárják:</p>
           <ul>
-            <li><strong>Mennyiség:</strong> ~10 db/m² (1 doboz = 250 db = 25 m²)</li>
-            <li><strong>Nyomaték:</strong> Az EPDM alátét éppen lapuljon el – ne húzd túl!</li>
-            <li><strong>Szélső sor:</strong> Minden hullámvölgybe csavar kerül</li>
-            <li><strong>Belső sorok:</strong> Minden második hullámvölgybe elegendő</li>
+            <li>Az extrém hőmérséklet megsemmisíti a cink korrózióvédelmet</li>
+            <li>A festékbevonat megolvad és leég a szikrák becsapódási pontjain</li>
+            <li>A felhevült fémforgács beég a bevonatba és korrózióindító gócokat képez</li>
+            <li>A védelem nélküli acél 1–2 éven belül rozsdásodni kezd</li>
+            <li>A gyártók érvénytelenítik a garanciát</li>
           </ul>
         </div>
 
-        <div class="step-block">
-          <h3>4. Szegőlemezek, oromlemezek</h3>
-          <p>
-            A tetőszélek, orom és eresz lezárásához szegőlemezek szükségesek. Ezek védik a lemez szélét a szél alá nyúlástól és az esztétikus megjelenést is biztosítják.
-          </p>
-          <p>
-            A szegőlemezeket a trapézlemez felső felszínére csavarozd, minimum 5 cm-es átfedéssel. Használj tömítőszalagot a szegő és a trapézlemez találkozásánál.
-          </p>
+        <h3>Megengedett vágóeszközök</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Eszköz</th>
+                <th>Jellemző</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight"><td><strong>Nibbler (rezgőolló)</strong></td><td><strong>A legjobb professzionális eszköz – tiszta vágás, nincs hőfejlődés</strong></td></tr>
+              <tr><td>Elektromos lemezolló</td><td>Egyenes és íves vágáshoz egyaránt kiváló</td></tr>
+              <tr><td>Kézi lemezolló</td><td>Rövid vágásokhoz, kis igazításokhoz</td></tr>
+              <tr><td>Körfűrész fémvágó lappal</td><td>Csak alacsony fordulatszámon; bevonatos oldal FELFELÉ</td></tr>
+              <tr><td>Szúrófűrész fém lappal</td><td>Íves és összetett vágásokhoz</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Vágott élek kezelése</h3>
+        <p>
+          A vágás után azonnal el kell távolítani a fémforgácsot puha kefével – a forgács = rozsdapont.
+          <strong>Minden vágott élre és karcolásra javítófestéket (RAL színben) vagy cinksprayt kell vinni</strong> a korrózióvédelem helyreállítására.
+        </p>
+
+        <div class="placeholder-img">
+          <span>Nibbler és lemezolló használata - kép helye</span>
         </div>
       </section>
 
-      <!-- 3. ExperienceBlock -->
-      <ExperienceBlock text="A leggyakoribb hiba a csavar túlhúzása. Az EPDM alátét csak éppen lapuljon el – ha túlhúzod, berepedezik és beázik." />
+      <!-- 17. Tárolás -->
+      <section class="guide-section" id="tarolas">
+        <h2>17. Tárolás és szállítás</h2>
+        <ul class="feature-list">
+          <li>Száraz, fedett, jól szellőző helyen, a talajtól minimum <strong>20 cm-re megemelve</strong>, alátétfákon kell tárolni</li>
+          <li>A lemezeket <strong>ferdén</strong> kell elhelyezni, hogy a kondenzvíz lefolyhasson</li>
+          <li>Tilos a szoros műanyag fóliába csomagolás – fehérrozsda képződéséhez vezet</li>
+          <li>Gyári csomagolásban <strong>max. 3 hétig</strong> tárolhatók; utána távtartókat kell közéjük helyezni</li>
+          <li>A védőfóliát <strong>3 hónapon belül</strong> el kell távolítani</li>
+          <li>6 m feletti lemezhossznál <strong>min. 6 fő</strong> szükséges a kézi lerakáshoz</li>
+          <li>A lemezeket <strong>soha nem szabad egymáson húzni</strong></li>
+        </ul>
+      </section>
 
-      <!-- Trust Signals -->
-      <TrustSignals />
+      <!-- 18. Karbantartás -->
+      <section class="guide-section" id="karbantartas">
+        <h2>18. Karbantartás és élettartam</h2>
 
-      <!-- 4. FAQ -->
-      <section class="content-section faq-section">
+        <p>A várható élettartam a korróziós környezettől, a cinkréteg vastagságától, a bevonat típusától és a karbantartás rendszerességétől függ:</p>
+        <ul class="feature-list">
+          <li><strong>Natúr horganyzott (festetlen):</strong> 15–25 év</li>
+          <li><strong>Fényes poliészter (PE 25µm):</strong> 25–30 év</li>
+          <li><strong>Matt poliészter (35µm):</strong> 30–35 év</li>
+          <li><strong>PVDF:</strong> 40+ év (normál környezetben)</li>
+        </ul>
+
+        <h3>Éves karbantartási ellenőrzőlista</h3>
+        <p>Évente legalább egyszer ellenőrizni kell:</p>
+        <ul class="feature-list">
+          <li>A festékréteg állapotát</li>
+          <li>Korróziós nyomokat (éleken, átfedéseknél, csavarok körül)</li>
+          <li>A csavarok állapotát</li>
+          <li>Az ereszcsatornák átjárhatóságát</li>
+          <li>A tömítések épségét</li>
+          <li>Levelek és szennyeződések eltávolítását</li>
+        </ul>
+
+        <h3>Tisztítás</h3>
+        <p>
+          Évente egyszer puha kefével és vízzel, vagy mérsékelt nyomású mosóval. Makacs foltokra enyhe mosogatószer + víz.
+          Semleges pH-val, a gyártó által engedélyezett tisztítószerrel.
+          <strong>Savas/lúgos szer, drótkefe, súrolószer tilos</strong> – károsíthatja a bevonatot.
+        </p>
+      </section>
+
+      <!-- 19. Szabványok -->
+      <section class="guide-section" id="szabvany">
+        <h2>19. CE jelölés és magyar szabványok</h2>
+
+        <h3>MSZ EN 14782:2006</h3>
+        <p>
+          Harmonizált európai szabvány az önhordó fémlemez tetőfedésre, külső borításra és belső burkolásra.
+          A trapézlemez termékeknek e szabvány szerint kell CE jelölést kapniuk.
+          Tűzvédelmi besorolás: natúr horganyzott = A1 osztályú, festett = A2-s1,d0.
+        </p>
+        <p>
+          Teherhordó profilok esetén az <strong>MSZ EN 1090</strong> szabvány is vonatkozhat – ez a rögzítési mintákat, átfedéseket és teherátadási pontokat szabályozza.
+        </p>
+
+        <h3>275/2013. (VII. 16.) Korm. rendelet</h3>
+        <p>
+          Az építési termékek beépítésének részletes szabályait tartalmazza, kiegészítve az EU 305/2011/EU (CPR) előírásait.
+          Az építési termék csak <strong>teljesítménynyilatkozattal (DoP)</strong> igazolt termék építhető be.
+          A CE jelölés tanúsítja a harmonizált szabványnak való megfelelést.
+        </p>
+      </section>
+
+      <!-- 20. Leggyakoribb hibák -->
+      <section class="guide-section" id="hibak">
+        <h2>A leggyakoribb hibák – és hogyan kerüljük el őket</h2>
+        <div class="mistakes-list">
+          <div class="mistake-item mistake-item--critical">
+            <h3>Flex (sarokcsiszoló) használata vágáshoz</h3>
+            <p>Messze a legsúlyosabb hiba: tönkreteszi a korrózióvédelmet és érvényteleníti a garanciát.</p>
+          </div>
+          <div class="mistake-item">
+            <h3>Rossz csavartípus vagy hiányzó EPDM alátét</h3>
+            <p>Azonnali vízbejutást eredményez.</p>
+          </div>
+          <div class="mistake-item">
+            <h3>Túlhúzott vagy lazán hagyott csavarok</h3>
+            <p>Nyomatékkorlátozó használata kötelező (3–5 Nm).</p>
+          </div>
+          <div class="mistake-item">
+            <h3>Elégtelen átfedés vagy hiányzó tömítés</h3>
+            <p>Különösen alacsony lejtésnél kritikus.</p>
+          </div>
+          <div class="mistake-item">
+            <h3>Rossz irányú szerelés</h3>
+            <p>Mindig az uralkodó széljárással szemben kell dolgozni.</p>
+          </div>
+          <div class="mistake-item">
+            <h3>Párazáró fólia hiánya fűtött épületnél</h3>
+            <p>Penészesedés és korhadás az eredmény.</p>
+          </div>
+          <div class="mistake-item">
+            <h3>Szelemenek közötti járás</h3>
+            <p>Tartós horpadást okoz a lemezben.</p>
+          </div>
+          <div class="mistake-item">
+            <h3>Javítófesték mellőzése a vágott éleken</h3>
+            <p>A fedetlen acél gyors rozsdásodásnak indul.</p>
+          </div>
+          <div class="mistake-item">
+            <h3>Eltérő fémek érintkezése (galvanikus korrózió)</h3>
+            <p>Horganyzott acél – réz párosítás tilos. Acél – alumínium érintkezésnél nemfémes elválasztó réteg szükséges. Rozsdamentes rögzítőelemnél EPDM alátétes speciális csavar ajánlott.</p>
+          </div>
+          <div class="mistake-item">
+            <h3>Hőtágulás figyelmen kívül hagyása</h3>
+            <p>Egy sötét színű, 6 m-es lemez ~5,5 mm-t tágulhat napsütésben. A rögzítési rendszernek lehetővé kell tennie a hosszirányú mozgást.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Conclusion -->
+      <section class="guide-section conclusion">
+        <h2>Következtetések</h2>
+        <p>
+          A trapézlemez-szerelés sikerének három pillére: a <strong>helyes típusválasztás</strong> (profilmagasság, vastagság, bevonat, korróziós környezet figyelembevételével),
+          a <strong>szabályos rögzítés</strong> (megfelelő csavar, EPDM alátét, helyes nyomaték, hullámvölgybe csavarozás)
+          és a <strong>vízzárás biztosítása</strong> (előírt átfedések, butiltömítés, ecetsavas szilikon kerülése, megfelelő szegélyezés).
+        </p>
+        <p>
+          A legtöbb tartóssági probléma nem az anyagminőségből, hanem a szerelési hibákból ered.
+          <strong>A szakszerűen szerelt, rendszeresen karbantartott tető több évtizeden át problémamentesen szolgál.</strong>
+        </p>
+      </section>
+
+      <!-- Experience Block -->
+      <ExperienceBlock text="Több mint egy évtized tetőkészítői tapasztalatból tudjuk: a szerelés minősége határozza meg a tető élettartamát. Ezért adjuk ezt az útmutatót minden vásárlónk mellé." />
+
+      <!-- FAQ -->
+      <section class="guide-section faq-section" id="gyik">
         <h2>Gyakran ismételt kérdések</h2>
         {faqs.map((faq) => (
           <details class="faq-item">
@@ -148,7 +787,7 @@ const extraSchema = {
         ))}
       </section>
 
-      <!-- 5. CTA -->
+      <!-- CTA -->
       <div class="cta-wrapper">
         <CtaBox title="Szerelési kérdése van? Hívjon minket!" />
       </div>
@@ -158,132 +797,170 @@ const extraSchema = {
 
 <style>
   .page-container {
-    max-width: 800px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 0 var(--spacing-md);
   }
 
-  .install-guide {
+  .guide {
     padding-bottom: var(--spacing-3xl);
   }
 
   /* Hero */
-  .hero-section {
-    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  .guide-hero {
+    padding: var(--spacing-xl) 0 var(--spacing-lg);
   }
 
-  .hero-section h1 {
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
+  .guide-update {
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .guide-hero h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
     color: var(--color-primary-dark);
-    line-height: 1.3;
-    margin-bottom: var(--spacing-md);
-  }
-
-  .hero-lead {
-    font-size: var(--font-size-lg);
-    color: var(--color-text-light);
-    line-height: 1.7;
-  }
-
-  /* Content Sections */
-  .content-section {
-    margin-bottom: var(--spacing-2xl);
-  }
-
-  .content-section h2 {
-    font-size: var(--font-size-2xl);
-    color: var(--color-primary-dark);
-    margin-bottom: var(--spacing-md);
-    padding-bottom: var(--spacing-sm);
-    border-bottom: 3px solid var(--color-primary);
-  }
-
-  .content-section p {
-    font-size: 1rem;
-    color: var(--color-text-light);
-    line-height: 1.7;
-    margin-bottom: var(--spacing-md);
-  }
-
-  /* Tools Grid */
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-lg);
-  }
-
-  @media (max-width: 600px) {
-    .tools-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .tool-card {
-    background: var(--color-bg-light);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-  }
-
-  .tool-card h3 {
-    font-size: var(--font-size-lg);
-    color: var(--color-primary-dark);
+    line-height: 1.2;
     margin-bottom: var(--spacing-xs);
   }
 
-  .tool-card p {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-light);
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  /* Step Blocks */
-  .step-block {
-    background: var(--color-bg-light);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-md);
-  }
-
-  .step-block.highlight {
-    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-    border-left: 4px solid var(--color-primary);
-  }
-
-  .step-block h3 {
+  .guide-subtitle {
     font-size: var(--font-size-xl);
-    color: var(--color-primary-dark);
-    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+    font-weight: 400;
   }
 
-  .step-block p {
-    font-size: var(--font-size-sm);
+  .guide-intro {
+    font-size: var(--font-size-base);
     color: var(--color-text-light);
     line-height: 1.7;
     margin-bottom: var(--spacing-sm);
   }
 
-  .step-block p:last-child {
-    margin-bottom: 0;
+  /* Table of Contents */
+  .toc {
+    background: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
   }
 
-  .step-block ul {
+  .toc h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-primary-dark);
+  }
+
+  .toc-list {
+    columns: 2;
+    column-gap: var(--spacing-xl);
+    padding-left: var(--spacing-lg);
+    margin: 0;
+  }
+
+  .toc-list li {
+    font-size: var(--font-size-sm);
+    line-height: 1.8;
+    break-inside: avoid;
+  }
+
+  .toc-list a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .toc-list a:hover {
+    color: var(--color-primary);
+  }
+
+  /* Guide Sections */
+  .guide-section {
+    margin-bottom: var(--spacing-xl);
+    scroll-margin-top: 80px;
+  }
+
+  .guide-section h2 {
+    font-size: var(--font-size-xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  .guide-section h3 {
+    font-size: var(--font-size-base);
+    color: var(--color-primary-dark);
+    margin: var(--spacing-lg) 0 var(--spacing-sm);
+  }
+
+  .guide-section p {
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* Tables */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: var(--spacing-md) 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+  }
+
+  th, td {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  thead th {
+    background: var(--color-bg-light);
+    font-weight: 700;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-text);
+  }
+
+  .row-highlight {
+    background: #e8f5e9;
+  }
+
+  .table-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-top: var(--spacing-xs);
+  }
+
+  /* Feature lists */
+  .feature-list {
     list-style: none;
     padding: 0;
-    margin: var(--spacing-sm) 0 0;
+    margin: var(--spacing-sm) 0;
   }
 
-  .step-block li {
-    padding: var(--spacing-xs) 0;
-    padding-left: var(--spacing-lg);
+  .feature-list li {
+    padding: var(--spacing-xs) 0 var(--spacing-xs) var(--spacing-lg);
     position: relative;
-    font-size: var(--font-size-sm);
+    font-size: 0.9rem;
     color: var(--color-text-light);
     line-height: 1.6;
   }
 
-  .step-block li::before {
+  .feature-list li::before {
     content: '\2713';
     position: absolute;
     left: 0;
@@ -291,16 +968,191 @@ const extraSchema = {
     font-weight: 700;
   }
 
+  /* Numbered lists */
+  .numbered-list {
+    padding-left: var(--spacing-lg);
+    margin: var(--spacing-sm) 0;
+  }
+
+  .numbered-list li {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .numbered-list.compact li {
+    margin-bottom: 2px;
+    line-height: 1.5;
+  }
+
+  /* Callouts */
+  .callout {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-md) 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .callout p {
+    margin: var(--spacing-xs) 0 0;
+    font-size: 0.9rem;
+  }
+
+  .callout ul {
+    margin: var(--spacing-xs) 0 0;
+    padding-left: var(--spacing-lg);
+  }
+
+  .callout li {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 2px;
+  }
+
+  .callout--warning {
+    background: #fff8e1;
+    border-left: 4px solid #f9a825;
+    color: #5d4037;
+  }
+
+  .callout--danger {
+    background: #fce4ec;
+    border-left: 4px solid #e53935;
+    color: #b71c1c;
+  }
+
+  .callout--danger p,
+  .callout--danger li {
+    color: #c62828;
+  }
+
+  .callout--info {
+    background: #e3f2fd;
+    border-left: 4px solid #1976d2;
+    color: #0d47a1;
+  }
+
+  .callout--highlight {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border-left: 4px solid var(--color-primary);
+    color: var(--color-text);
+  }
+
+  /* Info grid */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+  }
+
+  .info-grid.cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .info-card {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+  }
+
+  .info-card h3 {
+    font-size: 0.95rem;
+    color: var(--color-primary-dark);
+    margin: 0 0 var(--spacing-xs);
+  }
+
+  .info-card p {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0 0 var(--spacing-xs);
+  }
+
+  .info-card p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Mistakes list */
+  .mistakes-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .mistake-item {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    border-left: 3px solid var(--color-border);
+  }
+
+  .mistake-item--critical {
+    background: #fce4ec;
+    border-left-color: #e53935;
+  }
+
+  .mistake-item h3 {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-xs);
+  }
+
+  .mistake-item--critical h3 {
+    color: #c62828;
+  }
+
+  .mistake-item p {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Conclusion */
+  .conclusion {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+  }
+
+  .conclusion h2 {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  /* Placeholder images */
+  .placeholder-img {
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    text-align: center;
+    background: var(--color-bg-light);
+    margin: var(--spacing-md) 0;
+  }
+
+  .placeholder-img span {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .guide-hero-img {
+    margin-top: var(--spacing-lg);
+  }
+
   /* FAQ */
   .faq-item {
     background: var(--color-bg-light);
     border-radius: var(--radius-md);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
     overflow: hidden;
   }
 
   .faq-item summary {
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
     font-weight: 600;
     color: var(--color-primary-dark);
     cursor: pointer;
@@ -308,6 +1160,7 @@ const extraSchema = {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: var(--font-size-sm);
   }
 
   .faq-item summary::-webkit-details-marker {
@@ -326,7 +1179,7 @@ const extraSchema = {
   }
 
   .faq-answer {
-    padding: 0 var(--spacing-lg) var(--spacing-md);
+    padding: 0 var(--spacing-md) var(--spacing-md);
   }
 
   .faq-answer p {
@@ -336,8 +1189,26 @@ const extraSchema = {
     margin: 0;
   }
 
-  /* CTA Wrapper */
+  /* CTA */
   .cta-wrapper {
-    margin-top: var(--spacing-2xl);
+    margin-top: var(--spacing-xl);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .toc-list {
+      columns: 1;
+    }
+
+    .info-grid,
+    .info-grid.cols-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .guide-hero h1 {
+      font-size: var(--font-size-xl);
+    }
   }
 </style>
