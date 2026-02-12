@@ -12,8 +12,18 @@ import { setRuntimeEnv, getEnv } from '../../lib/env';
 import { logger } from '../../lib/logger';
 import { SITE_CONFIG } from '../../config/site';
 import { formatPrice } from '../../calculator/calculation';
-import { appendToSheet } from '../../lib/sheets';
+import { appendRawRowToSheet } from '../../lib/sheets';
 import { successResponse, errorResponse } from '../../lib/api-response';
+
+/** Escape HTML special characters to prevent XSS in emails */
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 export const prerender = false;
 
@@ -24,6 +34,7 @@ const orderItemSchema = z.object({
   colorLabel: z.string(),
   colorType: z.string(),
   sqm: z.number().positive(),
+  lengths: z.array(z.object({ length: z.number(), quantity: z.number() })).optional(),
   pricePerSqm: z.number().positive(),
   totalPrice: z.number().min(0),
   withScrews: z.boolean(),
@@ -96,27 +107,27 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const orderId = `ORD-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
     const timestamp = new Date().toISOString();
 
-    // Items összesítő szöveg
+    // Items összesítő szöveg (escaped for HTML email)
     const itemsSummary = data.items
-      .map((item) => `${item.colorLabel} – ${item.sqm} m² × ${formatPrice(item.pricePerSqm)} = ${formatPrice(item.totalPrice)}${item.withScrews ? ' + csavar' : ''}`)
+      .map((item) => `${escapeHtml(item.colorLabel)} – ${item.sqm} m² × ${formatPrice(item.pricePerSqm)} = ${formatPrice(item.totalPrice)}${item.withScrews ? ' + csavar' : ''}`)
       .join('\n');
 
-    // Admin email küldés (háttérben)
+    // Admin email küldés (háttérben) - all user data escaped
     const adminEmailHtml = `
-      <h2>Új megrendelési szándéknyilatkozat: ${orderId}</h2>
+      <h2>Új megrendelési szándéknyilatkozat: ${escapeHtml(orderId)}</h2>
       <p><strong>Időpont:</strong> ${new Date().toLocaleString('hu-HU')}</p>
       <hr/>
       <h3>Kapcsolattartó</h3>
       <p>
-        <strong>Név:</strong> ${data.lastName} ${data.firstName}<br/>
-        ${data.company ? `<strong>Cég:</strong> ${data.company}<br/>` : ''}
-        <strong>Email:</strong> ${data.email}<br/>
-        <strong>Telefon:</strong> ${data.phone}
+        <strong>Név:</strong> ${escapeHtml(data.lastName)} ${escapeHtml(data.firstName)}<br/>
+        ${data.company ? `<strong>Cég:</strong> ${escapeHtml(data.company)}<br/>` : ''}
+        <strong>Email:</strong> ${escapeHtml(data.email)}<br/>
+        <strong>Telefon:</strong> ${escapeHtml(data.phone)}
       </p>
       <h3>Szállítás</h3>
       <p>
         <strong>Mód:</strong> ${data.shippingType === 'gazdasagos' ? 'Gazdaságos' : data.shippingType === 'expressz' ? 'Expressz' : 'Személyes átvétel'}<br/>
-        ${data.postcode ? `<strong>Cím:</strong> ${data.postcode} ${data.city}, ${data.street}` : ''}
+        ${data.postcode ? `<strong>Cím:</strong> ${escapeHtml(data.postcode || '')} ${escapeHtml(data.city || '')}, ${escapeHtml(data.street || '')}` : ''}
       </p>
       <h3>Tételek</h3>
       <pre>${itemsSummary}</pre>
@@ -128,7 +139,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         <strong>Összesen: ${formatPrice(data.grandTotal)}</strong><br/>
         Összterület: ${data.totalSqm} m²
       </p>
-      ${data.notes ? `<h3>Megjegyzés</h3><p>${data.notes}</p>` : ''}
+      ${data.notes ? `<h3>Megjegyzés</h3><p>${escapeHtml(data.notes)}</p>` : ''}
     `;
 
     const sendAdminEmail = async () => {
@@ -192,23 +203,31 @@ export const POST: APIRoute = async ({ request, locals }) => {
       }
     };
 
-    // Google Sheets mentés
+    // Google Sheets mentés (order-specific column structure)
     const saveToSheets = async () => {
       try {
-        await appendToSheet([
-          timestamp,
-          orderId,
-          `${data.lastName} ${data.firstName}`,
-          data.company || '',
-          data.email,
-          data.phone,
-          data.items.map((i) => `${i.colorLabel} ${i.sqm}m²`).join(', '),
-          String(data.totalSqm),
-          formatPrice(data.grandTotal),
-          data.shippingType,
-          data.postcode ? `${data.postcode} ${data.city}, ${data.street}` : 'Személyes átvétel',
-          data.notes || '',
-          'Szándéknyilatkozat',
+        const itemsSummaryText = data.items.map((i) => `${i.colorLabel} ${i.sqm}m²`).join(', ');
+        await appendRawRowToSheet('Trapez mind', [
+          timestamp,                    // A: Dátum
+          data.phone,                   // B: Telefonszám
+          data.email,                   // C: Email
+          data.lastName,                // D: Vezetéknév
+          data.firstName,               // E: Keresztnév
+          data.company || '',           // F: Cégnév
+          data.city || '',              // G: Város
+          data.postcode || '',          // H: Irányítószám
+          data.street || '',            // I: Utca házszám
+          itemsSummaryText,             // J: Tételek
+          data.items.map(i => i.colorLabel).join(', '), // K: Szín
+          String(data.totalSqm),        // L: Négyzetméter
+          data.shippingType,            // M: Szállítás
+          '',                           // N: Csavar mennyiség
+          String(data.screwTotal || 0), // O: Csavar ára
+          '',                           // P: Kishibás
+          'Igen',                       // Q: Netes rendelés
+          String(data.grandTotal),      // R: Végösszeg
+          orderId,                      // S: Rendelés ID
+          data.notes || 'Szándéknyilatkozat', // T: Megjegyzés
         ]);
       } catch (err) {
         logger.debug('Sheets save failed:', err);

@@ -10,7 +10,7 @@ import { SITE_CONFIG } from './site';
 const siteUrl = SITE_CONFIG.siteUrl;
 
 export const organizationSchema = {
-  '@type': 'Organization',
+  '@type': ['Organization', 'LocalBusiness'],
   '@id': `${siteUrl}/#organization`,
   name: 'Trapezlemezes.hu',
   url: siteUrl,
@@ -111,7 +111,7 @@ export const productT18_05Schema = {
   offers: {
     '@type': 'Offer',
     priceCurrency: 'HUF',
-    price: '2240',
+    price: '2640',
     unitCode: 'MTK',
     unitText: 'm²',
     availability: 'https://schema.org/InStock',
@@ -150,6 +150,18 @@ export const productT18_06Schema = {
   },
   manufacturer: {
     '@id': `${siteUrl}/#organization`,
+  },
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'HUF',
+    price: '2840',
+    unitCode: 'MTK',
+    unitText: 'm²',
+    availability: 'https://schema.org/InStock',
+    priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    seller: {
+      '@id': `${siteUrl}/#organization`,
+    },
   },
   additionalProperty: [
     {
@@ -228,7 +240,6 @@ export function getProductSchema(product: {
  */
 export function getFaqSchema(faqs: Array<{ question: string; answer: string }>) {
   return {
-    '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: faqs.map((faq) => ({
       '@type': 'Question',
@@ -246,7 +257,6 @@ export function getFaqSchema(faqs: Array<{ question: string; answer: string }>) 
  */
 export function getBreadcrumbSchema(items: Array<{ name: string; url: string }>) {
   return {
-    '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: items.map((item, index) => ({
       '@type': 'ListItem',

@@ -227,6 +227,49 @@ export async function appendToSheet(
 }
 
 /**
+ * Append a raw row (string array) to a named sheet tab.
+ * Used by the order API which has a different column structure.
+ */
+export async function appendRawRowToSheet(
+  sheetName: string,
+  row: (string | number)[]
+): Promise<boolean> {
+  const spreadsheetId = getEnv('GOOGLE_SHEETS_SPREADSHEET_ID');
+  if (!spreadsheetId) {
+    console.warn('Google Sheets spreadsheet ID not configured');
+    return false;
+  }
+
+  const accessToken = await getAccessToken();
+  if (!accessToken) return false;
+
+  try {
+    const range = encodeURIComponent(`${sheetName}!A:AA`);
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=USER_ENTERED`;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ values: [row] }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error(`Google Sheets (${sheetName}) append error:`, error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error(`Google Sheets (${sheetName}) error:`, error);
+    return false;
+  }
+}
+
+/**
  * Check if sheet headers exist (user already has headers, this is just a check)
  */
 export async function ensureSheetHeaders(): Promise<boolean> {

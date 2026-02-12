@@ -442,13 +442,13 @@ import OrderNotice from '../components/OrderNotice.astro';
       {
         value: 'gazdasagos',
         name: 'Gazdasagos szallitas',
-        desc: '5-7 munkanap',
+        desc: '3-5 munkanap',
         price: summary.totalSqm >= freeShippingSqmThreshold ? 'Ingyenes' : formatPrice(shippingPrices.economy),
       },
       {
         value: 'expressz',
         name: 'Expressz szallitas',
-        desc: '2-3 munkanap',
+        desc: '1-2 munkanap',
         price: summary.totalSqm >= freeShippingSqmThreshold ? 'Ingyenes' : formatPrice(shippingPrices.express),
       },
       {

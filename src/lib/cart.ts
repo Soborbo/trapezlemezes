@@ -89,7 +89,11 @@ export function getCartItems(): CartItem[] {
  */
 function saveCart(items: CartItem[]): void {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  } catch {
+    // localStorage quota exceeded or unavailable (private browsing)
+  }
   emitCartUpdate();
 }
 
@@ -148,12 +152,22 @@ export function getItemCount(): number {
  */
 export function getShippingType(): 'gazdasagos' | 'expressz' | 'sajat' {
   if (typeof window === 'undefined') return 'gazdasagos';
-  return (localStorage.getItem(SHIPPING_STORAGE_KEY) as 'gazdasagos' | 'expressz' | 'sajat') || 'gazdasagos';
+  try {
+    const val = localStorage.getItem(SHIPPING_STORAGE_KEY);
+    if (val === 'gazdasagos' || val === 'expressz' || val === 'sajat') return val;
+  } catch {
+    // localStorage unavailable
+  }
+  return 'gazdasagos';
 }
 
 export function setShippingType(type: 'gazdasagos' | 'expressz' | 'sajat'): void {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(SHIPPING_STORAGE_KEY, type);
+  try {
+    localStorage.setItem(SHIPPING_STORAGE_KEY, type);
+  } catch {
+    // localStorage quota exceeded or unavailable
+  }
   emitCartUpdate();
 }
 

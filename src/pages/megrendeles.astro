@@ -502,18 +502,20 @@ import OrderNotice from '../components/OrderNotice.astro';
       const summary = getCartSummary();
 
       const orderData = {
-        // Form data
-        last_name: formData.get('last_name') as string,
-        first_name: formData.get('first_name') as string,
+        // Form data (camelCase to match API Zod schema)
+        lastName: formData.get('last_name') as string,
+        firstName: formData.get('first_name') as string,
         company: formData.get('company') as string || '',
         email: formData.get('email') as string,
         phone: formData.get('phone') as string,
         postcode: formData.get('postcode') as string || '',
         city: formData.get('city') as string || '',
         street: formData.get('street') as string || '',
-        note: formData.get('note') as string || '',
+        notes: formData.get('note') as string || '',
+        gdpr: true,
         // Cart data
         items: summary.items.map(item => ({
+          id: item.id,
           colorId: item.colorId,
           colorLabel: item.colorLabel,
           colorType: item.colorType,

@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import BreadcrumbNav from '../components/BreadcrumbNav.astro';
 import ComparisonTable from '../components/ComparisonTable.astro';
-import StrengthChart from '../components/StrengthChart.astro';
+
 import ExperienceBlock from '../components/ExperienceBlock.astro';
 import TrustSignals from '../components/TrustSignals.astro';
 import CtaBox from '../components/CtaBox.astro';
@@ -12,13 +12,13 @@ const title = 'T12 trapézlemez helyett T18 | Erősebb, olcsóbb | Trapezlemezes
 const description = 'T12 trapézlemezt keresel? A T18 0.5mm ERŐSEBB és OLCSÓBB. 48 óra gyártás, 20 év garancia.';
 
 const breadcrumbItems = [
-  { label: 'Típusok', href: '/trapezlemez' },
+  { label: 'Típusok', href: '/trapezlemez-tipusok/' },
   { label: 'T12 helyett T18' },
 ];
 
 const comparisonRows = [
   { label: 'Vastagság', competitor: '0.4mm', ours: '0.5mm', highlight: true },
-  { label: 'Ár', competitor: '~2200 Ft/m²', ours: '2240 Ft/m²' },
+  { label: 'Ár', competitor: '~2200 Ft/m²', ours: '2640 Ft/m²-tól' },
   { label: 'Erősség', competitor: '100%', ours: '208%', highlight: true },
   { label: 'Garancia', competitor: '5-10 év', ours: '20 év', highlight: true },
   { label: 'Gyártás', competitor: '1-3 hét', ours: '48 óra' },
@@ -42,7 +42,7 @@ const faqs = [
 const faqSchema = getFaqSchema(faqs);
 const breadcrumbSchema = getBreadcrumbSchema([
   { name: 'Főoldal', url: '/' },
-  { name: 'Típusok', url: '/trapezlemez' },
+  { name: 'Típusok', url: '/trapezlemez-tipusok/' },
   { name: 'T12 helyett T18', url: '/t12-helyett-t18' },
 ]);
 

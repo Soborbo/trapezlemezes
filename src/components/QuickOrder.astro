@@ -199,7 +199,7 @@ const availableColors = colors.filter(c => c.available);
     }
 
     const selectedOption = colorSelect.selectedOptions[0];
-    const pricePerSqm = parseInt(selectedOption?.dataset.price || '2240', 10);
+    const pricePerSqm = parseInt(selectedOption?.dataset.price || '2640', 10);
     let total = Math.round(sqm * pricePerSqm);
 
     if (screwsCheckbox.checked) {
@@ -225,14 +225,15 @@ const availableColors = colors.filter(c => c.available);
 
     quickAddToCart(sqm, colorId, withScrews);
 
-    // Feedback
+    // Feedback (disable to prevent rapid-click race condition)
     const submitBtn = form.querySelector('.quick-order-submit') as HTMLButtonElement;
-    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
     submitBtn.textContent = 'Hozzáadva!';
     submitBtn.style.background = '#16a34a';
     setTimeout(() => {
-      submitBtn.textContent = originalText;
+      submitBtn.textContent = 'Kosárba';
       submitBtn.style.background = '';
+      submitBtn.disabled = false;
     }, 2000);
 
     // GTM event
@@ -241,7 +242,7 @@ const availableColors = colors.filter(c => c.available);
         event: 'add_to_cart',
         ecommerce: {
           currency: 'HUF',
-          value: Math.round(sqm * parseInt(colorSelect.selectedOptions[0]?.dataset.price || '2240', 10)),
+          value: Math.round(sqm * parseInt(colorSelect.selectedOptions[0]?.dataset.price || '2640', 10)),
           items: [{ item_name: `T18 0.5mm - ${colorId}`, quantity: sqm }],
         },
       });
