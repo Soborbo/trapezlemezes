@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import BreadcrumbNav from '../components/BreadcrumbNav.astro';
 import ComparisonTable from '../components/ComparisonTable.astro';
 import StrengthChart from '../components/StrengthChart.astro';
+import ExperienceBlock from '../components/ExperienceBlock.astro';
 import DecisionTree from '../components/DecisionTree.astro';
 import CtaBox from '../components/CtaBox.astro';
 import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
@@ -12,6 +13,17 @@ const faqs = [
   { question: 'Mi a különbség a T12, T14, T18, T20 és T25 között?', answer: 'A szám a bordamagasságot jelöli milliméterben. De a teherbírást elsősorban a vastagság határozza meg (köbre emelve), nem a bordamagasság.' },
   { question: 'Melyik típus kell tetőhöz?', answer: 'Lakossági tetőhöz (garázs, ház, tároló) a T18 0.5mm ideális. 4m+ fesztávú ipari csarnokhoz T25 vagy erősebb profil szükséges.' },
   { question: 'Melyik típus kell kerítéshez?', answer: 'Kerítéshez a T18 0.5mm tökéletes – erős szélterhelésben is, nem horpad be, és olcsóbb, mint a versenytársak T12 vagy T14 lemezei.' },
+];
+
+const comparisonRows = [
+  { label: 'Vastagság', competitor: '0.4mm', ours: '0.5mm', highlight: true },
+  { label: 'Hajlítási ellenállás', competitor: '0.072 kNm/m', ours: '0.135 kNm/m', highlight: true },
+  { label: 'Erősség (T12 0.4mm = 100%)', competitor: '111%', ours: '208%', highlight: true },
+  { label: 'Max alátámasztási táv', competitor: '80cm', ours: '100cm' },
+  { label: 'Szelemenek (6m tetőre)', competitor: '8 db', ours: '6 db' },
+  { label: 'Ár', competitor: '~2600 Ft/m²', ours: '2640 Ft/m²' },
+  { label: 'Garancia', competitor: '5-10 év', ours: '20 év' },
+  { label: 'Gyártás', competitor: '1-3 hét', ours: '48 óra' },
 ];
 
 const breadcrumbs = [{ label: 'Típusok', href: '/trapezlemez-tipusok/' }];
@@ -72,23 +84,62 @@ const replacementPages = [
       <!-- Decision Tree -->
       <DecisionTree />
 
-      <!-- Full Comparison Table -->
-      <section class="content-section">
-        <h2>Teljes összehasonlítás</h2>
-        <p>
-          Az alábbi táblázatban az összes népszerű trapézlemez típust összehasonlítjuk – Eurocode 3 (MSZ EN 1993-1-3) alapján számolva.
-          Figyeld meg, hogy a T18 0.5mm minden 0.4mm-es típusnál erősebb, függetlenül a bordamagasságtól.
-        </p>
-        <ComparisonTable
-          competitorName=""
-          ourName=""
-          rows={[]}
-          showAll={true}
-        />
+      <!-- Miért erősebb? Fizikai magyarázat -->
+      <section class="content-section" id="miert-erosebb">
+        <h2>Miért erősebb a T18 0.5mm?</h2>
+
+        <div class="strength-explainer">
+          <div class="explainer-physics">
+            <h3>A fizika: vastagság harmadik hatványon</h3>
+            <p>
+              A lemez hajlítási ellenállása (teherbírása) a vastagság <strong>köbével</strong> arányos: <code>W = b × t³ / 6</code>.
+              Ez azt jelenti, hogy <strong>0.1mm vastagságnövelés többet számít, mint 5-10mm profil magasságnövelés</strong>.
+            </p>
+            <div class="math-example">
+              <div class="math-row">
+                <span class="math-label">0.4mm köbe:</span>
+                <span class="math-value">0.4³ = 0.064</span>
+              </div>
+              <div class="math-row">
+                <span class="math-label">0.5mm köbe:</span>
+                <span class="math-value">0.5³ = 0.125 <strong>(+95%)</strong></span>
+              </div>
+              <div class="math-row">
+                <span class="math-label">0.6mm köbe:</span>
+                <span class="math-value">0.6³ = 0.216 <strong>(+238%)</strong></span>
+              </div>
+            </div>
+            <p>
+              A T18 profil alaktényezője (1.08) tovább növeli a szorzót. Ezért a <strong>T18 0.5mm-ünk 208%-os erősséget ér el</strong>, vagyis több mint kétszer erősebb, mint a leggyengébb piaci T12 0.4mm.
+            </p>
+          </div>
+
+          <div class="explainer-baseline">
+            <h4>Mi a 100%? (baseline)</h4>
+            <p>A <strong>T12 0.4mm</strong> a leggyakoribb, legolcsóbb trapézlemez a piacon – ezt vettük <strong>100%-os alapértéknek</strong>. Minden más profilt ehhez viszonyítunk, Eurocode 3 (MSZ EN 1993-1-3) szabvány szerint, egyenletesen megoszló terhelésre számítva.</p>
+          </div>
+        </div>
       </section>
 
       <!-- Strength Chart -->
       <StrengthChart />
+
+      <!-- Full Comparison Table -->
+      <section class="content-section">
+        <h2>T20 0.4mm vs T18 0.5mm</h2>
+        <p>
+          A legtöbb versenytárs T20 0.4mm-es lemezt kínál. Az alábbi táblázatban megmutatjuk, miért jobb a mi T18 0.5mm-ünk.
+        </p>
+        <ComparisonTable
+          competitorName="T20 0.4mm máshol"
+          ourName="T18 0.5mm nálunk"
+          rows={comparisonRows}
+        />
+        <p class="comparison-note">Számítás: Eurocode 3 (MSZ EN 1993-1-3) alapján, egyenletesen megoszló terhelésre. Farkas Roland, gépészmérnök (BMF) által ellenőrizve.</p>
+      </section>
+
+      <!-- Experience Block -->
+      <ExperienceBlock text="Több mint egy évtized tetőkészítői tapasztalatból tudjuk: a vastagság számít, nem a bordamagasság. A vastagság köbre emelve hat az erősségre – ezért a T18 0.5mm-ünk erősebb, mint a legtöbb versenytárs T20 vagy T25 0.4mm-es lemeze." />
 
       <!-- Type Replacement Cards -->
       <section class="content-section">
@@ -179,12 +230,105 @@ const replacementPages = [
     margin-bottom: var(--spacing-md);
   }
 
+  /* Strength Explainer */
+  .strength-explainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .explainer-physics {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+  }
+
+  .explainer-physics h3 {
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--font-size-base);
+  }
+
+  .explainer-physics p {
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: var(--color-text-light);
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .explainer-physics code {
+    background: var(--color-bg-light);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+  }
+
+  .math-example {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin: var(--spacing-sm) 0;
+  }
+
+  .math-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    font-size: 0.85rem;
+  }
+
+  .math-label {
+    color: var(--color-text-light);
+  }
+
+  .math-value {
+    font-family: monospace;
+    color: var(--color-text);
+  }
+
+  .explainer-baseline {
+    background: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .explainer-baseline h4 {
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--font-size-base);
+    color: var(--color-primary-dark);
+  }
+
+  .explainer-baseline p {
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .comparison-note {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-top: var(--spacing-sm);
+  }
+
   /* Replacement Cards Grid */
   .replacement-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
     margin-top: var(--spacing-lg);
+  }
+
+  @media (max-width: 768px) {
+    .strength-explainer {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (max-width: 640px) {
