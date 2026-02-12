@@ -13,26 +13,32 @@ import { basePrices } from '../../calculator/calculation';
 import { getFaqSchema } from '../../config/schema';
 
 // Product images
-import antracitImg from '../../assets/images/antracit-trapezlemez.jpg';
-import barnaImg from '../../assets/images/barna-trapezlemez.jpg';
-import vorosImg from '../../assets/images/voros-trapezlemez.jpg';
-import kekImg from '../../assets/images/kek-trapezlemez.jpg';
-import feherImg from '../../assets/images/feher-trapezlemez.jpg';
-import feketeImg from '../../assets/images/fekete-trapezlemez.jpg';
-import narancsImg from '../../assets/images/narancssarga-trapezlemez.jpg';
-import famintasImg from '../../assets/images/famintas-trapezlemez.jpg';
 import horganyzottImg from '../../assets/images/horganyzott-natur-trapezlemez.jpg';
+import famintasImg from '../../assets/images/famintas-trapezlemez.jpg';
+import feherImg from '../../assets/images/feher-trapezlemez.jpg';
+import tortfeherImg from '../../assets/images/tortfeher-trapezlemez.jpg';
+import antracitImg from '../../assets/images/antracit-trapezlemez.jpg';
+import cserepvorosImg from '../../assets/images/cserepvoros-trapezlemez.jpg';
+import vorosImg from '../../assets/images/voros-trapezlemez.jpg';
+import barnaImg from '../../assets/images/barna-trapezlemez.jpg';
+import feketeImg from '../../assets/images/fekete-trapezlemez.jpg';
+import kekImg from '../../assets/images/kek-trapezlemez.jpg';
+import zoldImg from '../../assets/images/zold-trapezlemez.jpg';
+import narancsImg from '../../assets/images/narancssarga-trapezlemez.jpg';
 
 const imageMap: Record<string, ImageMetadata> = {
-  antracit: antracitImg,
-  barna: barnaImg,
-  voros: vorosImg,
-  kek: kekImg,
-  feher: feherImg,
-  fekete: feketeImg,
-  narancs: narancsImg,
-  famintas: famintasImg,
   horganyzott: horganyzottImg,
+  famintas: famintasImg,
+  feher: feherImg,
+  tortfeher: tortfeherImg,
+  antracit: antracitImg,
+  cserepvoros: cserepvorosImg,
+  voros: vorosImg,
+  barna: barnaImg,
+  fekete: feketeImg,
+  kek: kekImg,
+  zold: zoldImg,
+  narancs: narancsImg,
 };
 
 const availableColors = colors.filter(c => c.available && imageMap[c.id]);
