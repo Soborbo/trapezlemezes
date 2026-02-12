@@ -1,0 +1,637 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BreadcrumbNav from '../components/BreadcrumbNav.astro';
+import { FixedImage } from '../components/images';
+import rolandImg from '../assets/images/farkas-roland.jpg';
+import { getBreadcrumbSchema } from '../config/schema';
+
+const breadcrumbs = [{ label: 'Kapcsolat' }];
+
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Főoldal', url: '/' },
+  { name: 'Kapcsolat', url: '/kapcsolat/' },
+]);
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Trapezlemezes.hu',
+  description: 'Trapézlemez gyártás és értékesítés közvetlenül a gyártótól. T18 profil, 0.5mm svéd acél, 48 óra gyártás, 20 év garancia.',
+  url: 'https://trapezlemezes.hu',
+  telephone: '+36-1-300-92-06',
+  email: 'info@trapezlemezes.hu',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Királyhágó utca 30.',
+    addressLocality: 'Budapest',
+    postalCode: '1182',
+    addressRegion: 'Budapest',
+    addressCountry: 'HU',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 47.4232,
+    longitude: 19.1345,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '07:00',
+      closes: '16:00',
+    },
+  ],
+  priceRange: '$$',
+  image: 'https://trapezlemezes.hu/og-image.jpg',
+  areaServed: {
+    '@type': 'Country',
+    name: 'Hungary',
+  },
+  founder: {
+    '@type': 'Person',
+    name: 'Farkas Roland',
+    jobTitle: 'Ügyvezető',
+  },
+};
+
+const extraSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [breadcrumbSchema, localBusinessSchema],
+};
+---
+
+<Layout
+  title="Kapcsolat | Trapezlemezes.hu – Telefon, cím, nyitvatartás"
+  description="Trapezlemezes.hu elérhetőségei: +36 1 300-92-06, 1182 Budapest, Királyhágó utca 30. Hétfő-péntek 7:00-16:00. Gyártás, értékesítés, szaktanácsadás."
+  extraSchema={extraSchema}
+>
+  <div class="page-container">
+    <BreadcrumbNav items={breadcrumbs} />
+
+    <article class="contact-page">
+      <header class="hero-section">
+        <h1>Kapcsolat</h1>
+        <p class="hero-lead">
+          Hívjon, írjon vagy jöjjön személyesen – örömmel segítünk a trapézlemez projektjében.
+        </p>
+      </header>
+
+      <!-- Contact cards -->
+      <div class="contact-grid">
+        <!-- Telefon -->
+        <a href="tel:+3613009206" class="contact-card contact-card--phone">
+          <div class="contact-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div class="contact-info">
+            <h2>Telefon</h2>
+            <p class="contact-value">+36 1 300-92-06</p>
+            <p class="contact-note">Hétfő – Péntek, 7:00 – 16:00</p>
+          </div>
+        </a>
+
+        <!-- Email -->
+        <a href="mailto:info@trapezlemezes.hu" class="contact-card">
+          <div class="contact-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div class="contact-info">
+            <h2>E-mail</h2>
+            <p class="contact-value">info@trapezlemezes.hu</p>
+            <p class="contact-note">Válaszolunk 24 órán belül</p>
+          </div>
+        </a>
+
+        <!-- Cím -->
+        <a href="https://maps.google.com/?q=1182+Budapest+Királyhágó+utca+30" target="_blank" rel="noopener" class="contact-card">
+          <div class="contact-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div class="contact-info">
+            <h2>Cím</h2>
+            <p class="contact-value">1182 Budapest, Királyhágó utca 30.</p>
+            <p class="contact-note">Személyes átvétel lehetséges</p>
+          </div>
+        </a>
+
+        <!-- Kalkulátor -->
+        <a href="/kalkulator" class="contact-card">
+          <div class="contact-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <div class="contact-info">
+            <h2>Online árkalkulátor</h2>
+            <p class="contact-value">Azonnali ár, regisztráció nélkül</p>
+            <p class="contact-note">Nem kell telefonálni</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Csapat szekció -->
+      <section class="content-section" id="csapat">
+        <h2>Kivel fog beszélni?</h2>
+
+        <div class="team-grid">
+          <!-- Roland -->
+          <div class="team-card team-card--featured">
+            <div class="team-avatar team-avatar--photo">
+              <FixedImage src={rolandImg} alt="Farkas Roland, ügyvezető" width={100} height={100} class="avatar-photo" />
+            </div>
+            <div class="team-info">
+              <h3>Farkas Roland</h3>
+              <p class="team-role">Ügyvezető</p>
+              <p class="team-detail">Gépészmérnök (Budapesti Műszaki Főiskola)</p>
+              <p class="team-desc">10+ év tapasztalat a trapézlemez iparágban. Roland felügyeli a gyártást, a minőségbiztosítást és a stratégiai döntéseket.</p>
+            </div>
+          </div>
+
+          <!-- Péter -->
+          <div class="team-card">
+            <div class="team-avatar">
+              <span class="avatar-initials">P</span>
+            </div>
+            <div class="team-info">
+              <h3>Péter</h3>
+              <p class="team-role">Értékesítés</p>
+              <p class="team-desc">Péter segít megtalálni a legjobb megoldást az Ön projektjéhez. Színválasztás, mennyiség, szállítás – bármiben kérdezze bátran.</p>
+            </div>
+          </div>
+
+          <!-- Krisztián -->
+          <div class="team-card">
+            <div class="team-avatar">
+              <span class="avatar-initials">K</span>
+            </div>
+            <div class="team-info">
+              <h3>Krisztián</h3>
+              <p class="team-role">Gyártás</p>
+              <p class="team-desc">Krisztián a gyártósor mellett dolgozik – ő vágja, hajlítja és csomagolja a lemezeket, hogy 48 órán belül kész legyen a rendelés.</p>
+            </div>
+          </div>
+
+          <!-- Ádám -->
+          <div class="team-card">
+            <div class="team-avatar">
+              <span class="avatar-initials">Á</span>
+            </div>
+            <div class="team-info">
+              <h3>Ádám</h3>
+              <p class="team-role">Gyártás</p>
+              <p class="team-desc">Ádám a minőségellenőrzésért és a kiszállítás előkészítéséért felel. Minden lemez rajta megy keresztül, mielőtt elhagyja a telephelyet.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Nyitvatartás + részletek -->
+      <section class="content-section" id="nyitvatartas">
+        <h2>Nyitvatartás és tudnivalók</h2>
+
+        <div class="details-grid">
+          <div class="detail-card">
+            <h3>Nyitvatartás</h3>
+            <table class="hours-table">
+              <tbody>
+                <tr><td>Hétfő – Péntek</td><td><strong>7:00 – 16:00</strong></td></tr>
+                <tr><td>Szombat</td><td>Zárva</td></tr>
+                <tr><td>Vasárnap</td><td>Zárva</td></tr>
+              </tbody>
+            </table>
+            <p class="detail-note">Telefonon a nyitvatartási időben érhet el minket. Az online kalkulátor és a kosár 0-24 elérhető.</p>
+          </div>
+
+          <div class="detail-card">
+            <h3>Személyes átvétel</h3>
+            <p>A megrendelt trapézlemezt személyesen is átveheti telephelyünkön:</p>
+            <p><strong>1182 Budapest, Királyhágó utca 30.</strong></p>
+            <p class="detail-note">Kérjük, az átvételt előre egyeztesse telefonon, hogy előkészíthessük a rendelését.</p>
+          </div>
+
+          <div class="detail-card">
+            <h3>Hogyan rendeljen?</h3>
+            <ol>
+              <li>Használja az <a href="/kalkulator">online kalkulátort</a> vagy tegye kosárba a kiválasztott terméket</li>
+              <li>Adja le szándéknyilatkozatát a kosárban</li>
+              <li>24 órán belül felhívjuk és egyeztetjük a részleteket</li>
+              <li>Gyártás (48 óra) és szállítás</li>
+            </ol>
+            <p class="detail-note">A rendelés szándéknyilatkozat – nem kötelező érvényű addig, amíg telefonon nem egyeztetünk.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Google Maps embed -->
+      <section class="content-section" id="terkep">
+        <h2>Megközelítés</h2>
+        <div class="map-wrapper">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2698.5!2d19.1345!3d47.4232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s1182+Budapest+Kir%C3%A1lyh%C3%A1g%C3%B3+utca+30!5e0!3m2!1shu!2shu!4v1700000000000"
+            width="100%"
+            height="400"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Trapezlemezes.hu telephely – 1182 Budapest, Királyhágó utca 30."
+          ></iframe>
+        </div>
+        <p class="map-address">
+          <strong>Trapezlemezes.hu</strong> – 1182 Budapest, Királyhágó utca 30.
+          &nbsp;|&nbsp;
+          <a href="https://maps.google.com/?q=1182+Budapest+Királyhágó+utca+30" target="_blank" rel="noopener">Megnyitás Google Maps-ben</a>
+        </p>
+      </section>
+
+      <!-- CTA -->
+      <div class="cta-final">
+        <h2>Kérdése van? Hívjon most!</h2>
+        <p>Munkatársaink hétfőtől péntekig 7:00 és 16:00 között állnak rendelkezésére.</p>
+        <div class="cta-buttons">
+          <a href="tel:+3613009206" class="btn btn-accent btn-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            +36 1 300-92-06
+          </a>
+          <a href="/kalkulator" class="btn btn-primary btn-lg">Online árkalkulátor</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .contact-page {
+    padding-bottom: var(--spacing-3xl);
+  }
+
+  /* Hero */
+  .hero-section {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+
+  .hero-section h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--color-primary-dark);
+    line-height: 1.2;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .hero-lead {
+    font-size: var(--font-size-base);
+    color: var(--color-text-light);
+    line-height: 1.7;
+  }
+
+  /* Contact Grid */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .contact-card {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    border: 2px solid transparent;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .contact-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+  }
+
+  .contact-card--phone {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .contact-card--phone:hover {
+    border-color: var(--color-primary-dark);
+  }
+
+  .contact-card--phone .contact-icon {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--color-white);
+  }
+
+  .contact-card--phone .contact-note {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .contact-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-info h2 {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 4px;
+    opacity: 0.7;
+  }
+
+  .contact-card--phone .contact-info h2 {
+    opacity: 0.9;
+    color: var(--color-white);
+  }
+
+  .contact-value {
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--color-primary-dark);
+  }
+
+  .contact-card--phone .contact-value {
+    color: var(--color-white);
+    font-size: var(--font-size-lg);
+  }
+
+  .contact-note {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* Content Sections */
+  .content-section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .content-section h2 {
+    font-size: var(--font-size-2xl);
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  /* Team Grid */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  .team-card {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-sm);
+  }
+
+  .team-card--featured {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    text-align: left;
+    gap: var(--spacing-lg);
+    background: var(--color-white);
+    border: 2px solid var(--color-primary);
+  }
+
+  .team-avatar {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .team-avatar--photo {
+    background: none;
+    overflow: hidden;
+  }
+
+  .team-card--featured .team-avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  :global(.avatar-photo) {
+    border-radius: var(--radius-full);
+    object-fit: cover;
+  }
+
+  .avatar-initials {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--color-white);
+  }
+
+  .team-info h3 {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary-dark);
+    margin: 0 0 2px;
+  }
+
+  .team-role {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0 0 var(--spacing-xs);
+  }
+
+  .team-detail {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin: 0 0 var(--spacing-xs);
+  }
+
+  .team-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Details Grid */
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  .detail-card {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+  }
+
+  .detail-card h3 {
+    font-size: var(--font-size-base);
+    color: var(--color-primary-dark);
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .detail-card p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0 0 var(--spacing-xs);
+  }
+
+  .detail-card ol {
+    padding-left: var(--spacing-lg);
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .detail-card li {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .detail-card a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .detail-note {
+    font-size: 0.75rem !important;
+    color: var(--color-text-muted) !important;
+    font-style: italic;
+    margin-top: var(--spacing-sm) !important;
+  }
+
+  .hours-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .hours-table td {
+    padding: var(--spacing-xs) 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .hours-table td:last-child {
+    text-align: right;
+  }
+
+  /* Map */
+  .map-wrapper {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .map-wrapper iframe {
+    display: block;
+  }
+
+  .map-address {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    text-align: center;
+  }
+
+  .map-address a {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  /* CTA */
+  .cta-final {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    margin-top: var(--spacing-xl);
+  }
+
+  .cta-final h2 {
+    font-size: var(--font-size-xl);
+    color: var(--color-primary-dark);
+    margin: 0 0 var(--spacing-xs);
+  }
+
+  .cta-final > p {
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+    margin: 0 0 var(--spacing-lg);
+  }
+
+  .cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .cta-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Responsive */
+  @media (min-width: 640px) {
+    .cta-buttons {
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .cta-buttons .btn {
+      width: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .team-card--featured {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .details-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
