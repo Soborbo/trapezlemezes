@@ -98,6 +98,7 @@ const extraSchema = {
           <li><a href="#karbantartas">Karbantartás és élettartam</a></li>
           <li><a href="#szabvany">CE jelölés és magyar szabványok</a></li>
           <li><a href="#hibak">A leggyakoribb hibák</a></li>
+          <li><a href="#forrasok">Forrásjegyzék és szabványok</a></li>
         </ol>
       </nav>
 
@@ -764,6 +765,23 @@ const extraSchema = {
         ))}
       </section>
 
+      <!-- Forrásjegyzék -->
+      <section class="guide-section sources-section" id="forrasok">
+        <h2>Forrásjegyzék és szabványok</h2>
+        <p class="sources-intro">Az útmutató az alábbi szabványok, rendeletek és szakmai források alapján készült:</p>
+        <ul class="sources-list">
+          <li><strong>MSZ EN 1993-1-3</strong> – Eurocode 3: Acélszerkezetek tervezése. 1-3. rész: Hidegen alakított vékonyfalú szerkezeti elemek (hajlítási ellenállás, teherbírás)</li>
+          <li><strong>MSZ EN 14782</strong> – Öntartó fémlemezek tetőfedéshez és falburkolathoz. Termékműszaki leírás és követelmények</li>
+          <li><strong>EN ISO 12944</strong> – Acélszerkezetek korrózióvédelme festékbevonat-rendszerekkel (C1–C5 korróziós osztályok)</li>
+          <li><strong>EN 10346</strong> – Folyamatos tűzihorganyzással bevont acéltermékek. Szállítási műszaki feltételek</li>
+          <li><strong>275/2013. (VII. 16.) Korm. rendelet</strong> – Az építési termékek forgalmazására vonatkozó részletes követelmények (CE jelölés, teljesítménynyilatkozat)</li>
+          <li><strong>OTÉK (253/1997. Korm. rendelet)</strong> – Országos Településrendezési és Építési Követelmények (tetőhajlásszögek, hőszigetelés)</li>
+          <li><strong>MSZ EN 1991-1-3</strong> – Eurocode 1: Hóteher és szélteher számítás (hófogó kötelezettség meghatározása)</li>
+          <li><strong>4/2002. (II. 20.) SzCsM–EüM együttes rendelet</strong> – Magasban végzett munkák biztonsági előírásai</li>
+        </ul>
+        <p class="sources-note">Az útmutatóban szereplő gyakorlati telepítési javaslatok hazai tetőfedő mesterek évtizedes tapasztalatán és gyártói alkalmazástechnikai útmutatókon alapulnak.</p>
+      </section>
+
       <!-- CTA -->
       <div class="cta-wrapper">
         <CtaBox title="Szerelési kérdése van? Hívjon minket!" />
@@ -1163,6 +1181,55 @@ const extraSchema = {
     font-size: var(--font-size-sm);
     color: var(--color-text-light);
     line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Sources */
+  .sources-section {
+    background: var(--color-bg-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+  }
+
+  .sources-intro {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .sources-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .sources-list li {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--color-text-light);
+    padding-left: var(--spacing-md);
+    position: relative;
+  }
+
+  .sources-list li::before {
+    content: '§';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  .sources-list li strong {
+    color: var(--color-text);
+  }
+
+  .sources-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-style: italic;
     margin: 0;
   }
 
