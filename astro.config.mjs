@@ -2,7 +2,6 @@
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
-import react from '@astrojs/react';
 import tracking from './src/components/conversion-tracking/src/integration.ts';
 
 // https://astro.build/config
@@ -21,7 +20,6 @@ export default defineConfig({
     '/trapezlemez-arak/': '/trapezlemez/',
   },
   integrations: [
-    react(),
     sitemap({
       filter: (page) =>
         !page.includes('/koszonjuk') &&
