@@ -1,29 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import BreadcrumbNav from '../components/BreadcrumbNav.astro';
-import ComparisonTable from '../components/ComparisonTable.astro';
-import StrengthChart from '../components/StrengthChart.astro';
 import ExperienceBlock from '../components/ExperienceBlock.astro';
-import DecisionTree from '../components/DecisionTree.astro';
 import CtaBox from '../components/CtaBox.astro';
 import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
 
 const faqs = [
-  { question: 'Melyik trapézlemez típus a legerősebb?', answer: 'Lakossági felhasználásra a T18 0.5mm a legerősebb elérhető opció – erősebb, mint a T12, T14, T20 vagy T25 0.4mm-es változatok.' },
-  { question: 'Mi a különbség a T12, T14, T18, T20 és T25 között?', answer: 'A szám a bordamagasságot jelöli milliméterben. De a teherbírást elsősorban a vastagság határozza meg (köbre emelve), nem a bordamagasság.' },
-  { question: 'Melyik típus kell tetőhöz?', answer: 'Lakossági tetőhöz (garázs, ház, tároló) a T18 0.5mm ideális. 4m+ fesztávú ipari csarnokhoz T25 vagy erősebb profil szükséges.' },
-  { question: 'Melyik típus kell kerítéshez?', answer: 'Kerítéshez a T18 0.5mm tökéletes – erős szélterhelésben is, nem horpad be, és olcsóbb, mint a versenytársak T12 vagy T14 lemezei.' },
-];
-
-const comparisonRows = [
-  { label: 'Vastagság', competitor: '0.4mm', ours: '0.5mm', highlight: true },
-  { label: 'Hajlítási ellenállás', competitor: '0.072 kNm/m', ours: '0.135 kNm/m', highlight: true },
-  { label: 'Erősség (T12 0.4mm = 100%)', competitor: '111%', ours: '208%', highlight: true },
-  { label: 'Max alátámasztási táv', competitor: '80cm', ours: '100cm' },
-  { label: 'Szelemenek (6m tetőre)', competitor: '8 db', ours: '6 db' },
-  { label: 'Ár', competitor: '~2600 Ft/m²', ours: '2640 Ft/m²' },
-  { label: 'Garancia', competitor: '5-10 év', ours: '20 év' },
-  { label: 'Gyártás', competitor: '1-3 hét', ours: '48 óra' },
+  { question: 'Miért 0.5mm-es lemezt gyártotok, ha a piac nagy része 0.4mm-es?', answer: 'Mert a vastagabb lemez erősebb, merevebb, hosszabb élettartamú – és az árkülönbség minimális. Ugyanazt a T18 profilt gyártjuk, csak vastagabb acélból: svéd SSAB minőségben.' },
+  { question: 'Mennyivel erősebb a 0.5mm, mint a 0.4mm?', answer: '25%-kal vastagabb acél → arányosan nagyobb teherbírás. De a tényleges különbség ennél is nagyobb, mert a vastagabb lemez kevésbé hajlamos horpadásra terhelés alatt – vagyis a teherbíró képessége jobban kihasználható.' },
+  { question: 'Mikor éri meg a 0.6mm-es lemez?', answer: 'Ipari csarnokokhoz, magas szél- vagy hóterhelésű területekhez, vagy ha 20+ éves élettartamot szeretne minimális karbantartással. A 0.6mm 50%-kal vastagabb, mint a piaci alap.' },
+  { question: 'A T18 profil elég erős tetőhöz?', answer: 'Lakossági tetőhöz (garázs, ház, tároló, melléképület) a T18 bőven elég. Ipari csarnokhoz 4m+ fesztávnál T25 vagy erősebb profil szükséges – kérjen statikai tervet.' },
+  { question: 'Miért T18 és nem T12, T20 vagy T25?', answer: 'A T18-as profilmagasság (18mm) a legjobb egyensúly: elég erős a szokásos szelementávolságokhoz, de nem túl magas – kerítéshez és falburkolathoz is esztétikus. Nem fizet feleslegesen nagy profilért.' },
 ];
 
 const breadcrumbs = [{ label: 'Típusok', href: '/trapezlemez-tipusok/' }];
@@ -38,127 +25,222 @@ const extraSchema = {
   '@context': 'https://schema.org',
   '@graph': [faqSchema, breadcrumbSchema],
 };
-
-const replacementPages = [
-  {
-    href: '/t12-helyett-t18/',
-    title: 'T12 helyett T18',
-    description: 'T12 kerítéshez? Van jobb. A T18 0.5mm több mint 2x erősebb, szinte ugyanannyiért.',
-  },
-  {
-    href: '/t14-helyett-t18/',
-    title: 'T14 helyett T18',
-    description: 'T14 garázs tetőhöz? Olcsóbb megoldás. A T18 0.5mm erősebb és megbízhatóbb.',
-  },
-  {
-    href: '/t20-helyett-t18/',
-    title: 'T20 helyett T18',
-    description: 'T20 a népszerű? A T18 0.5mm 2x erősebb, mint a T20 0.4mm – és olcsóbb.',
-  },
-  {
-    href: '/t25-helyett-t18/',
-    title: 'T25 helyett T18',
-    description: 'T25 mikor kell tényleg? Csak 4m+ fesztávnál. Lakossági projektnél a T18 0.5mm bőven elég.',
-  },
-];
 ---
 
 <Layout
-  title="Trapézlemez típusok összehasonlítás | T12, T14, T18, T20, T25 | Trapezlemezes.hu"
-  description="Melyik trapézlemez kell neked? Összehasonlítás: T12 vs T14 vs T18 vs T20 vs T25. Interaktív döntési fa és Eurocode 3 számítások."
+  title="Trapézlemez típusok | 0.4mm vs 0.5mm vs 0.6mm – melyik kell? | Trapezlemezes.hu"
+  description="A magyar piacon szinte minden trapézlemez 0.4mm vastag. Mi 0.5mm-ből és 0.6mm-ből gyártunk – és ez nagyobb különbség, mint gondolnád. T18 profil, svéd acél, 20 év garancia."
   extraSchema={extraSchema}
 >
   <div class="page-container">
     <BreadcrumbNav items={breadcrumbs} />
 
     <article class="types-page">
+      <!-- Hero -->
       <header class="hero-section">
-        <h1>Trapézlemez típusok – Melyik kell neked?</h1>
+        <h1>A magyar piacon szinte minden trapézlemez 0.4mm vastag.<br />Mi 0.5mm-ből és 0.6mm-ből gyártunk.</h1>
         <p class="hero-lead">
-          Sokan gondolják, hogy a nagyobb bordamagasság = erősebb lemez. <strong>Ez nem igaz.</strong>
-          A teherbírást elsősorban a vastagság határozza meg – mégpedig köbre emelve. Egy T18 0.5mm-es lemez
-          erősebb, mint bármelyik 0.4mm-es T12, T14, T20 vagy T25. Alább megmutatjuk, miért.
+          A bordamagasság (T12, T18, T25) sokat számít – de a vastagság legalább ennyire fontos.
+          Egy vastagabb lemez erősebb, merevebb, jobban ellenáll a szélnek és a hónak, és tovább tart.
+          Mi svéd acélból, 0.5mm és 0.6mm vastagságban gyártunk, 48 óra alatt, 20 év garanciával –
+          mégis hasonló áron, mint a piaci 0.4mm-es lemezek.
         </p>
       </header>
 
-      <!-- Decision Tree -->
-      <DecisionTree />
+      <!-- Miért számít a vastagság? -->
+      <section class="content-section" id="vastagsag">
+        <h2>Ugyanaz a profil, más vastagság – más eredmény</h2>
+        <p>
+          Képzelj el három trapézlemezt, amelyeknek ugyanaz a profilja (azonos bordamagasság, azonos forma).
+          Az egyetlen különbség a vastagság:
+        </p>
 
-      <!-- Miért erősebb? Fizikai magyarázat -->
-      <section class="content-section" id="miert-erosebb">
-        <h2>Miért erősebb a T18 0.5mm?</h2>
+        <div class="thickness-table-wrap">
+          <table class="thickness-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>0.4mm</th>
+                <th>0.5mm</th>
+                <th>0.6mm</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="row-label">Vastagság</td>
+                <td>0.4mm</td>
+                <td class="highlight">0.5mm</td>
+                <td>0.6mm</td>
+              </tr>
+              <tr>
+                <td class="row-label">Vastagsági különbség</td>
+                <td>alap</td>
+                <td class="highlight">+25%</td>
+                <td>+50%</td>
+              </tr>
+              <tr>
+                <td class="row-label">Mit jelent ez?</td>
+                <td>Piaci alap</td>
+                <td class="highlight">Érezhetően erősebb, merevebb</td>
+                <td>Jelentősen erősebb, ipari minőség</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div class="strength-explainer">
-          <div class="explainer-physics">
-            <h3>A fizika: vastagság harmadik hatványon</h3>
-            <p>
-              A lemez hajlítási ellenállása (teherbírása) a vastagság <strong>köbével</strong> arányos: <code>W = b × t³ / 6</code>.
-              Ez azt jelenti, hogy <strong>0.1mm vastagságnövelés többet számít, mint 5-10mm profil magasságnövelés</strong>.
-            </p>
-            <div class="math-example">
-              <div class="math-row">
-                <span class="math-label">0.4mm köbe:</span>
-                <span class="math-value">0.4³ = 0.064</span>
-              </div>
-              <div class="math-row">
-                <span class="math-label">0.5mm köbe:</span>
-                <span class="math-value">0.5³ = 0.125 <strong>(+95%)</strong></span>
-              </div>
-              <div class="math-row">
-                <span class="math-label">0.6mm köbe:</span>
-                <span class="math-value">0.6³ = 0.216 <strong>(+238%)</strong></span>
-              </div>
+        <h3>Miért számít ennyire a vastagság?</h3>
+        <ol class="reasons-list">
+          <li>
+            <strong>Több anyag dolgozik.</strong>
+            25%-kal vastagabb acél → arányosan nagyobb keresztmetszet, ami közvetlenül növeli a teherbírást.
+          </li>
+          <li>
+            <strong>Jobb horpadási ellenállás.</strong>
+            A vékony lemez nyomott részei hajlamosak „behorpadni" terhelés alatt – ezt a statikai szabványok
+            (Eurocode 3) szigorúan büntetik. A vastagabb lemez kevésbé hajlamos erre, ezért a tényleges
+            erősségkülönbség nagyobb, mint a puszta vastagságkülönbség.
+          </li>
+          <li>
+            <strong>Hosszabb élettartam.</strong>
+            A vastagabb cinkréteg és az erősebb alapanyag lassabban korrodál.
+            Ezért tudunk 20 év garanciát adni – a piaci 5-10 év helyett.
+          </li>
+        </ol>
+        <p class="analogy">
+          Egyszerűen: 0.4mm-ről 0.5mm-re váltani olyan, mint a kabátodat egy számmal vastagabbra cserélni –
+          ugyanolyan szabású, de jobban véd.
+        </p>
+      </section>
+
+      <!-- Három vastagság, egy profil -->
+      <section class="content-section" id="harom-vastagsag">
+        <h2>Három vastagság, egy profil – T18</h2>
+
+        <div class="why-t18">
+          <h3>Miért T18?</h3>
+          <p>A T18-as profilmagasság (18mm) a legjobb egyensúly a legtöbb felhasználásra:</p>
+          <ul>
+            <li><strong>Tetőfedés</strong> – elég erős a szokásos szelementávolságokhoz</li>
+            <li><strong>Kerítés, falburkolat</strong> – karcsú, esztétikus megjelenés (nem áll el annyira, mint a T25 vagy T35)</li>
+            <li><strong>Ár-érték arány</strong> – nem fizetsz feleslegesen nagy profilért, ha nincs rá szükség</li>
+          </ul>
+        </div>
+
+        <div class="thickness-cards">
+          <!-- 0.4mm -->
+          <div class="thickness-card">
+            <div class="thickness-card-header tier-basic">
+              <span class="thickness-value">T18 0.4mm</span>
+              <span class="thickness-tag">Ha az ár a legfontosabb</span>
             </div>
-            <p>
-              A T18 profil alaktényezője (1.08) tovább növeli a szorzót. Ezért a <strong>T18 0.5mm-ünk 208%-os erősséget ér el</strong>, vagyis több mint kétszer erősebb, mint a leggyengébb piaci T12 0.4mm.
-            </p>
+            <div class="thickness-card-body">
+              <ul>
+                <li>A piacon ez az elterjedt vastagság</li>
+                <li>Kerítéshez, kisebb tetőkhöz, ideiglenes épületekhez megfelelő</li>
+                <li>Rövidebb élettartam, kisebb tartalék</li>
+              </ul>
+            </div>
           </div>
 
-          <div class="explainer-baseline">
-            <h4>Mi a 100%? (baseline)</h4>
-            <p>A <strong>T12 0.4mm</strong> a leggyakoribb, legolcsóbb trapézlemez a piacon – ezt vettük <strong>100%-os alapértéknek</strong>. Minden más profilt ehhez viszonyítunk, Eurocode 3 (MSZ EN 1993-1-3) szabvány szerint, egyenletesen megoszló terhelésre számítva.</p>
+          <!-- 0.5mm -->
+          <div class="thickness-card thickness-card--featured">
+            <div class="thickness-card-header tier-best">
+              <span class="thickness-badge">Legjobb ár-érték</span>
+              <span class="thickness-value">T18 0.5mm</span>
+              <span class="thickness-tag">A legjobb választás</span>
+            </div>
+            <div class="thickness-card-body">
+              <ul>
+                <li>25%-kal vastagabb, mint a piaci alap</li>
+                <li>Érezhetően merevebb – kevésbé „dübörög" szélben, jobban tartja a formáját</li>
+                <li>Nagyobb szelementávolság alkalmazható → kevesebb szelemen kell → olcsóbb szerkezet</li>
+                <li>20 év garancia svéd acélra</li>
+                <li>48 órás gyártás</li>
+                <li>Ára alig több, mint a 0.4mm-es lemezeké (~2640 vs ~2600 Ft/m²)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 0.6mm -->
+          <div class="thickness-card">
+            <div class="thickness-card-header tier-premium">
+              <span class="thickness-value">T18 0.6mm</span>
+              <span class="thickness-tag">Ha a tartósság a legfontosabb</span>
+            </div>
+            <div class="thickness-card-body">
+              <ul>
+                <li>50%-kal vastagabb, mint a piaci alap</li>
+                <li>Ipari csarnokokhoz, magas szél- vagy hóterhelésű területekhez</li>
+                <li>Kiváló horpadási ellenállás – szélsőséges terhelés alatt is stabilan dolgozik</li>
+                <li>A leghosszabb élettartam</li>
+                <li>Svéd acélminőség</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- Strength Chart -->
-      <StrengthChart />
-
-      <!-- Full Comparison Table -->
-      <section class="content-section">
-        <h2>T20 0.4mm vs T18 0.5mm</h2>
+      <!-- Közvetlen összehasonlítás -->
+      <section class="content-section" id="osszehasonlitas">
+        <h2>Közvetlen összehasonlítás – 0.4mm vs 0.5mm</h2>
         <p>
-          A legtöbb versenytárs T20 0.4mm-es lemezt kínál. Az alábbi táblázatban megmutatjuk, miért jobb a mi T18 0.5mm-ünk.
-        </p>
-        <ComparisonTable
-          competitorName="T20 0.4mm máshol"
-          ourName="T18 0.5mm nálunk"
-          rows={comparisonRows}
-        />
-        <p class="comparison-note">Számítás: Eurocode 3 (MSZ EN 1993-1-3) alapján, egyenletesen megoszló terhelésre. Farkas Roland, gépészmérnök (BMF) által ellenőrizve.</p>
-      </section>
-
-      <!-- Experience Block -->
-      <ExperienceBlock text="Több mint egy évtized tetőkészítői tapasztalatból tudjuk: a vastagság számít, nem a bordamagasság. A vastagság köbre emelve hat az erősségre – ezért a T18 0.5mm-ünk erősebb, mint a legtöbb versenytárs T20 vagy T25 0.4mm-es lemeze." />
-
-      <!-- Type Replacement Cards -->
-      <section class="content-section">
-        <h2>Típus-helyettesítés</h2>
-        <p>
-          Melyik típust fontolgatod? Válaszd ki az alábbiak közül, és megmutatjuk,
-          miért érdemes a T18 0.5mm-et választani helyette.
+          Első ránézésre a 0.5mm drágábbnak tűnik. De a vastagabb lemez kevesebb szelement igényel,
+          mert nagyobb távolságra is megtartja a terhelést. A szerkezet összköltségét nézve a különbség
+          minimális – vagy akár a 0.5mm jön ki olcsóbban.
         </p>
 
-        <div class="replacement-grid">
-          {replacementPages.map((page) => (
-            <a href={page.href} class="replacement-card">
-              <h3 class="replacement-title">{page.title}</h3>
-              <p class="replacement-desc">{page.description}</p>
-              <span class="replacement-link">Részletek &rarr;</span>
-            </a>
-          ))}
+        <div class="thickness-table-wrap">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>0.4mm <span class="th-sub">(piaci alap)</span></th>
+                <th class="col-ours">0.5mm <span class="th-sub">(nálunk)</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="row-label">Lemez ára</td>
+                <td>~2 600 Ft/m²</td>
+                <td class="col-ours">~2 640 Ft/m²</td>
+              </tr>
+              <tr>
+                <td class="row-label">Szükséges szelemenek</td>
+                <td>Több, sűrűbben</td>
+                <td class="col-ours">Kevesebb, ritkábban</td>
+              </tr>
+              <tr>
+                <td class="row-label">Szerkezeti összköltség</td>
+                <td>Lemezen spórolsz, szerkezeten nem</td>
+                <td class="col-ours highlight">Összességében hasonló vagy olcsóbb</td>
+              </tr>
+              <tr>
+                <td class="row-label">Garancia</td>
+                <td>5-10 év</td>
+                <td class="col-ours highlight">20 év</td>
+              </tr>
+              <tr>
+                <td class="row-label">Gyártási idő</td>
+                <td>1-3 hét</td>
+                <td class="col-ours highlight">48 óra</td>
+              </tr>
+              <tr>
+                <td class="row-label">Acél eredete</td>
+                <td>Változó</td>
+                <td class="col-ours highlight">Svéd (SSAB)</td>
+              </tr>
+              <tr>
+                <td class="row-label">Merevség, szélállóság</td>
+                <td>Alap</td>
+                <td class="col-ours highlight">Érezhetően jobb</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
+
+      <!-- Experience -->
+      <ExperienceBlock text="A legtöbb magyar kereskedő a legolcsóbb lemezt kínálja: 0.4mm, ismeretlen acélminőség, minimális garancia. Mi más utat választottunk: svéd acélból, vastagabb lemezből, saját gyártásból dolgozunk. Nem azért, mert drágábbak akarunk lenni – hanem mert tudjuk, hogy egy tető 20-30 évre készül, és a vastagság az, ami ezt lehetővé teszi." />
 
       <!-- FAQ Section -->
       <section class="content-section faq-section">
@@ -175,7 +257,7 @@ const replacementPages = [
 
       <!-- CTA Box -->
       <div class="cta-wrapper">
-        <CtaBox title="Nem tudod melyik típust válaszd? Segítünk!" />
+        <CtaBox title="Nem vagy biztos benne, melyik vastagság kell? Segítünk!" />
       </div>
     </article>
   </div>
@@ -198,14 +280,14 @@ const replacementPages = [
   }
 
   .hero-section h1 {
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
     color: var(--color-primary-dark);
     line-height: 1.3;
     margin-bottom: var(--spacing-md);
   }
 
   .hero-lead {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-base);
     color: var(--color-text-light);
     line-height: 1.7;
   }
@@ -223,6 +305,12 @@ const replacementPages = [
     border-bottom: 3px solid var(--color-primary);
   }
 
+  .content-section h3 {
+    font-size: var(--font-size-lg);
+    color: var(--color-primary-dark);
+    margin: var(--spacing-lg) 0 var(--spacing-sm);
+  }
+
   .content-section p {
     font-size: 1rem;
     color: var(--color-text-light);
@@ -230,148 +318,251 @@ const replacementPages = [
     margin-bottom: var(--spacing-md);
   }
 
-  /* Strength Explainer */
-  .strength-explainer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
+  .content-section ul,
+  .content-section ol {
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
   }
 
-  .explainer-physics {
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-  }
-
-  .explainer-physics h3 {
-    margin: 0 0 var(--spacing-sm);
-    font-size: var(--font-size-base);
-  }
-
-  .explainer-physics p {
+  .content-section li {
     font-size: var(--font-size-sm);
-    line-height: 1.6;
+    line-height: 1.7;
     color: var(--color-text-light);
-    margin: 0 0 var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
   }
 
-  .explainer-physics code {
-    background: var(--color-bg-light);
-    padding: 2px 6px;
-    border-radius: var(--radius-sm);
-    font-size: 0.8rem;
+  /* Reasons list */
+  .reasons-list {
+    list-style: none;
+    padding: 0;
+    counter-reset: reason;
   }
 
-  .math-example {
+  .reasons-list li {
+    counter-increment: reason;
+    padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) var(--spacing-2xl);
+    position: relative;
     background: var(--color-bg-light);
     border-radius: var(--radius-md);
-    padding: var(--spacing-sm) var(--spacing-md);
-    margin: var(--spacing-sm) 0;
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-sm);
   }
 
-  .math-row {
+  .reasons-list li::before {
+    content: counter(reason);
+    position: absolute;
+    left: var(--spacing-md);
+    top: var(--spacing-md);
+    width: 24px;
+    height: 24px;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-radius: 50%;
     display: flex;
-    justify-content: space-between;
-    padding: 4px 0;
-    font-size: 0.85rem;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
   }
 
-  .math-label {
-    color: var(--color-text-light);
-  }
-
-  .math-value {
-    font-family: monospace;
+  .analogy {
+    background: #e8f5e9;
+    border-left: 4px solid #4caf50;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-style: italic;
     color: var(--color-text);
   }
 
-  .explainer-baseline {
-    background: #e8f5e9;
-    border: 1px solid #a5d6a7;
+  /* Why T18 */
+  .why-t18 {
+    background: var(--color-bg-light);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    margin-bottom: var(--spacing-xl);
   }
 
-  .explainer-baseline h4 {
-    margin: 0 0 var(--spacing-sm);
-    font-size: var(--font-size-base);
-    color: var(--color-primary-dark);
+  .why-t18 h3 {
+    margin-top: 0;
+    font-size: var(--font-size-lg);
   }
 
-  .explainer-baseline p {
-    font-size: var(--font-size-sm);
-    line-height: 1.6;
-    color: var(--color-text);
-    margin: 0;
+  .why-t18 p {
+    margin-bottom: var(--spacing-sm);
   }
 
-  .comparison-note {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-    font-style: italic;
-    margin-top: var(--spacing-sm);
+  .why-t18 ul {
+    list-style: none;
+    padding: 0;
   }
 
-  /* Replacement Cards Grid */
-  .replacement-grid {
+  .why-t18 li {
+    padding: var(--spacing-xs) 0;
+    padding-left: var(--spacing-md);
+    position: relative;
+  }
+
+  .why-t18 li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  /* Thickness Cards */
+  .thickness-cards {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-md);
     margin-top: var(--spacing-lg);
   }
 
-  @media (max-width: 768px) {
-    .strength-explainer {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .replacement-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .replacement-card {
+  .thickness-card {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    background: var(--color-bg-light);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    text-decoration: none;
-    border: 2px solid transparent;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
   }
 
-  .replacement-card:hover {
+  .thickness-card--featured {
     border-color: var(--color-primary);
     box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+    transform: scale(1.02);
   }
 
-  .replacement-title {
+  .thickness-card-header {
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+  }
+
+  .tier-basic {
+    background: var(--color-bg-light);
+  }
+
+  .tier-best {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .tier-premium {
+    background: linear-gradient(135deg, #1a3d5c, #0e2a42);
+    color: var(--color-white);
+  }
+
+  .thickness-badge {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    opacity: 0.9;
+  }
+
+  .thickness-value {
     font-size: var(--font-size-xl);
-    color: var(--color-primary-dark);
-    margin: 0 0 var(--spacing-sm);
+    font-weight: 800;
+    line-height: 1.2;
   }
 
-  .replacement-desc {
-    font-size: var(--font-size-sm);
+  .thickness-tag {
+    font-size: 0.75rem;
+    opacity: 0.85;
+  }
+
+  .tier-basic .thickness-value {
+    color: var(--color-text);
+  }
+
+  .tier-basic .thickness-tag {
     color: var(--color-text-light);
-    line-height: 1.6;
-    margin: 0 0 var(--spacing-md);
+  }
+
+  .thickness-card-body {
+    padding: var(--spacing-md) var(--spacing-lg);
     flex: 1;
   }
 
-  .replacement-link {
+  .thickness-card-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .thickness-card-body li {
+    padding: var(--spacing-xs) 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--color-text-light);
+    border-bottom: 1px solid var(--color-bg-light);
+  }
+
+  .thickness-card-body li:last-child {
+    border-bottom: none;
+  }
+
+  /* Tables */
+  .thickness-table-wrap {
+    overflow-x: auto;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .thickness-table,
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
     font-size: var(--font-size-sm);
-    font-weight: 700;
-    color: var(--color-primary);
+  }
+
+  .thickness-table th,
+  .comparison-table th {
+    background: var(--color-primary-dark);
+    color: var(--color-white);
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .th-sub {
+    display: block;
+    font-weight: 400;
+    font-size: 0.7rem;
+    opacity: 0.8;
+  }
+
+  .thickness-table td,
+  .comparison-table td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .row-label {
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+
+  td.highlight {
+    background: #e8f5e9;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+  }
+
+  .col-ours {
+    background: rgba(25, 118, 210, 0.04);
+  }
+
+  td.col-ours.highlight {
+    background: #e8f5e9;
+  }
+
+  .comparison-table .col-ours {
+    border-left: 3px solid var(--color-primary);
   }
 
   /* FAQ */
@@ -391,6 +582,7 @@ const replacementPages = [
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: var(--font-size-sm);
   }
 
   .faq-item summary::-webkit-details-marker {
@@ -422,5 +614,39 @@ const replacementPages = [
   /* CTA Wrapper */
   .cta-wrapper {
     margin-top: var(--spacing-2xl);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .thickness-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .thickness-card--featured {
+      transform: none;
+      order: -1;
+    }
+
+    .hero-section h1 {
+      font-size: var(--font-size-xl);
+    }
+
+    .hero-section h1 br {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .thickness-table,
+    .comparison-table {
+      font-size: 0.75rem;
+    }
+
+    .thickness-table th,
+    .comparison-table th,
+    .thickness-table td,
+    .comparison-table td {
+      padding: var(--spacing-xs) var(--spacing-sm);
+    }
   }
 </style>
