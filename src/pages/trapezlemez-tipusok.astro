@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import BreadcrumbNav from '../components/BreadcrumbNav.astro';
 import ExperienceBlock from '../components/ExperienceBlock.astro';
 import CtaBox from '../components/CtaBox.astro';
+import TrapezlemezCalculator from '../components/TrapezlemezCalculator';
 import { getFaqSchema, getBreadcrumbSchema } from '../config/schema';
 
 const faqs = [
@@ -239,6 +240,28 @@ const extraSchema = {
         </div>
       </section>
 
+      <!-- Helyettesítési kalkulátor -->
+      <section class="content-section calculator-section" id="kalkulator">
+        <h2>Melyiket érdemes melyik helyett?</h2>
+        <p>
+          Állítsd be, milyen lemezt ajánlottak neked, és nézd meg, hogyan viszonyul a mi T18 lemezünkhöz.
+          A szelementávolság csökkentésével még egy kisebb profilmagasságú, de vastagabb lemez is kiválthat egy nagyobbat.
+        </p>
+
+        <div class="disclaimer-box">
+          <strong>Fontos: közelítő becslési értékek</strong>
+          <p>
+            Az itt megjelenített adatok <strong>acélanyagonként, gyártónként és profilgeometriánként változhatnak</strong>.
+            Ezekre a számokra közelítő becslésként érdemes tekinteni – arra jók, hogy legyen képe a felhasználónak a
+            <strong>nagyságrendekről</strong>, de <strong>nem vállalunk garanciát</strong>, hogy az adott egyedi
+            esetben pontosan így alakulnak az értékek. A tényleges méretezést minden esetben jogosult tervező
+            mérnök végezze.
+          </p>
+        </div>
+
+        <TrapezlemezCalculator client:visible />
+      </section>
+
       <!-- Experience -->
       <ExperienceBlock text="A legtöbb magyar kereskedő a legolcsóbb lemezt kínálja: 0.4mm, ismeretlen acélminőség, minimális garancia. Mi más utat választottunk: svéd acélból, vastagabb lemezből, saját gyártásból dolgozunk. Nem azért, mert drágábbak akarunk lenni – hanem mert tudjuk, hogy egy tető 20-30 évre készül, és a vastagság az, ami ezt lehetővé teszi." />
 
@@ -265,7 +288,7 @@ const extraSchema = {
 
 <style>
   .page-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 0 var(--spacing-md);
   }
@@ -563,6 +586,34 @@ const extraSchema = {
 
   .comparison-table .col-ours {
     border-left: 3px solid var(--color-primary);
+  }
+
+  /* Disclaimer box */
+  .disclaimer-box {
+    background: #fff8e1;
+    border: 2px solid #f59e0b;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .disclaimer-box strong {
+    display: block;
+    font-size: var(--font-size-base);
+    color: #b45309;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .disclaimer-box p {
+    font-size: var(--font-size-sm) !important;
+    color: #92400e !important;
+    line-height: 1.7;
+    margin: 0 !important;
+  }
+
+  /* Calculator section */
+  .calculator-section {
+    overflow: hidden;
   }
 
   /* FAQ */
